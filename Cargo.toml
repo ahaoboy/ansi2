@@ -1,0 +1,3 @@
+[workspace]
+members = ["ansi2", "ansi2svg", "ansi2html"]
+resolver = "2"
