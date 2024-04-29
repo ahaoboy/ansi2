@@ -43,7 +43,7 @@ pub fn to_svg(s: &str) -> String {
         r#"<svg
         width="{svg_w}px"
         height="{svg_h}px"
-           xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve">
+           xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 
 <style>
 tspan {{
