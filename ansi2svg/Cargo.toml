@@ -1,10 +1,10 @@
 [package]
 name = "ansi2svg"
-version = "0.1.1"
+version = "0.2.0"
 edition = "2021"
 license = "MIT"
 description = "ansi2svg"
 
 [dependencies]
-ansi2 = { version = "0.1", path = "../ansi2" }
+ansi2 = { version = "0.2", path = "../ansi2" }
 html-escape= "0.2.13"

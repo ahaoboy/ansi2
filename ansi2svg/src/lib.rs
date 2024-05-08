@@ -1,4 +1,4 @@
-use ansi2::Canvas;
+use ansi2::{theme::VsCodeTheme, Canvas};
 
 pub fn to_svg(s: &str) -> String {
     let canvas = Canvas::new(s);
@@ -13,21 +13,18 @@ pub fn to_svg(s: &str) -> String {
             if c.bg_color.0 != 0 {
                 s.push_str(&format!(
                     r#"<rect x="{cur_x}px" y="{cur_y}px" width="{fn_w}px" height="{fn_h}px" fill="{}"/>"#,
-                    c.bg_color.to_rgb(),
+                    c.bg_color.to_rgb(VsCodeTheme),
                 ));
             }
             let fill_str = if c.color.0 == 0 {
                 "".into()
             } else {
-                format!("fill='{}'", c.color.to_rgb())
+                format!("fill='{}'", c.color.to_rgb(VsCodeTheme))
             };
 
+            let bold_str = if c.bold { "bold" } else { "normal" };
             s.push_str(&format!(
-                r#"<text x="{cur_x}px" y="{cur_y}px" font-weight="{}" width="{fn_w}px" height="{fn_h}px" {}>
-                    <tspan>{}</tspan>
-                </text>"#,
-                if c.bold { "bold" } else { "normal" },
-                fill_str,
+r#"<text x="{cur_x}px" y="{cur_y}px" font-weight="{bold_str}" width="{fn_w}px" height="{fn_h}px" {fill_str}><tspan>{}</tspan></text>"#,
                 html_escape::encode_text(&c.char.to_string())
 
             ));
@@ -41,9 +38,11 @@ pub fn to_svg(s: &str) -> String {
     let svg_h = fn_h * canvas.h;
     format!(
         r#"<svg
-        width="{svg_w}px"
-        height="{svg_h}px"
-           xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+width="{svg_w}px"
+height="{svg_h}px"
+xmlns="http://www.w3.org/2000/svg"
+xmlns:xlink="http://www.w3.org/1999/xlink"
+>
 
 <style>
 tspan {{
@@ -56,8 +55,7 @@ tspan {{
 }}
 
 </style>
-
-        {s}
+{s}
 </svg>
 "#
     )

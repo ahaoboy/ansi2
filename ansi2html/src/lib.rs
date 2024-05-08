@@ -1,4 +1,4 @@
-use ansi2::Canvas;
+use ansi2::{theme::VsCodeTheme, Canvas};
 
 pub fn to_html(s: &str) -> String {
     let canvas = Canvas::new(s);
@@ -16,8 +16,8 @@ pub fn to_html(s: &str) -> String {
 
             s.push_str(&format!(
                 "<div class='{class}' style='color: {};background: {}; {fn_w}; '>{}</div>",
-                c.color.to_rgb(),
-                c.bg_color.to_rgb(),
+                c.color.to_rgb(VsCodeTheme),
+                c.bg_color.to_rgb(VsCodeTheme),
                 html_escape::encode_text(&c.char.to_string())
             ))
         }

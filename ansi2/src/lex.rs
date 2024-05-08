@@ -1,0 +1,312 @@
+use nom::branch::alt;
+use nom::bytes::complete::{tag, tag_no_case};
+use nom::character::complete::{anychar, digit0};
+use nom::combinator::opt;
+use nom::multi::many0;
+use nom::sequence::tuple;
+use nom::IResult;
+
+#[derive(Debug, Clone, Copy)]
+pub enum Token {
+    Char(char),
+
+    Bell,
+    Backspace,
+    Tab,
+    LineFeed,
+    FormFeed,
+    CarriageReturn,
+
+    CursorUp(i32),
+    CursorDown(i32),
+    CursorForward(i32),
+    CursorBack(i32),
+    CursorNextLine(i32),
+    CursorPreviousLine(i32),
+    CursorHorizontalAbsolute(i32),
+    CursorPosition(i32, i32),
+    EraseInDisplay(i32),
+    EraseInLine(i32),
+    ScrollUp(i32),
+    ScrollDown(i32),
+    HorizontalVerticalPosition(i32, i32),
+    AUXPortOn,
+    AUXPortOff,
+    DeviceStatusReport,
+
+    CursorSave,
+    CursorRestore,
+
+    CursorHide,
+    CursorShow,
+    ColorForeground(u32),
+    ColorBackground(u32),
+    ColorUnderLine(u32),
+    ColorReset,
+    ColorInvert,
+    ColorDefaultForeground,
+    ColorDefaultBackground,
+    ColorDefaultUnderline,
+    Bold,
+    NormalIntensity,
+    Italic,
+    Underline,
+    SlowBlink,
+    RapidBlink,
+    Strike,
+    PrimaryFont,
+    DoublyUnderlined,
+    NotUnderlined,
+    NotBlinking,
+
+    AlternativeFont(u32),
+    NotReversed,
+    Faint,
+}
+
+fn parse_cursor_up(input: &str) -> IResult<&str, Token> {
+    let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("a")))(input)?;
+    Ok((rem, Token::CursorUp(str::parse(b).unwrap())))
+}
+
+fn parse_cursor_down(input: &str) -> IResult<&str, Token> {
+    let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("b")))(input)?;
+    Ok((rem, Token::CursorDown(str::parse(b).unwrap())))
+}
+
+fn parse_cursor_forward(input: &str) -> IResult<&str, Token> {
+    let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("c")))(input)?;
+    Ok((rem, Token::CursorForward(str::parse(b).unwrap())))
+}
+
+fn parse_cursor_back(input: &str) -> IResult<&str, Token> {
+    let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("d")))(input)?;
+    Ok((rem, Token::CursorBack(str::parse(b).unwrap())))
+}
+
+fn parse_cursor_next_line(input: &str) -> IResult<&str, Token> {
+    let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("e")))(input)?;
+    Ok((rem, Token::CursorNextLine(str::parse(b).unwrap())))
+}
+
+fn parse_cursor_previous_line(input: &str) -> IResult<&str, Token> {
+    let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("f")))(input)?;
+    Ok((rem, Token::CursorPreviousLine(str::parse(b).unwrap())))
+}
+
+fn parse_cursor_horizontal(input: &str) -> IResult<&str, Token> {
+    let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("g")))(input)?;
+    Ok((
+        rem,
+        Token::CursorHorizontalAbsolute(str::parse(b).unwrap_or(1)),
+    ))
+}
+
+fn parse_cursor_position(input: &str) -> IResult<&str, Token> {
+    let (rem, (_, x, _, y, _)) =
+        tuple((tag("\x1b["), digit0, tag(":"), digit0, tag_no_case("h")))(input)?;
+    Ok((
+        rem,
+        Token::CursorPosition(str::parse(x).unwrap_or(0), str::parse(y).unwrap_or(0)),
+    ))
+}
+
+fn parse_erase_in_display(input: &str) -> IResult<&str, Token> {
+    let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("j")))(input)?;
+    Ok((rem, Token::EraseInDisplay(str::parse(b).unwrap_or(0))))
+}
+
+fn parse_erase_in_line(input: &str) -> IResult<&str, Token> {
+    let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("k")))(input)?;
+    Ok((rem, Token::EraseInLine(str::parse(b).unwrap_or(0))))
+}
+
+fn parse_scroll_up(input: &str) -> IResult<&str, Token> {
+    let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("s")))(input)?;
+    Ok((rem, Token::ScrollUp(str::parse(b).unwrap_or(0))))
+}
+fn parse_scroll_down(input: &str) -> IResult<&str, Token> {
+    let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("t")))(input)?;
+    Ok((rem, Token::ScrollDown(str::parse(b).unwrap_or(0))))
+}
+
+fn parse_horizontal_vertical_position(input: &str) -> IResult<&str, Token> {
+    let (rem, (_, x, _, y, _)) =
+        tuple((tag("\x1b["), digit0, tag(":"), digit0, tag_no_case("f")))(input)?;
+    Ok((
+        rem,
+        Token::HorizontalVerticalPosition(str::parse(x).unwrap_or(0), str::parse(y).unwrap_or(0)),
+    ))
+}
+
+fn parse_aux_port_on(input: &str) -> IResult<&str, Token> {
+    let (rem, _) = tag("\x1b5i")(input)?;
+    Ok((rem, Token::AUXPortOn))
+}
+fn parse_aux_port_off(input: &str) -> IResult<&str, Token> {
+    let (rem, _) = tag("\x1b[4i")(input)?;
+    Ok((rem, Token::AUXPortOff))
+}
+fn parse_device_status_report(input: &str) -> IResult<&str, Token> {
+    let (rem, _) = tag("\x1b[6n")(input)?;
+    Ok((rem, Token::DeviceStatusReport))
+}
+
+fn parse_cursor_hide(input: &str) -> IResult<&str, Token> {
+    let (rem, _) = tuple((tag("\x1b["), opt(tag("?")), digit0, tag_no_case("l")))(input)?;
+    Ok((rem, Token::CursorHide))
+}
+
+fn parse_cursor_show(input: &str) -> IResult<&str, Token> {
+    let (rem, _) = tuple((tag("\x1b["), opt(tag("?")), digit0, tag_no_case("h")))(input)?;
+    Ok((rem, Token::CursorShow))
+}
+
+fn parse_color_foreground(input: &str) -> IResult<&str, Token> {
+    let (rem, (_, b, _)) = tuple((tag("\x1b[38;5;"), digit0, tag_no_case("m")))(input)?;
+
+    let b = str::parse(b).unwrap_or_default();
+
+    let c = match b {
+        0..=7 => b + 30,
+        8..=15 => b + 82,
+        _ => b,
+    };
+    Ok((rem, Token::ColorForeground(c)))
+}
+fn parse_color_background(input: &str) -> IResult<&str, Token> {
+    let (rem, (_, b, _)) = tuple((tag("\x1b[48;5;"), digit0, tag_no_case("m")))(input)?;
+    let b = str::parse(b).unwrap_or_default();
+
+    let c = match b {
+        0..=7 => b + 40,
+        8..=15 => b + 92,
+        _ => b,
+    };
+    Ok((rem, Token::ColorBackground(c)))
+}
+
+fn parse_color_underline(input: &str) -> IResult<&str, Token> {
+    let (rem, (_, b, _)) = tuple((tag("\x1b[58;5;"), digit0, tag_no_case("m")))(input)?;
+    Ok((rem, Token::ColorUnderLine(str::parse(b).unwrap())))
+}
+
+fn parse_sgr(input: &str) -> IResult<&str, Token> {
+    let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("m")))(input)?;
+
+    let n = str::parse(b).unwrap_or_default();
+    let tk = match n {
+        0 => Token::ColorReset,
+        1 => Token::Bold,
+        2 => Token::Faint,
+        3 => Token::Italic,
+        4 => Token::Underline,
+        5 => Token::SlowBlink,
+        6 => Token::RapidBlink,
+        7 => Token::ColorInvert,
+        8 => Token::CursorHide,
+        9 => Token::Strike,
+        10 => Token::PrimaryFont,
+        11..=19 => Token::AlternativeFont(n - 10),
+        20 => {
+            todo!()
+        }
+        21 => Token::DoublyUnderlined,
+        24 => Token::NotUnderlined,
+        25 => Token::NotBlinking,
+        30..=37 | 90..=97 => Token::ColorForeground(n),
+        40..=47 | 100..=107 => Token::ColorBackground(n),
+        39 => Token::ColorDefaultForeground,
+        49 => Token::ColorDefaultBackground,
+        59 => Token::ColorDefaultUnderline,
+        22 => Token::NormalIntensity,
+        27 => Token::NotReversed,
+
+        _ => {
+            todo!()
+        }
+    };
+    Ok((rem, tk))
+}
+
+fn parse_color_reset(input: &str) -> IResult<&str, Token> {
+    let (rem, _) = tuple((tag("\x1b[0"), tag_no_case("m")))(input)?;
+    Ok((rem, Token::ColorReset))
+}
+
+fn parse_anychar(input: &str) -> IResult<&str, Token> {
+    // let (rem, c) = satisfy(|_| true)(input)?;
+    let (rem, c) = anychar(input)?;
+    Ok((rem, Token::Char(c)))
+}
+
+fn parse_bell(input: &str) -> IResult<&str, Token> {
+    let (rem, _) = nom::character::complete::char('\x07')(input)?;
+    Ok((rem, Token::Bell))
+}
+
+fn parse_backspace(input: &str) -> IResult<&str, Token> {
+    let (rem, _) = nom::character::complete::char('\x08')(input)?;
+    Ok((rem, Token::Backspace))
+}
+
+fn parse_tab(input: &str) -> IResult<&str, Token> {
+    let (rem, _) = nom::character::complete::char('\x09')(input)?;
+    Ok((rem, Token::Bell))
+}
+
+fn parse_line_feed(input: &str) -> IResult<&str, Token> {
+    let (rem, _) = nom::character::complete::char('\x0A')(input)?;
+    Ok((rem, Token::LineFeed))
+}
+
+fn parse_form_feed(input: &str) -> IResult<&str, Token> {
+    let (rem, _) = nom::character::complete::char('\x0C')(input)?;
+    Ok((rem, Token::FormFeed))
+}
+
+fn parse_carriage_return(input: &str) -> IResult<&str, Token> {
+    let (rem, _) = nom::character::complete::char('\x0D')(input)?;
+    Ok((rem, Token::CarriageReturn))
+}
+
+pub(crate) fn parse_ansi(input: &str) -> IResult<&str, Vec<Token>> {
+    many0(alt((
+        alt((
+            parse_bell,
+            parse_backspace,
+            parse_tab,
+            parse_line_feed,
+            parse_form_feed,
+            parse_carriage_return,
+        )),
+        alt((
+            parse_cursor_up,
+            parse_cursor_down,
+            parse_cursor_forward,
+            parse_cursor_back,
+            parse_cursor_next_line,
+            parse_cursor_previous_line,
+            parse_cursor_horizontal,
+            parse_cursor_position,
+            parse_erase_in_display,
+            parse_erase_in_line,
+            parse_scroll_up,
+            parse_scroll_down,
+            parse_horizontal_vertical_position,
+            parse_aux_port_on,
+            parse_aux_port_off,
+            parse_device_status_report,
+        )),
+        alt((
+            parse_cursor_hide,
+            parse_cursor_show,
+            parse_color_foreground,
+            parse_color_background,
+            parse_color_underline,
+            parse_color_reset,
+            parse_sgr,
+        )),
+        parse_anychar,
+    )))(input)
+}

@@ -1,5 +1,5 @@
-use std::io::Read;
 use ansi2svg::to_svg;
+use std::io::Read;
 
 fn main() {
     let mut s = Vec::new();
