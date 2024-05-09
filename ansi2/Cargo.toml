@@ -1,9 +1,12 @@
 [package]
 name = "ansi2"
-version = "0.2.0"
+version = "0.2.1"
 edition = "2021"
 license = "MIT"
 description = "ansi2"
+repository = "https://github.com/ahaoboy/ansi2"
+homepage = "https://github.com/ahaoboy/ansi2"
+authors = ["ahaoboy"]
 
 [dependencies]
 nom = "7"
