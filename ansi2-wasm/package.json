@@ -1,0 +1,26 @@
+{
+  "name": "ansi2",
+  "version": "0.1.3",
+  "description": "ansi2",
+  "main": "dist/index.js",
+  "bin": "./dist/cli.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build:cli": "esbuild ./src-ts/cli.ts --bundle --outdir=./dist --platform=node",
+    "build": "pnpm run build:wasm && pnpm run build:sync && tsc && pnpm run build:cli",
+    "build:wasm": "wasm-pack build --target=web --out-dir ./web --release",
+    "build:sync": " wasm-pack-sync ./web -d ./src-ts/wasm --name index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "12.0.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.21.1",
+    "@types/node": "^20.12.11",
+    "wasm-pack-sync": "0.1.5"
+  }
+}

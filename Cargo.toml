@@ -1,5 +1,5 @@
 [workspace]
-members = ["ansi2", "ansi2svg", "ansi2html"]
+members = ["ansi2", "ansi2svg", "ansi2html", "ansi2-wasm"]
 resolver = "2"
 
 # Config for 'cargo dist'

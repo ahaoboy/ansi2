@@ -1,6 +1,6 @@
-use ansi2::{theme::VsCodeTheme, Canvas};
+use ansi2::{theme::ColorTable, Canvas};
 
-pub fn to_svg(s: &str) -> String {
+pub fn to_svg(s: &str, theme: impl ColorTable) -> String {
     let canvas = Canvas::new(s);
     let mut s = String::new();
     let mut cur_x = 0;
@@ -13,13 +13,13 @@ pub fn to_svg(s: &str) -> String {
             if c.bg_color.0 != 0 {
                 s.push_str(&format!(
                     r#"<rect x="{cur_x}px" y="{cur_y}px" width="{fn_w}px" height="{fn_h}px" fill="{}"/>"#,
-                    c.bg_color.to_rgb(VsCodeTheme),
+                    c.bg_color.to_rgb(theme),
                 ));
             }
             let fill_str = if c.color.0 == 0 {
                 "".into()
             } else {
-                format!("fill='{}'", c.color.to_rgb(VsCodeTheme))
+                format!("fill='{}'", c.color.to_rgb(theme))
             };
 
             let bold_str = if c.bold { "bold" } else { "normal" };

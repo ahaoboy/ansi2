@@ -1,6 +1,6 @@
-use ansi2::{theme::VsCodeTheme, Canvas};
+use ansi2::{theme::ColorTable, Canvas};
 
-pub fn to_html(s: &str) -> String {
+pub fn to_html(s: &str, theme: impl ColorTable) -> String {
     let canvas = Canvas::new(s);
     let mut s = String::new();
     s.push_str("<div class='ansi-main'>\n");
@@ -16,8 +16,8 @@ pub fn to_html(s: &str) -> String {
 
             s.push_str(&format!(
                 "<div class='{class}' style='color: {};background: {}; {fn_w}; '>{}</div>",
-                c.color.to_rgb(VsCodeTheme),
-                c.bg_color.to_rgb(VsCodeTheme),
+                c.color.to_rgb(theme),
+                c.bg_color.to_rgb(theme),
                 html_escape::encode_text(&c.char.to_string())
             ))
         }
