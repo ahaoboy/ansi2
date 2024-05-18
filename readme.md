@@ -1,3 +1,20 @@
+Parse ansi strings and convert them to html and svg formats
+
+```html
+<div align="center">
+	<a href="https://github.com/ahaoboy/neofetch">
+		<img src="assets/win11.svg">
+	</a>
+</div>
+```
+
+<div align="center">
+	<a href="https://github.com/ahaoboy/neofetch">
+		<img src="assets/win11.svg">
+	</a>
+</div>
+
+
 ## [ansi2](./ansi2)
 
 ```rs
