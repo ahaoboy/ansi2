@@ -23,19 +23,21 @@ async function main() {
   program
     .option("--format [type]", "output format", "svg")
     .option("--theme [type]", "color theme", "vscode")
+    .option("--width [type]", "width", undefined)
 
   program.parse();
 
   const options = program.opts();
   const theme = options.theme ?? "vscode";
   const format = options.format ?? "svg";
+  const width = typeof options.width === 'undefined' ? undefined : +options.width;
   switch (format) {
     case "svg": {
-      console.log(to_svg(a, theme))
+      console.log(to_svg(a, theme, width))
       break
     }
     case "html": {
-      console.log(to_html(a, theme))
+      console.log(to_html(a, theme, width))
       break
     }
   }

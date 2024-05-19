@@ -1,4 +1,6 @@
-#[derive(Debug, Clone, Copy)]
+use clap::ValueEnum;
+
+#[derive(ValueEnum, Debug, Clone, Copy)]
 pub enum Theme {
     VsCode,
     Ubuntu,
