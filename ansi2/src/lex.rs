@@ -58,10 +58,14 @@ pub enum Token {
     DoublyUnderlined,
     NotUnderlined,
     NotBlinking,
+    Sgr2(u32, u32),
+    Sgr3(u32, u32, u32),
+    Sgr4(u32, u32, u32, u32),
 
     AlternativeFont(u32),
     NotReversed,
     Faint,
+    Unknown(u32),
 }
 
 fn parse_cursor_up(input: &str) -> IResult<&str, Token> {
@@ -191,7 +195,7 @@ fn parse_color_underline(input: &str) -> IResult<&str, Token> {
     Ok((rem, Token::ColorUnderLine(str::parse(b).unwrap())))
 }
 
-fn parse_sgr(input: &str) -> IResult<&str, Token> {
+fn parse_sgr1(input: &str) -> IResult<&str, Token> {
     let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("m")))(input)?;
 
     let n = str::parse(b).unwrap_or_default();
@@ -235,7 +239,6 @@ fn parse_color_reset(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_anychar(input: &str) -> IResult<&str, Token> {
-    // let (rem, c) = satisfy(|_| true)(input)?;
     let (rem, c) = anychar(input)?;
     Ok((rem, Token::Char(c)))
 }
@@ -270,6 +273,75 @@ fn parse_carriage_return(input: &str) -> IResult<&str, Token> {
     Ok((rem, Token::CarriageReturn))
 }
 
+fn parse_sgr2(input: &str) -> IResult<&str, Token> {
+    let (rem, (_, front, _, background, _)) =
+        tuple((tag("\x1b["), digit0, tag(";"), digit0, tag_no_case("m")))(input)?;
+
+    let front = front.parse().unwrap_or(0);
+    let background = background.parse().unwrap_or(0);
+    Ok((rem, Token::Sgr2(front, background)))
+}
+
+fn parse_sgr3(input: &str) -> IResult<&str, Token> {
+    let (rem, (_, ctrl, _, front, _, background, _)) = tuple((
+        tag("\x1b["),
+        digit0,
+        tag(";"),
+        digit0,
+        tag(";"),
+        digit0,
+        tag_no_case("m"),
+    ))(input)?;
+
+    let ctrl = ctrl.parse().unwrap_or(0);
+    let front = front.parse().unwrap_or(0);
+    let background = background.parse().unwrap_or(0);
+    Ok((rem, Token::Sgr3(ctrl, front, background)))
+}
+
+fn parse_sgr4(input: &str) -> IResult<&str, Token> {
+    let (rem, (_, reset, _, ctrl, _, front, _, background, _)) = tuple((
+        tag("\x1b["),
+        digit0,
+        tag(";"),
+        digit0,
+        tag(";"),
+        digit0,
+        tag(";"),
+        digit0,
+        tag_no_case("m"),
+    ))(input)?;
+    let reset = reset.parse().unwrap_or(0);
+    let ctrl = ctrl.parse().unwrap_or(0);
+    let front = front.parse().unwrap_or(0);
+    let background = background.parse().unwrap_or(0);
+    Ok((rem, Token::Sgr4(reset, ctrl, front, background)))
+}
+
+fn parse_unknown(input: &str) -> IResult<&str, Token> {
+    let (rem, n) = alt((
+        nom::character::complete::char('\x00'),
+        nom::character::complete::char('\x01'),
+        nom::character::complete::char('\x02'),
+        nom::character::complete::char('\x03'),
+        nom::character::complete::char('\x04'),
+        nom::character::complete::char('\x05'),
+        nom::character::complete::char('\x06'),
+        nom::character::complete::char('\x0e'),
+        nom::character::complete::char('\x0f'),
+        nom::character::complete::char('\x11'),
+        nom::character::complete::char('\x12'),
+        nom::character::complete::char('\x14'),
+        nom::character::complete::char('\x16'),
+        nom::character::complete::char('\x19'),
+        nom::character::complete::char('\x1a'),
+        nom::character::complete::char('\x1b'),
+        nom::character::complete::char('\x1c'),
+        nom::character::complete::char('\x1e'),
+    ))(input)?;
+
+    Ok((rem, Token::Unknown(n as u32)))
+}
 pub(crate) fn parse_ansi(input: &str) -> IResult<&str, Vec<Token>> {
     many0(alt((
         alt((
@@ -305,8 +377,10 @@ pub(crate) fn parse_ansi(input: &str) -> IResult<&str, Vec<Token>> {
             parse_color_background,
             parse_color_underline,
             parse_color_reset,
-            parse_sgr,
+            parse_sgr1,
         )),
+        alt((parse_sgr2, parse_sgr3, parse_sgr4)),
+        parse_unknown,
         parse_anychar,
     )))(input)
 }
