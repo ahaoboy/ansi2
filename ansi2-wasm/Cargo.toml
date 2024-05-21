@@ -1,6 +1,6 @@
 [package]
 name = "ansi2-wasm"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["ahaoboy <504595380@qq.com>"]
 edition = "2018"
 
