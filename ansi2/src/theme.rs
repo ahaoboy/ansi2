@@ -1,21 +1,23 @@
 use clap::ValueEnum;
 
+// https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
 #[derive(ValueEnum, Debug, Clone, Copy)]
 pub enum Theme {
-    VsCode,
+    Vscode,
     Ubuntu,
+    Vga,
 }
 
 impl<'a> From<&'a str> for Theme {
     fn from(value: &'a str) -> Self {
         match value {
-            "vscode" => Theme::VsCode,
+            "vscode" => Theme::Vscode,
             "ubuntu" => Theme::Ubuntu,
-            _ => Theme::VsCode,
+            "vga" => Theme::Vga,
+            _ => Theme::Vscode,
         }
     }
 }
-
 const VSCODE_COLOR: [(u8, u8, u8); 16] = [
     (0, 0, 0),
     (205, 49, 49),
@@ -54,7 +56,26 @@ const UBUNTU_COLOR: [(u8, u8, u8); 16] = [
     (255, 255, 255),
 ];
 
-const COLORS: [[(u8, u8, u8); 16]; 2] = [VSCODE_COLOR, UBUNTU_COLOR];
+const VGA_COLOR: [(u8, u8, u8); 16] = [
+    (0, 0, 0),
+    (170, 0, 0),
+    (0, 170, 0),
+    (170, 85, 0),
+    (0, 0, 170),
+    (170, 0, 170),
+    (0, 170, 170),
+    (170, 170, 170),
+    (85, 85, 85),
+    (255, 85, 85),
+    (85, 255, 85),
+    (255, 255, 85),
+    (85, 85, 255),
+    (255, 85, 255),
+    (85, 255, 255),
+    (255, 255, 255),
+];
+
+const COLORS: [[(u8, u8, u8); 16]; 3] = [VSCODE_COLOR, UBUNTU_COLOR, VGA_COLOR];
 
 impl Theme {
     fn discriminant(&self) -> usize {

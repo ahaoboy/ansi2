@@ -6,6 +6,6 @@ fn main() {
     std::io::stdin().read_to_end(&mut s).unwrap();
     println!(
         "{}",
-        to_svg(&String::from_utf8_lossy(&s), Theme::VsCode, None)
+        to_svg(&String::from_utf8_lossy(&s), Theme::Vscode, None)
     );
 }

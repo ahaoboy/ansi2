@@ -1,6 +1,8 @@
 Parse ansi strings and convert them to html and svg formats
 
 ```bash
+cargo install ansi2
+
 neofetch | ansi2 --format=svg --theme=vscode > neofetch.svg
 
 npm run bench:run | ansi2 --format=svg | resvg - -c > bench.png
@@ -28,22 +30,23 @@ neofetch | ansi2 --format=svg --theme=vscode > ./neofetch.svg
 ```
 
 
-## [ansi2html](./ansi2html)
+## html
 ```
-cargo install ansi2
-
 neofetch | ansi2 --format=html > neofetch.html
 
 ```
 
-## [ansi2svg](./ansi2svg)
+## svg
 
 ```
-cargo install ansi2svg
-
 neofetch | ansi2 --format=svg > neofetch.svg
 ```
 
+## theme
+vga / vscode / ubuntu
+```
+neofetch | ansi2 --format=svg --theme=vscode > neofetch.svg
+```
 
 ## example
 ### neofetch

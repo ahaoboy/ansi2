@@ -26,7 +26,7 @@ fn main() {
     let args = Args::parse();
 
     let format = args.format.unwrap_or(Format::Svg);
-    let theme = args.theme.unwrap_or(Theme::VsCode);
+    let theme = args.theme.unwrap_or(Theme::Vscode);
     let width = args.width;
 
     let mut s = Vec::new();
