@@ -1,3 +1,5 @@
+use std::collections::HashSet;
+
 use crate::{theme::ColorTable, Canvas};
 
 fn to_style(theme: impl ColorTable) -> String {
@@ -96,20 +98,28 @@ pub fn to_svg(s: &str, theme: impl ColorTable, width: Option<usize>) -> String {
     let baseline_h = 16;
     let mut cur_y = 0;
     let style = to_style(theme);
+    let mut fg_color_style = HashSet::new();
+    let mut bg_color_style = HashSet::new();
 
     for row in canvas.pixels.iter() {
         for c in row.iter() {
             let mut text_class = vec![];
 
-            if c.bg_color.0 != 0 {
-                let class = [c.bg_color.name()].join(" ");
+            if !c.bg_color.is_default() {
+                let name = "bg_".to_string() + &c.bg_color.name();
+                let style = format!(r#".{name} {{ fill: {} }}"#, c.bg_color.to_rgb(theme));
+                bg_color_style.insert(style);
+
                 s.push_str(&format!(
-                    r#"<rect x="{cur_x}px" y="{cur_y}px" width="{fn_w}px" height="{fn_h}px" class="{class}"/>"#,
+                    r#"<rect x="{cur_x}px" y="{cur_y}px" width="{fn_w}px" height="{fn_h}px" class="{name}"/>"#,
                 ));
             }
 
-            if c.color.0 != 0 {
-                text_class.push(c.color.name());
+            if !c.color.is_default() {
+                let name = c.color.name();
+                let style = format!(r#".{name} {{ fill: {} }}"#, c.color.to_rgb(theme));
+                fg_color_style.insert(style);
+                text_class.push(name);
             };
 
             if c.bold {
@@ -135,6 +145,9 @@ r#"<text x="{text_x}px" y="{text_y}px" width="{fn_w}px" height="{fn_h}px" class=
 
     let svg_w = fn_w * canvas.w;
     let svg_h = fn_h * canvas.h;
+    let fg_style = fg_color_style.into_iter().collect::<Vec<_>>().join("\n");
+    let bg_style = bg_color_style.into_iter().collect::<Vec<_>>().join("\n");
+
     format!(
         r#"<svg
 width="{svg_w}px"
@@ -154,6 +167,9 @@ tspan {{
 }}
 
 {style}
+{fg_style}
+{bg_style}
+
 </style>
 {s}
 </svg>

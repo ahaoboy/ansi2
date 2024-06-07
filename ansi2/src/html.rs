@@ -1,3 +1,5 @@
+use std::collections::HashSet;
+
 use crate::{theme::ColorTable, Canvas};
 
 fn to_style(theme: impl ColorTable) -> String {
@@ -156,24 +158,33 @@ pub fn to_html(s: &str, theme: impl ColorTable, width: Option<usize>) -> String 
     let mut s = String::new();
     let style = to_style(theme);
 
+    let mut fg_color_style = HashSet::new();
+    let mut bg_color_style = HashSet::new();
     s.push_str("<div class='ansi-main'>\n");
     for row in canvas.pixels.iter() {
         s.push_str("<div class='row'>");
         for c in row.iter() {
             let mut text_class = vec!["char".into()];
             let mut bg_class = vec!["char".into()];
-            bg_class.push(c.color.0.to_string());
-            bg_class.push(c.bg_color.0.to_string());
             if c.bold {
                 text_class.push("bold".into());
             }
 
-            if c.color.0 != 0 {
-                text_class.push(c.color.name());
+            if !c.color.is_default() {
+                let name = c.color.name();
+                let style = format!(r#".{name} {{ color: {} }}"#, c.color.to_rgb(theme));
+                fg_color_style.insert(style);
+                text_class.push(name);
             }
 
-            if c.bg_color.0 != 0 {
-                bg_class.push("bg_".to_string() + &c.bg_color.name());
+            if !c.bg_color.is_default() {
+                let name = "bg_".to_string() + &c.bg_color.name();
+                let style = format!(
+                    r#".{name} {{ background-color: {} }}"#,
+                    c.bg_color.to_rgb(theme)
+                );
+                bg_color_style.insert(style);
+                bg_class.push(name);
             }
 
             if c.blink {
@@ -191,6 +202,9 @@ pub fn to_html(s: &str, theme: impl ColorTable, width: Option<usize>) -> String 
         s.push_str("</div>");
     }
     s.push_str("</div>\n");
+
+    let fg_style = fg_color_style.into_iter().collect::<Vec<_>>().join("\n");
+    let bg_style = bg_color_style.into_iter().collect::<Vec<_>>().join("\n");
     format!(
         r#"<!DOCTYPE html>
 <html lang="en">
@@ -200,6 +214,8 @@ pub fn to_html(s: &str, theme: impl ColorTable, width: Option<usize>) -> String 
   <style>
 
 {style}
+{fg_style}
+{bg_style}
 
 .ansi-main{{
   display: flex;

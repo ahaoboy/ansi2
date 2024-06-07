@@ -1,12 +1,85 @@
 use nom::branch::alt;
-use nom::bytes::complete::{tag, tag_no_case};
+use nom::bytes::complete::{tag, tag_no_case, take_until};
 use nom::character::complete::{anychar, digit0};
 use nom::combinator::opt;
 use nom::multi::many0;
 use nom::sequence::tuple;
+
 use nom::IResult;
 
+use crate::theme::ColorTable;
+
 #[derive(Debug, Clone, Copy)]
+pub enum AnsiColor {
+    Color8(u32),
+    Rgb(u32, u32, u32),
+}
+impl AnsiColor {
+    pub fn name(&self) -> String {
+        match self {
+            AnsiColor::Color8(n) => {
+                match n {
+                    30 | 40 => "black".into(),
+                    31 | 41 => "red".into(),
+                    32 | 42 => "green".into(),
+                    33 | 43 => "yellow".into(),
+                    34 | 44 => "blue".into(),
+                    35 | 45 => "magenta".into(),
+                    36 | 46 => "cyan".into(),
+                    37 | 47 => "white".into(),
+
+                    90 | 100 => "bright_black".into(),
+                    91 | 101 => "bright_red".into(),
+                    92 | 102 => "bright_green".into(),
+                    93 | 103 => "bright_yellow".into(),
+                    94 | 104 => "bright_blue".into(),
+                    95 | 105 => "bright_magenta".into(),
+                    96 | 106 => "bright_cyan".into(),
+                    97 | 107 => "bright_white".into(),
+                    _ => "white".into(),
+                }
+            }
+            AnsiColor::Rgb(r, g, b) => format!("rgb_{}_{}_{}", r, g, b),
+        }
+    }
+
+    pub fn to_rgb(&self, th: impl ColorTable) -> String {
+        match self {
+            AnsiColor::Color8(n) => {
+                match n {
+                    30 | 40 => format!("rgb{:?}", th.black()),
+                    31 | 41 => format!("rgb{:?}", th.red()),
+                    32 | 42 => format!("rgb{:?}", th.green()),
+                    33 | 43 => format!("rgb{:?}", th.yellow()),
+                    34 | 44 => format!("rgb{:?}", th.blue()),
+                    35 | 45 => format!("rgb{:?}", th.magenta()),
+                    36 | 46 => format!("rgb{:?}", th.cyan()),
+                    37 | 47 => format!("rgb{:?}", th.white()),
+
+                    90 | 100 => format!("rgb{:?}", th.bright_black()),
+                    91 | 101 => format!("rgb{:?}", th.bright_red()),
+                    92 | 102 => format!("rgb{:?}", th.bright_green()),
+                    93 | 103 => format!("rgb{:?}", th.bright_yellow()),
+                    94 | 104 => format!("rgb{:?}", th.bright_blue()),
+                    95 | 105 => format!("rgb{:?}", th.bright_magenta()),
+                    96 | 106 => format!("rgb{:?}", th.bright_cyan()),
+                    97 | 107 => format!("rgb{:?}", th.bright_white()),
+                    _ => format!("rgb{:?}", th.white()),
+                }
+            }
+            AnsiColor::Rgb(r, g, b) => format!("rgb({}, {}, {})", r, g, b),
+        }
+    }
+
+    pub fn is_default(&self) -> bool {
+        match self {
+            AnsiColor::Color8(0) => true,
+            _ => false,
+        }
+    }
+}
+
+#[derive(Debug, Clone)]
 pub enum Token {
     Char(char),
 
@@ -16,6 +89,7 @@ pub enum Token {
     LineFeed,
     FormFeed,
     CarriageReturn,
+    Title(String),
 
     CursorUp(i32),
     CursorDown(i32),
@@ -39,14 +113,17 @@ pub enum Token {
 
     CursorHide,
     CursorShow,
-    ColorForeground(u32),
-    ColorBackground(u32),
-    ColorUnderLine(u32),
+    ColorForeground(AnsiColor),
+    ColorBackground(AnsiColor),
+    ColorUnderLine(AnsiColor),
+    ColorFgBg(AnsiColor, AnsiColor),
+
     ColorReset,
     ColorInvert,
     ColorDefaultForeground,
     ColorDefaultBackground,
     ColorDefaultUnderline,
+
     Bold,
     NormalIntensity,
     Italic,
@@ -160,6 +237,20 @@ fn parse_cursor_hide(input: &str) -> IResult<&str, Token> {
     let (rem, _) = tuple((tag("\x1b["), opt(tag("?")), digit0, tag_no_case("l")))(input)?;
     Ok((rem, Token::CursorHide))
 }
+fn parse_cursor_hide_windows(input: &str) -> IResult<&str, Token> {
+    let (rem, _) = tag("\x1b[?2004h")(input)?;
+    Ok((rem, Token::CursorHide))
+}
+
+fn parse_title(input: &str) -> IResult<&str, Token> {
+    let (rem, (_, s, _)) = tuple((tag("\x1b]0;"), take_until("\x07"), tag("\x07")))(input)?;
+    Ok((rem, Token::Title(s.into())))
+}
+
+fn parse_bold(input: &str) -> IResult<&str, Token> {
+    let (rem, _) = tag("\x1b(B")(input)?;
+    Ok((rem, Token::Bold))
+}
 
 fn parse_cursor_show(input: &str) -> IResult<&str, Token> {
     let (rem, _) = tuple((tag("\x1b["), opt(tag("?")), digit0, tag_no_case("h")))(input)?;
@@ -176,7 +267,7 @@ fn parse_color_foreground(input: &str) -> IResult<&str, Token> {
         8..=15 => b + 82,
         _ => b,
     };
-    Ok((rem, Token::ColorForeground(c)))
+    Ok((rem, Token::ColorForeground(AnsiColor::Color8(c))))
 }
 fn parse_color_background(input: &str) -> IResult<&str, Token> {
     let (rem, (_, b, _)) = tuple((tag("\x1b[48;5;"), digit0, tag_no_case("m")))(input)?;
@@ -187,12 +278,15 @@ fn parse_color_background(input: &str) -> IResult<&str, Token> {
         8..=15 => b + 92,
         _ => b,
     };
-    Ok((rem, Token::ColorBackground(c)))
+    Ok((rem, Token::ColorBackground(AnsiColor::Color8(c))))
 }
 
 fn parse_color_underline(input: &str) -> IResult<&str, Token> {
     let (rem, (_, b, _)) = tuple((tag("\x1b[58;5;"), digit0, tag_no_case("m")))(input)?;
-    Ok((rem, Token::ColorUnderLine(str::parse(b).unwrap())))
+    Ok((
+        rem,
+        Token::ColorUnderLine(AnsiColor::Color8(str::parse(b).unwrap())),
+    ))
 }
 
 fn parse_sgr1(input: &str) -> IResult<&str, Token> {
@@ -218,8 +312,8 @@ fn parse_sgr1(input: &str) -> IResult<&str, Token> {
         21 => Token::DoublyUnderlined,
         24 => Token::NotUnderlined,
         25 => Token::NotBlinking,
-        30..=37 | 90..=97 => Token::ColorForeground(n),
-        40..=47 | 100..=107 => Token::ColorBackground(n),
+        30..=37 | 90..=97 => Token::ColorForeground(AnsiColor::Color8(n)),
+        40..=47 | 100..=107 => Token::ColorBackground(AnsiColor::Color8(n)),
         39 => Token::ColorDefaultForeground,
         49 => Token::ColorDefaultBackground,
         59 => Token::ColorDefaultUnderline,
@@ -318,6 +412,120 @@ fn parse_sgr4(input: &str) -> IResult<&str, Token> {
     Ok((rem, Token::Sgr4(reset, ctrl, front, background)))
 }
 
+fn parse_sgr5(input: &str) -> IResult<&str, Token> {
+    let (rem, (_, ctrl, _, ty, _, r, _, g, _, b, _)) = tuple((
+        tag("\x1b["),
+        digit0,
+        tag(";"),
+        digit0,
+        tag(";"),
+        digit0,
+        tag(";"),
+        digit0,
+        tag(";"),
+        digit0,
+        tag_no_case("m"),
+    ))(input)?;
+    let ctrl = ctrl.parse().unwrap_or(0);
+    let ty = ty.parse().unwrap_or(0);
+    let r = r.parse().unwrap_or(0);
+    let g = g.parse().unwrap_or(0);
+    let b = b.parse().unwrap_or(0);
+    if ctrl == 38 && ty == 2 {
+        return Ok((rem, Token::ColorForeground(AnsiColor::Rgb(r, g, b))));
+    }
+    todo!()
+}
+
+fn parse_sgr6(input: &str) -> IResult<&str, Token> {
+    let (rem, (_, ctrl, _, ty, _, r, _, g, _, b, _, n, _)) = tuple((
+        tag("\x1b["),
+        digit0,
+        tag(";"),
+        digit0,
+        tag(";"),
+        digit0,
+        tag(";"),
+        digit0,
+        tag(";"),
+        digit0,
+        tag(";"),
+        digit0,
+        tag_no_case("m"),
+    ))(input)?;
+    let ctrl = ctrl.parse().unwrap_or(0);
+    let ty = ty.parse().unwrap_or(0);
+    let r = r.parse().unwrap_or(0);
+    let g = g.parse().unwrap_or(0);
+    let b = b.parse().unwrap_or(0);
+    let n = n.parse().unwrap_or(0);
+    if ctrl == 38 && ty == 2 {
+        return Ok((
+            rem,
+            Token::ColorFgBg(AnsiColor::Rgb(r, g, b), AnsiColor::Color8(n)),
+        ));
+    }
+
+    if ctrl == 48 && ty == 2 {
+        return Ok((
+            rem,
+            Token::ColorFgBg(AnsiColor::Color8(n), AnsiColor::Rgb(r, g, b)),
+        ));
+    }
+    todo!()
+}
+fn parse_sgr10(input: &str) -> IResult<&str, Token> {
+    let (rem, (_, c1, _, t1, _, r1, _, g1, _, b1, _, c2, _, t2, _, r2, _, g2, _, b2, _)) =
+        tuple((
+            tag("\x1b["),
+            digit0,
+            tag(";"),
+            digit0,
+            tag(";"),
+            digit0,
+            tag(";"),
+            digit0,
+            tag(";"),
+            digit0,
+            tag(";"),
+            digit0,
+            tag(";"),
+            digit0,
+            tag(";"),
+            digit0,
+            tag(";"),
+            digit0,
+            tag(";"),
+            digit0,
+            tag_no_case("m"),
+        ))(input)?;
+    let mut fg = AnsiColor::Color8(0);
+    let mut bg = AnsiColor::Color8(0);
+    let c1: u32 = c1.parse().unwrap_or_default();
+    let t1: u32 = t1.parse().unwrap_or_default();
+    let r1: u32 = r1.parse().unwrap_or_default();
+    let g1: u32 = g1.parse().unwrap_or_default();
+    let b1: u32 = b1.parse().unwrap_or_default();
+    if c1 == 38 && t1 == 2 {
+        fg = AnsiColor::Rgb(r1, g1, b1)
+    }
+    if c1 == 48 && t1 == 2 {
+        bg = AnsiColor::Rgb(r1, g1, b1)
+    }
+
+    let c2: u32 = c2.parse().unwrap_or_default();
+    let t2: u32 = t2.parse().unwrap_or_default();
+    let r2: u32 = r2.parse().unwrap_or_default();
+    let g2: u32 = g2.parse().unwrap_or_default();
+    let b2: u32 = b2.parse().unwrap_or_default();
+    if c2 == 38 && t2 == 2 {
+        fg = AnsiColor::Rgb(r2, g2, b2)
+    }
+    if c2 == 48 && t2 == 2 {
+        bg = AnsiColor::Rgb(r2, g2, b2)
+    }
+    Ok((rem, Token::ColorFgBg(fg, bg)))
+}
 fn parse_unknown(input: &str) -> IResult<&str, Token> {
     let (rem, n) = alt((
         nom::character::complete::char('\x00'),
@@ -351,6 +559,7 @@ pub(crate) fn parse_ansi(input: &str) -> IResult<&str, Vec<Token>> {
             parse_line_feed,
             parse_form_feed,
             parse_carriage_return,
+            parse_title,
         )),
         alt((
             parse_cursor_up,
@@ -371,7 +580,9 @@ pub(crate) fn parse_ansi(input: &str) -> IResult<&str, Vec<Token>> {
             parse_device_status_report,
         )),
         alt((
+            parse_bold,
             parse_cursor_hide,
+            parse_cursor_hide_windows,
             parse_cursor_show,
             parse_color_foreground,
             parse_color_background,
@@ -379,7 +590,14 @@ pub(crate) fn parse_ansi(input: &str) -> IResult<&str, Vec<Token>> {
             parse_color_reset,
             parse_sgr1,
         )),
-        alt((parse_sgr2, parse_sgr3, parse_sgr4)),
+        alt((
+            parse_sgr2,
+            parse_sgr3,
+            parse_sgr4,
+            parse_sgr5,
+            parse_sgr6,
+            parse_sgr10,
+        )),
         parse_unknown,
         parse_anychar,
     )))(input)
