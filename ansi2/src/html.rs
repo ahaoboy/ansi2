@@ -153,13 +153,32 @@ font-weight: bold;
         theme.bright_white(),
     )
 }
-pub fn to_html(s: &str, theme: impl ColorTable, width: Option<usize>) -> String {
+pub fn to_html(
+    s: &str,
+    theme: impl ColorTable,
+    width: Option<usize>,
+    font: Option<String>,
+) -> String {
     let canvas = Canvas::new(s, width);
     let mut s = String::new();
     let style = to_style(theme);
 
     let mut fg_color_style = HashSet::new();
     let mut bg_color_style = HashSet::new();
+
+    let font_style = if let Some(base64) = font {
+        format!(
+r#"
+@font-face {{
+  font-family: ansi2-custom-font;
+  src: url(data:font/truetype;charset=utf-8;base64,{base64});
+}}
+"#
+        )
+    } else {
+        "".into()
+    };
+
     s.push_str("<div class='ansi-main'>\n");
     for row in canvas.pixels.iter() {
         s.push_str("<div class='row'>");
@@ -213,6 +232,7 @@ pub fn to_html(s: &str, theme: impl ColorTable, width: Option<usize>) -> String 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
 
+{font_style}
 {style}
 {fg_style}
 {bg_style}
@@ -229,7 +249,7 @@ pub fn to_html(s: &str, theme: impl ColorTable, width: Option<usize>) -> String 
 .char{{
   margin: 0;
   padding: 0;
-  font-family: Courier, monospace;
+  font-family: ansi2-custom-font, Courier, monospace;
   white-space: pre;
 }}
 

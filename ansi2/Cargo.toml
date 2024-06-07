@@ -12,3 +12,4 @@ authors = ["ahaoboy"]
 nom = "7"
 clap = { version = "4.5", features = ["derive"] }
 html-escape= "0.2.13"
+base64 = "0.22.1"

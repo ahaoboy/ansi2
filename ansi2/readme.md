@@ -19,6 +19,12 @@ for row in canvas.pixels.iter() {
 }
 ```
 
+## custom font
+```bash
+neofetch | ansi2 --format=svg --theme=vscode --font=./font.ttf > ./neofetch.svg
+
+```
+
 ## 16colo
 https://16colo.rs/pack/laz17/ll-darlaakacrystal.ans
 ```bash

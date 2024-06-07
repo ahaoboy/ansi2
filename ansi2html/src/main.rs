@@ -7,6 +7,6 @@ fn main() {
     std::io::stdin().read_to_end(&mut s).unwrap();
     println!(
         "{}",
-        ansi2::html::to_html(&String::from_utf8_lossy(&s), Theme::Vscode, None)
+        ansi2::html::to_html(&String::from_utf8_lossy(&s), Theme::Vscode, None,None)
     );
 }

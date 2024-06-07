@@ -89,7 +89,12 @@ font-weight: bold;
     )
 }
 
-pub fn to_svg(s: &str, theme: impl ColorTable, width: Option<usize>) -> String {
+pub fn to_svg(
+    s: &str,
+    theme: impl ColorTable,
+    width: Option<usize>,
+    font: Option<String>,
+) -> String {
     let canvas = Canvas::new(s, width);
     let mut s = String::new();
     let mut cur_x = 0;
@@ -100,7 +105,18 @@ pub fn to_svg(s: &str, theme: impl ColorTable, width: Option<usize>) -> String {
     let style = to_style(theme);
     let mut fg_color_style = HashSet::new();
     let mut bg_color_style = HashSet::new();
-
+    let font_style = if let Some(base64) = font {
+        format!(
+            r#"
+@font-face {{
+  font-family: ansi2-custom-font;
+  src: url(data:font/truetype;charset=utf-8;base64,{base64});
+}}
+"#
+        )
+    } else {
+        "".into()
+    };
     for row in canvas.pixels.iter() {
         for c in row.iter() {
             let mut text_class = vec![];
@@ -162,9 +178,10 @@ tspan {{
     dominant-baseline: central;
     font-variant-ligatures: none;
     white-space: pre;
-    font-family: Courier, monospace;
+    font-family: ansi2-custom-font, Courier, monospace;
     font-size: {fn_h}px;
 }}
+{font_style}
 
 {style}
 {fg_style}
