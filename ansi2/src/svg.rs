@@ -89,12 +89,13 @@ font-weight: bold;
     )
 }
 
-pub fn to_svg(
-    s: &str,
+pub fn to_svg<S: AsRef<str>>(
+    str: S,
     theme: impl ColorTable,
     width: Option<usize>,
     font: Option<String>,
 ) -> String {
+    let s = str.as_ref();
     let canvas = Canvas::new(s, width);
     let mut s = String::new();
     let mut cur_x = 0;

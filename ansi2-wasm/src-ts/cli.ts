@@ -1,5 +1,5 @@
 import { program, } from 'commander'
-import { to_svg, to_html } from './wasm'
+import { to_svg, to_html, to_text } from './wasm'
 import { readFileSync } from 'node:fs'
 
 async function readToString() {
@@ -46,6 +46,9 @@ async function main() {
     case "html": {
       console.log(to_html(a, theme, width, font))
       break
+    }
+    case 'text': {
+      console.log(to_text(a, width))
     }
   }
 }

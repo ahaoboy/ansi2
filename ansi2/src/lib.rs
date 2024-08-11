@@ -1,6 +1,7 @@
 pub mod html;
 pub mod lex;
 pub mod svg;
+pub mod text;
 pub mod theme;
 use lex::{parse_ansi, AnsiColor, Token};
 
@@ -41,7 +42,8 @@ fn set_node(v: &mut Vec<Vec<Node>>, node: Node, x: usize, y: usize) {
 }
 
 impl Canvas {
-    pub fn new(s: &str, max_width: Option<usize>) -> Self {
+    pub fn new<S: AsRef<str>>(str: S, max_width: Option<usize>) -> Self {
+        let s = str.as_ref();
         let (_, lex) = parse_ansi(s).unwrap();
         let mut cur_x = 0;
         let mut cur_y = 0;

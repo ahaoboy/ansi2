@@ -4,7 +4,7 @@ version = 3
 
 [[package]]
 name = "ansi2"
-version = "0.2.5"
+version = "0.2.6"
 dependencies = [
  "base64",
  "clap",
@@ -19,22 +19,6 @@ dependencies = [
  "ansi2",
  "wasm-bindgen",
  "wasm-bindgen-test",
-]
-
-[[package]]
-name = "ansi2html"
-version = "0.2.5"
-dependencies = [
- "ansi2",
- "html-escape",
-]
-
-[[package]]
-name = "ansi2svg"
-version = "0.2.5"
-dependencies = [
- "ansi2",
- "html-escape",
 ]
 
 [[package]]

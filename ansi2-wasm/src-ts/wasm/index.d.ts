@@ -16,4 +16,10 @@ export function to_svg(s: string, theme: string, width?: number, font?: string):
 * @returns {string}
 */
 export function to_html(s: string, theme: string, width?: number, font?: string): string;
+/**
+* @param {string} s
+* @param {number | undefined} [width]
+* @returns {string}
+*/
+export function to_text(s: string, width?: number): string;
 

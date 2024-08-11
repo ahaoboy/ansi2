@@ -153,12 +153,13 @@ font-weight: bold;
         theme.bright_white(),
     )
 }
-pub fn to_html(
-    s: &str,
+pub fn to_html<S: AsRef<str>>(
+    str: S,
     theme: impl ColorTable,
     width: Option<usize>,
     font: Option<String>,
 ) -> String {
+    let s = str.as_ref();
     let canvas = Canvas::new(s, width);
     let mut s = String::new();
     let style = to_style(theme);
@@ -168,7 +169,7 @@ pub fn to_html(
 
     let font_style = if let Some(base64) = font {
         format!(
-r#"
+            r#"
 @font-face {{
   font-family: ansi2-custom-font;
   src: url(data:font/truetype;charset=utf-8;base64,{base64});
