@@ -187,6 +187,19 @@ impl Canvas {
 
                 Token::SlowBlink => blink = true,
                 Token::RapidBlink => blink = true,
+                Token::ColorInvert => {
+                    (cur_bg_c, cur_c) = (cur_c, cur_bg_c);
+                }
+                Token::NormalIntensity => bold = false,
+                Token::NotReversed => {
+                    (cur_bg_c, cur_c) = (cur_c, cur_bg_c);
+                }
+                Token::ColorDefaultForeground => {
+                    cur_c = AnsiColor::Color8(0);
+                }
+                Token::ColorDefaultBackground => {
+                    cur_bg_c = AnsiColor::Color8(0);
+                }
                 _ => {}
             }
 
@@ -216,6 +229,13 @@ mod test {
         println!("{:?}", r);
 
         let s = "[38;2;218;98;125m[48;2;218;98;125;30mwin[38;2;218;98;125m[30mC:/wt [48;2;252;161;125;38;2;218;98;125m[48;2;134;187;216;38;2;252;161;125m[48;2;6;150;154;38;2;134;187;216m[48;2;51;101;138;38;2;6;150;154m[0m[K";
+        let r = parse_ansi(s).unwrap();
+        println!("{:?}", r);
+    }
+
+    #[test]
+    fn test_vitest_bench() {
+        let s = "[36m[7m[1m BENCH [22m[27m[39m [36mSummary[39m";
         let r = parse_ansi(s).unwrap();
         println!("{:?}", r);
     }
