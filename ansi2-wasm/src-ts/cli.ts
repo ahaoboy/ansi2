@@ -1,6 +1,7 @@
 import { program, } from 'commander'
 import { to_svg, to_html, to_text } from './wasm'
 import { readFileSync } from 'node:fs'
+import { optimize } from 'svgo';
 
 async function readToString() {
   return new Promise<string>((resolve) => {
@@ -23,7 +24,7 @@ function getBase64(p: string) {
 }
 
 async function main() {
-  const a = await readToString()
+  const input = await readToString()
 
   program
     .option("--format [type]", "output format", "svg")
@@ -36,19 +37,24 @@ async function main() {
   const options = program.opts();
   const theme = options.theme ?? "vscode";
   const format = options.format ?? "svg";
-  const width = options.width ?? +options.width;
-  const font = options.font ?? getBase64(options.font)
+  const width = typeof options.width === 'undefined' ? undefined : +options.width;
+  const font = typeof options.font === 'undefined' ? undefined : getBase64(options.font)
   switch (format) {
     case "svg": {
-      console.log(to_svg(a, theme, width, font))
+      const s = to_svg(input, theme, width, font)
+      const result = optimize(s, {
+        // path: 'ansi2.svg',
+        multipass: true,
+      });
+      process.stdout.write(result.data)
       break
     }
     case "html": {
-      console.log(to_html(a, theme, width, font))
+      process.stdout.write(to_html(input, theme, width, font))
       break
     }
     case 'text': {
-      console.log(to_text(a, width))
+      process.stdout.write(to_text(input, width))
     }
   }
 }
