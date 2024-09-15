@@ -1,14 +1,15 @@
 Parse ansi strings and convert them to html and svg formats
 
 ```bash
+npm i ansi2 -g
 cargo install ansi2
 cargo binstall ansi2
 
 neofetch | ansi2 --format=svg --theme=vscode > neofetch.svg
 
-npm run bench:run | ansi2 --format=svg | resvg - -c > bench.png
-npm run bench:run | ansi2 --format=html | resvg - -c > bench.html
-npm run bench:run | ansi2 --format=text | resvg - -c > bench.text
+vitest bench --run | ansi2 --format=svg  | resvg - -c > bench.png
+vitest bench --run | ansi2 --format=html | resvg - -c > bench.html
+vitest bench --run | ansi2 --format=text | bench.text
 ```
 
 ## [ansi2](./ansi2)

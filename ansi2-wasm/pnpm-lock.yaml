@@ -24,9 +24,9 @@ importers:
       typescript:
         specifier: ^5.5.4
         version: 5.5.4
-      wasm-pack-sync:
-        specifier: 0.1.7
-        version: 0.1.7
+      wasm-pack-inline:
+        specifier: 0.1.1
+        version: 0.1.1
 
 packages:
 
@@ -279,8 +279,8 @@ packages:
     resolution: {integrity: sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==}
     engines: {node: '>= 10.0.0'}
 
-  wasm-pack-sync@0.1.7:
-    resolution: {integrity: sha512-ifud/3lzQPH3p5QFQicTeuOMTMbCvn+8WGE6fCbpEUxOrLec1gNYGyRu+NutcjYQkYWLyEAJZP/pbRY/uvFtDw==}
+  wasm-pack-inline@0.1.1:
+    resolution: {integrity: sha512-XBctc7xVbE1YPUJGHGb0T7/0lf1xR1ZPb79fCPyoC7dtlU9nConZE7+LOaqpvckumtV5FAbMQyiiumDbLb793w==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -485,7 +485,7 @@ snapshots:
 
   universalify@2.0.1: {}
 
-  wasm-pack-sync@0.1.7:
+  wasm-pack-inline@0.1.1:
     dependencies:
       commander: 12.1.0
       fs-extra: 11.2.0

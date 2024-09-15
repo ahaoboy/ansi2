@@ -1,5 +1,5 @@
 import { program, } from 'commander'
-import { to_svg, to_html, to_text } from './wasm'
+import { to_svg, to_html, to_text, Theme } from './wasm'
 import { readFileSync } from 'node:fs'
 import { optimize } from 'svgo';
 
@@ -23,6 +23,15 @@ function getBase64(p: string) {
   return buf.toString('base64')
 }
 
+function getTheme(s: string): Theme {
+  switch (s.toLowerCase()) {
+    case "vscode": return Theme.Vscode
+    case "vga": return Theme.Vga
+    case "ubuntu": return Theme.Ubuntu
+    default: return Theme.Vscode
+  }
+}
+
 async function main() {
   const input = await readToString()
 
@@ -35,17 +44,14 @@ async function main() {
   program.parse();
 
   const options = program.opts();
-  const theme = options.theme ?? "vscode";
+  const theme = getTheme(options.theme ?? "vscode");
   const format = options.format ?? "svg";
   const width = typeof options.width === 'undefined' ? undefined : +options.width;
   const font = typeof options.font === 'undefined' ? undefined : getBase64(options.font)
   switch (format) {
     case "svg": {
       const s = to_svg(input, theme, width, font)
-      const result = optimize(s, {
-        // path: 'ansi2.svg',
-        multipass: true,
-      });
+      const result = optimize(s);
       process.stdout.write(result.data)
       break
     }
