@@ -1,0 +1,37 @@
+name: Test
+
+permissions:
+  contents: write
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: test
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://rsproxy.cn/rustup-init.sh | sh -s -- -y --default-toolchain nightly
+          curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash
+          rustup target add wasm32-unknown-unknown
+
+          cargo install wasm-pack
+          npm i pnpm -g
+
+          cd ./ansi2
+          cargo test
+          cd ..
+
+          cd ./ansi2-wasm
+          pnpm i
+          pnpm run build
+
+          sudo apt-get install neofetch -y
+          neofetch | node ./bin/cli.js --format=svg --theme=vscode > neofetch.svg
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: ansi2
+          path: ./ansi2-wasm/*.svg
