@@ -1,10 +1,9 @@
-use std::{fs::read, io::Read};
-
-use ansi2::text::to_text;
-use ansi2::{html::to_html, svg::to_svg, theme::Theme};
+use ansi2::{css::Mode, theme::Theme};
+use ansi2::{html::to_html, svg::to_svg, text::to_text};
 use base64::prelude::BASE64_STANDARD;
 use base64::Engine;
-use clap::{Parser, ValueEnum};
+use clap::{command, Parser, ValueEnum};
+use std::{fs::read, io::Read};
 
 #[derive(ValueEnum, Debug, Clone, Copy)]
 enum Format {
@@ -25,6 +24,9 @@ struct Args {
     #[arg(short, long)]
     theme: Option<Theme>,
 
+    #[clap(short, long)]
+    mode: Option<Mode>,
+
     #[arg(long)]
     font: Option<String>,
 }
@@ -34,6 +36,10 @@ fn main() {
 
     let format = args.format.unwrap_or(Format::Svg);
     let theme = args.theme.unwrap_or(Theme::Vscode);
+    let mode = args.mode.map(|m| match m {
+        Mode::Dark => ansi2::css::Mode::Dark,
+        Mode::Light => ansi2::css::Mode::Light,
+    });
     let width = args.width;
 
     let mut buf = Vec::new();
@@ -47,8 +53,8 @@ fn main() {
 
     let s = String::from_utf8_lossy(&buf);
     let output = match format {
-        Format::Svg => to_svg(s, theme, width, base64),
-        Format::Html => to_html(&s, theme, width, base64),
+        Format::Svg => to_svg(s, theme, width, base64, mode),
+        Format::Html => to_html(&s, theme, width, base64, mode),
         Format::Text => to_text(&s, width),
     };
 

@@ -7,10 +7,15 @@ cargo binstall ansi2
 
 neofetch | ansi2 --format=svg --theme=vscode > neofetch.svg
 
-vitest bench --run | ansi2 --format=svg  | resvg - -c > bench.png
-vitest bench --run | ansi2 --format=html | resvg - -c > bench.html
-vitest bench --run | ansi2 --format=text | bench.text
+vitest bench --run | ansi2 --format=html --mode=light > bench.html
+vitest bench --run | ansi2 --format=text > bench.txt
 ```
+
+Note: resvg does not support css variables, need to choose a mode
+```bash
+vitest bench --run | ansi2 --format=svg --mode=dark  | resvg - -c > bench.png
+```
+
 
 ## [ansi2](./ansi2)
 

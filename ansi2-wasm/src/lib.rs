@@ -1,31 +1,46 @@
-use wasm_bindgen::prelude::*;
+use ansi2::{css::Mode, theme::Theme};
+use wasm_bindgen::prelude::wasm_bindgen;
 
 #[wasm_bindgen]
-#[derive(Debug, Clone, Copy)]
-pub enum Theme {
-    Vscode,
-    Ubuntu,
-    Vga,
-}
-
-impl From<Theme> for ansi2::theme::Theme {
-    fn from(theme: Theme) -> Self {
-        match theme {
-            Theme::Vscode => ansi2::theme::Theme::Vscode,
-            Theme::Ubuntu => ansi2::theme::Theme::Ubuntu,
-            Theme::Vga => ansi2::theme::Theme::Vga,
-        }
-    }
+pub fn to_svg(
+    s: String,
+    theme: Theme,
+    width: Option<usize>,
+    font: Option<String>,
+    mode: Option<Mode>,
+) -> String {
+    let mode = mode.map(|m| match m {
+        Mode::Dark => ansi2::css::Mode::Dark,
+        Mode::Light => ansi2::css::Mode::Light,
+    });
+    ansi2::svg::to_svg(
+        &s,
+        Into::<ansi2::theme::Theme>::into(theme),
+        width,
+        font,
+        mode,
+    )
 }
 
 #[wasm_bindgen]
-pub fn to_svg(s: String, theme: Theme, width: Option<usize>, font: Option<String>) -> String {
-    ansi2::svg::to_svg(&s, Into::<ansi2::theme::Theme>::into(theme), width, font)
-}
-
-#[wasm_bindgen]
-pub fn to_html(s: String, theme: Theme, width: Option<usize>, font: Option<String>) -> String {
-    ansi2::html::to_html(&s, Into::<ansi2::theme::Theme>::into(theme), width, font)
+pub fn to_html(
+    s: String,
+    theme: Theme,
+    width: Option<usize>,
+    font: Option<String>,
+    mode: Option<Mode>,
+) -> String {
+    let mode = mode.map(|m| match m {
+        Mode::Dark => ansi2::css::Mode::Dark,
+        Mode::Light => ansi2::css::Mode::Light,
+    });
+    ansi2::html::to_html(
+        &s,
+        Into::<ansi2::theme::Theme>::into(theme),
+        width,
+        font,
+        mode,
+    )
 }
 
 #[wasm_bindgen]

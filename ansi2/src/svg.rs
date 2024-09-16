@@ -1,99 +1,15 @@
-use std::collections::HashSet;
-
-use crate::{theme::ColorTable, Canvas};
-
-fn to_style(theme: impl ColorTable) -> String {
-    format!(
-        r#"
-
-.black{{
-fill: rgb{:?};
-}}
-.red{{
-fill: rgb{:?};
-}}
-.green{{
-fill: rgb{:?};
-}}
-.yellow{{
-fill: rgb{:?};
-}}
-.blue{{
-fill: rgb{:?};
-}}
-.magenta{{
-fill: rgb{:?};
-}}
-.cyan{{
-fill: rgb{:?};
-}}
-.white{{
-fill: rgb{:?};
-}}
-
-.bright_black{{
-fill: rgb{:?};
-}}
-.bright_red{{
-fill: rgb{:?};
-}}
-.bright_green{{
-fill: rgb{:?};
-}}
-.bright_yellow{{
-fill: rgb{:?};
-}}
-.bright_blue{{
-fill: rgb{:?};
-}}
-.bright_magenta{{
-fill: rgb{:?};
-}}
-.bright_cyan{{
-fill: rgb{:?};
-}}
-.bright_white{{
-fill: rgb{:?};
-}}
-
-.bold{{
-font-weight: bold;
-}}
-
-.blink {{
-  animation: blink_keyframes 1s steps(1, end) infinite;
-}}
-
-@keyframes blink_keyframes{{
-  50% {{
-    opacity: 0;
-  }}
-}}
-"#,
-        theme.black(),
-        theme.red(),
-        theme.green(),
-        theme.yellow(),
-        theme.blue(),
-        theme.magenta(),
-        theme.cyan(),
-        theme.white(),
-        theme.bright_black(),
-        theme.bright_red(),
-        theme.bright_green(),
-        theme.bright_yellow(),
-        theme.bright_blue(),
-        theme.bright_magenta(),
-        theme.bright_cyan(),
-        theme.bright_white(),
-    )
-}
+use crate::{
+    css::{to_style, CssType, Mode},
+    theme::ColorTable,
+    Canvas,
+};
 
 pub fn to_svg<S: AsRef<str>>(
     str: S,
     theme: impl ColorTable,
     width: Option<usize>,
     font: Option<String>,
+    mode: Option<Mode>,
 ) -> String {
     let s = str.as_ref();
     let canvas = Canvas::new(s, width);
@@ -103,9 +19,7 @@ pub fn to_svg<S: AsRef<str>>(
     let fn_h = 32;
     let baseline_h = 16;
     let mut cur_y = 0;
-    let style = to_style(theme);
-    let mut fg_color_style = HashSet::new();
-    let mut bg_color_style = HashSet::new();
+    let style = to_style(theme, CssType::Svg, mode);
     let font_style = if let Some(base64) = font {
         format!(
             r#"
@@ -123,19 +37,17 @@ pub fn to_svg<S: AsRef<str>>(
             let mut text_class = vec![];
 
             if !c.bg_color.is_default() {
-                let name = "bg_".to_string() + &c.bg_color.name();
-                let style = format!(r#".{name} {{ fill: {} }}"#, c.bg_color.to_rgb(theme));
-                bg_color_style.insert(style);
+                let name = "bg-".to_string() + &c.bg_color.name();
 
+                let class_str = format!(" class='{}'", name);
                 s.push_str(&format!(
-                    r#"<rect x="{cur_x}px" y="{cur_y}px" width="{fn_w}px" height="{fn_h}px" class="{name}"/>"#,
+                    r#"<rect x="{cur_x}px" y="{cur_y}px" width="{fn_w}px" height="{fn_h}px" {class_str}/>"#
+                    ,
                 ));
             }
 
             if !c.color.is_default() {
                 let name = c.color.name();
-                let style = format!(r#".{name} {{ fill: {} }}"#, c.color.to_rgb(theme));
-                fg_color_style.insert(style);
                 text_class.push(name);
             };
 
@@ -149,9 +61,15 @@ pub fn to_svg<S: AsRef<str>>(
             // baseline offset
             let text_x = cur_x;
             let text_y = cur_y + baseline_h;
+            let class_str = if text_class.is_empty() {
+                String::new()
+            } else {
+                format!("class='{}'", text_class.join(" "))
+            };
+
             s.push_str(&format!(
-r#"<text x="{text_x}px" y="{text_y}px" width="{fn_w}px" height="{fn_h}px" class="{}"><tspan>{}</tspan></text>"#,
-                text_class.join(" "),
+r#"<text x="{text_x}px" y="{text_y}px" width="{fn_w}px" height="{fn_h}px" {}><tspan>{}</tspan></text>"#,
+class_str ,
                 html_escape::encode_text(&c.char.to_string())
             ));
             cur_x += fn_w;
@@ -162,8 +80,6 @@ r#"<text x="{text_x}px" y="{text_y}px" width="{fn_w}px" height="{fn_h}px" class=
 
     let svg_w = fn_w * canvas.w;
     let svg_h = fn_h * canvas.h;
-    let fg_style = fg_color_style.into_iter().collect::<Vec<_>>().join("\n");
-    let bg_style = bg_color_style.into_iter().collect::<Vec<_>>().join("\n");
 
     format!(
         r#"<svg
@@ -183,11 +99,7 @@ tspan {{
     font-size: {fn_h}px;
 }}
 {font_style}
-
 {style}
-{fg_style}
-{bg_style}
-
 </style>
 {s}
 </svg>

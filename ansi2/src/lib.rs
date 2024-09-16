@@ -3,6 +3,7 @@ pub mod lex;
 pub mod svg;
 pub mod text;
 pub mod theme;
+pub mod css;
 use lex::{parse_ansi, AnsiColor, Token};
 
 #[derive(Debug, Clone)]
@@ -55,7 +56,7 @@ impl Canvas {
         let mut w = 0;
         let mut h = 0;
         let mut pixels = Vec::new();
-        let max_width = max_width.unwrap_or(std::usize::MAX);
+        let max_width = max_width.unwrap_or(usize::MAX);
 
         for i in lex {
             let mut reset_all = || {

@@ -1,7 +1,7 @@
-use clap::ValueEnum;
-
+#[cfg_attr(feature = "wasm", wasm_bindgen::prelude::wasm_bindgen)]
+#[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
 // https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
-#[derive(ValueEnum, Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy)]
 pub enum Theme {
     Vscode,
     Ubuntu,

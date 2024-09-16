@@ -1,171 +1,20 @@
-use std::collections::HashSet;
+use crate::{
+    css::{to_style, CssType, Mode},
+    theme::ColorTable,
+    Canvas,
+};
 
-use crate::{theme::ColorTable, Canvas};
-
-fn to_style(theme: impl ColorTable) -> String {
-    format!(
-        r#"
-.black{{
-color: rgb{:?};
-}}
-.red{{
-color: rgb{:?};
-}}
-.green{{
-color: rgb{:?};
-}}
-.yellow{{
-color: rgb{:?};
-}}
-.blue{{
-color: rgb{:?};
-}}
-.magenta{{
-color: rgb{:?};
-}}
-.cyan{{
-color: rgb{:?};
-}}
-.white{{
-color: rgb{:?};
-}}
-
-.bright_black{{
-color: rgb{:?};
-}}
-.bright_red{{
-color: rgb{:?};
-}}
-.bright_green{{
-color: rgb{:?};
-}}
-.bright_yellow{{
-color: rgb{:?};
-}}
-.bright_blue{{
-color: rgb{:?};
-}}
-.bright_magenta{{
-color: rgb{:?};
-}}
-.bright_cyan{{
-color: rgb{:?};
-}}
-.bright_white{{
-color: rgb{:?};
-}}
-
-.bg_black{{
-background-color: rgb{:?};
-}}
-.bg_red{{
-background-color: rgb{:?};
-}}
-.bg_green{{
-background-color: rgb{:?};
-}}
-.bg_yellow{{
-background-color: rgb{:?};
-}}
-.bg_blue{{
-background-color: rgb{:?};
-}}
-.bg_magenta{{
-background-color: rgb{:?};
-}}
-.bg_cyan{{
-background-color: rgb{:?};
-}}
-.bg_white{{
-background-color: rgb{:?};
-}}
-
-.bg_bright_black{{
-background-color: rgb{:?};
-}}
-.bg_bright_red{{
-background-color: rgb{:?};
-}}
-.bg_bright_green{{
-background-color: rgb{:?};
-}}
-.bg_bright_yellow{{
-background-color: rgb{:?};
-}}
-.bg_bright_blue{{
-background-color: rgb{:?};
-}}
-.bg_bright_magenta{{
-background-color: rgb{:?};
-}}
-.bg_bright_cyan{{
-background-color: rgb{:?};
-}}
-.bg_bright_white{{
-background-color: rgb{:?};
-}}
-
-.bold{{
-font-weight: bold;
-}}
-
-.blink {{
-  animation: blink_keyframes 1s steps(1, end) infinite;
-}}
-
-@keyframes blink_keyframes{{
-  50% {{
-    opacity: 0;
-  }}
-}}
-"#,
-        theme.black(),
-        theme.red(),
-        theme.green(),
-        theme.yellow(),
-        theme.blue(),
-        theme.magenta(),
-        theme.cyan(),
-        theme.white(),
-        theme.bright_black(),
-        theme.bright_red(),
-        theme.bright_green(),
-        theme.bright_yellow(),
-        theme.bright_blue(),
-        theme.bright_magenta(),
-        theme.bright_cyan(),
-        theme.bright_white(),
-        theme.black(),
-        theme.red(),
-        theme.green(),
-        theme.yellow(),
-        theme.blue(),
-        theme.magenta(),
-        theme.cyan(),
-        theme.white(),
-        theme.bright_black(),
-        theme.bright_red(),
-        theme.bright_green(),
-        theme.bright_yellow(),
-        theme.bright_blue(),
-        theme.bright_magenta(),
-        theme.bright_cyan(),
-        theme.bright_white(),
-    )
-}
 pub fn to_html<S: AsRef<str>>(
     str: S,
     theme: impl ColorTable,
     width: Option<usize>,
     font: Option<String>,
+    mode: Option<Mode>,
 ) -> String {
     let s = str.as_ref();
     let canvas = Canvas::new(s, width);
     let mut s = String::new();
-    let style = to_style(theme);
-
-    let mut fg_color_style = HashSet::new();
-    let mut bg_color_style = HashSet::new();
+    let style = to_style(theme, CssType::Html, mode);
 
     let font_style = if let Some(base64) = font {
         format!(
@@ -192,18 +41,11 @@ pub fn to_html<S: AsRef<str>>(
 
             if !c.color.is_default() {
                 let name = c.color.name();
-                let style = format!(r#".{name} {{ color: {} }}"#, c.color.to_rgb(theme));
-                fg_color_style.insert(style);
                 text_class.push(name);
             }
 
             if !c.bg_color.is_default() {
-                let name = "bg_".to_string() + &c.bg_color.name();
-                let style = format!(
-                    r#".{name} {{ background-color: {} }}"#,
-                    c.bg_color.to_rgb(theme)
-                );
-                bg_color_style.insert(style);
+                let name = "bg-".to_string() + &c.bg_color.name();
                 bg_class.push(name);
             }
 
@@ -211,20 +53,23 @@ pub fn to_html<S: AsRef<str>>(
                 text_class.push("blink".into());
             }
 
-            let text_class = text_class.join(" ");
+            let text_class = text_class.join(" ").trim().to_string();
             let bg_class = bg_class.join(" ");
             let html_char = c.char.to_string();
             let html_char = html_escape::encode_text(&html_char);
+            let class_str = if text_class.is_empty() {
+                String::new()
+            } else {
+                format!("class='{text_class}'")
+            };
             s.push_str(&format!(
-                "<div class='{bg_class}'><div class='{text_class}'>{html_char}</div></div>",
+                "<div class='{bg_class}'><div {class_str}>{html_char}</div></div>",
             ))
         }
         s.push_str("</div>");
     }
     s.push_str("</div>\n");
 
-    let fg_style = fg_color_style.into_iter().collect::<Vec<_>>().join("\n");
-    let bg_style = bg_color_style.into_iter().collect::<Vec<_>>().join("\n");
     format!(
         r#"<!DOCTYPE html>
 <html lang="en">
@@ -235,8 +80,6 @@ pub fn to_html<S: AsRef<str>>(
 
 {font_style}
 {style}
-{fg_style}
-{bg_style}
 
 .ansi-main{{
   display: flex;

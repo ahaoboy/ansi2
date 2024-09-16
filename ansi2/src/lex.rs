@@ -72,10 +72,7 @@ impl AnsiColor {
     }
 
     pub fn is_default(&self) -> bool {
-        match self {
-            AnsiColor::Color8(0) => true,
-            _ => false,
-        }
+      matches!(self, AnsiColor::Color8(0))
     }
 }
 

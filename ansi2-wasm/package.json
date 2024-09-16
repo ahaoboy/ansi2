@@ -1,14 +1,21 @@
 {
   "name": "ansi2",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "ansi2",
   "main": "dist/index.js",
   "bin": "./bin/cli.js",
   "types": "./dist/index.d.ts",
+  "author": "ahaoboy",
+  "license": "MIT",
+  "homepage": "https://github.com/ahaoboy/ansi2",
   "files": [
     "dist",
     "bin"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahaoboy/ansi2.git"
+  },
   "scripts": {
     "build:cli": "esbuild ./src-ts/cli.ts --bundle --outdir=./dist --platform=node",
     "build": "pnpm run build:wasm && pnpm run build:inline && tsc && pnpm run build:cli",
@@ -17,8 +24,6 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "commander": "12.1.0",
     "svgo": "^3.3.2"
