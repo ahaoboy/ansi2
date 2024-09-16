@@ -159,7 +159,7 @@ opacity: 0;
 
     let root_css = format!(
         r#"
-:root {{color-scheme: light dark;}}
+:root {{color-scheme: light dark; background-color: {light_bg_color}}}
 {light_color_css}
 {bg_light_color_css}
 {default_light_text_style}
@@ -179,26 +179,11 @@ opacity: 0;
     .trim()
     .to_string();
 
-    let light_css = format!(
-        r#"
-@media (prefers-color-scheme: light) {{
-:root {{background-color: {light_bg_color}}}
-{light_color_css}
-{bg_light_color_css}
-{default_light_text_style}
-}}
-"#
-    )
-    .trim()
-    .to_string();
-
     format!(
         r#"
 {root_css}
 
 {dark_css}
-
-{light_css}
 
 {common_style}
 "#,

@@ -77,19 +77,10 @@ pub fn to_html<S: AsRef<str>>(
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-
 {font_style}
 {style}
-
-.ansi-main{{
-  display: flex;
-  flex-direction: column;
-}}
-
-.row{{
-  display: flex;
-}}
-
+.ansi-main{{display:flex;flex-direction:column;}}
+.row{{display: flex;}}
 .char{{
   margin: 0;
   padding: 0;

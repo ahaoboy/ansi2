@@ -88,15 +88,14 @@ height="{svg_h}px"
 xmlns="http://www.w3.org/2000/svg"
 xmlns:xlink="http://www.w3.org/1999/xlink"
 >
-
 <style>
 tspan {{
-    font-variant-ligatures: none;
-    dominant-baseline: central;
-    font-variant-ligatures: none;
-    white-space: pre;
-    font-family: ansi2-custom-font, Courier, monospace;
-    font-size: {fn_h}px;
+font-variant-ligatures: none;
+dominant-baseline: central;
+font-variant-ligatures: none;
+white-space: pre;
+font-family: ansi2-custom-font, Courier, monospace;
+font-size: {fn_h}px;
 }}
 {font_style}
 {style}
