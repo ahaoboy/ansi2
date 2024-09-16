@@ -43,5 +43,6 @@ jobs:
           bin: ansi2
           target: ${{ matrix.target }}
           token: ${{ secrets.GITHUB_TOKEN }}
+          features: build-binary
         env:
           RUSTFLAGS:  ${{ matrix.RUSTFLAGS }}
