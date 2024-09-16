@@ -25,7 +25,7 @@ jobs:
       - name: Run
         run: |
           cargo install neofetch
-          neofetch | cargo run --features="build-binary" > ./neofetch.svg
+          neofetch | cargo run --features="cli" > ./neofetch.svg
 
       - name: Upload
         uses: actions/upload-artifact@v4

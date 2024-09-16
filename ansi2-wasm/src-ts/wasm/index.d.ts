@@ -26,15 +26,15 @@ export function to_html(s: string, theme: Theme, width?: number, font?: string, 
 export function to_text(s: string, width?: number): string;
 /**
 */
+export enum Mode {
+  Dark = 0,
+  Light = 1,
+}
+/**
+*/
 export enum Theme {
   Vscode = 0,
   Ubuntu = 1,
   Vga = 2,
-}
-/**
-*/
-export enum Mode {
-  Dark = 0,
-  Light = 1,
 }
 

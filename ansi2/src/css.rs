@@ -1,8 +1,11 @@
 use crate::theme::ColorTable;
 
+fn get_hex((r, g, b): (u8, u8, u8)) -> String {
+    format!("#{:02X}{:02X}{:02X}", r, g, b)
+}
 
 #[derive(Debug, Clone, Copy)]
-pub  enum CssType {
+pub enum CssType {
     Svg,
     Html,
 }
@@ -17,7 +20,7 @@ pub enum Mode {
 
 pub(crate) fn to_style(theme: impl ColorTable, ty: CssType, mode: Option<Mode>) -> String {
     let dark_bg_color = "rgb(32,32,32)".to_string();
-    let light_bg_color = "rgba(255, 255, 255, 0)".to_string();
+    let light_bg_color = "rgba(255,255,255,0)".to_string();
 
     let (color_field, bg_field) = match ty {
         CssType::Html => ("color", "background-color"),
@@ -25,40 +28,40 @@ pub(crate) fn to_style(theme: impl ColorTable, ty: CssType, mode: Option<Mode>) 
     };
 
     let light_colors = [
-        ("black", theme.black()),
-        ("red", theme.red()),
-        ("green", theme.green()),
-        ("yellow", theme.yellow()),
-        ("blue", theme.blue()),
-        ("magenta", theme.magenta()),
-        ("cyan", theme.cyan()),
-        ("white", theme.white()),
-        ("bright_black", theme.bright_black()),
-        ("bright_red", theme.bright_red()),
-        ("bright_green", theme.bright_green()),
-        ("bright_yellow", theme.bright_yellow()),
-        ("bright_blue", theme.bright_blue()),
-        ("bright_magenta", theme.bright_magenta()),
-        ("bright_cyan", theme.bright_cyan()),
-        ("bright_white", theme.bright_white()),
+        ("black", get_hex(theme.black())),
+        ("red", get_hex(theme.red())),
+        ("green", get_hex(theme.green())),
+        ("yellow", get_hex(theme.yellow())),
+        ("blue", get_hex(theme.blue())),
+        ("magenta", get_hex(theme.magenta())),
+        ("cyan", get_hex(theme.cyan())),
+        ("white", get_hex(theme.white())),
+        ("bright_black", get_hex(theme.bright_black())),
+        ("bright_red", get_hex(theme.bright_red())),
+        ("bright_green", get_hex(theme.bright_green())),
+        ("bright_yellow", get_hex(theme.bright_yellow())),
+        ("bright_blue", get_hex(theme.bright_blue())),
+        ("bright_magenta", get_hex(theme.bright_magenta())),
+        ("bright_cyan", get_hex(theme.bright_cyan())),
+        ("bright_white", get_hex(theme.bright_white())),
     ];
     let dark_colors = [
-        ("black", theme.white()),
-        ("red", theme.red()),
-        ("green", theme.green()),
-        ("yellow", theme.yellow()),
-        ("blue", theme.blue()),
-        ("magenta", theme.magenta()),
-        ("cyan", theme.cyan()),
-        ("white", theme.black()),
-        ("bright_black", theme.bright_white()),
-        ("bright_red", theme.bright_red()),
-        ("bright_green", theme.bright_green()),
-        ("bright_yellow", theme.bright_yellow()),
-        ("bright_blue", theme.bright_blue()),
-        ("bright_magenta", theme.bright_magenta()),
-        ("bright_cyan", theme.bright_cyan()),
-        ("bright_white", theme.bright_white()),
+        ("black", get_hex(theme.white())),
+        ("red", get_hex(theme.red())),
+        ("green", get_hex(theme.green())),
+        ("yellow", get_hex(theme.yellow())),
+        ("blue", get_hex(theme.blue())),
+        ("magenta", get_hex(theme.magenta())),
+        ("cyan", get_hex(theme.cyan())),
+        ("white", get_hex(theme.black())),
+        ("bright_black", get_hex(theme.bright_white())),
+        ("bright_red", get_hex(theme.bright_red())),
+        ("bright_green", get_hex(theme.bright_green())),
+        ("bright_yellow", get_hex(theme.bright_yellow())),
+        ("bright_blue", get_hex(theme.bright_blue())),
+        ("bright_magenta", get_hex(theme.bright_magenta())),
+        ("bright_cyan", get_hex(theme.bright_cyan())),
+        ("bright_white", get_hex(theme.bright_white())),
     ];
 
     let common_style = r#"
@@ -77,43 +80,64 @@ opacity: 0;
 }
 "#;
 
+    let light_color_css: String = light_colors
+        .iter()
+        .fold(String::new(), |mut acc, (name, c)| {
+            acc.push_str(&format!(".{name}{{ {color_field}: {};}} ", c));
+            acc
+        });
+
+    let bg_light_color_css: String =
+        light_colors
+            .iter()
+            .fold(String::new(), |mut acc, (name, c)| {
+                acc.push_str(&format!(".bg-{name}{{ {bg_field}: {};}} ", c));
+                acc
+            });
+    let dark_color_css: String = dark_colors
+        .iter()
+        .fold(String::new(), |mut acc, (name, c)| {
+            acc.push_str(&format!(".{name}{{ {color_field}: {};}} ", c));
+            acc
+        });
+
+    let bg_dark_color_css: String = dark_colors
+        .iter()
+        .fold(String::new(), |mut acc, (name, c)| {
+            acc.push_str(&format!(".bg-{name}{{ {bg_field}: {};}} ", c));
+            acc
+        });
+
     if let Some(mode) = mode {
         let default_text_style = match (mode, ty) {
-            (Mode::Dark, CssType::Html) => format!("div{{color: rgb{:?} }}", theme.white()),
-            (Mode::Dark, CssType::Svg) => format!("text{{fill: rgb{:?} }}", theme.white()),
-            (Mode::Light, CssType::Html) => format!("div{{color: rgb{:?} }}", theme.black()),
-            (Mode::Light, CssType::Svg) => format!("text{{fill: rgb{:?} }}", theme.black()),
+            (Mode::Dark, CssType::Html) => {
+                format!("div{{color: {} }}", get_hex(theme.white()))
+            }
+            (Mode::Dark, CssType::Svg) => format!("text{{fill:{}}}", get_hex(theme.white())),
+            (Mode::Light, CssType::Html) => {
+                format!("div{{color:{}}}", get_hex(theme.black()))
+            }
+            (Mode::Light, CssType::Svg) => {
+                format!("text{{fill:{}}}", get_hex(theme.black()))
+            }
         };
 
-        let colors = match mode {
-            Mode::Dark => dark_colors,
-            Mode::Light => light_colors,
+        let (color_css, bg_color_css) = match mode {
+            Mode::Dark => (dark_color_css, bg_dark_color_css),
+            Mode::Light => (light_color_css, bg_light_color_css),
         };
-        let color_css: String = colors.iter().fold(String::new(), |mut acc, (name, c)| {
-            acc.push_str(&format!(".{name}{{ {color_field}: rgb{:?};}} ", c));
-            acc
-        });
-
-        let bg_color_css: String = colors.iter().fold(String::new(), |mut acc, (name, c)| {
-            acc.push_str(&format!(".bg-{name}{{ {bg_field}: rgb{:?};}} ", c));
-            acc
-        });
 
         let root_style = match mode {
-            Mode::Dark => format!(":root{{background-color: {dark_bg_color} }}"),
-            Mode::Light => format!(":root{{background-color: {light_bg_color}}}"),
+            Mode::Dark => format!(":root{{background-color:{dark_bg_color}}}"),
+            Mode::Light => format!(":root{{background-color:{light_bg_color}}}"),
         };
 
         let style = format!(
             r#"
 {root_style}
-
 {default_text_style}
-
 {common_style}
-
 {color_css}
-
 {bg_color_css}
       "#
         )
@@ -123,71 +147,34 @@ opacity: 0;
         return style;
     }
 
-    let light_var_color_css: String =
-        light_colors
-            .iter()
-            .fold(String::new(), |mut acc, (name, c)| {
-                acc.push_str(&format!("--{name}: rgb{:?};", c));
-                acc
-            });
+    let default_light_text_style = match ty {
+        CssType::Svg => format!("text{{fill:{}}}", get_hex(theme.black())),
+        CssType::Html => format!("div{{color:{}}}", get_hex(theme.black())),
+    };
 
-    let light_var_bg_color_css: String =
-        light_colors
-            .iter()
-            .fold(String::new(), |mut acc, (name, c)| {
-                acc.push_str(&format!("--bg-{name}: rgb{:?};", c));
-                acc
-            });
+    let default_dark_text_style = match ty {
+        CssType::Svg => format!("text{{fill:{}}}", get_hex(theme.white())),
+        CssType::Html => format!("div{{color:{}}}", get_hex(theme.white())),
+    };
 
-    let dark_var_color_css: String =
-        dark_colors
-            .iter()
-            .fold(String::new(), |mut acc, (name, c)| {
-                acc.push_str(&format!("--{name}: rgb{:?};", c));
-                acc
-            });
-
-    let dark_var_bg_color_css: String =
-        dark_colors
-            .iter()
-            .fold(String::new(), |mut acc, (name, c)| {
-                acc.push_str(&format!("--bg-{name}: rgb{:?};", c));
-                acc
-            });
-
-    let root_css = r#"
-:root {
-color-scheme: light dark;
-}
-  "#.to_string()
-    .trim()
-    .to_string();
-
-    let class_color_css: String = light_colors
-        .iter()
-        .fold(String::new(), |mut acc, (name, _)| {
-            acc.push_str(&format!(".{name}{{{color_field}: var(--{name});}}"));
-            acc
-        });
-
-    let class_bg_color_css: String =
-        light_colors
-            .iter()
-            .fold(String::new(), |mut acc, (name, _)| {
-                acc.push_str(&format!(".bg-{name}{{{bg_field}: var(--bg-{name});}}"));
-                acc
-            });
+    let root_css = format!(
+        r#"
+:root {{color-scheme: light dark;}}
+{light_color_css}
+{bg_light_color_css}
+{default_light_text_style}
+"#
+    );
 
     let dark_css = format!(
         r#"
 @media (prefers-color-scheme: dark) {{
-:root {{
-{dark_var_color_css}
-{dark_var_bg_color_css}
-background-color: {dark_bg_color}
+:root {{background-color: {dark_bg_color}}}
+{dark_color_css}
+{bg_dark_color_css}
+{default_dark_text_style}
 }}
-}}
-  "#
+"#
     )
     .trim()
     .to_string();
@@ -195,24 +182,19 @@ background-color: {dark_bg_color}
     let light_css = format!(
         r#"
 @media (prefers-color-scheme: light) {{
-:root {{
-  {light_var_color_css}
-  {light_var_bg_color_css}
-background-color: {light_bg_color}
-}}
+:root {{background-color: {light_bg_color}}}
+{light_color_css}
+{bg_light_color_css}
+{default_light_text_style}
 }}
 "#
     )
     .trim()
     .to_string();
 
-    let mut style = format!(
+    format!(
         r#"
 {root_css}
-
-{class_color_css}
-
-{class_bg_color_css}
 
 {dark_css}
 
@@ -220,25 +202,7 @@ background-color: {light_bg_color}
 
 {common_style}
 "#,
-    );
-
-    match ty {
-        CssType::Svg => style.push_str(
-            r#"
-text{
-fill: var(--black)
-}
-"#
-            .trim(),
-        ),
-        CssType::Html => style.push_str(
-            r#"
-div{
-color: var(--black)
-}
-"#
-            .trim(),
-        ),
-    }
-    style
+    )
+    .trim()
+    .to_string()
 }

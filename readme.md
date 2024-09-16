@@ -1,21 +1,20 @@
 Parse ansi strings and convert them to html and svg formats
 
+## usage
+
 ```bash
 npm i ansi2 -g
 cargo install ansi2
 cargo binstall ansi2
 
+neofetch | ansi2 > ./neofetch.svg
 neofetch | ansi2 --format=svg --theme=vscode > neofetch.svg
 
 vitest bench --run | ansi2 --format=html --mode=light > bench.html
 vitest bench --run | ansi2 --format=text > bench.txt
-```
 
-Note: resvg does not support css variables, need to choose a mode
-```bash
 vitest bench --run | ansi2 --format=svg --mode=dark  | resvg - -c > bench.png
 ```
-
 
 ## [ansi2](./ansi2)
 
@@ -31,30 +30,35 @@ for row in canvas.pixels.iter() {
 ```
 
 ## [ansi2-wasm](./ansi2-wasm)
-```
+```bash
 npm i ansi2 -g
 
-neofetch | ansi2 --format=svg --theme=vscode > ./neofetch.svg
+neofetch | ansi2 > ./neofetch.svg
+neofetch | ansi2 --format=svg --theme=vscode > neofetch.svg
 
 ```
 
-
-## html
-```
+## options
+### format
+```bash
 neofetch | ansi2 --format=html > neofetch.html
-
-```
-
-## svg
-
-```
 neofetch | ansi2 --format=svg > neofetch.svg
 ```
 
-## theme
+### theme
 vga / vscode / ubuntu
-```
+```bash
 neofetch | ansi2 --format=svg --theme=vscode > neofetch.svg
+```
+### font
+```bash
+neofetch | ansi2 --format=svg --font=./font.ttf > neofetch.svg
+```
+
+### mode
+dark / light
+```bash
+neofetch | ansi2 --format=svg --mode=dark > neofetch.svg
 ```
 
 ## example

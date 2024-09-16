@@ -1,6 +1,6 @@
 [package]
 name = "ansi2"
-version = "0.2.8"
+version = "0.2.9"
 edition = "2021"
 license = "MIT"
 description = "ansi2"
@@ -20,9 +20,9 @@ wasm-bindgen = { version = "0.2.93", optional = true }
 opt-level = 3
 
 [features]
-build-binary = ["clap"]
+cli = ["clap"]
 wasm = ["wasm-bindgen"]
 
 [[bin]]
-required-features = ["build-binary"]
+required-features = ["cli"]
 name = "ansi2"
