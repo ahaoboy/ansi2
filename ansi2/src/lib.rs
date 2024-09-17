@@ -1,9 +1,9 @@
+pub mod css;
 pub mod html;
 pub mod lex;
 pub mod svg;
 pub mod text;
 pub mod theme;
-pub mod css;
 use lex::{parse_ansi, AnsiColor, Token};
 
 #[derive(Debug, Clone)]
@@ -134,7 +134,7 @@ impl Canvas {
                     cur_y = cur_y.saturating_sub(n as usize);
                     cur_x = 0;
                 }
-                Token::CursorHorizontalAbsolute(n) => cur_y = n as usize,
+                Token::CursorHorizontalAbsolute(n) => cur_x = (n - 1).max(0) as usize,
                 Token::CursorPosition(x, y) => {
                     cur_x = x as usize;
                     cur_y = y as usize;
@@ -237,6 +237,13 @@ mod test {
     #[test]
     fn test_vitest_bench() {
         let s = "[36m[7m[1m BENCH [22m[27m[39m [36mSummary[39m";
+        let r = parse_ansi(s).unwrap();
+        println!("{:?}", r);
+    }
+
+    #[test]
+    fn test_fastfetch() {
+        let s = "[1G[19A[47C";
         let r = parse_ansi(s).unwrap();
         println!("{:?}", r);
     }
