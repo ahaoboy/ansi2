@@ -1,18 +1,21 @@
 [package]
 name = "ansi2-wasm"
-version = "0.1.1"
-authors = ["ahaoboy <504595380@qq.com>"]
-edition = "2018"
+version = { workspace = true }
+edition = { workspace = true }
+license = { workspace = true }
+description = { workspace = true }
+repository = { workspace = true }
+authors = { workspace = true }
 
 [lib]
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-wasm-bindgen = "0.2.93"
-ansi2 = { path = "../ansi2", features = ["wasm"] }
+wasm-bindgen = { workspace = true }
+ansi2 = { workspace = true, features = ["wasm"] }
 
 [dev-dependencies]
-wasm-bindgen-test = "0.3.43"
+wasm-bindgen-test = { workspace = true }
 
 [profile.release]
 opt-level = 3

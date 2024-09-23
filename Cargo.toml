@@ -1,3 +1,21 @@
 [workspace]
 members = ["ansi2", "ansi2-wasm"]
 resolver = "2"
+
+[workspace.package]
+version = "0.2.10"
+edition = "2021"
+license = "MIT"
+description = "ansi2"
+repository = "https://github.com/ahaoboy/ansi2"
+homepage = "https://github.com/ahaoboy/ansi2"
+authors = ["ahaoboy"]
+
+[workspace.dependencies]
+clap = { version = "4.5", features = ["derive"]   }
+wasm-bindgen = { version = "0.2" }
+nom = "7"
+html-escape = "0.2"
+base64 = "0.22"
+wasm-bindgen-test = "0.3"
+ansi2 = {  path = "./ansi2", features = ["wasm"] }
