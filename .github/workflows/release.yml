@@ -48,8 +48,8 @@ jobs:
           bin: ansi2
           target: ${{ matrix.target }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          ref: refs/tags/dummy
-          # ref: ${{ startsWith(github.ref, 'refs/tags/') && github.event_name == 'push' ? github.ref : 'refs/tags/dummy' }}
+          # ref: refs/tags/dummy
+          ref: ${{ startsWith(github.ref, 'refs/tags/')  && github.ref || 'refs/tags/dummy' }}
           features: cli
         env:
           RUSTFLAGS:  ${{ matrix.RUSTFLAGS }}
