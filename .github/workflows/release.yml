@@ -5,6 +5,7 @@ permissions:
 
 on:
   push:
+    branch: main
     tags:
       - v[0-9]+.*
 
@@ -40,9 +41,27 @@ jobs:
       - uses: actions/checkout@v4
       - uses: taiki-e/upload-rust-binary-action@v1
         with:
+          dry-run: ${{ startsWith(github.ref, 'refs/tags/') }}
           bin: ansi2
           target: ${{ matrix.target }}
           token: ${{ secrets.GITHUB_TOKEN }}
           features: cli
         env:
           RUSTFLAGS:  ${{ matrix.RUSTFLAGS }}
+      - name: Get target name for artifact
+        id: artifact-target
+        run: |
+          target="${{ matrix.target }}"
+          if [[ -z "${target}" ]]; then
+            host=$(rustc -vV | grep -E '^host:' | cut -d' ' -f2)
+            printf '%s\n' "artifact-target=${host}" >>"${GITHUB_OUTPUT}"
+          elif [[ "${{ matrix.build-tool }}" == 'cargo-zigbuild' ]]; then
+            printf '%s\n' "artifact-target=${target%%.*}" >>"${GITHUB_OUTPUT}"
+          else
+            printf '%s\n' "artifact-target=${target}" >>"${GITHUB_OUTPUT}"
+          fi
+      # For debugging
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.artifact-target.outputs.artifact-target }}
+          path: ${{ needs.prepare.outputs.bin }}-${{ steps.artifact-target.outputs.artifact-target }}.*
