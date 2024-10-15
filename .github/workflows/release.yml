@@ -5,11 +5,13 @@ permissions:
 
 on:
   push:
-    branch: main
+    branches: main
     tags:
       - v[0-9]+.*
 
-
+defaults:
+  run:
+    shell: bash --noprofile --norc -CeEuo pipefail {0}
 
 jobs:
   create-release:
@@ -17,6 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: taiki-e/create-gh-release-action@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -41,10 +44,12 @@ jobs:
       - uses: actions/checkout@v4
       - uses: taiki-e/upload-rust-binary-action@v1
         with:
-          dry-run: ${{ startsWith(github.ref, 'refs/tags/') }}
+          dry-run: ${{ !startsWith(github.ref, 'refs/tags/') }}
           bin: ansi2
           target: ${{ matrix.target }}
           token: ${{ secrets.GITHUB_TOKEN }}
+          ref: refs/tags/dummy
+          # ref: ${{ startsWith(github.ref, 'refs/tags/') && github.event_name == 'push' ? github.ref : 'refs/tags/dummy' }}
           features: cli
         env:
           RUSTFLAGS:  ${{ matrix.RUSTFLAGS }}
@@ -63,5 +68,5 @@ jobs:
       # For debugging
       - uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.artifact-target.outputs.artifact-target }}
-          path: ${{ needs.prepare.outputs.bin }}-${{ steps.artifact-target.outputs.artifact-target }}.*
+          name: ansi2-${{ steps.artifact-target.outputs.artifact-target }}
+          path: ansi2-${{ steps.artifact-target.outputs.artifact-target }}.*
