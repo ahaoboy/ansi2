@@ -46,6 +46,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          rustflags: "-A warnings"
+          toolchain: "nightly"
       - uses: taiki-e/upload-rust-binary-action@v1
         with:
           dry-run: ${{ !startsWith(github.ref, 'refs/tags/') }}
