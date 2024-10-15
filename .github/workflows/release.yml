@@ -37,6 +37,10 @@ jobs:
           - target: x86_64-pc-windows-msvc
             os: windows-latest
             RUSTFLAGS: -C target-feature=+crt-static
+          - target: x86_64-pc-windows-gnu
+            os: windows-latest
+          - target: arm64-pc-windows-msvc
+            os: windows-latest
           - target: aarch64-unknown-linux-musl
             os: ubuntu-latest
     runs-on: ${{ matrix.os }}
