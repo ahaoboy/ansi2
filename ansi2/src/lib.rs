@@ -201,6 +201,24 @@ impl Canvas {
                 Token::ColorDefaultBackground => {
                     cur_bg_c = AnsiColor::Color8(0);
                 }
+
+                Token::Link(_, title) => {
+                    for i in title.chars() {
+                        let node = Node {
+                            char: i,
+                            bg_color: cur_bg_c,
+                            color: cur_c,
+                            bold,
+                            blink,
+                        };
+                        if cur_x >= max_width {
+                            cur_x = 0;
+                            cur_y += 1;
+                        }
+                        set_node(&mut pixels, node, cur_x, cur_y);
+                        cur_x += 1;
+                    }
+                }
                 _ => {}
             }
 
@@ -263,7 +281,22 @@ mod test {
     }
     #[test]
     fn test_base() {
-        let s = "[30mblack[0m    [90mbright black[0m     [40mblack[0m    [100mbright black[0m";
+        let s =
+            "[30mblack[0m    [90mbright black[0m     [40mblack[0m    [100mbright black[0m";
+        let r = parse_ansi(s).unwrap();
+        println!("{:?}", r);
+    }
+
+    #[test]
+    fn test_link() {
+        let s = "]8;;file:///Users/xxx/src/new-nu-parser/Cargo.toml\\Cargo.toml]8;;";
+        let r = parse_ansi(s).unwrap();
+        println!("{:?}", r);
+    }
+
+    #[test]
+    fn test_sgr6() {
+        let s = "[48;5;186;38;5;16m";
         let r = parse_ansi(s).unwrap();
         println!("{:?}", r);
     }

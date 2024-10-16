@@ -138,6 +138,9 @@ pub enum Token {
     Sgr3(u32, u32, u32),
     Sgr4(u32, u32, u32, u32),
 
+    // url, title
+    Link(String, String),
+
     AlternativeFont(u32),
     NotReversed,
     Faint,
@@ -471,6 +474,14 @@ fn parse_sgr6(input: &str) -> IResult<&str, Token> {
             Token::ColorFgBg(AnsiColor::Color8(n), AnsiColor::Rgb(r, g, b)),
         ));
     }
+
+    if ctrl == 48 && ty == 5 && g == 38 && b == 5 {
+        return Ok((
+            rem,
+            Token::ColorFgBg(AnsiColor::Color256(r), AnsiColor::Color256(n)),
+        ));
+    }
+
     todo!()
 }
 fn parse_sgr10(input: &str) -> IResult<&str, Token> {
@@ -549,6 +560,18 @@ fn parse_unknown(input: &str) -> IResult<&str, Token> {
 
     Ok((rem, Token::Unknown(n as u32)))
 }
+
+fn parse_link(input: &str) -> IResult<&str, Token> {
+    let (rem, (_, url, _, title, _)) = tuple((
+        tag("\x1b]8;;"),
+        take_until("\\"),
+        tag("\\"),
+        take_until("]8;;\\"),
+        tag("]8;;\\"),
+    ))(input)?;
+    return Ok((rem, Token::Link(url.to_string(), title.to_string())));
+}
+
 pub(crate) fn parse_ansi(input: &str) -> IResult<&str, Vec<Token>> {
     many0(alt((
         alt((
@@ -597,6 +620,7 @@ pub(crate) fn parse_ansi(input: &str) -> IResult<&str, Vec<Token>> {
             parse_sgr6,
             parse_sgr10,
         )),
+        parse_link,
         parse_unknown,
         parse_anychar,
     )))(input)
