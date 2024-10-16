@@ -12,67 +12,69 @@ use crate::theme::ColorTable;
 #[derive(Debug, Clone, Copy)]
 pub enum AnsiColor {
     Color8(u32),
+    Color256(u32),
     Rgb(u32, u32, u32),
 }
 impl AnsiColor {
     pub fn name(&self) -> String {
         match self {
-            AnsiColor::Color8(n) => {
-                match n {
-                    30 | 40 => "black".into(),
-                    31 | 41 => "red".into(),
-                    32 | 42 => "green".into(),
-                    33 | 43 => "yellow".into(),
-                    34 | 44 => "blue".into(),
-                    35 | 45 => "magenta".into(),
-                    36 | 46 => "cyan".into(),
-                    37 | 47 => "white".into(),
+            AnsiColor::Color8(n) => match n {
+                30 | 40 => "black".into(),
+                31 | 41 => "red".into(),
+                32 | 42 => "green".into(),
+                33 | 43 => "yellow".into(),
+                34 | 44 => "blue".into(),
+                35 | 45 => "magenta".into(),
+                36 | 46 => "cyan".into(),
+                37 | 47 => "white".into(),
 
-                    90 | 100 => "bright_black".into(),
-                    91 | 101 => "bright_red".into(),
-                    92 | 102 => "bright_green".into(),
-                    93 | 103 => "bright_yellow".into(),
-                    94 | 104 => "bright_blue".into(),
-                    95 | 105 => "bright_magenta".into(),
-                    96 | 106 => "bright_cyan".into(),
-                    97 | 107 => "bright_white".into(),
-                    _ => "white".into(),
-                }
-            }
+                90 | 100 => "bright_black".into(),
+                91 | 101 => "bright_red".into(),
+                92 | 102 => "bright_green".into(),
+                93 | 103 => "bright_yellow".into(),
+                94 | 104 => "bright_blue".into(),
+                95 | 105 => "bright_magenta".into(),
+                96 | 106 => "bright_cyan".into(),
+                97 | 107 => "bright_white".into(),
+                _ => "white".into(),
+            },
             AnsiColor::Rgb(r, g, b) => format!("rgb_{}_{}_{}", r, g, b),
+            AnsiColor::Color256(c) => format!("color256_{}", c),
         }
     }
 
     pub fn to_rgb(&self, th: impl ColorTable) -> String {
         match self {
-            AnsiColor::Color8(n) => {
-                match n {
-                    30 | 40 => format!("rgb{:?}", th.black()),
-                    31 | 41 => format!("rgb{:?}", th.red()),
-                    32 | 42 => format!("rgb{:?}", th.green()),
-                    33 | 43 => format!("rgb{:?}", th.yellow()),
-                    34 | 44 => format!("rgb{:?}", th.blue()),
-                    35 | 45 => format!("rgb{:?}", th.magenta()),
-                    36 | 46 => format!("rgb{:?}", th.cyan()),
-                    37 | 47 => format!("rgb{:?}", th.white()),
+            AnsiColor::Color8(n) => match n {
+                30 | 40 => format!("rgb{:?}", th.black()),
+                31 | 41 => format!("rgb{:?}", th.red()),
+                32 | 42 => format!("rgb{:?}", th.green()),
+                33 | 43 => format!("rgb{:?}", th.yellow()),
+                34 | 44 => format!("rgb{:?}", th.blue()),
+                35 | 45 => format!("rgb{:?}", th.magenta()),
+                36 | 46 => format!("rgb{:?}", th.cyan()),
+                37 | 47 => format!("rgb{:?}", th.white()),
 
-                    90 | 100 => format!("rgb{:?}", th.bright_black()),
-                    91 | 101 => format!("rgb{:?}", th.bright_red()),
-                    92 | 102 => format!("rgb{:?}", th.bright_green()),
-                    93 | 103 => format!("rgb{:?}", th.bright_yellow()),
-                    94 | 104 => format!("rgb{:?}", th.bright_blue()),
-                    95 | 105 => format!("rgb{:?}", th.bright_magenta()),
-                    96 | 106 => format!("rgb{:?}", th.bright_cyan()),
-                    97 | 107 => format!("rgb{:?}", th.bright_white()),
-                    _ => format!("rgb{:?}", th.white()),
-                }
-            }
+                90 | 100 => format!("rgb{:?}", th.bright_black()),
+                91 | 101 => format!("rgb{:?}", th.bright_red()),
+                92 | 102 => format!("rgb{:?}", th.bright_green()),
+                93 | 103 => format!("rgb{:?}", th.bright_yellow()),
+                94 | 104 => format!("rgb{:?}", th.bright_blue()),
+                95 | 105 => format!("rgb{:?}", th.bright_magenta()),
+                96 | 106 => format!("rgb{:?}", th.bright_cyan()),
+                97 | 107 => format!("rgb{:?}", th.bright_white()),
+                _ => format!("rgb{:?}", th.white()),
+            },
             AnsiColor::Rgb(r, g, b) => format!("rgb({}, {}, {})", r, g, b),
+            AnsiColor::Color256(c) => {
+                let (r, g, b) = th.get(*c as usize);
+                format!("rgb({}, {}, {})", r, g, b)
+            }
         }
     }
 
     pub fn is_default(&self) -> bool {
-      matches!(self, AnsiColor::Color8(0))
+        matches!(self, AnsiColor::Color8(0))
     }
 }
 
@@ -262,7 +264,7 @@ fn parse_color_foreground(input: &str) -> IResult<&str, Token> {
     let c = match b {
         0..=7 => b + 30,
         8..=15 => b + 82,
-        _ => b,
+        _ => return Ok((rem, Token::ColorForeground(AnsiColor::Color256(b)))),
     };
     Ok((rem, Token::ColorForeground(AnsiColor::Color8(c))))
 }
@@ -273,7 +275,7 @@ fn parse_color_background(input: &str) -> IResult<&str, Token> {
     let c = match b {
         0..=7 => b + 40,
         8..=15 => b + 92,
-        _ => b,
+        _ => return Ok((rem, Token::ColorBackground(AnsiColor::Color256(b)))),
     };
     Ok((rem, Token::ColorBackground(AnsiColor::Color8(c))))
 }

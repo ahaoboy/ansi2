@@ -1,3 +1,5 @@
+use std::collections::HashSet;
+
 use crate::{
     css::{to_style, CssType, Mode},
     theme::ColorTable,
@@ -30,6 +32,8 @@ pub fn to_html<S: AsRef<str>>(
     };
 
     s.push_str("<div class='ansi-main'>\n");
+
+    let mut color256 = HashSet::new();
     for row in canvas.pixels.iter() {
         s.push_str("<div class='row'>");
         for c in row.iter() {
@@ -42,11 +46,21 @@ pub fn to_html<S: AsRef<str>>(
             if !c.color.is_default() {
                 let name = c.color.name();
                 text_class.push(name);
+
+                if let crate::lex::AnsiColor::Rgb(r, g, b) = c.color {
+                    color256.insert(format!(".rgb_{r}_{g}_{b}{{ color: rgb({r},{g},{b}) ;}}\n"));
+                }
             }
 
             if !c.bg_color.is_default() {
                 let name = "bg-".to_string() + &c.bg_color.name();
                 bg_class.push(name);
+
+                if let crate::lex::AnsiColor::Rgb(r, g, b) = c.color {
+                    color256.insert(format!(
+                        ".bg-rgb_{r}_{g}_{b}{{ background: rgb({r},{g},{b}) ;}}\n"
+                    ));
+                }
             }
 
             if c.blink {
@@ -68,6 +82,8 @@ pub fn to_html<S: AsRef<str>>(
         }
         s.push_str("</div>");
     }
+
+    let color256_str: String = color256.into_iter().collect();
     s.push_str("</div>\n");
 
     format!(
@@ -79,6 +95,7 @@ pub fn to_html<S: AsRef<str>>(
   <style>
 {font_style}
 {style}
+{color256_str}
 .ansi-main{{display:flex;flex-direction:column;}}
 .row{{display: flex;}}
 .char{{

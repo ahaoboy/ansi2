@@ -247,4 +247,24 @@ mod test {
         let r = parse_ansi(s).unwrap();
         println!("{:?}", r);
     }
+
+    #[test]
+    fn test_color256() {
+        let s = "[38;5;99ma[48;5;99mb";
+        let r = parse_ansi(s).unwrap();
+        println!("{:?}", r);
+    }
+
+    #[test]
+    fn test_color24() {
+        let s = "[38;2;0;0;114m";
+        let r = parse_ansi(s).unwrap();
+        println!("{:?}", r);
+    }
+    #[test]
+    fn test_base() {
+        let s = "[30mblack[0m    [90mbright black[0m     [40mblack[0m    [100mbright black[0m";
+        let r = parse_ansi(s).unwrap();
+        println!("{:?}", r);
+    }
 }

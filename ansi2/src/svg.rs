@@ -1,3 +1,5 @@
+use std::collections::HashSet;
+
 use crate::{
     css::{to_style, CssType, Mode},
     theme::ColorTable,
@@ -32,6 +34,10 @@ pub fn to_svg<S: AsRef<str>>(
     } else {
         "".into()
     };
+
+    let mut color256 = HashSet::new();
+
+
     for row in canvas.pixels.iter() {
         for c in row.iter() {
             let mut text_class = vec![];
@@ -44,11 +50,21 @@ pub fn to_svg<S: AsRef<str>>(
                     r#"<rect x="{cur_x}px" y="{cur_y}px" width="{fn_w}px" height="{fn_h}px" {class_str}/>"#
                     ,
                 ));
+
+                if let crate::lex::AnsiColor::Rgb(r, g, b) = c.color {
+                    color256.insert(format!(".bg-rgb_{r}_{g}_{b}{{ fill: rgb({r},{g},{b}) ;}}\n"));
+                }
             }
 
             if !c.color.is_default() {
                 let name = c.color.name();
                 text_class.push(name);
+
+                if let crate::lex::AnsiColor::Rgb(r, g, b) = c.color {
+                    color256.insert(format!(
+                        ".rgb_{r}_{g}_{b}{{ fill: rgb({r},{g},{b}) ;}}\n"
+                    ));
+                }
             };
 
             if c.bold {
@@ -80,6 +96,7 @@ class_str ,
 
     let svg_w = fn_w * canvas.w;
     let svg_h = fn_h * canvas.h;
+    let color256_str: String = color256.into_iter().collect();
 
     format!(
         r#"<svg
@@ -99,6 +116,7 @@ font-size: {fn_h}px;
 }}
 {font_style}
 {style}
+{color256_str}
 </style>
 {s}
 </svg>
