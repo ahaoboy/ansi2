@@ -19,4 +19,11 @@ html-escape = "0.2"
 base64 = "0.22.1"
 wasm-bindgen-test = "0.3.45"
 ansi2 = { path = "./ansi2", features = ["wasm"] }
-osvg = "0.1.0"
+osvg = { version = "0.1.1", features = ["bindgen"] }
+
+[profile.release]
+debug = false
+lto = true
+strip = true
+opt-level = 3
+codegen-units = 1
