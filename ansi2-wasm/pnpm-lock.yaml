@@ -28,8 +28,8 @@ importers:
         specifier: 5.6.3
         version: 5.6.3
       wasm-pack-inline:
-        specifier: 0.1.1
-        version: 0.1.1
+        specifier: 0.1.2
+        version: 0.1.2
 
 packages:
 
@@ -299,6 +299,60 @@ packages:
   jsonfile@6.1.0:
     resolution: {integrity: sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==}
 
+  lefthook-darwin-arm64@1.7.18:
+    resolution: {integrity: sha512-jZgg+TSUINNWEJU2yGybTkW4qCVzGjtATnwJXsOJrM20IFWGy3NKdJG1S8Oha//5FmjcBOUY+gnXGxsWYkAesg==}
+    cpu: [arm64]
+    os: [darwin]
+
+  lefthook-darwin-x64@1.7.18:
+    resolution: {integrity: sha512-bEWaPmG4oB2YVW46sicBV6oB3ynC0ai+q+UuTwClWNcQ7aZivZcxRGDA4KmsldAGgmLls2bL0oRVwg2t3axnfA==}
+    cpu: [x64]
+    os: [darwin]
+
+  lefthook-freebsd-arm64@1.7.18:
+    resolution: {integrity: sha512-XWYpQGSkcKMye0OfXd9VkVQnccKJ5Vue04fDNvVFypFTTXJSwtCNfRF/RGGZ9KXmEz4U/m6JPRMjj4o//lmtzQ==}
+    cpu: [arm64]
+    os: [freebsd]
+
+  lefthook-freebsd-x64@1.7.18:
+    resolution: {integrity: sha512-EJ3oaQXi0DUXQP0FPiCcxZI3UqR27xt/0MEfwztKnfFIF6toNvUkmD+AgTp0SUOGMvquGEPDN2Fh1eWqNUyZ7Q==}
+    cpu: [x64]
+    os: [freebsd]
+
+  lefthook-linux-arm64@1.7.18:
+    resolution: {integrity: sha512-V8TMOtMvDUT5gXUqE7IPs1fT3esGfy/BPm9+UR3odzbkP+MRSOo049H2C2PDCIQylsRciMVU27QM6b4tfLvZRw==}
+    cpu: [arm64]
+    os: [linux]
+
+  lefthook-linux-x64@1.7.18:
+    resolution: {integrity: sha512-Cw0StKxQTucrUvIT80ZDOdUdcM44u9mhBCFg4JoiLfVhd30yiLfgoPijIAgHRIluBgTRfWFC3wxWM5zbszSD2w==}
+    cpu: [x64]
+    os: [linux]
+
+  lefthook-openbsd-arm64@1.7.18:
+    resolution: {integrity: sha512-DGSpivaJUVl/uTnyZzkL11vpJGv4/wl6ETAkwKz09hyvES1mbcnG8nnVmELbdwL+qnRkWvu5YRcYgNFK4JmSlg==}
+    cpu: [arm64]
+    os: [openbsd]
+
+  lefthook-openbsd-x64@1.7.18:
+    resolution: {integrity: sha512-c1hfPxCXjqmm1bp7o03cD99noQ5Rbno0I05xO3h2GlQfUxXxixpWuoz/uWW9pBzuTp46vgv4kxc7/1kIoJwjtQ==}
+    cpu: [x64]
+    os: [openbsd]
+
+  lefthook-windows-arm64@1.7.18:
+    resolution: {integrity: sha512-1rPf98E31HbzEflfBrKyE0NQD9iLCE1RVJb7hTH1snakm0tDdeAGMowFwtvMV1bkYwwv4yIzEam8xa4IzJ7wLw==}
+    cpu: [arm64]
+    os: [win32]
+
+  lefthook-windows-x64@1.7.18:
+    resolution: {integrity: sha512-wthEG+aWPmJcEF4FZoabtMbZCLCJJ2ynIPyh8tiqnLoauQaAvaYOQuOEUK1gwhVOiducaOmP6A0MWGX35jA9mw==}
+    cpu: [x64]
+    os: [win32]
+
+  lefthook@1.7.18:
+    resolution: {integrity: sha512-CB2cf/BgSA5kKwGZ4cZyPL/sr99a+t5exH+LJMuFfQyN6B6MkC1YtibpTc/T3HJyzk1oY4HgqalkNB3/cXRU5w==}
+    hasBin: true
+
   mdn-data@2.0.28:
     resolution: {integrity: sha512-aylIc7Z9y4yzHYAJNuESG3hfhC+0Ibp/MAMiaOZgNv4pmEdFyfZhhhny4MNiAfWdBQ1RQ2mfDWmM1x8SvGyp8g==}
 
@@ -320,8 +374,8 @@ packages:
     engines: {node: '>=14.0.0'}
     hasBin: true
 
-  tslib@2.7.0:
-    resolution: {integrity: sha512-gLXCKdN1/j47AiHiOkJN69hJmcbGTHI0ImLmbYLHykhgeN0jVGola9yVjFgzCUklsZQMW55o+dW7IXv3RCXDzA==}
+  tslib@2.8.0:
+    resolution: {integrity: sha512-jWVzBLplnCmoaTr13V9dYbiQ99wvZRd0vNWaDRg+aVYRcjDF3nDksxFDE/+fkXnKhpnUUkmx5pK/v8mCtLVqZA==}
 
   typescript@5.6.3:
     resolution: {integrity: sha512-hjcS1mhfuyi4WW8IWtjP7brDrG2cuDZukyrYrSauoXGNgx0S7zceP07adYkJycEr56BOUTNPzbInooiN3fn1qw==}
@@ -335,8 +389,8 @@ packages:
     resolution: {integrity: sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==}
     engines: {node: '>= 10.0.0'}
 
-  wasm-pack-inline@0.1.1:
-    resolution: {integrity: sha512-XBctc7xVbE1YPUJGHGb0T7/0lf1xR1ZPb79fCPyoC7dtlU9nConZE7+LOaqpvckumtV5FAbMQyiiumDbLb793w==}
+  wasm-pack-inline@0.1.2:
+    resolution: {integrity: sha512-BCMmsJ2AhrpFuwg8nROAY63slnlWS3mFpO/F4DibOvlsCaUnMwDMGt9en0UjYkHkd1s9UlvWktvvqcAlithTCQ==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -546,6 +600,49 @@ snapshots:
     optionalDependencies:
       graceful-fs: 4.2.11
 
+  lefthook-darwin-arm64@1.7.18:
+    optional: true
+
+  lefthook-darwin-x64@1.7.18:
+    optional: true
+
+  lefthook-freebsd-arm64@1.7.18:
+    optional: true
+
+  lefthook-freebsd-x64@1.7.18:
+    optional: true
+
+  lefthook-linux-arm64@1.7.18:
+    optional: true
+
+  lefthook-linux-x64@1.7.18:
+    optional: true
+
+  lefthook-openbsd-arm64@1.7.18:
+    optional: true
+
+  lefthook-openbsd-x64@1.7.18:
+    optional: true
+
+  lefthook-windows-arm64@1.7.18:
+    optional: true
+
+  lefthook-windows-x64@1.7.18:
+    optional: true
+
+  lefthook@1.7.18:
+    optionalDependencies:
+      lefthook-darwin-arm64: 1.7.18
+      lefthook-darwin-x64: 1.7.18
+      lefthook-freebsd-arm64: 1.7.18
+      lefthook-freebsd-x64: 1.7.18
+      lefthook-linux-arm64: 1.7.18
+      lefthook-linux-x64: 1.7.18
+      lefthook-openbsd-arm64: 1.7.18
+      lefthook-openbsd-x64: 1.7.18
+      lefthook-windows-arm64: 1.7.18
+      lefthook-windows-x64: 1.7.18
+
   mdn-data@2.0.28: {}
 
   mdn-data@2.0.30: {}
@@ -568,7 +665,7 @@ snapshots:
       csso: 5.0.5
       picocolors: 1.1.0
 
-  tslib@2.7.0: {}
+  tslib@2.8.0: {}
 
   typescript@5.6.3: {}
 
@@ -576,8 +673,9 @@ snapshots:
 
   universalify@2.0.1: {}
 
-  wasm-pack-inline@0.1.1:
+  wasm-pack-inline@0.1.2:
     dependencies:
       commander: 12.1.0
       fs-extra: 11.2.0
-      tslib: 2.7.0
+      lefthook: 1.7.18
+      tslib: 2.8.0
