@@ -69,6 +69,15 @@ dark / light
 neofetch | ansi2 --format=svg --mode=dark > neofetch.svg
 ```
 
+### compress
+
+Compressing using [osvg](https://github.com/ahaoboy/osvg) and [svgo](https://github.com/svg/svgo), this will increase the running time by several seconds, but can save half of the storage space.
+
+```bash
+neofetch | ansi2 --format=svg --compress > neofetch.svg
+neofetch | ansi2 --format=svg -c > neofetch.svg
+```
+
 ## example
 ### neofetch
 

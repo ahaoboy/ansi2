@@ -58,11 +58,12 @@ async function main() {
   const input = await readToString()
 
   program
-    .option("--format [type]", "output format", "svg")
-    .option("--theme [type]", "color theme", "vscode")
-    .option("--width [type]", "width", undefined)
+    .option("-f, --format [type]", "output format", "svg")
+    .option("-t, --theme [type]", "color theme", "vscode")
+    .option("-w, --width [type]", "width", undefined)
     .option("--font [type]", "font", undefined)
-    .option("--mode [type]", "mode", undefined)
+    .option("-m, --mode [type]", "mode", undefined)
+    .option("-c, --compress [type]", "compress", undefined)
 
   program.parse()
 
@@ -74,11 +75,13 @@ async function main() {
     typeof options.width === "undefined" ? undefined : +options.width
   const font =
     typeof options.font === "undefined" ? undefined : getFontUrl(options.font)
+
+  const compress = options.compress === "undefined" ? false : options.compress
   switch (format) {
     case "svg": {
       const s = to_svg(input, theme, width, font, mode)
-      const result = optimize(s)
-      process.stdout.write(result.data)
+      const result = compress ? optimize(s).data : s
+      process.stdout.write(result)
       break
     }
     case "html": {

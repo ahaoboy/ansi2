@@ -13,12 +13,13 @@ wasm-bindgen = { workspace = true, optional = true }
 nom = { workspace = true }
 html-escape = { workspace = true }
 base64 = { workspace = true }
+osvg = { workspace = true, optional = true }
 
 [profile.release]
 opt-level = 3
 
 [features]
-cli = ["clap"]
+cli = ["clap", "osvg"]
 wasm = ["wasm-bindgen"]
 
 [[bin]]

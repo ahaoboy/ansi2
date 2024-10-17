@@ -30,6 +30,9 @@ struct Args {
 
     #[arg(long)]
     font: Option<String>,
+
+    #[arg(short, long, default_value_t = false)]
+    compress: bool,
 }
 
 fn main() {
@@ -62,11 +65,15 @@ fn main() {
     });
 
     let s = String::from_utf8_lossy(&buf);
-    let output = match format {
+    let mut output = match format {
         Format::Svg => to_svg(s, theme, width, base64, mode),
         Format::Html => to_html(&s, theme, width, base64, mode),
         Format::Text => to_text(&s, width),
     };
+
+    if args.compress {
+        output = osvg::osvg(&output).expect("compress error");
+    }
 
     println!("{}", output);
 }

@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "pre-check": "cargo clippy --fix --allow-dirty --allow-staged && npm run format && npm run lint:fix",
     "format": "biome format --write  ./",
     "lint:fix": "biome lint ./ --write --unsafe"
   },

@@ -28,15 +28,17 @@ pub(crate) fn to_style(theme: impl ColorTable, ty: CssType, mode: Option<Mode>) 
     };
 
     let mut color256 = Vec::new();
-    for i in 0..256 {
-        let (r, g, b) = COLOR256[i];
-        color256.push(format!(".color256_{i}{{ {color_field}: rgb({r},{g},{b}) ;}}"));
+    for (i, (r, g, b)) in COLOR256.iter().enumerate() {
+        color256.push(format!(
+            ".color256_{i}{{ {color_field}: rgb({r},{g},{b}) ;}}"
+        ));
     }
 
     let mut color256bg = Vec::new();
-    for i in 0..256 {
-        let (r, g, b) = COLOR256[i];
-        color256bg.push(format!(".color256_bg_{i}{{ {bg_field}: rgb({r},{g},{b}) ;}}"));
+    for (i, (r, g, b)) in COLOR256.iter().enumerate() {
+        color256bg.push(format!(
+            ".color256_bg_{i}{{ {bg_field}: rgb({r},{g},{b}) ;}}"
+        ));
     }
 
     let color256_str = color256.join("\n") + &color256bg.join("\n");
