@@ -3,11 +3,7 @@ name: Release
 permissions:
   contents: write
 
-on:
-  push:
-    branches: main
-    tags:
-      - v[0-9]+.*
+on: [push]
 
 defaults:
   run:
