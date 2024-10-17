@@ -127,6 +127,7 @@ pub enum Token {
     NormalIntensity,
     Italic,
     Underline,
+    Dim,
     SlowBlink,
     RapidBlink,
     Strike,
@@ -143,7 +144,6 @@ pub enum Token {
 
     AlternativeFont(u32),
     NotReversed,
-    Faint,
     Unknown(u32),
 }
 
@@ -298,7 +298,7 @@ fn parse_sgr1(input: &str) -> IResult<&str, Token> {
     let tk = match n {
         0 => Token::ColorReset,
         1 => Token::Bold,
-        2 => Token::Faint,
+        2 => Token::Dim,
         3 => Token::Italic,
         4 => Token::Underline,
         5 => Token::SlowBlink,

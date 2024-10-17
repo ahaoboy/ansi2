@@ -13,6 +13,9 @@ pub struct Node {
     pub bold: bool,
     pub blink: bool,
     pub char: char,
+    pub dim: bool,
+    pub italic: bool,
+    pub underline: bool,
 }
 
 #[derive(Debug, Clone)]
@@ -35,6 +38,9 @@ fn set_node(v: &mut Vec<Vec<Node>>, node: Node, x: usize, y: usize) {
             bold: false,
             char: ' ',
             blink: false,
+            dim: false,
+            italic: false,
+            underline: false,
         };
         row.push(empty);
     }
@@ -51,6 +57,9 @@ impl Canvas {
         let mut cur_c = AnsiColor::Color8(0);
         let mut cur_bg_c = AnsiColor::Color8(0);
         let mut bold = false;
+        let mut dim = false;
+        let mut italic = false;
+        let mut underline = false;
         let mut blink = false;
         let mut blink_c = 0;
         let mut w = 0;
@@ -61,6 +70,10 @@ impl Canvas {
         for i in lex {
             let mut reset_all = || {
                 bold = false;
+                dim = false;
+                italic = false;
+                underline = false;
+
                 cur_bg_c = AnsiColor::Color8(0);
                 cur_c = AnsiColor::Color8(0);
                 blink = false;
@@ -79,6 +92,9 @@ impl Canvas {
                         color: cur_c,
                         bold,
                         blink,
+                        dim,
+                        italic,
+                        underline,
                     };
                     if cur_x >= max_width {
                         cur_x = 0;
@@ -94,6 +110,15 @@ impl Canvas {
                     cur_c = fg;
                 }
                 Token::Bold => bold = true,
+                Token::Italic => {
+                    italic = true;
+                }
+                Token::Underline => {
+                    underline = true;
+                }
+                Token::Dim => {
+                    dim = true;
+                }
                 Token::ColorReset => {
                     reset_all();
                 }
@@ -210,6 +235,9 @@ impl Canvas {
                             color: cur_c,
                             bold,
                             blink,
+                            dim,
+                            italic,
+                            underline,
                         };
                         if cur_x >= max_width {
                             cur_x = 0;
@@ -297,6 +325,13 @@ mod test {
     #[test]
     fn test_sgr6() {
         let s = "[48;5;186;38;5;16m";
+        let r = parse_ansi(s).unwrap();
+        println!("{:?}", r);
+    }
+
+    #[test]
+    fn test_style() {
+        let s = "aaa[1mbold[0m [2mdim[0m [3mitalic[3m [4munderline[4m";
         let r = parse_ansi(s).unwrap();
         println!("{:?}", r);
     }

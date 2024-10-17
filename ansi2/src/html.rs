@@ -23,14 +23,14 @@ pub fn to_html<S: AsRef<str>>(
     if let Some(url) = font {
         if url.starts_with("http") || url.starts_with("data:font;base64") {
             font_family = "ansi2-custom-font".into();
-            font_style =         format!(
-              r#"
+            font_style = format!(
+                r#"
   @font-face {{
     font-family: ansi2-custom-font;
     src: url({url});
   }}
   "#
-          )
+            )
         } else {
             font_family = url;
         }
@@ -46,6 +46,15 @@ pub fn to_html<S: AsRef<str>>(
             let mut bg_class = vec!["char".into()];
             if c.bold {
                 text_class.push("bold".into());
+            }
+            if c.italic {
+                text_class.push("italic".into());
+            }
+            if c.dim {
+                text_class.push("dim".into());
+            }
+            if c.underline {
+                text_class.push("underline".into());
             }
 
             if !c.color.is_default() {
@@ -110,9 +119,6 @@ pub fn to_html<S: AsRef<str>>(
   white-space: pre;
 }}
 
-.bold{{
- font-weight: bold;
-}}
 
   </style>
 </head>

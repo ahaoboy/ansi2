@@ -72,11 +72,27 @@ src: url({url});
                 }
             };
 
+            let mut italic_str = "";
+            let mut dim_str = "";
+            let mut underline_str = "";
             if c.bold {
                 text_class.push("bold".into());
             }
             if c.blink {
                 text_class.push("blink".into());
+            }
+
+            if c.italic {
+                text_class.push("italic".into());
+                italic_str = "font-style=\"italic\"";
+            }
+            if c.dim {
+                text_class.push("dim".into());
+                dim_str = "opacity=\"0.5\"";
+            }
+            if c.underline {
+                text_class.push("underline".into());
+                underline_str = "text-decoration=\"underline\"";
             }
 
             // baseline offset
@@ -89,7 +105,7 @@ src: url({url});
             };
 
             s.push_str(&format!(
-r#"<text x="{text_x}px" y="{text_y}px" width="{fn_w}px" height="{fn_h}px" {}><tspan>{}</tspan></text>"#,
+r#"<text x="{text_x}px" y="{text_y}px" width="{fn_w}px" height="{fn_h}px" {} {italic_str} {dim_str} {underline_str}><tspan>{}</tspan></text>"#,
 class_str ,
                 html_escape::encode_text(&c.char.to_string())
             ));

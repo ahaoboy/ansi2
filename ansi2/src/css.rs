@@ -82,6 +82,18 @@ pub(crate) fn to_style(theme: impl ColorTable, ty: CssType, mode: Option<Mode>) 
 font-weight: bold;
 }
 
+.dim{
+  font-weight: lighter;
+  opacity: 0.5;
+}
+
+.italic{
+  font-style: italic;
+}
+.underline{
+  text-decoration: underline;
+}
+
 .blink {
 animation: blink_keyframes 1s steps(1, end) infinite;
 }
