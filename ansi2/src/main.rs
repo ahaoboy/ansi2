@@ -46,9 +46,13 @@ fn main() {
     std::io::stdin()
         .read_to_end(&mut buf)
         .expect("can't read string from stdin");
-    let base64 = args.font.map(|p| {
-        let bin = read(p).expect("read font file error");
-        BASE64_STANDARD.encode(bin)
+    let base64 = args.font.map(|font_url| {
+        if font_url.starts_with("http") {
+          return font_url;
+        }
+        let bin = read(font_url).expect("read font file error");
+        let base64 = BASE64_STANDARD.encode(bin);
+        return format!("data:font/truetype;charset=utf-8;base64,{base64}")
     });
 
     let s = String::from_utf8_lossy(&buf);

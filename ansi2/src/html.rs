@@ -18,12 +18,12 @@ pub fn to_html<S: AsRef<str>>(
     let mut s = String::new();
     let style = to_style(theme, CssType::Html, mode);
 
-    let font_style = if let Some(base64) = font {
+    let font_style = if let Some(url) = font {
         format!(
             r#"
 @font-face {{
   font-family: ansi2-custom-font;
-  src: url(data:font/truetype;charset=utf-8;base64,{base64});
+  src: url({url});
 }}
 "#
         )

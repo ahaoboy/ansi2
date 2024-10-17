@@ -22,12 +22,12 @@ pub fn to_svg<S: AsRef<str>>(
     let baseline_h = 16;
     let mut cur_y = 0;
     let style = to_style(theme, CssType::Svg, mode);
-    let font_style = if let Some(base64) = font {
+    let font_style = if let Some(url) = font {
         format!(
             r#"
 @font-face {{
   font-family: ansi2-custom-font;
-  src: url(data:font/truetype;charset=utf-8;base64,{base64});
+  src: url({url});
 }}
 "#
         )

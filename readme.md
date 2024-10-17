@@ -55,6 +55,7 @@ neofetch | ansi2 --format=svg --theme=vscode > neofetch.svg
 ### font
 ```bash
 neofetch | ansi2 --format=svg --font=./font.ttf > neofetch.svg
+neofetch | ansi2 --format=svg --font=https://fonts.cdnfonts.com/s/98875/JetBrainsMonoRegular.woff > neofetch.svg
 ```
 
 ### mode
