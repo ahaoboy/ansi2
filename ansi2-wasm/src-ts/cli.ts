@@ -1,6 +1,6 @@
 import { program } from "commander"
 import { to_svg, to_html, to_text, Theme } from "./wasm"
-import { readFileSync ,existsSync} from "node:fs"
+import { readFileSync, existsSync } from "node:fs"
 import { optimize } from "svgo"
 import { Mode } from "./wasm"
 
@@ -22,7 +22,7 @@ function getFontUrl(p: string) {
   if (p.startsWith("http")) {
     return p
   }
-  if(!existsSync(p)){
+  if (!existsSync(p)) {
     return p
   }
   const buf = readFileSync(p)

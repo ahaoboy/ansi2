@@ -569,7 +569,7 @@ fn parse_link(input: &str) -> IResult<&str, Token> {
         take_until("]8;;\\"),
         tag("]8;;\\"),
     ))(input)?;
-    return Ok((rem, Token::Link(url.to_string(), title.to_string())));
+    Ok((rem, Token::Link(url.to_string(), title.to_string())))
 }
 
 pub(crate) fn parse_ansi(input: &str) -> IResult<&str, Vec<Token>> {

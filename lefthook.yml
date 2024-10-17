@@ -2,4 +2,4 @@ pre-commit:
   commands:
     check:
       glob: "*.{js,ts,json,tsx}"
-      run: cargo clippy --fix --allow-dirty --allow-staged && cd ansi2-wasm && npm run format && npm run lint:fix && git add {staged_files}
+      run: cargo clippy --fix --allow-dirty --allow-staged && npm run format && npm run lint:fix && git add {staged_files}
