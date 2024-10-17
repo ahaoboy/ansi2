@@ -3,6 +3,7 @@ use ansi2::{html::to_html, svg::to_svg, text::to_text};
 use base64::prelude::BASE64_STANDARD;
 use base64::Engine;
 use clap::{command, Parser, ValueEnum};
+use std::path::Path;
 use std::{fs::read, io::Read};
 
 #[derive(ValueEnum, Debug, Clone, Copy)]
@@ -48,11 +49,16 @@ fn main() {
         .expect("can't read string from stdin");
     let base64 = args.font.map(|font_url| {
         if font_url.starts_with("http") {
-          return font_url;
+            return font_url;
         }
+
+        if !Path::new(&font_url).exists() {
+            return font_url;
+        }
+
         let bin = read(font_url).expect("read font file error");
         let base64 = BASE64_STANDARD.encode(bin);
-        return format!("data:font/truetype;charset=utf-8;base64,{base64}")
+        return format!("data:font;base64,{base64}");
     });
 
     let s = String::from_utf8_lossy(&buf);

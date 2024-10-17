@@ -53,8 +53,13 @@ vga / vscode / ubuntu
 neofetch | ansi2 --format=svg --theme=vscode > neofetch.svg
 ```
 ### font
+
+Note: resvg does not support font-face, so the converted png may be different from svg
 ```bash
 neofetch | ansi2 --format=svg --font=./font.ttf > neofetch.svg
+neofetch | ansi2 --format=svg --font=Consolas > neofetch.svg
+neofetch | ansi2 --format=svg --font="Courier New" > neofetch.svg
+neofetch | ansi2 --format=svg --font="Monaco" > neofetch.svg
 neofetch | ansi2 --format=svg --font=https://fonts.cdnfonts.com/s/98875/JetBrainsMonoRegular.woff > neofetch.svg
 ```
 
@@ -80,6 +85,12 @@ neofetch | ansi2 --format=svg --mode=dark > neofetch.svg
 	</a>
 </div>
 
+### nushell
+<div align="center">
+	<a href="https://github.com/ahaoboy/ansi2">
+		<img src="assets/nu-ls.svg">
+	</a>
+</div>
 
 ## todo
 

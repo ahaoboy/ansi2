@@ -22,21 +22,26 @@ pub fn to_svg<S: AsRef<str>>(
     let baseline_h = 16;
     let mut cur_y = 0;
     let style = to_style(theme, CssType::Svg, mode);
-    let font_style = if let Some(url) = font {
-        format!(
-            r#"
+    let mut font_style = "".into();
+    let mut font_family = "Consolas,Courier New,Monaco".into();
+
+    if let Some(url) = font {
+        if url.starts_with("http") || url.starts_with("data:font;base64") {
+            font_family = "ansi2-custom-font".into();
+            font_style = format!(
+                r#"
 @font-face {{
-  font-family: ansi2-custom-font;
-  src: url({url});
+font-family: ansi2-custom-font;
+src: url({url});
 }}
 "#
-        )
-    } else {
-        "".into()
-    };
+            )
+        } else {
+            font_family = url;
+        }
+    }
 
     let mut color256 = HashSet::new();
-
 
     for row in canvas.pixels.iter() {
         for c in row.iter() {
@@ -52,7 +57,9 @@ pub fn to_svg<S: AsRef<str>>(
                 ));
 
                 if let crate::lex::AnsiColor::Rgb(r, g, b) = c.color {
-                    color256.insert(format!(".bg-rgb_{r}_{g}_{b}{{ fill: rgb({r},{g},{b}) ;}}\n"));
+                    color256.insert(format!(
+                        ".bg-rgb_{r}_{g}_{b}{{ fill: rgb({r},{g},{b}) ;}}\n"
+                    ));
                 }
             }
 
@@ -61,9 +68,7 @@ pub fn to_svg<S: AsRef<str>>(
                 text_class.push(name);
 
                 if let crate::lex::AnsiColor::Rgb(r, g, b) = c.color {
-                    color256.insert(format!(
-                        ".rgb_{r}_{g}_{b}{{ fill: rgb({r},{g},{b}) ;}}\n"
-                    ));
+                    color256.insert(format!(".rgb_{r}_{g}_{b}{{ fill: rgb({r},{g},{b}) ;}}\n"));
                 }
             };
 
@@ -111,7 +116,7 @@ font-variant-ligatures: none;
 dominant-baseline: central;
 font-variant-ligatures: none;
 white-space: pre;
-font-family: ansi2-custom-font, Courier, monospace;
+font-family: {font_family};
 font-size: {fn_h}px;
 }}
 {font_style}

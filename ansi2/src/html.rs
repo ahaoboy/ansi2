@@ -17,19 +17,24 @@ pub fn to_html<S: AsRef<str>>(
     let canvas = Canvas::new(s, width);
     let mut s = String::new();
     let style = to_style(theme, CssType::Html, mode);
+    let mut font_style = "".into();
+    let mut font_family = "Consolas,Courier New,Monaco".into();
 
-    let font_style = if let Some(url) = font {
-        format!(
-            r#"
-@font-face {{
-  font-family: ansi2-custom-font;
-  src: url({url});
-}}
-"#
-        )
-    } else {
-        "".into()
-    };
+    if let Some(url) = font {
+        if url.starts_with("http") || url.starts_with("data:font;base64") {
+            font_family = "ansi2-custom-font".into();
+            font_style =         format!(
+              r#"
+  @font-face {{
+    font-family: ansi2-custom-font;
+    src: url({url});
+  }}
+  "#
+          )
+        } else {
+            font_family = url;
+        }
+    }
 
     s.push_str("<div class='ansi-main'>\n");
 
@@ -101,7 +106,7 @@ pub fn to_html<S: AsRef<str>>(
 .char{{
   margin: 0;
   padding: 0;
-  font-family: ansi2-custom-font, Courier, monospace;
+  font-family: {font_family};
   white-space: pre;
 }}
 

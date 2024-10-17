@@ -1,4 +1,4 @@
-use crate::theme::ColorTable;
+use crate::theme::{ColorTable, COLOR256};
 
 fn get_hex((r, g, b): (u8, u8, u8)) -> String {
     format!("#{:02X}{:02X}{:02X}", r, g, b)
@@ -29,13 +29,13 @@ pub(crate) fn to_style(theme: impl ColorTable, ty: CssType, mode: Option<Mode>) 
 
     let mut color256 = Vec::new();
     for i in 0..256 {
-        let (r, g, b) = theme.get(i);
+        let (r, g, b) = COLOR256[i];
         color256.push(format!(".color256_{i}{{ {color_field}: rgb({r},{g},{b}) ;}}"));
     }
 
     let mut color256bg = Vec::new();
     for i in 0..256 {
-        let (r, g, b) = theme.get(i);
+        let (r, g, b) = COLOR256[i];
         color256bg.push(format!(".color256_bg_{i}{{ {bg_field}: rgb({r},{g},{b}) ;}}"));
     }
 

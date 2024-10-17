@@ -7,7 +7,7 @@ use nom::sequence::tuple;
 
 use nom::IResult;
 
-use crate::theme::ColorTable;
+use crate::theme::{ColorTable, COLOR256};
 
 #[derive(Debug, Clone, Copy)]
 pub enum AnsiColor {
@@ -67,7 +67,7 @@ impl AnsiColor {
             },
             AnsiColor::Rgb(r, g, b) => format!("rgb({}, {}, {})", r, g, b),
             AnsiColor::Color256(c) => {
-                let (r, g, b) = th.get(*c as usize);
+                let (r, g, b) = COLOR256[*c as usize];
                 format!("rgb({}, {}, {})", r, g, b)
             }
         }

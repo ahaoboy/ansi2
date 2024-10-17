@@ -1,6 +1,6 @@
 import { program } from "commander"
 import { to_svg, to_html, to_text, Theme } from "./wasm"
-import { readFileSync } from "node:fs"
+import { readFileSync ,existsSync} from "node:fs"
 import { optimize } from "svgo"
 import { Mode } from "./wasm"
 
@@ -22,9 +22,12 @@ function getFontUrl(p: string) {
   if (p.startsWith("http")) {
     return p
   }
+  if(!existsSync(p)){
+    return p
+  }
   const buf = readFileSync(p)
   const base64 = buf.toString("base64")
-  return `data:font/truetype;charset=utf-8;base64,${base64}`
+  return `data:font;base64,${base64}`
 }
 
 function getTheme(s: string): Theme {
