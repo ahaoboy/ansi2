@@ -37,7 +37,7 @@ pub(crate) fn to_style(theme: impl ColorTable, ty: CssType, mode: Option<Mode>) 
     let mut color256bg = Vec::new();
     for (i, (r, g, b)) in COLOR256.iter().enumerate() {
         color256bg.push(format!(
-            ".color256_bg_{i}{{ {bg_field}: rgb({r},{g},{b}) ;}}"
+            ".bg-color256_{i}{{ {bg_field}: rgb({r},{g},{b}) ;}}"
         ));
     }
 

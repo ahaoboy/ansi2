@@ -478,10 +478,15 @@ fn parse_sgr6(input: &str) -> IResult<&str, Token> {
     if ctrl == 48 && ty == 5 && g == 38 && b == 5 {
         return Ok((
             rem,
+            Token::ColorFgBg(AnsiColor::Color256(n), AnsiColor::Color256(r)),
+        ));
+    }
+    if ctrl == 38 && ty == 5 && g == 48 && b == 5 {
+        return Ok((
+            rem,
             Token::ColorFgBg(AnsiColor::Color256(r), AnsiColor::Color256(n)),
         ));
     }
-
     todo!()
 }
 fn parse_sgr10(input: &str) -> IResult<&str, Token> {
