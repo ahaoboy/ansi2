@@ -83,7 +83,9 @@ pub(crate) fn to_style(theme: impl ColorTable, ty: CssType, mode: Option<Mode>) 
 .bold{
 font-weight: bold;
 }
-
+.hide{
+  opacity: 0;
+}
 .dim{
   font-weight: lighter;
   opacity: 0.5;

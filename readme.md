@@ -95,6 +95,10 @@ neofetch | ansi2 --format=svg -c > neofetch.svg
 </div>
 
 ### nushell
+
+```shell
+ls | table | ansi2 | save nu-ls.svg -f
+```
 <div align="center">
 	<a href="https://github.com/ahaoboy/ansi2">
 		<img src="assets/nu-ls.svg">

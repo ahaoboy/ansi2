@@ -566,13 +566,24 @@ fn parse_unknown(input: &str) -> IResult<&str, Token> {
     Ok((rem, Token::Unknown(n as u32)))
 }
 
-fn parse_link(input: &str) -> IResult<&str, Token> {
-    let (rem, (_, url, _, title, _)) = tuple((
-        tag("\x1b]8;;"),
-        take_until("\\"),
-        tag("\\"),
-        take_until("]8;;\\"),
-        tag("]8;;\\"),
+fn parse_link_no_title(input: &str) -> IResult<&str, Token> {
+    let (rem, (_, _, url, _)) = tuple((
+        tag("\x1b]8;"),
+        opt(tag(";")),
+        take_until("\x1b]8;;\x1b\\"),
+        tag("\x1b]8;;\x1b\\"),
+    ))(input)?;
+    Ok((rem, Token::Link(url.to_string(), url.to_string())))
+}
+
+fn parse_link_with_title(input: &str) -> IResult<&str, Token> {
+    let (rem, (_, _, url, _, title, _)) = tuple((
+        tag("\x1b]8;"),
+        opt(tag(";")),
+        take_until("\x1b\\"),
+        tag("\x1b\\"),
+        take_until("\x1b]8;;\x1b\\"),
+        tag("\x1b]8;;\x1b\\"),
     ))(input)?;
     Ok((rem, Token::Link(url.to_string(), title.to_string())))
 }
@@ -625,7 +636,7 @@ pub(crate) fn parse_ansi(input: &str) -> IResult<&str, Vec<Token>> {
             parse_sgr6,
             parse_sgr10,
         )),
-        parse_link,
+        alt((parse_link_with_title, parse_link_no_title)),
         parse_unknown,
         parse_anychar,
     )))(input)

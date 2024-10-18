@@ -115,8 +115,8 @@ class_str ,
         cur_x = 0;
     }
 
-    let svg_w = fn_w * canvas.w;
-    let svg_h = fn_h * canvas.h;
+    let svg_w = (fn_w + 1) * canvas.w;
+    let svg_h = (fn_h + 1) * canvas.h;
     let color256_str: String = color256.into_iter().collect();
 
     format!(

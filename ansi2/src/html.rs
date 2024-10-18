@@ -56,7 +56,9 @@ pub fn to_html<S: AsRef<str>>(
             if c.underline {
                 text_class.push("underline".into());
             }
-
+            if c.hide {
+              text_class.push("hide".into());
+          }
             if !c.color.is_default() {
                 let name = c.color.name();
                 text_class.push(name);

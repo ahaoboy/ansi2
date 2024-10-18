@@ -16,6 +16,7 @@ pub struct Node {
     pub dim: bool,
     pub italic: bool,
     pub underline: bool,
+    pub hide: bool,
 }
 
 #[derive(Debug, Clone)]
@@ -41,6 +42,7 @@ fn set_node(v: &mut Vec<Vec<Node>>, node: Node, x: usize, y: usize) {
             dim: false,
             italic: false,
             underline: false,
+            hide: false,
         };
         row.push(empty);
     }
@@ -65,6 +67,7 @@ impl Canvas {
         let mut w = 0;
         let mut h = 0;
         let mut pixels = Vec::new();
+        let mut hide = false;
         let max_width = max_width.unwrap_or(usize::MAX);
 
         for i in lex {
@@ -78,6 +81,7 @@ impl Canvas {
                 cur_c = AnsiColor::Color8(0);
                 blink = false;
                 blink_c = 0;
+                hide = false;
             };
 
             match i {
@@ -95,6 +99,7 @@ impl Canvas {
                         dim,
                         italic,
                         underline,
+                        hide
                     };
                     if cur_x >= max_width {
                         cur_x = 0;
@@ -227,8 +232,14 @@ impl Canvas {
                     cur_bg_c = AnsiColor::Color8(0);
                 }
 
-                Token::Link(_, title) => {
+                Token::Link(_, title ) => {
                     for i in title.chars() {
+                        if i == '\n' {
+                            cur_x = 0;
+                            cur_y += 1;
+                            continue;
+                        }
+
                         let node = Node {
                             char: i,
                             bg_color: cur_bg_c,
@@ -237,8 +248,10 @@ impl Canvas {
                             blink,
                             dim,
                             italic,
-                            underline,
+                            underline: true,
+                            hide
                         };
+
                         if cur_x >= max_width {
                             cur_x = 0;
                             cur_y += 1;
@@ -264,74 +277,107 @@ mod test {
 
     #[test]
     fn test() {
-        let s = "[0;5;35;45m";
+        let s = "\x1b[0;5;35;45m";
+        let r = parse_ansi(s).unwrap();
+        println!("{:?}", r);
+    }
+    #[test]
+    fn test_reset() {
+        let s = "\x1b[m\x1b";
         let r = parse_ansi(s).unwrap();
         println!("{:?}", r);
     }
 
     #[test]
     fn test_starship() {
-        let s = "[?2004h]0;/c/wt[30m(B[m[J[K";
+        let s = "\x1b[?2004h\x1b]0;/c/wt\x1b[30m\x1b(B\x1b[m\x1b[J\x1b[K";
         let r = parse_ansi(s).unwrap();
         println!("{:?}", r);
 
-        let s = "[38;2;218;98;125m[48;2;218;98;125;30mwin[38;2;218;98;125m[30mC:/wt [48;2;252;161;125;38;2;218;98;125m[48;2;134;187;216;38;2;252;161;125m[48;2;6;150;154;38;2;134;187;216m[48;2;51;101;138;38;2;6;150;154m[0m[K";
+        let s = "\x1b[38;2;218;98;125m\x1b[48;2;218;98;125;30mwin\x1b[38;2;218;98;125m\x1b[30mC:/wt \x1b[48;2;252;161;125;38;2;218;98;125m\x1b[48;2;134;187;216;38;2;252;161;125m\x1b[48;2;6;150;154;38;2;134;187;216m\x1b[48;2;51;101;138;38;2;6;150;154m\x1b[0m\x1b[K";
         let r = parse_ansi(s).unwrap();
         println!("{:?}", r);
     }
 
     #[test]
     fn test_vitest_bench() {
-        let s = "[36m[7m[1m BENCH [22m[27m[39m [36mSummary[39m";
+        let s = "\x1b[36m\x1b[7m\x1b[1m BENCH \x1b[22m\x1b[27m\x1b[39m \x1b[36mSummary\x1b[39m";
         let r = parse_ansi(s).unwrap();
         println!("{:?}", r);
     }
 
     #[test]
     fn test_fastfetch() {
-        let s = "[1G[19A[47C";
+        let s = "\x1b[1G\x1b[19A\x1b[47C";
         let r = parse_ansi(s).unwrap();
         println!("{:?}", r);
     }
 
     #[test]
     fn test_color256() {
-        let s = "[38;5;99ma[48;5;99mb";
+        let s = "\x1b[38;5;99ma\x1b[48;5;99mb";
         let r = parse_ansi(s).unwrap();
         println!("{:?}", r);
     }
 
     #[test]
     fn test_color24() {
-        let s = "[38;2;0;0;114m";
+        let s = "\x1b[38;2;0;0;114m";
         let r = parse_ansi(s).unwrap();
         println!("{:?}", r);
     }
     #[test]
     fn test_base() {
         let s =
-            "[30mblack[0m    [90mbright black[0m     [40mblack[0m    [100mbright black[0m";
+            "\x1b[30mblack\x1b[0m    \x1b[90mbright black\x1b[0m     \x1b[40mblack\x1b[0m    \x1b[100mbright black\x1b[0m";
         let r = parse_ansi(s).unwrap();
         println!("{:?}", r);
     }
 
     #[test]
     fn test_link() {
-        let s = "]8;;file:///Users/xxx/src/new-nu-parser/Cargo.toml\\Cargo.toml]8;;";
+        let s = "\x1b]8;;file:///Users/xxx/src/new-nu-parser/Cargo.toml\x1b\\Cargo.toml\x1b]8;;\x1b";
+        let r = parse_ansi(s).unwrap();
+        println!("{:?}", r);
+    }
+    #[test]
+    fn test_link_hide() {
+        let s = "\x1b[8mhttp://example.com/how_about_me\x1b[m";
+        let r = parse_ansi(s).unwrap();
+        println!("{:?}", r);
+    }
+
+    #[test]
+    fn test_link_id() {
+        let s = "\x1b]8;id=1;http://example.com/id\x1b\\twice\x1b]8;;\x1b\\";
+        let r = parse_ansi(s).unwrap();
+        println!("{:?}", r);
+    }
+
+    #[test]
+    fn test_empty_link() {
+        let s = "\x1b]8;;\x1b\\";
+        let r = parse_ansi(s).unwrap();
+        println!("{:?}", r);
+    }
+
+    #[test]
+    fn test_link_no_close() {
+        let s = "\x1b]8;;http://example.com/foo\x1b\\foo\x1b]8;;http://example.com/foo\x1b\\foo\x1b]8;;\x1b\\ \x1b]8;;http://example.com/foo\x1b\\foo\x1b]8;;http://example.com/bar\x1b\\bar\x1b]8;;\x1b\\";
         let r = parse_ansi(s).unwrap();
         println!("{:?}", r);
     }
 
     #[test]
     fn test_sgr6() {
-        let s = "[48;5;186;38;5;16m";
+        let s = "\x1b[48;5;186;38;5;16m";
         let r = parse_ansi(s).unwrap();
         println!("{:?}", r);
     }
 
     #[test]
     fn test_style() {
-        let s = "aaa[1mbold[0m [2mdim[0m [3mitalic[3m [4munderline[4m";
+        let s = "aaa\x1b[1mbold\x1b[0m \x1b[2mdim\x1b[0m \x1b[3mitalic\x1b[3m \x1b[4munderline\x1b[4m";
         let r = parse_ansi(s).unwrap();
         println!("{:?}", r);
     }
