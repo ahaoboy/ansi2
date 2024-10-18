@@ -1,0 +1,16 @@
+---
+source: ansi2/src/lib.rs
+expression: r
+---
+(
+    "",
+    [
+        ColorForeground(
+            Rgb(
+                0,
+                0,
+                114,
+            ),
+        ),
+    ],
+)

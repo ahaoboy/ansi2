@@ -15,6 +15,9 @@ html-escape = { workspace = true }
 base64 = { workspace = true }
 osvg = { workspace = true, optional = true }
 
+[dev-dependencies]
+insta = { workspace = true }
+
 [profile.release]
 opt-level = 3
 

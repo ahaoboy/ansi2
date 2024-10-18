@@ -1,0 +1,18 @@
+---
+source: ansi2/src/lib.rs
+expression: r
+---
+(
+    "",
+    [
+        CursorHorizontalAbsolute(
+            1,
+        ),
+        CursorUp(
+            19,
+        ),
+        CursorForward(
+            47,
+        ),
+    ],
+)

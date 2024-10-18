@@ -1,0 +1,26 @@
+---
+source: ansi2/src/lib.rs
+expression: r
+---
+(
+    "",
+    [
+        CursorHide,
+        Title(
+            "/c/wt",
+        ),
+        ColorForeground(
+            Color8(
+                30,
+            ),
+        ),
+        Bold,
+        ColorReset,
+        EraseInDisplay(
+            0,
+        ),
+        EraseInLine(
+            0,
+        ),
+    ],
+)

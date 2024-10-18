@@ -1,0 +1,15 @@
+---
+source: ansi2/src/lib.rs
+expression: r
+---
+(
+    "",
+    [
+        Sgr4(
+            0,
+            5,
+            35,
+            45,
+        ),
+    ],
+)

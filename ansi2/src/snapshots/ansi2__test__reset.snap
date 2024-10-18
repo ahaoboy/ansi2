@@ -1,0 +1,13 @@
+---
+source: ansi2/src/lib.rs
+expression: r
+---
+(
+    "",
+    [
+        ColorReset,
+        Unknown(
+            27,
+        ),
+    ],
+)

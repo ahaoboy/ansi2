@@ -1,0 +1,174 @@
+---
+source: ansi2/src/lib.rs
+expression: r
+---
+(
+    "",
+    [
+        ColorForeground(
+            Color8(
+                30,
+            ),
+        ),
+        Char(
+            'b',
+        ),
+        Char(
+            'l',
+        ),
+        Char(
+            'a',
+        ),
+        Char(
+            'c',
+        ),
+        Char(
+            'k',
+        ),
+        ColorReset,
+        Char(
+            ' ',
+        ),
+        Char(
+            ' ',
+        ),
+        Char(
+            ' ',
+        ),
+        Char(
+            ' ',
+        ),
+        ColorForeground(
+            Color8(
+                90,
+            ),
+        ),
+        Char(
+            'b',
+        ),
+        Char(
+            'r',
+        ),
+        Char(
+            'i',
+        ),
+        Char(
+            'g',
+        ),
+        Char(
+            'h',
+        ),
+        Char(
+            't',
+        ),
+        Char(
+            ' ',
+        ),
+        Char(
+            'b',
+        ),
+        Char(
+            'l',
+        ),
+        Char(
+            'a',
+        ),
+        Char(
+            'c',
+        ),
+        Char(
+            'k',
+        ),
+        ColorReset,
+        Char(
+            ' ',
+        ),
+        Char(
+            ' ',
+        ),
+        Char(
+            ' ',
+        ),
+        Char(
+            ' ',
+        ),
+        Char(
+            ' ',
+        ),
+        ColorBackground(
+            Color8(
+                40,
+            ),
+        ),
+        Char(
+            'b',
+        ),
+        Char(
+            'l',
+        ),
+        Char(
+            'a',
+        ),
+        Char(
+            'c',
+        ),
+        Char(
+            'k',
+        ),
+        ColorReset,
+        Char(
+            ' ',
+        ),
+        Char(
+            ' ',
+        ),
+        Char(
+            ' ',
+        ),
+        Char(
+            ' ',
+        ),
+        ColorBackground(
+            Color8(
+                100,
+            ),
+        ),
+        Char(
+            'b',
+        ),
+        Char(
+            'r',
+        ),
+        Char(
+            'i',
+        ),
+        Char(
+            'g',
+        ),
+        Char(
+            'h',
+        ),
+        Char(
+            't',
+        ),
+        Char(
+            ' ',
+        ),
+        Char(
+            'b',
+        ),
+        Char(
+            'l',
+        ),
+        Char(
+            'a',
+        ),
+        Char(
+            'c',
+        ),
+        Char(
+            'k',
+        ),
+        ColorReset,
+    ],
+)

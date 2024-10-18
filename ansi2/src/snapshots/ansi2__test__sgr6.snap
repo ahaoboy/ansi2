@@ -1,0 +1,17 @@
+---
+source: ansi2/src/lib.rs
+expression: r
+---
+(
+    "",
+    [
+        ColorFgBg(
+            Color256(
+                16,
+            ),
+            Color256(
+                186,
+            ),
+        ),
+    ],
+)

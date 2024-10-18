@@ -1,0 +1,13 @@
+---
+source: ansi2/src/lib.rs
+expression: r
+---
+(
+    "",
+    [
+        Link(
+            "id=1;http://example.com/id",
+            "twice",
+        ),
+    ],
+)

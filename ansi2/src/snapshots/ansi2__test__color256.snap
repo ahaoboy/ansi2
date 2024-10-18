@@ -1,0 +1,25 @@
+---
+source: ansi2/src/lib.rs
+expression: r
+---
+(
+    "",
+    [
+        ColorForeground(
+            Color256(
+                99,
+            ),
+        ),
+        Char(
+            'a',
+        ),
+        ColorBackground(
+            Color256(
+                99,
+            ),
+        ),
+        Char(
+            'b',
+        ),
+    ],
+)

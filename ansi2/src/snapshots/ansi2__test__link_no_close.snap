@@ -1,0 +1,20 @@
+---
+source: ansi2/src/lib.rs
+expression: r
+---
+(
+    "",
+    [
+        Link(
+            "http://example.com/foo",
+            "foo\u{1b}]8;;http://example.com/foo\u{1b}\\foo",
+        ),
+        Char(
+            ' ',
+        ),
+        Link(
+            "http://example.com/foo",
+            "foo\u{1b}]8;;http://example.com/bar\u{1b}\\bar",
+        ),
+    ],
+)

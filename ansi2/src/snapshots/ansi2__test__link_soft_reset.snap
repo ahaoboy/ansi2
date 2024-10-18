@@ -1,0 +1,22 @@
+---
+source: ansi2/src/lib.rs
+expression: r
+---
+(
+    "",
+    [
+        Link(
+            "http://example.com/softreset",
+            "\u{1b}[3;31mfoo",
+        ),
+        Char(
+            'b',
+        ),
+        Char(
+            'a',
+        ),
+        Char(
+            'r',
+        ),
+    ],
+)

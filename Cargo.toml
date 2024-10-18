@@ -20,6 +20,7 @@ base64 = "0.22.1"
 wasm-bindgen-test = "0.3.45"
 ansi2 = { path = "./ansi2", features = ["wasm"] }
 osvg = { version = "0.1.1", features = ["bindgen"] }
+insta = { version = "1.40.0" }
 
 [profile.release]
 debug = false

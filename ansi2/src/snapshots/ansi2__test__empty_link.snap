@@ -1,0 +1,30 @@
+---
+source: ansi2/src/lib.rs
+expression: r
+---
+(
+    "",
+    [
+        Unknown(
+            27,
+        ),
+        Char(
+            ']',
+        ),
+        Char(
+            '8',
+        ),
+        Char(
+            ';',
+        ),
+        Char(
+            ';',
+        ),
+        Unknown(
+            27,
+        ),
+        Char(
+            '\\',
+        ),
+    ],
+)
