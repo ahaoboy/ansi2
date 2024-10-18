@@ -241,7 +241,10 @@ impl Canvas {
                 Token::ColorInvert => {
                     (cur_bg_c, cur_c) = (cur_c, cur_bg_c);
                 }
-                Token::NormalIntensity => bold = false,
+                Token::NormalIntensity => {
+                    dim = false;
+                    bold = false;
+                }
                 Token::NotReversed => {
                     (cur_bg_c, cur_c) = (cur_c, cur_bg_c);
                 }
