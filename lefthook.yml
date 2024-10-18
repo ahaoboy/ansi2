@@ -1,5 +1,5 @@
 pre-commit:
   commands:
     check:
-      glob: "*.{js,ts,json,tsx}"
+      glob: "*.{js,ts,json,tsx,rs,toml}"
       run: npm run pre-check && git add {staged_files}

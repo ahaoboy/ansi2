@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 
 use crate::{
-    css::{to_style, CssType, Mode},
+    css::{get_hex, to_style, CssType, Mode},
     theme::ColorTable,
     Canvas,
 };
@@ -25,14 +25,8 @@ pub fn to_html<S: AsRef<str>>(
     if let Some(url) = font {
         if url.starts_with("http") || url.starts_with("data:font;base64") {
             font_family = "ansi2-custom-font".into();
-            font_style = format!(
-                r#"
-  @font-face {{
-    font-family: ansi2-custom-font;
-    src: url({url});
-  }}
-  "#
-            )
+            font_style =
+                format!(r#"@font-face {{font-family: ansi2-custom-font;src: url({url});}}"#)
         } else {
             font_family = url;
         }
@@ -66,7 +60,10 @@ pub fn to_html<S: AsRef<str>>(
                 text_class.push(name);
 
                 if let crate::lex::AnsiColor::Rgb(r, g, b) = c.color {
-                    color256.insert(format!(".rgb_{r}_{g}_{b}{{ color: rgb({r},{g},{b}) ;}}\n"));
+                    color256.insert(format!(
+                        ".rgb_{r}_{g}_{b}{{color:{};}}\n",
+                        get_hex((r, g, b))
+                    ));
                 }
             }
 
@@ -76,7 +73,8 @@ pub fn to_html<S: AsRef<str>>(
 
                 if let crate::lex::AnsiColor::Rgb(r, g, b) = c.color {
                     color256.insert(format!(
-                        ".bg-rgb_{r}_{g}_{b}{{ background: rgb({r},{g},{b}) ;}}\n"
+                        ".bg-rgb_{r}_{g}_{b}{{background:{};}}\n",
+                        get_hex((r, g, b))
                     ));
                 }
             }
@@ -112,12 +110,7 @@ pub fn to_html<S: AsRef<str>>(
 {color256_str}
 .ansi-main{{display:flex;flex-direction:column;}}
 .row{{display: flex;}}
-.char{{
-  margin: 0;
-  padding: 0;
-  font-family: {font_family};
-  white-space: pre;
-}}</style></head><body>{s}</body></html>
+.char{{margin: 0;padding: 0;font-family: {font_family};white-space: pre;}}</style></head><body>{s}</body></html>
 "#
     )
 }

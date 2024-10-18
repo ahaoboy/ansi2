@@ -94,7 +94,7 @@ pub(crate) fn to_style(
     let light_color_css: String = light_colors
         .iter()
         .fold(String::new(), |mut acc, (name, c)| {
-            acc.push_str(&format!(".{name}{{ {color_field}: {};}} ", c));
+            acc.push_str(&format!(".{name}{{{color_field}:{};}}", c));
             acc
         });
 
@@ -102,20 +102,20 @@ pub(crate) fn to_style(
         light_colors
             .iter()
             .fold(String::new(), |mut acc, (name, c)| {
-                acc.push_str(&format!(".bg-{name}{{ {bg_field}: {};}} ", c));
+                acc.push_str(&format!(".bg-{name}{{{bg_field}:{};}} ", c));
                 acc
             });
     let dark_color_css: String = dark_colors
         .iter()
         .fold(String::new(), |mut acc, (name, c)| {
-            acc.push_str(&format!(".{name}{{ {color_field}: {};}} ", c));
+            acc.push_str(&format!(".{name}{{{color_field}:{};}}", c));
             acc
         });
 
     let bg_dark_color_css: String = dark_colors
         .iter()
         .fold(String::new(), |mut acc, (name, c)| {
-            acc.push_str(&format!(".bg-{name}{{ {bg_field}: {};}} ", c));
+            acc.push_str(&format!(".bg-{name}{{{bg_field}:{};}}", c));
             acc
         });
 
@@ -144,14 +144,7 @@ pub(crate) fn to_style(
         };
 
         let style = format!(
-            r#"
-{root_style}
-{default_text_style}
-{common_style}
-{color_css}
-{bg_color_css}
-{color256_str}
-      "#
+            r#"{root_style}{default_text_style}{common_style}{color_css}{bg_color_css}{color256_str}"#
         )
         .trim()
         .to_string();
@@ -170,39 +163,15 @@ pub(crate) fn to_style(
     };
 
     let root_css = format!(
-        r#"
-:root {{color-scheme: light dark; background-color: {light_bg_color}}}
-{light_color_css}
-{bg_light_color_css}
-{default_light_text_style}
-"#
+        r#":root {{color-scheme: light dark; background-color: {light_bg_color}}}{light_color_css}{bg_light_color_css}{default_light_text_style}"#
     );
 
     let dark_css = format!(
-        r#"
-@media (prefers-color-scheme: dark) {{
-:root {{background-color: {dark_bg_color}}}
-{dark_color_css}
-{bg_dark_color_css}
-{default_dark_text_style}
-}}
-"#
-    )
+        r#"@media (prefers-color-scheme: dark) {{:root {{background-color: {dark_bg_color}}}{dark_color_css}{bg_dark_color_css}{default_dark_text_style}}}"#)
     .trim()
     .to_string();
 
-    format!(
-        r#"
-{root_css}
-
-{dark_css}
-
-{common_style}
-
-{color256_str}
-
-"#,
-    )
-    .trim()
-    .to_string()
+    format!(r#"{root_css}{dark_css}{common_style}{color256_str}"#,)
+        .trim()
+        .to_string()
 }

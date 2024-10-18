@@ -30,14 +30,8 @@ pub fn to_svg<S: AsRef<str>>(
     if let Some(url) = font {
         if url.starts_with("http") || url.starts_with("data:font;base64") {
             font_family = "ansi2-custom-font".into();
-            font_style = format!(
-                r#"
-@font-face {{
-font-family: ansi2-custom-font;
-src: url({url});
-}}
-"#
-            )
+            font_style =
+                format!(r#"@font-face {{font-family: ansi2-custom-font;src: url({url});}}"#)
         } else {
             font_family = url;
         }
