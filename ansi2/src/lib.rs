@@ -4,6 +4,8 @@ pub mod lex;
 pub mod svg;
 pub mod text;
 pub mod theme;
+use std::collections::VecDeque;
+
 use lex::{parse_ansi, AnsiColor, Token};
 
 #[derive(Debug, Clone)]
@@ -70,7 +72,9 @@ impl Canvas {
         let mut hide = false;
         let max_width = max_width.unwrap_or(usize::MAX);
 
-        for i in lex {
+        let mut q = VecDeque::from(lex);
+
+        while let Some(i) = q.pop_front() {
             let mut reset_all = || {
                 bold = false;
                 dim = false;
@@ -99,7 +103,7 @@ impl Canvas {
                         dim,
                         italic,
                         underline,
-                        hide
+                        hide,
                     };
                     if cur_x >= max_width {
                         cur_x = 0;
@@ -193,7 +197,7 @@ impl Canvas {
                     cur_c = AnsiColor::Color8(front);
                     cur_bg_c = AnsiColor::Color8(background);
                 }
-                Token::Sgr4(reset, ctrl, front, background) => {
+                Token::Sgr4(reset, ctrl, a, b) => {
                     if reset == 0 {
                         reset_all();
                     }
@@ -201,17 +205,33 @@ impl Canvas {
                         0 => reset_all(),
                         1 => {
                             bold = true;
-                            cur_c = AnsiColor::Color8(front);
-                            cur_bg_c = AnsiColor::Color8(background);
+                            cur_c = AnsiColor::Color8(a);
+                            cur_bg_c = AnsiColor::Color8(b);
                         }
                         5 => {
                             blink = true;
-                            cur_bg_c = AnsiColor::Color8(front);
-                            blink_c = background;
+                            cur_bg_c = AnsiColor::Color256(a);
+                            blink_c = b;
                         }
+                        48 => match a {
+                            5 => {
+                                cur_bg_c = AnsiColor::Color256(b);
+                            }
+                            _ => {
+                                cur_bg_c = AnsiColor::Color8(b);
+                            }
+                        },
+                        38 => match a {
+                            5 => {
+                                cur_c = AnsiColor::Color256(b);
+                            }
+                            _ => {
+                                cur_c = AnsiColor::Color8(b);
+                            }
+                        },
                         _ => {
-                            cur_c = AnsiColor::Color8(front);
-                            cur_bg_c = AnsiColor::Color8(background);
+                            cur_c = AnsiColor::Color8(a);
+                            cur_bg_c = AnsiColor::Color8(b);
                         }
                     }
                 }
@@ -232,33 +252,46 @@ impl Canvas {
                     cur_bg_c = AnsiColor::Color8(0);
                 }
 
-                Token::Link(_, title ) => {
-                    for i in title.chars() {
-                        if i == '\n' {
-                            cur_x = 0;
-                            cur_y += 1;
-                            continue;
+                Token::Link(_, title) => match parse_ansi(&title) {
+                    Ok((_, tokens)) => {
+                        // FIXME: Avoid the influence of styles in link on subsequent characters
+                        q.push_front(Token::ColorReset);
+                        for i in tokens.into_iter().rev() {
+                            underline = true;
+                            q.push_front(i);
                         }
-
-                        let node = Node {
-                            char: i,
-                            bg_color: cur_bg_c,
-                            color: cur_c,
-                            bold,
-                            blink,
-                            dim,
-                            italic,
-                            underline: true,
-                            hide
-                        };
-
-                        if cur_x >= max_width {
-                            cur_x = 0;
-                            cur_y += 1;
-                        }
-                        set_node(&mut pixels, node, cur_x, cur_y);
-                        cur_x += 1;
                     }
+                    Err(_) => {
+                        for i in title.chars() {
+                            if i == '\n' {
+                                cur_x = 0;
+                                cur_y += 1;
+                                continue;
+                            }
+
+                            let node = Node {
+                                char: i,
+                                bg_color: cur_bg_c,
+                                color: cur_c,
+                                bold,
+                                blink,
+                                dim,
+                                italic,
+                                underline: true,
+                                hide,
+                            };
+
+                            if cur_x >= max_width {
+                                cur_x = 0;
+                                cur_y += 1;
+                            }
+                            set_node(&mut pixels, node, cur_x, cur_y);
+                            cur_x += 1;
+                        }
+                    }
+                },
+                Token::CursorHide => {
+                    hide = true;
                 }
                 _ => {}
             }
@@ -336,7 +369,8 @@ mod test {
 
     #[test]
     fn test_link() {
-        let s = "\x1b]8;;file:///Users/xxx/src/new-nu-parser/Cargo.toml\x1b\\Cargo.toml\x1b]8;;\x1b";
+        let s =
+            "\x1b]8;;file:///Users/xxx/src/new-nu-parser/Cargo.toml\x1b\\Cargo.toml\x1b]8;;\x1b";
         let r = parse_ansi(s).unwrap();
         println!("{:?}", r);
     }
@@ -362,6 +396,13 @@ mod test {
     }
 
     #[test]
+    fn test_link_soft_reset() {
+        let s = "\x1b]8;;http://example.com/softreset\\\x1b[3;31mfoo[!pbar";
+        let r = parse_ansi(s).unwrap();
+        println!("{:?}", r);
+    }
+
+    #[test]
     fn test_link_no_close() {
         let s = "\x1b]8;;http://example.com/foo\x1b\\foo\x1b]8;;http://example.com/foo\x1b\\foo\x1b]8;;\x1b\\ \x1b]8;;http://example.com/foo\x1b\\foo\x1b]8;;http://example.com/bar\x1b\\bar\x1b]8;;\x1b\\";
         let r = parse_ansi(s).unwrap();
@@ -377,7 +418,8 @@ mod test {
 
     #[test]
     fn test_style() {
-        let s = "aaa\x1b[1mbold\x1b[0m \x1b[2mdim\x1b[0m \x1b[3mitalic\x1b[3m \x1b[4munderline\x1b[4m";
+        let s =
+            "aaa\x1b[1mbold\x1b[0m \x1b[2mdim\x1b[0m \x1b[3mitalic\x1b[3m \x1b[4munderline\x1b[4m";
         let r = parse_ansi(s).unwrap();
         println!("{:?}", r);
     }

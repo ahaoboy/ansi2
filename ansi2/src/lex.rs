@@ -153,32 +153,32 @@ pub enum Token {
 
 fn parse_cursor_up(input: &str) -> IResult<&str, Token> {
     let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("a")))(input)?;
-    Ok((rem, Token::CursorUp(str::parse(b).unwrap())))
+    Ok((rem, Token::CursorUp(str::parse(b).unwrap_or(1))))
 }
 
 fn parse_cursor_down(input: &str) -> IResult<&str, Token> {
     let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("b")))(input)?;
-    Ok((rem, Token::CursorDown(str::parse(b).unwrap())))
+    Ok((rem, Token::CursorDown(str::parse(b).unwrap_or(1))))
 }
 
 fn parse_cursor_forward(input: &str) -> IResult<&str, Token> {
     let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("c")))(input)?;
-    Ok((rem, Token::CursorForward(str::parse(b).unwrap())))
+    Ok((rem, Token::CursorForward(str::parse(b).unwrap_or(1))))
 }
 
 fn parse_cursor_back(input: &str) -> IResult<&str, Token> {
     let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("d")))(input)?;
-    Ok((rem, Token::CursorBack(str::parse(b).unwrap())))
+    Ok((rem, Token::CursorBack(str::parse(b).unwrap_or(1))))
 }
 
 fn parse_cursor_next_line(input: &str) -> IResult<&str, Token> {
     let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("e")))(input)?;
-    Ok((rem, Token::CursorNextLine(str::parse(b).unwrap())))
+    Ok((rem, Token::CursorNextLine(str::parse(b).unwrap_or(1))))
 }
 
 fn parse_cursor_previous_line(input: &str) -> IResult<&str, Token> {
     let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("f")))(input)?;
-    Ok((rem, Token::CursorPreviousLine(str::parse(b).unwrap())))
+    Ok((rem, Token::CursorPreviousLine(str::parse(b).unwrap_or(1))))
 }
 
 fn parse_cursor_horizontal(input: &str) -> IResult<&str, Token> {
@@ -291,7 +291,7 @@ fn parse_color_underline(input: &str) -> IResult<&str, Token> {
     let (rem, (_, b, _)) = tuple((tag("\x1b[58;5;"), digit0, tag_no_case("m")))(input)?;
     Ok((
         rem,
-        Token::ColorUnderLine(AnsiColor::Color8(str::parse(b).unwrap())),
+        Token::ColorUnderLine(AnsiColor::Color8(str::parse(b).unwrap_or(1))),
     ))
 }
 
@@ -574,8 +574,8 @@ fn parse_link_no_title(input: &str) -> IResult<&str, Token> {
     let (rem, (_, _, url, _)) = tuple((
         tag("\x1b]8;"),
         opt(tag(";")),
-        take_until("\x1b]8;;\x1b\\"),
-        tag("\x1b]8;;\x1b\\"),
+        alt((take_until("\x1b]8;;\x1b\\"), take_until("\x1b[!p"))),
+        alt((tag("\x1b]8;;\x1b\\"), tag("\x1b[!p"))),
     ))(input)?;
     Ok((rem, Token::Link(url.to_string(), url.to_string())))
 }
@@ -586,8 +586,8 @@ fn parse_link_with_title(input: &str) -> IResult<&str, Token> {
         opt(tag(";")),
         take_until("\x1b\\"),
         tag("\x1b\\"),
-        take_until("\x1b]8;;\x1b\\"),
-        tag("\x1b]8;;\x1b\\"),
+        alt((take_until("\x1b]8;;\x1b\\"), take_until("\x1b[!p"))),
+        alt((tag("\x1b]8;;\x1b\\"), tag("\x1b[!p"))),
     ))(input)?;
     Ok((rem, Token::Link(url.to_string(), title.to_string())))
 }
