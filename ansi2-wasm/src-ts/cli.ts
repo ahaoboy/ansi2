@@ -80,12 +80,6 @@ async function main() {
 
   const compress = options.compress === "undefined" ? false : options.compress
 
-  console.error(
-    "options:",
-    options.lightBg,
-    options.darkBg,
-    JSON.stringify(options),
-  )
   switch (format) {
     case "svg": {
       const s = to_svg(
