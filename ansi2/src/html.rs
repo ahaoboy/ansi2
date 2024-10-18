@@ -18,7 +18,7 @@ pub fn to_html<S: AsRef<str>>(
     let s = str.as_ref();
     let canvas = Canvas::new(s, width);
     let mut s = String::new();
-    let style = to_style(theme, CssType::Html, mode, light_bg,dark_bg);
+    let style = to_style(theme, CssType::Html, mode, light_bg, dark_bg);
     let mut font_style = "".into();
     let mut font_family = "Consolas,Courier New,Monaco".into();
 
@@ -59,8 +59,8 @@ pub fn to_html<S: AsRef<str>>(
                 text_class.push("underline".into());
             }
             if c.hide {
-              text_class.push("hide".into());
-          }
+                text_class.push("hide".into());
+            }
             if !c.color.is_default() {
                 let name = c.color.name();
                 text_class.push(name);
