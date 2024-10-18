@@ -27,6 +27,8 @@ impl AnsiColor {
                 35 | 45 => "magenta".into(),
                 36 | 46 => "cyan".into(),
                 37 | 47 => "white".into(),
+                // TODO: default color is white or black?
+                39 | 49 => "white".into(),
 
                 90 | 100 => "bright_black".into(),
                 91 | 101 => "bright_red".into(),
@@ -54,6 +56,8 @@ impl AnsiColor {
                 35 | 45 => format!("rgb{:?}", th.magenta()),
                 36 | 46 => format!("rgb{:?}", th.cyan()),
                 37 | 47 => format!("rgb{:?}", th.white()),
+                // TODO: default color is white or black?
+                39 | 49 => format!("rgb{:?}", th.white()),
 
                 90 | 100 => format!("rgb{:?}", th.bright_black()),
                 91 | 101 => format!("rgb{:?}", th.bright_red()),
