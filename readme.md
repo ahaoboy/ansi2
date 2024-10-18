@@ -53,14 +53,29 @@ vga / vscode / ubuntu
 neofetch | ansi2 --format=svg --theme=vscode > neofetch.svg
 ```
 ### font
+
+Note: resvg does not support font-face, so the converted png may be different from svg
 ```bash
 neofetch | ansi2 --format=svg --font=./font.ttf > neofetch.svg
+neofetch | ansi2 --format=svg --font=Consolas > neofetch.svg
+neofetch | ansi2 --format=svg --font="Courier New" > neofetch.svg
+neofetch | ansi2 --format=svg --font="Monaco" > neofetch.svg
+neofetch | ansi2 --format=svg --font=https://fonts.cdnfonts.com/s/98875/JetBrainsMonoRegular.woff > neofetch.svg
 ```
 
 ### mode
 dark / light
 ```bash
 neofetch | ansi2 --format=svg --mode=dark > neofetch.svg
+```
+
+### compress
+
+Compressing using [osvg](https://github.com/ahaoboy/osvg) and [svgo](https://github.com/svg/svgo), this will increase the running time by several seconds, but can save half of the storage space.
+
+```bash
+neofetch | ansi2 --format=svg --compress > neofetch.svg
+neofetch | ansi2 --format=svg -c > neofetch.svg
 ```
 
 ## example
@@ -78,3 +93,18 @@ neofetch | ansi2 --format=svg --mode=dark > neofetch.svg
 		<img src="assets/vitest.svg">
 	</a>
 </div>
+
+### nushell
+
+```shell
+ls | table | ansi2 | save nu-ls.svg -f
+```
+<div align="center">
+	<a href="https://github.com/ahaoboy/ansi2">
+		<img src="assets/nu-ls.svg">
+	</a>
+</div>
+
+## todo
+
+- [ ] link

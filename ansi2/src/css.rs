@@ -1,4 +1,4 @@
-use crate::theme::ColorTable;
+use crate::theme::{ColorTable, COLOR256};
 
 fn get_hex((r, g, b): (u8, u8, u8)) -> String {
     format!("#{:02X}{:02X}{:02X}", r, g, b)
@@ -27,6 +27,21 @@ pub(crate) fn to_style(theme: impl ColorTable, ty: CssType, mode: Option<Mode>) 
         CssType::Svg => ("fill", "fill"),
     };
 
+    let mut color256 = Vec::new();
+    for (i, (r, g, b)) in COLOR256.iter().enumerate() {
+        color256.push(format!(
+            ".color256_{i}{{ {color_field}: rgb({r},{g},{b}) ;}}"
+        ));
+    }
+
+    let mut color256bg = Vec::new();
+    for (i, (r, g, b)) in COLOR256.iter().enumerate() {
+        color256bg.push(format!(
+            ".bg-color256_{i}{{ {bg_field}: rgb({r},{g},{b}) ;}}"
+        ));
+    }
+
+    let color256_str = color256.join("\n") + &color256bg.join("\n");
     let light_colors = [
         ("black", get_hex(theme.black())),
         ("red", get_hex(theme.red())),
@@ -61,12 +76,26 @@ pub(crate) fn to_style(theme: impl ColorTable, ty: CssType, mode: Option<Mode>) 
         ("bright_blue", get_hex(theme.bright_blue())),
         ("bright_magenta", get_hex(theme.bright_magenta())),
         ("bright_cyan", get_hex(theme.bright_cyan())),
-        ("bright_white", get_hex(theme.bright_white())),
+        ("bright_white", get_hex(theme.bright_black())),
     ];
 
     let common_style = r#"
 .bold{
 font-weight: bold;
+}
+.hide{
+  opacity: 0;
+}
+.dim{
+  font-weight: lighter;
+  opacity: 0.5;
+}
+
+.italic{
+  font-style: italic;
+}
+.underline{
+  text-decoration: underline;
 }
 
 .blink {
@@ -113,12 +142,12 @@ opacity: 0;
             (Mode::Dark, CssType::Html) => {
                 format!("div{{color: {} }}", get_hex(theme.white()))
             }
-            (Mode::Dark, CssType::Svg) => format!("text{{fill:{}}}", get_hex(theme.white())),
+            (Mode::Dark, CssType::Svg) => format!("svg > text{{fill:{}}}", get_hex(theme.white())),
             (Mode::Light, CssType::Html) => {
                 format!("div{{color:{}}}", get_hex(theme.black()))
             }
             (Mode::Light, CssType::Svg) => {
-                format!("text{{fill:{}}}", get_hex(theme.black()))
+                format!("svg > text{{fill:{}}}", get_hex(theme.black()))
             }
         };
 
@@ -139,6 +168,7 @@ opacity: 0;
 {common_style}
 {color_css}
 {bg_color_css}
+{color256_str}
       "#
         )
         .trim()
@@ -148,12 +178,12 @@ opacity: 0;
     }
 
     let default_light_text_style = match ty {
-        CssType::Svg => format!("text{{fill:{}}}", get_hex(theme.black())),
+        CssType::Svg => format!("svg > text{{fill:{}}}", get_hex(theme.black())),
         CssType::Html => format!("div{{color:{}}}", get_hex(theme.black())),
     };
 
     let default_dark_text_style = match ty {
-        CssType::Svg => format!("text{{fill:{}}}", get_hex(theme.white())),
+        CssType::Svg => format!("svg > text{{fill:{}}}", get_hex(theme.white())),
         CssType::Html => format!("div{{color:{}}}", get_hex(theme.white())),
     };
 
@@ -186,6 +216,9 @@ opacity: 0;
 {dark_css}
 
 {common_style}
+
+{color256_str}
+
 "#,
     )
     .trim()

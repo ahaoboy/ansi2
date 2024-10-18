@@ -1,3 +1,5 @@
+use std::collections::HashSet;
+
 use crate::{
     css::{to_style, CssType, Mode},
     theme::ColorTable,
@@ -20,18 +22,27 @@ pub fn to_svg<S: AsRef<str>>(
     let baseline_h = 16;
     let mut cur_y = 0;
     let style = to_style(theme, CssType::Svg, mode);
-    let font_style = if let Some(base64) = font {
-        format!(
-            r#"
+    let mut font_style = "".into();
+    let mut font_family = "Consolas,Courier New,Monaco".into();
+
+    if let Some(url) = font {
+        if url.starts_with("http") || url.starts_with("data:font;base64") {
+            font_family = "ansi2-custom-font".into();
+            font_style = format!(
+                r#"
 @font-face {{
-  font-family: ansi2-custom-font;
-  src: url(data:font/truetype;charset=utf-8;base64,{base64});
+font-family: ansi2-custom-font;
+src: url({url});
 }}
 "#
-        )
-    } else {
-        "".into()
-    };
+            )
+        } else {
+            font_family = url;
+        }
+    }
+
+    let mut color256 = HashSet::new();
+
     for row in canvas.pixels.iter() {
         for c in row.iter() {
             let mut text_class = vec![];
@@ -44,18 +55,44 @@ pub fn to_svg<S: AsRef<str>>(
                     r#"<rect x="{cur_x}px" y="{cur_y}px" width="{fn_w}px" height="{fn_h}px" {class_str}/>"#
                     ,
                 ));
+
+                if let crate::lex::AnsiColor::Rgb(r, g, b) = c.color {
+                    color256.insert(format!(
+                        ".bg-rgb_{r}_{g}_{b}{{ fill: rgb({r},{g},{b}) ;}}\n"
+                    ));
+                }
             }
 
             if !c.color.is_default() {
                 let name = c.color.name();
                 text_class.push(name);
+
+                if let crate::lex::AnsiColor::Rgb(r, g, b) = c.color {
+                    color256.insert(format!(".rgb_{r}_{g}_{b}{{ fill: rgb({r},{g},{b}) ;}}\n"));
+                }
             };
 
+            let mut italic_str = "";
+            let mut dim_str = "";
+            let mut underline_str = "";
             if c.bold {
                 text_class.push("bold".into());
             }
             if c.blink {
                 text_class.push("blink".into());
+            }
+
+            if c.italic {
+                text_class.push("italic".into());
+                italic_str = "font-style=\"italic\"";
+            }
+            if c.dim {
+                text_class.push("dim".into());
+                dim_str = "opacity=\"0.5\"";
+            }
+            if c.underline {
+                text_class.push("underline".into());
+                underline_str = "text-decoration=\"underline\"";
             }
 
             // baseline offset
@@ -68,7 +105,7 @@ pub fn to_svg<S: AsRef<str>>(
             };
 
             s.push_str(&format!(
-r#"<text x="{text_x}px" y="{text_y}px" width="{fn_w}px" height="{fn_h}px" {}><tspan>{}</tspan></text>"#,
+r#"<text x="{text_x}px" y="{text_y}px" width="{fn_w}px" height="{fn_h}px" {} {italic_str} {dim_str} {underline_str}><tspan>{}</tspan></text>"#,
 class_str ,
                 html_escape::encode_text(&c.char.to_string())
             ));
@@ -78,8 +115,9 @@ class_str ,
         cur_x = 0;
     }
 
-    let svg_w = fn_w * canvas.w;
-    let svg_h = fn_h * canvas.h;
+    let svg_w = (fn_w + 1) * canvas.w;
+    let svg_h = (fn_h + 1) * canvas.h;
+    let color256_str: String = color256.into_iter().collect();
 
     format!(
         r#"<svg
@@ -94,11 +132,12 @@ font-variant-ligatures: none;
 dominant-baseline: central;
 font-variant-ligatures: none;
 white-space: pre;
-font-family: ansi2-custom-font, Courier, monospace;
+font-family: {font_family};
 font-size: {fn_h}px;
 }}
 {font_style}
 {style}
+{color256_str}
 </style>
 {s}
 </svg>

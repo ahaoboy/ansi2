@@ -7,13 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      commander:
-        specifier: 12.1.0
-        version: 12.1.0
-      svgo:
-        specifier: ^3.3.2
-        version: 3.3.2
     devDependencies:
       '@biomejs/biome':
         specifier: 1.9.3
@@ -24,12 +17,24 @@ importers:
       esbuild:
         specifier: 0.24.0
         version: 0.24.0
+      lefthook:
+        specifier: 1.7.18
+        version: 1.7.18
       typescript:
         specifier: 5.6.3
         version: 5.6.3
       wasm-pack-inline:
         specifier: 0.1.2
         version: 0.1.2
+
+  ansi2-wasm:
+    dependencies:
+      commander:
+        specifier: 12.1.0
+        version: 12.1.0
+      svgo:
+        specifier: ^3.3.2
+        version: 3.3.2
 
 packages:
 
@@ -362,11 +367,11 @@ packages:
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
 
-  picocolors@1.1.0:
-    resolution: {integrity: sha512-TQ92mBOW0l3LeMeyLV6mzy/kWr8lkd/hp3mTg7wYK7zJhuBStmGMBG0BdeDZS/dZx1IukaX6Bk11zcln25o1Aw==}
+  picocolors@1.1.1:
+    resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
 
-  source-map-js@1.2.0:
-    resolution: {integrity: sha512-itJW8lvSA0TXEphiRoawsCksnlf8SyvmFzIhltqAHluXd88pkCd+cXJVHTDwdCr0IzwptSm035IHQktUu1QUMg==}
+  source-map-js@1.2.1:
+    resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
     engines: {node: '>=0.10.0'}
 
   svgo@3.3.2:
@@ -526,12 +531,12 @@ snapshots:
   css-tree@2.2.1:
     dependencies:
       mdn-data: 2.0.28
-      source-map-js: 1.2.0
+      source-map-js: 1.2.1
 
   css-tree@2.3.1:
     dependencies:
       mdn-data: 2.0.30
-      source-map-js: 1.2.0
+      source-map-js: 1.2.1
 
   css-what@6.1.0: {}
 
@@ -651,9 +656,9 @@ snapshots:
     dependencies:
       boolbase: 1.0.0
 
-  picocolors@1.1.0: {}
+  picocolors@1.1.1: {}
 
-  source-map-js@1.2.0: {}
+  source-map-js@1.2.1: {}
 
   svgo@3.3.2:
     dependencies:
@@ -663,7 +668,7 @@ snapshots:
       css-tree: 2.3.1
       css-what: 6.1.0
       csso: 5.0.5
-      picocolors: 1.1.0
+      picocolors: 1.1.1
 
   tslib@2.8.0: {}
 

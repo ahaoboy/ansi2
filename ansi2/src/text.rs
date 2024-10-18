@@ -10,5 +10,5 @@ pub fn to_text<S: AsRef<str>>(str: S, width: Option<usize>) -> String {
         }
         list.push('\n')
     }
-    return list.iter().collect();
+    list.iter().collect()
 }

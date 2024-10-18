@@ -1,0 +1,30 @@
+{
+  "name": "ansi2",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "pre-check": "cargo clippy --fix --allow-dirty --allow-staged && npm run format && npm run lint:fix",
+    "format": "biome format --write  ./",
+    "lint:fix": "biome lint ./ --write --unsafe"
+  },
+  "description": "ansi2",
+  "main": "dist/index.js",
+  "bin": "./bin/cli.js",
+  "types": "./dist/index.d.ts",
+  "author": "ahaoboy",
+  "license": "MIT",
+  "homepage": "https://github.com/ahaoboy/ansi2",
+  "files": ["dist", "bin"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahaoboy/ansi2.git"
+  },
+  "devDependencies": {
+    "lefthook": "1.7.18",
+    "@biomejs/biome": "1.9.3",
+    "@types/node": "22.7.6",
+    "esbuild": "0.24.0",
+    "typescript": "5.6.3",
+    "wasm-pack-inline": "0.1.2"
+  }
+}
