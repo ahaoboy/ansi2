@@ -64,6 +64,8 @@ async function main() {
     .option("--font [type]", "font", undefined)
     .option("-m, --mode [type]", "mode", undefined)
     .option("-c, --compress [type]", "compress", undefined)
+    .option("--light-bg [type]", "light-bg", undefined)
+    .option("--dark-bg [type]", "dark-bg", undefined)
 
   program.parse()
 
@@ -77,15 +79,40 @@ async function main() {
     typeof options.font === "undefined" ? undefined : getFontUrl(options.font)
 
   const compress = options.compress === "undefined" ? false : options.compress
+
+  console.error(
+    "options:",
+    options.lightBg,
+    options.darkBg,
+    JSON.stringify(options),
+  )
   switch (format) {
     case "svg": {
-      const s = to_svg(input, theme, width, font, mode)
+      const s = to_svg(
+        input,
+        theme,
+        width,
+        font,
+        mode,
+        options.lightBg,
+        options.darkBg,
+      )
       const result = compress ? optimize(s).data : s
       process.stdout.write(result)
       break
     }
     case "html": {
-      process.stdout.write(to_html(input, theme, width, font, mode))
+      process.stdout.write(
+        to_html(
+          input,
+          theme,
+          width,
+          font,
+          mode,
+          options.lightBg,
+          options.darkBg,
+        ),
+      )
       break
     }
     case "text": {

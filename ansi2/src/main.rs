@@ -33,10 +33,15 @@ struct Args {
 
     #[arg(short, long, default_value_t = false)]
     compress: bool,
+
+    #[arg(long)]
+    light_bg: Option<String>,
+    #[arg(long)]
+    dark_bg: Option<String>,
 }
 
 fn main() {
-    let args = Args::parse();
+    let args: Args = Args::parse();
 
     let format = args.format.unwrap_or(Format::Svg);
     let theme = args.theme.unwrap_or(Theme::Vscode);
@@ -66,8 +71,8 @@ fn main() {
 
     let s = String::from_utf8_lossy(&buf);
     let mut output = match format {
-        Format::Svg => to_svg(s, theme, width, base64, mode),
-        Format::Html => to_html(&s, theme, width, base64, mode),
+        Format::Svg => to_svg(s, theme, width, base64, mode, args.light_bg, args.dark_bg),
+        Format::Html => to_html(&s, theme, width, base64, mode, args.light_bg, args.dark_bg),
         Format::Text => to_text(&s, width),
     };
 

@@ -12,6 +12,8 @@ pub fn to_svg<S: AsRef<str>>(
     width: Option<usize>,
     font: Option<String>,
     mode: Option<Mode>,
+    light_bg: Option<String>,
+    dark_bg: Option<String>,
 ) -> String {
     let s = str.as_ref();
     let canvas = Canvas::new(s, width);
@@ -21,7 +23,7 @@ pub fn to_svg<S: AsRef<str>>(
     let fn_h = 32;
     let baseline_h = 16;
     let mut cur_y = 0;
-    let style = to_style(theme, CssType::Svg, mode);
+    let style = to_style(theme, CssType::Svg, mode,light_bg,dark_bg);
     let mut font_style = "".into();
     let mut font_family = "Consolas,Courier New,Monaco".into();
 

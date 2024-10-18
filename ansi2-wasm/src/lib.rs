@@ -8,6 +8,8 @@ pub fn to_svg(
     width: Option<usize>,
     font: Option<String>,
     mode: Option<Mode>,
+    light_bg: Option<String>,
+    dark_bg: Option<String>,
 ) -> String {
     let mode = mode.map(|m| match m {
         Mode::Dark => ansi2::css::Mode::Dark,
@@ -19,6 +21,8 @@ pub fn to_svg(
         width,
         font,
         mode,
+        light_bg,
+        dark_bg,
     )
 }
 
@@ -29,6 +33,8 @@ pub fn to_html(
     width: Option<usize>,
     font: Option<String>,
     mode: Option<Mode>,
+    light_bg: Option<String>,
+    dark_bg: Option<String>,
 ) -> String {
     let mode = mode.map(|m| match m {
         Mode::Dark => ansi2::css::Mode::Dark,
@@ -40,6 +46,8 @@ pub fn to_html(
         width,
         font,
         mode,
+        light_bg,
+        dark_bg,
     )
 }
 

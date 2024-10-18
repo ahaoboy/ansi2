@@ -69,6 +69,14 @@ dark / light
 neofetch | ansi2 --format=svg --mode=dark > neofetch.svg
 ```
 
+### light-bg and dark-bg
+
+Set the background color for dark and light modes. The default for light mode is ```#FFFFFF```, and the default for dark mode is ```#181818```
+
+```bash
+neofetch | ansi2 --format=svg --light-bg=#FFFFFF --dark-bg=#181818 > neofetch.svg
+```
+
 ### compress
 
 Compressing using [osvg](https://github.com/ahaoboy/osvg) and [svgo](https://github.com/svg/svgo), this will increase the running time by several seconds, but can save half of the storage space.
@@ -108,3 +116,4 @@ ls | table | ansi2 | save nu-ls.svg -f
 ## todo
 
 - [ ] link
+- [ ] merge characters of the same style to reduce the number of tags

@@ -18,9 +18,15 @@ pub enum Mode {
     Light,
 }
 
-pub(crate) fn to_style(theme: impl ColorTable, ty: CssType, mode: Option<Mode>) -> String {
-    let dark_bg_color = "rgb(32,32,32)".to_string();
-    let light_bg_color = "rgba(255,255,255,0)".to_string();
+pub(crate) fn to_style(
+    theme: impl ColorTable,
+    ty: CssType,
+    mode: Option<Mode>,
+    light_bg: Option<String>,
+    dark_bg: Option<String>,
+) -> String {
+    let dark_bg_color = dark_bg.unwrap_or("#181818".to_string());
+    let light_bg_color = light_bg.unwrap_or("#FFFFFF".to_string());
 
     let (color_field, bg_field) = match ty {
         CssType::Html => ("color", "background-color"),
