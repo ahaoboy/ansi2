@@ -6,18 +6,22 @@
  * @param {number | undefined} [width]
  * @param {string | undefined} [font]
  * @param {Mode | undefined} [mode]
+ * @param {string | undefined} [light_bg]
+ * @param {string | undefined} [dark_bg]
  * @returns {string}
  */
-export function to_svg(s: string, theme: Theme, width?: number, font?: string, mode?: Mode): string;
+export function to_svg(s: string, theme: Theme, width?: number, font?: string, mode?: Mode, light_bg?: string, dark_bg?: string): string;
 /**
  * @param {string} s
  * @param {Theme} theme
  * @param {number | undefined} [width]
  * @param {string | undefined} [font]
  * @param {Mode | undefined} [mode]
+ * @param {string | undefined} [light_bg]
+ * @param {string | undefined} [dark_bg]
  * @returns {string}
  */
-export function to_html(s: string, theme: Theme, width?: number, font?: string, mode?: Mode): string;
+export function to_html(s: string, theme: Theme, width?: number, font?: string, mode?: Mode, light_bg?: string, dark_bg?: string): string;
 /**
  * @param {string} s
  * @param {number | undefined} [width]
