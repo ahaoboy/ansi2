@@ -71,14 +71,16 @@ fn main() {
 
     let s = String::from_utf8_lossy(&buf);
     let mut output = match format {
-        Format::Svg => to_svg(s, theme, width, base64, mode, args.light_bg, args.dark_bg),
+        Format::Svg => {
+            let mut svg = to_svg(s, theme, width, base64, mode, args.light_bg, args.dark_bg);
+            if args.compress {
+              svg = osvg::osvg(&svg).expect("compress error");
+            }
+            svg
+        }
         Format::Html => to_html(&s, theme, width, base64, mode, args.light_bg, args.dark_bg),
         Format::Text => to_text(&s, width),
     };
-
-    if args.compress {
-        output = osvg::osvg(&output).expect("compress error");
-    }
 
     println!("{}", output);
 }
