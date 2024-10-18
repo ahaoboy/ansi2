@@ -11,9 +11,9 @@ use crate::theme::{ColorTable, COLOR256};
 
 #[derive(Debug, Clone, Copy)]
 pub enum AnsiColor {
-    Color8(u32),
-    Color256(u32),
-    Rgb(u32, u32, u32),
+    Color8(u8),
+    Color256(u8),
+    Rgb(u8, u8, u8),
 }
 impl AnsiColor {
     pub fn name(&self) -> String {
@@ -139,16 +139,16 @@ pub enum Token {
     DoublyUnderlined,
     NotUnderlined,
     NotBlinking,
-    Sgr2(u32, u32),
-    Sgr3(u32, u32, u32),
-    Sgr4(u32, u32, u32, u32),
+    Sgr2(u8, u8),
+    Sgr3(u8, u8, u8),
+    Sgr4(u8, u8, u8, u8),
 
     // url, title
     Link(String, String),
 
-    AlternativeFont(u32),
+    AlternativeFont(u8),
     NotReversed,
-    Unknown(u32),
+    Unknown(u8),
 }
 
 fn parse_cursor_up(input: &str) -> IResult<&str, Token> {
@@ -298,7 +298,7 @@ fn parse_color_underline(input: &str) -> IResult<&str, Token> {
 fn parse_sgr1(input: &str) -> IResult<&str, Token> {
     let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("m")))(input)?;
 
-    let n = str::parse(b).unwrap_or_default();
+    let n: u8 = str::parse(b).unwrap_or_default();
     let tk = match n {
         0 => Token::ColorReset,
         1 => Token::Bold,
@@ -520,11 +520,11 @@ fn parse_sgr10(input: &str) -> IResult<&str, Token> {
         ))(input)?;
     let mut fg = AnsiColor::Color8(0);
     let mut bg = AnsiColor::Color8(0);
-    let c1: u32 = c1.parse().unwrap_or_default();
-    let t1: u32 = t1.parse().unwrap_or_default();
-    let r1: u32 = r1.parse().unwrap_or_default();
-    let g1: u32 = g1.parse().unwrap_or_default();
-    let b1: u32 = b1.parse().unwrap_or_default();
+    let c1: u8 = c1.parse().unwrap_or_default();
+    let t1: u8 = t1.parse().unwrap_or_default();
+    let r1: u8 = r1.parse().unwrap_or_default();
+    let g1: u8 = g1.parse().unwrap_or_default();
+    let b1: u8 = b1.parse().unwrap_or_default();
     if c1 == 38 && t1 == 2 {
         fg = AnsiColor::Rgb(r1, g1, b1)
     }
@@ -532,11 +532,11 @@ fn parse_sgr10(input: &str) -> IResult<&str, Token> {
         bg = AnsiColor::Rgb(r1, g1, b1)
     }
 
-    let c2: u32 = c2.parse().unwrap_or_default();
-    let t2: u32 = t2.parse().unwrap_or_default();
-    let r2: u32 = r2.parse().unwrap_or_default();
-    let g2: u32 = g2.parse().unwrap_or_default();
-    let b2: u32 = b2.parse().unwrap_or_default();
+    let c2: u8 = c2.parse().unwrap_or_default();
+    let t2: u8 = t2.parse().unwrap_or_default();
+    let r2: u8 = r2.parse().unwrap_or_default();
+    let g2: u8 = g2.parse().unwrap_or_default();
+    let b2: u8 = b2.parse().unwrap_or_default();
     if c2 == 38 && t2 == 2 {
         fg = AnsiColor::Rgb(r2, g2, b2)
     }
@@ -567,7 +567,7 @@ fn parse_unknown(input: &str) -> IResult<&str, Token> {
         nom::character::complete::char('\x1e'),
     ))(input)?;
 
-    Ok((rem, Token::Unknown(n as u32)))
+    Ok((rem, Token::Unknown(n as u8)))
 }
 
 fn parse_link_no_title(input: &str) -> IResult<&str, Token> {

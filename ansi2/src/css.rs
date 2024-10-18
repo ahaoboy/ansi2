@@ -1,6 +1,6 @@
 use crate::theme::{ColorTable, COLOR256};
 
-fn get_hex((r, g, b): (u8, u8, u8)) -> String {
+pub fn get_hex((r, g, b): (u8, u8, u8)) -> String {
     format!("#{:02X}{:02X}{:02X}", r, g, b)
 }
 
@@ -34,20 +34,16 @@ pub(crate) fn to_style(
     };
 
     let mut color256 = Vec::new();
-    for (i, (r, g, b)) in COLOR256.iter().enumerate() {
-        color256.push(format!(
-            ".color256_{i}{{ {color_field}: rgb({r},{g},{b}) ;}}"
-        ));
+    for (i, c) in COLOR256.iter().enumerate() {
+        color256.push(format!(".color256_{i}{{{color_field}:{};}}", get_hex(*c)));
     }
 
     let mut color256bg = Vec::new();
-    for (i, (r, g, b)) in COLOR256.iter().enumerate() {
-        color256bg.push(format!(
-            ".bg-color256_{i}{{ {bg_field}: rgb({r},{g},{b}) ;}}"
-        ));
+    for (i, c) in COLOR256.iter().enumerate() {
+        color256bg.push(format!(".bg-color256_{i}{{{bg_field}:{};}}", get_hex(*c)));
     }
 
-    let color256_str = color256.join("\n") + &color256bg.join("\n");
+    let color256_str = color256.join("") + &color256bg.join("");
     let light_colors = [
         ("black", get_hex(theme.black())),
         ("red", get_hex(theme.red())),
@@ -86,33 +82,13 @@ pub(crate) fn to_style(
     ];
 
     let common_style = r#"
-.bold{
-font-weight: bold;
-}
-.hide{
-  opacity: 0;
-}
-.dim{
-  font-weight: lighter;
-  opacity: 0.5;
-}
-
-.italic{
-  font-style: italic;
-}
-.underline{
-  text-decoration: underline;
-}
-
-.blink {
-animation: blink_keyframes 1s steps(1, end) infinite;
-}
-
-@keyframes blink_keyframes{
-50% {
-opacity: 0;
-}
-}
+.bold{font-weight: bold;}
+.hide{opacity: 0;}
+.dim{font-weight: lighter;opacity: 0.5;}
+.italic{font-style: italic;}
+.underline{text-decoration: underline;}
+.blink {animation: blink_keyframes 1s steps(1, end) infinite;}
+@keyframes blink_keyframes{50% {opacity: 0;}}
 "#;
 
     let light_color_css: String = light_colors

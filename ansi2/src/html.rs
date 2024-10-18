@@ -106,11 +106,7 @@ pub fn to_html<S: AsRef<str>>(
 
     format!(
         r#"<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>
 {font_style}
 {style}
 {color256_str}
@@ -121,15 +117,7 @@ pub fn to_html<S: AsRef<str>>(
   padding: 0;
   font-family: {font_family};
   white-space: pre;
-}}
-
-
-  </style>
-</head>
-<body>
-{s}
-</body>
-</html>
+}}</style></head><body>{s}</body></html>
 "#
     )
 }

@@ -70,11 +70,11 @@ fn main() {
     });
 
     let s = String::from_utf8_lossy(&buf);
-    let mut output = match format {
+    let output = match format {
         Format::Svg => {
             let mut svg = to_svg(s, theme, width, base64, mode, args.light_bg, args.dark_bg);
             if args.compress {
-              svg = osvg::osvg(&svg).expect("compress error");
+                svg = osvg::osvg(&svg).expect("compress error");
             }
             svg
         }

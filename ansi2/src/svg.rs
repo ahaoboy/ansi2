@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 
 use crate::{
-    css::{to_style, CssType, Mode},
+    css::{get_hex, to_style, CssType, Mode},
     theme::ColorTable,
     Canvas,
 };
@@ -55,12 +55,12 @@ src: url({url});
                 let class_str = format!(" class='{}'", name);
                 s.push_str(&format!(
                     r#"<rect x="{cur_x}px" y="{cur_y}px" width="{fn_w}px" height="{fn_h}px" {class_str}/>"#
-                    ,
                 ));
 
                 if let crate::lex::AnsiColor::Rgb(r, g, b) = c.color {
                     color256.insert(format!(
-                        ".bg-rgb_{r}_{g}_{b}{{ fill: rgb({r},{g},{b}) ;}}\n"
+                        ".bg-rgb_{r}_{g}_{b}{{fill:{};}}\n",
+                        get_hex((r, g, b))
                     ));
                 }
             }
@@ -70,7 +70,10 @@ src: url({url});
                 text_class.push(name);
 
                 if let crate::lex::AnsiColor::Rgb(r, g, b) = c.color {
-                    color256.insert(format!(".rgb_{r}_{g}_{b}{{ fill: rgb({r},{g},{b}) ;}}\n"));
+                    color256.insert(format!(
+                        ".rgb_{r}_{g}_{b}{{fill:{};}}\n",
+                        get_hex((r, g, b))
+                    ));
                 }
             };
 
@@ -123,12 +126,7 @@ class_str ,
     let color256_str: String = color256.into_iter().collect();
 
     format!(
-        r#"<svg
-width="{svg_w}px"
-height="{svg_h}px"
-xmlns="http://www.w3.org/2000/svg"
-xmlns:xlink="http://www.w3.org/1999/xlink"
->
+        r#"<svg width="{svg_w}px" height="{svg_h}px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <style>
 tspan {{
 font-variant-ligatures: none;
