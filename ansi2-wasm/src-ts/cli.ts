@@ -91,7 +91,20 @@ async function main() {
         options.lightBg,
         options.darkBg,
       )
-      const result = compress ? optimize(s).data : s
+      const result = compress
+        ? optimize(s, {
+            plugins: [
+              {
+                name: "preset-default",
+                params: {
+                  overrides: {
+                    inlineStyles: false,
+                  },
+                },
+              },
+            ],
+          }).data
+        : s
       process.stdout.write(result)
       break
     }

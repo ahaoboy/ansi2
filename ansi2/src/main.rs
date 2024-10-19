@@ -74,7 +74,25 @@ fn main() {
         Format::Svg => {
             let mut svg = to_svg(s, theme, width, base64, mode, args.light_bg, args.dark_bg);
             if args.compress {
-                svg = osvg::osvg(&svg).expect("compress error");
+                svg = osvg::osvg(
+                    &svg,
+                    Some(
+                        r#"
+{
+  plugins: [
+    {
+      name: "preset-default",
+      params: {
+        overrides: {
+          inlineStyles: false,
+        },
+      },
+    },
+  ],
+}"#,
+                    ),
+                )
+                .expect("compress error");
             }
             svg
         }
