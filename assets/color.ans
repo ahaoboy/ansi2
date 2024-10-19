@@ -1,0 +1,17 @@
+black           [30m[40mblack[0m
+red             [31m[41mred[0m
+green           [32m[42mgreen[0m
+yellow          [33m[43myellow[0m
+blue            [34m[44mblue[0m
+magenta         [35m[45mmagenta[0m
+cyan            [36m[46mcyan[0m
+white           [37m[47mwhite[0m
+
+bright_black    [90m[100mbright_black[0m
+bright_red      [91m[101mbright_red[0m
+bright_green    [92m[102mbright_green[0m
+bright_yellow   [93m[103mbright_yellow[0m
+bright_blue     [94m[104mbright_blue[0m
+bright_magenta  [95m[105mbright_magenta[0m
+bright_cyan     [96m[106mbright_cyan[0m
+bright_white    [97m[107mbright_white[0m
