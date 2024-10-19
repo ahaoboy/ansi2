@@ -3,6 +3,7 @@ import { to_svg, to_html, to_text, Theme } from "./wasm"
 import { readFileSync, existsSync } from "node:fs"
 import { optimize } from "svgo"
 import { Mode } from "./wasm"
+import { version } from "../package.json"
 
 async function readToString() {
   return new Promise<string>((resolve) => {
@@ -55,19 +56,20 @@ function getMode(s: string | undefined): Mode | undefined {
 }
 
 async function main() {
-  const input = await readToString()
-
   program
-    .option("-f, --format [type]", "output format", "svg")
-    .option("-t, --theme [type]", "color theme", "vscode")
-    .option("-w, --width [type]", "width", undefined)
-    .option("--font [type]", "font", undefined)
-    .option("-m, --mode [type]", "mode", undefined)
-    .option("-c, --compress [type]", "compress", undefined)
-    .option("--light-bg [type]", "light-bg", undefined)
-    .option("--dark-bg [type]", "dark-bg", undefined)
+    .option("-f, --format [html, svg, text]", "output format", "svg")
+    .option("-t, --theme [vscode, ubuntu, vga, xterm]", "color theme", "vscode")
+    .option("-w, --width [number]", "width", undefined)
+    .option("--font [string]", "font", undefined)
+    .option("-m, --mode [dark, light]", "mode", undefined)
+    .option("-c, --compress [bool]", "compress", undefined)
+    .option("--light-bg [string eg.#FFFFFF]", "light-bg", undefined)
+    .option("--dark-bg [string eg.#000000]", "dark-bg", undefined)
+    .version(version)
 
   program.parse()
+
+  const input = await readToString()
 
   const options = program.opts()
   const theme = getTheme(options.theme ?? "vscode")
