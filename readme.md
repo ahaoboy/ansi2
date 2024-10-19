@@ -81,8 +81,6 @@ neofetch | ansi2 --format=svg --light-bg=#FFFFFF --dark-bg=#181818 > neofetch.sv
 
 Compressing using [osvg](https://github.com/ahaoboy/osvg) and [svgo](https://github.com/svg/svgo), this will increase the running time by several seconds, but can save half of the storage space.
 
-Note: Since svgo removes media queries and css variables, it is only recommended to use it in a specific mode.
-
 ```bash
 neofetch | ansi2 --format=svg --compress > neofetch.svg
 neofetch | ansi2 --format=svg -c > neofetch.svg
