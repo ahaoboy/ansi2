@@ -414,6 +414,12 @@ mod test {
         let r = parse_ansi(s).unwrap();
         assert_debug_snapshot!(r);
     }
+    #[test]
+    fn test_link_ll() {
+        let s = "]8;;file://win/c/code/ansi2/targettarget]8;;";
+        let r = parse_ansi(s).unwrap();
+        assert_debug_snapshot!(r);
+    }
 
     #[test]
     fn test_sgr6() {

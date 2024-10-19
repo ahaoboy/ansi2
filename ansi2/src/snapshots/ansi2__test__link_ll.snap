@@ -1,0 +1,13 @@
+---
+source: ansi2/src/lib.rs
+expression: r
+---
+(
+    "",
+    [
+        Link(
+            "file://win/c/code/ansi2/target",
+            "target",
+        ),
+    ],
+)
