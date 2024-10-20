@@ -58,8 +58,8 @@ impl Canvas {
         let (_, lex) = parse_ansi(s).unwrap();
         let mut cur_x = 0;
         let mut cur_y = 0;
-        let mut cur_c = AnsiColor::Color8(39);
-        let mut cur_bg_c = AnsiColor::Color8(49);
+        let mut cur_c = AnsiColor::Color8(0);
+        let mut cur_bg_c = AnsiColor::Color8(0);
         let mut bold = false;
         let mut dim = false;
         let mut italic = false;
@@ -83,8 +83,8 @@ impl Canvas {
                     italic = false;
                     underline = false;
 
-                    cur_bg_c = AnsiColor::Color8(39);
-                    cur_c = AnsiColor::Color8(49);
+                    cur_bg_c = AnsiColor::Color8(0);
+                    cur_c = AnsiColor::Color8(0);
                     blink = false;
                     blink_c = 0;
                     hide = false;
@@ -268,10 +268,10 @@ impl Canvas {
                     (cur_bg_c, cur_c) = (cur_c, cur_bg_c);
                 }
                 Token::ColorDefaultForeground => {
-                    cur_c = AnsiColor::Color8(39);
+                    cur_c = AnsiColor::Color8(0);
                 }
                 Token::ColorDefaultBackground => {
-                    cur_bg_c = AnsiColor::Color8(49);
+                    cur_bg_c = AnsiColor::Color8(0);
                 }
 
                 Token::Link(_, title) => match parse_ansi(&title) {
