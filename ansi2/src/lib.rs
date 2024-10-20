@@ -330,6 +330,15 @@ impl Canvas {
 mod test {
     use crate::{lex::parse_ansi, Canvas};
     use insta::assert_debug_snapshot;
+    #[test]
+    fn test_plain() {
+        let s = "ansi";
+        let r = parse_ansi(s).unwrap();
+        assert_debug_snapshot!(r);
+
+        let canvas = Canvas::new(s, None);
+        assert_debug_snapshot!(canvas);
+    }
 
     #[test]
     fn test() {
