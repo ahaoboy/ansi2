@@ -6,7 +6,7 @@ pub mod text;
 pub mod theme;
 use std::collections::VecDeque;
 
-use lex::{get_sgr, parse_ansi, AnsiColor, Token};
+use lex::{parse_ansi, AnsiColor, Token};
 
 #[derive(Debug, Clone)]
 pub struct Node {
@@ -36,8 +36,8 @@ fn set_node(v: &mut Vec<Vec<Node>>, node: Node, x: usize, y: usize) {
     let row = &mut v[y];
     while x >= row.len() {
         let empty = Node {
-            bg_color: AnsiColor::Color8(0),
-            color: AnsiColor::Color8(0),
+            bg_color: AnsiColor::Default,
+            color: AnsiColor::Default,
             bold: false,
             char: ' ',
             blink: false,
@@ -58,8 +58,8 @@ impl Canvas {
         let (_, lex) = parse_ansi(s).unwrap();
         let mut cur_x = 0;
         let mut cur_y = 0;
-        let mut cur_c = AnsiColor::Color8(0);
-        let mut cur_bg_c = AnsiColor::Color8(0);
+        let mut cur_c = AnsiColor::Default;
+        let mut cur_bg_c = AnsiColor::Default;
         let mut bold = false;
         let mut dim = false;
         let mut italic = false;
@@ -83,8 +83,8 @@ impl Canvas {
                     italic = false;
                     underline = false;
 
-                    cur_bg_c = AnsiColor::Color8(0);
-                    cur_c = AnsiColor::Color8(0);
+                    cur_bg_c = AnsiColor::Default;
+                    cur_c = AnsiColor::Default;
                     blink = false;
                     blink_c = 0;
                     hide = false;
@@ -185,80 +185,15 @@ impl Canvas {
                     cur_x = x as usize;
                     cur_y = y as usize;
                 }
-
-                Token::Sgr2(ctrl, background) => {
-                    match background {
-                        30..=39 | 90..=97 => cur_c = AnsiColor::Color8(background),
-                        40..=49 | 100..=107 => cur_bg_c = AnsiColor::Color8(background),
-                        _ => {}
-                    };
-                    q.push_front(get_sgr(ctrl));
-                }
-                Token::Sgr3(ctrl, front, background) => {
-                    do_sgr(ctrl);
-                    cur_c = AnsiColor::Color8(front);
-                    cur_bg_c = AnsiColor::Color8(background);
-                }
-                Token::Sgr4(reset, ctrl, a, b) => {
-                    // FIXME: handle multiple control by queue
-                    if reset == 0 {
-                        do_sgr(0);
-                    }
-                    match ctrl {
-                        0 => do_sgr(0),
-                        1 => {
-                            bold = true;
-                            cur_c = AnsiColor::Color8(a);
-                            cur_bg_c = AnsiColor::Color8(b);
-                        }
-                        2 => {
-                            dim = true;
-                            cur_c = AnsiColor::Color8(a);
-                            cur_bg_c = AnsiColor::Color8(b);
-                        }
-                        3 => {
-                            italic = true;
-
-                            cur_c = AnsiColor::Color8(a);
-                            cur_bg_c = AnsiColor::Color8(b);
-                        }
-                        4 => {
-                            underline = true;
-                            cur_c = AnsiColor::Color8(a);
-                            cur_bg_c = AnsiColor::Color8(b);
-                        }
-
-                        5 | 6 => {
-                            blink = true;
-                            cur_bg_c = AnsiColor::Color256(a);
-                            blink_c = b;
-                        }
-                        48 => match a {
-                            5 => {
-                                cur_bg_c = AnsiColor::Color256(b);
-                            }
-                            _ => {
-                                cur_bg_c = AnsiColor::Color8(b);
-                            }
-                        },
-                        38 => match a {
-                            5 => {
-                                cur_c = AnsiColor::Color256(b);
-                            }
-                            _ => {
-                                cur_c = AnsiColor::Color8(b);
-                            }
-                        },
-                        _ => {
-                            cur_c = AnsiColor::Color8(a);
-                            cur_bg_c = AnsiColor::Color8(b);
-                        }
-                    }
-                }
-
                 Token::SlowBlink | Token::RapidBlink => blink = true,
                 Token::ColorInvert => {
                     (cur_bg_c, cur_c) = (cur_c, cur_bg_c);
+                    if cur_bg_c == AnsiColor::Default {
+                        cur_bg_c = AnsiColor::Color8(lex::Color8::Black);
+                    }
+                    if cur_c == AnsiColor::Default {
+                        cur_c = AnsiColor::Color8(lex::Color8::White);
+                    }
                 }
                 Token::NormalIntensity => {
                     dim = false;
@@ -268,10 +203,10 @@ impl Canvas {
                     (cur_bg_c, cur_c) = (cur_c, cur_bg_c);
                 }
                 Token::ColorDefaultForeground => {
-                    cur_c = AnsiColor::Color8(0);
+                    cur_c = AnsiColor::Default;
                 }
                 Token::ColorDefaultBackground => {
-                    cur_bg_c = AnsiColor::Color8(0);
+                    cur_bg_c = AnsiColor::Default;
                 }
 
                 Token::Link(_, title) => match parse_ansi(&title) {
@@ -314,6 +249,12 @@ impl Canvas {
                 },
                 Token::CursorHide => {
                     hide = true;
+                }
+
+                Token::List(v) => {
+                    for i in v.into_iter().rev() {
+                        q.push_front(i);
+                    }
                 }
                 _ => {}
             }

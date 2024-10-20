@@ -17,7 +17,7 @@ expression: r
         ),
         ColorFgBg(
             Color8(
-                30,
+                Black,
             ),
             Rgb(
                 218,
@@ -46,7 +46,7 @@ expression: r
         ),
         ColorForeground(
             Color8(
-                30,
+                Black,
             ),
         ),
         Char(

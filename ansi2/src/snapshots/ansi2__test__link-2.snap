@@ -6,12 +6,8 @@ Canvas {
     pixels: [
         [
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: ']',
@@ -21,12 +17,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: '8',
@@ -36,12 +28,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: ';',
@@ -51,12 +39,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: ';',
@@ -66,12 +50,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'f',
@@ -81,12 +61,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'i',
@@ -96,12 +72,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'l',
@@ -111,12 +83,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'e',
@@ -126,12 +94,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: ':',
@@ -141,12 +105,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: '/',
@@ -156,12 +116,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: '/',
@@ -171,12 +127,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: '/',
@@ -186,12 +138,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'U',
@@ -201,12 +149,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 's',
@@ -216,12 +160,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'e',
@@ -231,12 +171,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'r',
@@ -246,12 +182,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 's',
@@ -261,12 +193,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: '/',
@@ -276,12 +204,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'x',
@@ -291,12 +215,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'x',
@@ -306,12 +226,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'x',
@@ -321,12 +237,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: '/',
@@ -336,12 +248,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 's',
@@ -351,12 +259,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'r',
@@ -366,12 +270,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'c',
@@ -381,12 +281,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: '/',
@@ -396,12 +292,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'n',
@@ -411,12 +303,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'e',
@@ -426,12 +314,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'w',
@@ -441,12 +325,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: '-',
@@ -456,12 +336,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'n',
@@ -471,12 +347,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'u',
@@ -486,12 +358,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: '-',
@@ -501,12 +369,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'p',
@@ -516,12 +380,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'a',
@@ -531,12 +391,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'r',
@@ -546,12 +402,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 's',
@@ -561,12 +413,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'e',
@@ -576,12 +424,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'r',
@@ -591,12 +435,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: '/',
@@ -606,12 +446,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'C',
@@ -621,12 +457,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'a',
@@ -636,12 +468,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'r',
@@ -651,12 +479,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'g',
@@ -666,12 +490,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'o',
@@ -681,12 +501,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: '.',
@@ -696,12 +512,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 't',
@@ -711,12 +523,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'o',
@@ -726,12 +534,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'm',
@@ -741,12 +545,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'l',
@@ -756,12 +556,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: '\\',
@@ -771,12 +567,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'C',
@@ -786,12 +578,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'a',
@@ -801,12 +589,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'r',
@@ -816,12 +600,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'g',
@@ -831,12 +611,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'o',
@@ -846,12 +622,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: '.',
@@ -861,12 +633,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 't',
@@ -876,12 +644,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'o',
@@ -891,12 +655,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'm',
@@ -906,12 +666,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'l',
@@ -921,12 +677,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: ']',
@@ -936,12 +688,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: '8',
@@ -951,12 +699,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: ';',
@@ -966,12 +710,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: ';',

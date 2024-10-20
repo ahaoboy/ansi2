@@ -7,78 +7,96 @@ use nom::sequence::tuple;
 
 use nom::IResult;
 
-use crate::theme::{ColorTable, COLOR256};
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Color8 {
+    Black,
+    Red,
+    Green,
+    Yellow,
+    Blue,
+    Magenta,
+    Cyan,
+    White,
+    BrightBlack,
+    BrightRed,
+    BrightGreen,
+    BrightYellow,
+    BrightBlue,
+    BrightMagenta,
+    BrightCyan,
+    BrightWhite,
+}
 
-#[derive(Debug, Clone, Copy)]
+impl Color8 {
+    pub fn class_name(&self) -> String {
+        match self {
+            Color8::Black => "black".into(),
+            Color8::Red => "red".into(),
+            Color8::Green => "green".into(),
+            Color8::Yellow => "yellow".into(),
+            Color8::Blue => "blue".into(),
+            Color8::Magenta => "magenta".into(),
+            Color8::Cyan => "cyan".into(),
+            Color8::White => "white".into(),
+            Color8::BrightBlack => "bright_black".into(),
+            Color8::BrightRed => "bright_red".into(),
+            Color8::BrightGreen => "bright_green".into(),
+            Color8::BrightYellow => "bright_yellow".into(),
+            Color8::BrightBlue => "bright_blue".into(),
+            Color8::BrightMagenta => "bright_magenta".into(),
+            Color8::BrightCyan => "bright_cyan".into(),
+            Color8::BrightWhite => "bright_white".into(),
+        }
+    }
+
+    pub fn from_u8(n: u8) -> Color8 {
+        match n {
+            30 | 40 => Color8::Black,
+            31 | 41 => Color8::Red,
+            32 | 42 => Color8::Green,
+            33 | 43 => Color8::Yellow,
+            34 | 44 => Color8::Blue,
+            35 | 45 => Color8::Magenta,
+            36 | 46 => Color8::Cyan,
+            37 | 47 => Color8::White,
+
+            90 | 100 => Color8::BrightBlack,
+            91 | 101 => Color8::BrightRed,
+            92 | 102 => Color8::BrightGreen,
+            93 | 103 => Color8::BrightYellow,
+            94 | 104 => Color8::BrightBlue,
+            95 | 105 => Color8::BrightMagenta,
+            96 | 106 => Color8::BrightCyan,
+            97 | 107 => Color8::BrightWhite,
+            _ => Color8::Black,
+        }
+    }
+}
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum AnsiColor {
-    Color8(u8),
+    Default,
+    Color8(Color8),
     Color256(u8),
     Rgb(u8, u8, u8),
 }
 impl AnsiColor {
-    pub fn name(&self) -> String {
+    pub fn class_name(&self) -> String {
         match self {
-            AnsiColor::Color8(n) => match n {
-                30 | 40 => "black".into(),
-                31 | 41 => "red".into(),
-                32 | 42 => "green".into(),
-                33 | 43 => "yellow".into(),
-                34 | 44 => "blue".into(),
-                35 | 45 => "magenta".into(),
-                36 | 46 => "cyan".into(),
-                37 | 47 => "white".into(),
-                // TODO: default color is white or black?
-                39 | 49 => "white".into(),
-
-                90 | 100 => "bright_black".into(),
-                91 | 101 => "bright_red".into(),
-                92 | 102 => "bright_green".into(),
-                93 | 103 => "bright_yellow".into(),
-                94 | 104 => "bright_blue".into(),
-                95 | 105 => "bright_magenta".into(),
-                96 | 106 => "bright_cyan".into(),
-                97 | 107 => "bright_white".into(),
-                _ => "white".into(),
-            },
+            AnsiColor::Default => "default".into(),
+            AnsiColor::Color8(n) => n.class_name(),
             AnsiColor::Rgb(r, g, b) => format!("rgb_{}_{}_{}", r, g, b),
             AnsiColor::Color256(c) => format!("color256_{}", c),
         }
     }
 
-    pub fn to_rgb(&self, th: impl ColorTable) -> String {
-        match self {
-            AnsiColor::Color8(n) => match n {
-                30 | 40 => format!("rgb{:?}", th.black()),
-                31 | 41 => format!("rgb{:?}", th.red()),
-                32 | 42 => format!("rgb{:?}", th.green()),
-                33 | 43 => format!("rgb{:?}", th.yellow()),
-                34 | 44 => format!("rgb{:?}", th.blue()),
-                35 | 45 => format!("rgb{:?}", th.magenta()),
-                36 | 46 => format!("rgb{:?}", th.cyan()),
-                37 | 47 => format!("rgb{:?}", th.white()),
-                // TODO: default color is white or black?
-                39 | 49 => format!("rgb{:?}", th.white()),
-
-                90 | 100 => format!("rgb{:?}", th.bright_black()),
-                91 | 101 => format!("rgb{:?}", th.bright_red()),
-                92 | 102 => format!("rgb{:?}", th.bright_green()),
-                93 | 103 => format!("rgb{:?}", th.bright_yellow()),
-                94 | 104 => format!("rgb{:?}", th.bright_blue()),
-                95 | 105 => format!("rgb{:?}", th.bright_magenta()),
-                96 | 106 => format!("rgb{:?}", th.bright_cyan()),
-                97 | 107 => format!("rgb{:?}", th.bright_white()),
-                _ => format!("rgb{:?}", th.white()),
-            },
-            AnsiColor::Rgb(r, g, b) => format!("rgb({}, {}, {})", r, g, b),
-            AnsiColor::Color256(c) => {
-                let (r, g, b) = COLOR256[*c as usize];
-                format!("rgb({}, {}, {})", r, g, b)
-            }
+    pub fn from_u8(n: u8) -> AnsiColor {
+        match n {
+            30..=37 | 40..=47 | 90..=97 | 100..=107 => AnsiColor::Color8(Color8::from_u8(n)),
+            _ => AnsiColor::Default,
         }
     }
-
     pub fn is_default(&self) -> bool {
-        matches!(self, AnsiColor::Color8(0))
+        matches!(self, AnsiColor::Default)
     }
 }
 
@@ -139,9 +157,8 @@ pub enum Token {
     DoublyUnderlined,
     NotUnderlined,
     NotBlinking,
-    Sgr2(u8, u8),
-    Sgr3(u8, u8, u8),
-    Sgr4(u8, u8, u8, u8),
+
+    List(Vec<Token>),
 
     // url, title
     Link(String, String),
@@ -149,6 +166,16 @@ pub enum Token {
     AlternativeFont(u8),
     NotReversed,
     Unknown(u8),
+}
+
+fn get_token_color(n: u8) -> Token {
+    match n {
+        39 => Token::ColorDefaultForeground,
+        49 => Token::ColorDefaultBackground,
+        30..=37 | 90..=97 => Token::ColorForeground(AnsiColor::from_u8(n)),
+        40..=47 | 100..=107 => Token::ColorBackground(AnsiColor::from_u8(n)),
+        _ => Token::Unknown(0),
+    }
 }
 
 fn parse_cursor_up(input: &str) -> IResult<&str, Token> {
@@ -273,7 +300,7 @@ fn parse_color_foreground(input: &str) -> IResult<&str, Token> {
         8..=15 => b + 82,
         _ => return Ok((rem, Token::ColorForeground(AnsiColor::Color256(b)))),
     };
-    Ok((rem, Token::ColorForeground(AnsiColor::Color8(c))))
+    Ok((rem, Token::ColorForeground(AnsiColor::from_u8(c))))
 }
 fn parse_color_background(input: &str) -> IResult<&str, Token> {
     let (rem, (_, b, _)) = tuple((tag("\x1b[48;5;"), digit0, tag_no_case("m")))(input)?;
@@ -284,14 +311,14 @@ fn parse_color_background(input: &str) -> IResult<&str, Token> {
         8..=15 => b + 92,
         _ => return Ok((rem, Token::ColorBackground(AnsiColor::Color256(b)))),
     };
-    Ok((rem, Token::ColorBackground(AnsiColor::Color8(c))))
+    Ok((rem, Token::ColorBackground(AnsiColor::from_u8(c))))
 }
 
 fn parse_color_underline(input: &str) -> IResult<&str, Token> {
     let (rem, (_, b, _)) = tuple((tag("\x1b[58;5;"), digit0, tag_no_case("m")))(input)?;
     Ok((
         rem,
-        Token::ColorUnderLine(AnsiColor::Color8(str::parse(b).unwrap_or(1))),
+        Token::ColorUnderLine(AnsiColor::from_u8(str::parse(b).unwrap_or(1))),
     ))
 }
 
@@ -315,8 +342,8 @@ pub fn get_sgr(n: u8) -> Token {
         21 => Token::DoublyUnderlined,
         24 => Token::NotUnderlined,
         25 => Token::NotBlinking,
-        30..=37 | 90..=97 => Token::ColorForeground(AnsiColor::Color8(n)),
-        40..=47 | 100..=107 => Token::ColorBackground(AnsiColor::Color8(n)),
+        30..=37 | 90..=97 => Token::ColorForeground(AnsiColor::from_u8(n)),
+        40..=47 | 100..=107 => Token::ColorBackground(AnsiColor::from_u8(n)),
         39 => Token::ColorDefaultForeground,
         49 => Token::ColorDefaultBackground,
         59 => Token::ColorDefaultUnderline,
@@ -381,9 +408,9 @@ fn parse_sgr2(input: &str) -> IResult<&str, Token> {
     let (rem, (_, front, _, background, _)) =
         tuple((tag("\x1b["), digit0, tag(";"), digit0, tag_no_case("m")))(input)?;
 
-    let front = front.parse().unwrap_or(0);
-    let background = background.parse().unwrap_or(0);
-    Ok((rem, Token::Sgr2(front, background)))
+    let a = front.parse().unwrap_or(0);
+    let b = background.parse().unwrap_or(0);
+    Ok((rem, Token::List(vec![get_sgr(a), get_token_color(b)])))
 }
 
 fn parse_sgr3(input: &str) -> IResult<&str, Token> {
@@ -397,10 +424,14 @@ fn parse_sgr3(input: &str) -> IResult<&str, Token> {
         tag_no_case("m"),
     ))(input)?;
 
-    let ctrl = ctrl.parse().unwrap_or(0);
-    let front = front.parse().unwrap_or(0);
-    let background = background.parse().unwrap_or(0);
-    Ok((rem, Token::Sgr3(ctrl, front, background)))
+    let a = ctrl.parse().unwrap_or(0);
+    let b = front.parse().unwrap_or(0);
+    let c = background.parse().unwrap_or(0);
+
+    Ok((
+        rem,
+        Token::List(vec![get_sgr(a), get_token_color(b), get_token_color(c)]),
+    ))
 }
 
 fn parse_sgr4(input: &str) -> IResult<&str, Token> {
@@ -415,11 +446,20 @@ fn parse_sgr4(input: &str) -> IResult<&str, Token> {
         digit0,
         tag_no_case("m"),
     ))(input)?;
-    let reset = reset.parse().unwrap_or(0);
-    let ctrl = ctrl.parse().unwrap_or(0);
-    let front = front.parse().unwrap_or(0);
-    let background = background.parse().unwrap_or(0);
-    Ok((rem, Token::Sgr4(reset, ctrl, front, background)))
+    let a = reset.parse().unwrap_or(0);
+    let b = ctrl.parse().unwrap_or(0);
+    let c = front.parse().unwrap_or(0);
+    let d = background.parse().unwrap_or(0);
+
+    Ok((
+        rem,
+        Token::List(vec![
+            get_sgr(a),
+            get_sgr(b),
+            get_token_color(c),
+            get_token_color(d),
+        ]),
+    ))
 }
 
 fn parse_sgr5(input: &str) -> IResult<&str, Token> {
@@ -472,14 +512,14 @@ fn parse_sgr6(input: &str) -> IResult<&str, Token> {
     if ctrl == 38 && ty == 2 {
         return Ok((
             rem,
-            Token::ColorFgBg(AnsiColor::Rgb(r, g, b), AnsiColor::Color8(n)),
+            Token::ColorFgBg(AnsiColor::Rgb(r, g, b), AnsiColor::from_u8(n)),
         ));
     }
 
     if ctrl == 48 && ty == 2 {
         return Ok((
             rem,
-            Token::ColorFgBg(AnsiColor::Color8(n), AnsiColor::Rgb(r, g, b)),
+            Token::ColorFgBg(AnsiColor::from_u8(n), AnsiColor::Rgb(r, g, b)),
         ));
     }
 
@@ -522,8 +562,8 @@ fn parse_sgr10(input: &str) -> IResult<&str, Token> {
             digit0,
             tag_no_case("m"),
         ))(input)?;
-    let mut fg = AnsiColor::Color8(0);
-    let mut bg = AnsiColor::Color8(0);
+    let mut fg = AnsiColor::Default;
+    let mut bg = AnsiColor::Default;
     let c1: u8 = c1.parse().unwrap_or_default();
     let t1: u8 = t1.parse().unwrap_or_default();
     let r1: u8 = r1.parse().unwrap_or_default();

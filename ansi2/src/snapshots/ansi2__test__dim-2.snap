@@ -6,12 +6,8 @@ Canvas {
     pixels: [
         [
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    39,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'N',
@@ -21,12 +17,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    39,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'U',
@@ -36,12 +28,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    39,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'S',
@@ -51,12 +39,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    39,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'H',
@@ -66,12 +50,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    39,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'E',
@@ -81,12 +61,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    39,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'L',
@@ -96,12 +72,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    39,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'L',

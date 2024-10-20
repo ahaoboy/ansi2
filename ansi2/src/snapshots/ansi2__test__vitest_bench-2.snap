@@ -7,10 +7,10 @@ Canvas {
         [
             Node {
                 bg_color: Color8(
-                    36,
+                    Cyan,
                 ),
                 color: Color8(
-                    0,
+                    White,
                 ),
                 bold: true,
                 blink: false,
@@ -22,10 +22,10 @@ Canvas {
             },
             Node {
                 bg_color: Color8(
-                    36,
+                    Cyan,
                 ),
                 color: Color8(
-                    0,
+                    White,
                 ),
                 bold: true,
                 blink: false,
@@ -37,10 +37,10 @@ Canvas {
             },
             Node {
                 bg_color: Color8(
-                    36,
+                    Cyan,
                 ),
                 color: Color8(
-                    0,
+                    White,
                 ),
                 bold: true,
                 blink: false,
@@ -52,10 +52,10 @@ Canvas {
             },
             Node {
                 bg_color: Color8(
-                    36,
+                    Cyan,
                 ),
                 color: Color8(
-                    0,
+                    White,
                 ),
                 bold: true,
                 blink: false,
@@ -67,10 +67,10 @@ Canvas {
             },
             Node {
                 bg_color: Color8(
-                    36,
+                    Cyan,
                 ),
                 color: Color8(
-                    0,
+                    White,
                 ),
                 bold: true,
                 blink: false,
@@ -82,10 +82,10 @@ Canvas {
             },
             Node {
                 bg_color: Color8(
-                    36,
+                    Cyan,
                 ),
                 color: Color8(
-                    0,
+                    White,
                 ),
                 bold: true,
                 blink: false,
@@ -97,10 +97,10 @@ Canvas {
             },
             Node {
                 bg_color: Color8(
-                    36,
+                    Cyan,
                 ),
                 color: Color8(
-                    0,
+                    White,
                 ),
                 bold: true,
                 blink: false,
@@ -112,11 +112,9 @@ Canvas {
             },
             Node {
                 bg_color: Color8(
-                    0,
+                    White,
                 ),
-                color: Color8(
-                    0,
-                ),
+                color: Default,
                 bold: false,
                 blink: false,
                 char: ' ',
@@ -127,10 +125,10 @@ Canvas {
             },
             Node {
                 bg_color: Color8(
-                    0,
+                    White,
                 ),
                 color: Color8(
-                    36,
+                    Cyan,
                 ),
                 bold: false,
                 blink: false,
@@ -142,10 +140,10 @@ Canvas {
             },
             Node {
                 bg_color: Color8(
-                    0,
+                    White,
                 ),
                 color: Color8(
-                    36,
+                    Cyan,
                 ),
                 bold: false,
                 blink: false,
@@ -157,10 +155,10 @@ Canvas {
             },
             Node {
                 bg_color: Color8(
-                    0,
+                    White,
                 ),
                 color: Color8(
-                    36,
+                    Cyan,
                 ),
                 bold: false,
                 blink: false,
@@ -172,10 +170,10 @@ Canvas {
             },
             Node {
                 bg_color: Color8(
-                    0,
+                    White,
                 ),
                 color: Color8(
-                    36,
+                    Cyan,
                 ),
                 bold: false,
                 blink: false,
@@ -187,10 +185,10 @@ Canvas {
             },
             Node {
                 bg_color: Color8(
-                    0,
+                    White,
                 ),
                 color: Color8(
-                    36,
+                    Cyan,
                 ),
                 bold: false,
                 blink: false,
@@ -202,10 +200,10 @@ Canvas {
             },
             Node {
                 bg_color: Color8(
-                    0,
+                    White,
                 ),
                 color: Color8(
-                    36,
+                    Cyan,
                 ),
                 bold: false,
                 blink: false,
@@ -217,10 +215,10 @@ Canvas {
             },
             Node {
                 bg_color: Color8(
-                    0,
+                    White,
                 ),
                 color: Color8(
-                    36,
+                    Cyan,
                 ),
                 bold: false,
                 blink: false,

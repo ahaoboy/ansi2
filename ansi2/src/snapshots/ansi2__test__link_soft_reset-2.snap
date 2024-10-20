@@ -6,11 +6,9 @@ Canvas {
     pixels: [
         [
             Node {
-                bg_color: Color8(
-                    0,
-                ),
+                bg_color: Default,
                 color: Color8(
-                    31,
+                    Red,
                 ),
                 bold: false,
                 blink: false,
@@ -21,11 +19,9 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
+                bg_color: Default,
                 color: Color8(
-                    31,
+                    Red,
                 ),
                 bold: false,
                 blink: false,
@@ -36,11 +32,9 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
+                bg_color: Default,
                 color: Color8(
-                    31,
+                    Red,
                 ),
                 bold: false,
                 blink: false,
@@ -51,12 +45,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'b',
@@ -66,12 +56,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'a',
@@ -81,12 +67,8 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    0,
-                ),
-                color: Color8(
-                    0,
-                ),
+                bg_color: Default,
+                color: Default,
                 bold: false,
                 blink: false,
                 char: 'r',

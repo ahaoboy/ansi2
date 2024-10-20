@@ -5,11 +5,21 @@ expression: r
 (
     "",
     [
-        Sgr4(
-            0,
-            5,
-            35,
-            45,
+        List(
+            [
+                ColorReset,
+                SlowBlink,
+                ColorForeground(
+                    Color8(
+                        Magenta,
+                    ),
+                ),
+                ColorBackground(
+                    Color8(
+                        Magenta,
+                    ),
+                ),
+            ],
         ),
     ],
 )

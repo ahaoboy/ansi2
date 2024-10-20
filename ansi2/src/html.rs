@@ -56,7 +56,7 @@ pub fn to_html<S: AsRef<str>>(
                 text_class.push("hide".into());
             }
             if !c.color.is_default() {
-                let name = c.color.name();
+                let name = c.color.class_name();
                 text_class.push(name);
 
                 if let crate::lex::AnsiColor::Rgb(r, g, b) = c.color {
@@ -68,7 +68,7 @@ pub fn to_html<S: AsRef<str>>(
             }
 
             if !c.bg_color.is_default() {
-                let name = "bg-".to_string() + &c.bg_color.name();
+                let name = "bg-".to_string() + &c.bg_color.class_name();
                 bg_class.push(name);
 
                 if let crate::lex::AnsiColor::Rgb(r, g, b) = c.color {

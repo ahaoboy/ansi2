@@ -6,9 +6,11 @@ expression: r
     "",
     [
         ColorDefaultForeground,
-        Sgr2(
-            2,
-            39,
+        List(
+            [
+                Dim,
+                ColorDefaultForeground,
+            ],
         ),
         Char(
             'N',

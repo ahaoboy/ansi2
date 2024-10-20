@@ -7,7 +7,7 @@ expression: r
     [
         ColorForeground(
             Color8(
-                30,
+                Black,
             ),
         ),
         Char(
@@ -40,7 +40,7 @@ expression: r
         ),
         ColorForeground(
             Color8(
-                90,
+                BrightBlack,
             ),
         ),
         Char(
@@ -97,7 +97,7 @@ expression: r
         ),
         ColorBackground(
             Color8(
-                40,
+                Black,
             ),
         ),
         Char(
@@ -130,7 +130,7 @@ expression: r
         ),
         ColorBackground(
             Color8(
-                100,
+                BrightBlack,
             ),
         ),
         Char(

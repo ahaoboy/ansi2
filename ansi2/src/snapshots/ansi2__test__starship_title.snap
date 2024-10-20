@@ -11,7 +11,7 @@ expression: r
         ),
         ColorForeground(
             Color8(
-                30,
+                Black,
             ),
         ),
         Bold,

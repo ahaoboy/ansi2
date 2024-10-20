@@ -6,9 +6,7 @@ Canvas {
     pixels: [
         [
             Node {
-                bg_color: Color8(
-                    0,
-                ),
+                bg_color: Default,
                 color: Rgb(
                     218,
                     98,
@@ -29,7 +27,7 @@ Canvas {
                     125,
                 ),
                 color: Color8(
-                    30,
+                    Black,
                 ),
                 bold: false,
                 blink: false,
@@ -46,7 +44,7 @@ Canvas {
                     125,
                 ),
                 color: Color8(
-                    30,
+                    Black,
                 ),
                 bold: false,
                 blink: false,
@@ -63,7 +61,7 @@ Canvas {
                     125,
                 ),
                 color: Color8(
-                    30,
+                    Black,
                 ),
                 bold: false,
                 blink: false,
@@ -99,7 +97,7 @@ Canvas {
                     125,
                 ),
                 color: Color8(
-                    30,
+                    Black,
                 ),
                 bold: false,
                 blink: false,
@@ -116,7 +114,7 @@ Canvas {
                     125,
                 ),
                 color: Color8(
-                    30,
+                    Black,
                 ),
                 bold: false,
                 blink: false,
@@ -133,7 +131,7 @@ Canvas {
                     125,
                 ),
                 color: Color8(
-                    30,
+                    Black,
                 ),
                 bold: false,
                 blink: false,
@@ -150,7 +148,7 @@ Canvas {
                     125,
                 ),
                 color: Color8(
-                    30,
+                    Black,
                 ),
                 bold: false,
                 blink: false,
@@ -167,7 +165,7 @@ Canvas {
                     125,
                 ),
                 color: Color8(
-                    30,
+                    Black,
                 ),
                 bold: false,
                 blink: false,
@@ -184,7 +182,7 @@ Canvas {
                     125,
                 ),
                 color: Color8(
-                    30,
+                    Black,
                 ),
                 bold: false,
                 blink: false,

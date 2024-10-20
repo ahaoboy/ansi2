@@ -7,7 +7,7 @@ expression: r
     [
         ColorForeground(
             Color8(
-                36,
+                Cyan,
             ),
         ),
         ColorInvert,
@@ -41,7 +41,7 @@ expression: r
         ),
         ColorForeground(
             Color8(
-                36,
+                Cyan,
             ),
         ),
         Char(

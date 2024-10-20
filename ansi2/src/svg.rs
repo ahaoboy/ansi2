@@ -44,7 +44,7 @@ pub fn to_svg<S: AsRef<str>, T: ColorTable>(
             let mut text_class = vec![];
 
             if !c.bg_color.is_default() {
-                let name = "bg-".to_string() + &c.bg_color.name();
+                let name = "bg-".to_string() + &c.bg_color.class_name();
 
                 let class_str = format!(" class='{}'", name);
                 s.push_str(&format!(
@@ -60,7 +60,7 @@ pub fn to_svg<S: AsRef<str>, T: ColorTable>(
             }
 
             if !c.color.is_default() {
-                let name = c.color.name();
+                let name = c.color.class_name();
                 text_class.push(name);
 
                 if let crate::lex::AnsiColor::Rgb(r, g, b) = c.color {

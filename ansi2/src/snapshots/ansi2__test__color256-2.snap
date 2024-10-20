@@ -6,9 +6,7 @@ Canvas {
     pixels: [
         [
             Node {
-                bg_color: Color8(
-                    0,
-                ),
+                bg_color: Default,
                 color: Color256(
                     99,
                 ),
