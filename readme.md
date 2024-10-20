@@ -117,3 +117,4 @@ ls | table | ansi2 | save nu-ls.svg -f
 
 - [ ] link
 - [ ] merge characters of the same style to reduce the number of tags
+- [ ] vscode extension

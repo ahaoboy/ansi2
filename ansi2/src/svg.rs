@@ -6,9 +6,9 @@ use crate::{
     Canvas,
 };
 
-pub fn to_svg<S: AsRef<str>>(
+pub fn to_svg<S: AsRef<str>, T: ColorTable>(
     str: S,
-    theme: impl ColorTable,
+    theme: T,
     width: Option<usize>,
     font: Option<String>,
     mode: Option<Mode>,

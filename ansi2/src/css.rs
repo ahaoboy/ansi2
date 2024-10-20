@@ -18,8 +18,8 @@ pub enum Mode {
     Light,
 }
 
-pub(crate) fn to_style(
-    theme: impl ColorTable,
+pub(crate) fn to_style<T: ColorTable>(
+    theme: T,
     ty: CssType,
     mode: Option<Mode>,
     light_bg: Option<String>,

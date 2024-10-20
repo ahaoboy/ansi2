@@ -75,17 +75,26 @@ impl Canvas {
         let mut q = VecDeque::from(lex);
 
         while let Some(i) = q.pop_front() {
-            let mut reset_all = || {
-                bold = false;
-                dim = false;
-                italic = false;
-                underline = false;
+            let mut do_sgr = |ctrl: u8| match ctrl {
+                0 => {
+                    // reset
+                    bold = false;
+                    dim = false;
+                    italic = false;
+                    underline = false;
 
-                cur_bg_c = AnsiColor::Color8(0);
-                cur_c = AnsiColor::Color8(0);
-                blink = false;
-                blink_c = 0;
-                hide = false;
+                    cur_bg_c = AnsiColor::Color8(0);
+                    cur_c = AnsiColor::Color8(0);
+                    blink = false;
+                    blink_c = 0;
+                    hide = false;
+                }
+                1 => bold = true,
+                2 => dim = true,
+                3 => italic = true,
+                4 => underline = true,
+                5 | 6 => blink = true,
+                _ => {}
             };
 
             match i {
@@ -129,7 +138,7 @@ impl Canvas {
                     dim = true;
                 }
                 Token::ColorReset => {
-                    reset_all();
+                    do_sgr(0);
                 }
                 Token::CursorUp(c) => cur_y = cur_y.saturating_sub(c as usize),
                 Token::CursorDown(c) => {
@@ -175,12 +184,8 @@ impl Canvas {
                 }
 
                 Token::Sgr2(ctrl, background) => {
-                    match ctrl {
-                        0 => reset_all(),
-                        1 => bold = true,
-                        5 => blink = true,
-                        _ => {}
-                    }
+                    do_sgr(ctrl);
+
                     match background {
                         30..=37 | 90..=97 => cur_c = AnsiColor::Color8(background),
                         40..=47 | 100..=107 => cur_bg_c = AnsiColor::Color8(background),
@@ -188,27 +193,40 @@ impl Canvas {
                     }
                 }
                 Token::Sgr3(ctrl, front, background) => {
-                    match ctrl {
-                        0 => reset_all(),
-                        1 => bold = true,
-                        5 => blink = true,
-                        _ => {}
-                    }
+                    do_sgr(ctrl);
                     cur_c = AnsiColor::Color8(front);
                     cur_bg_c = AnsiColor::Color8(background);
                 }
                 Token::Sgr4(reset, ctrl, a, b) => {
+                    // FIXME: handle multiple control by queue
                     if reset == 0 {
-                        reset_all();
+                        do_sgr(0);
                     }
                     match ctrl {
-                        0 => reset_all(),
+                        0 => do_sgr(0),
                         1 => {
                             bold = true;
                             cur_c = AnsiColor::Color8(a);
                             cur_bg_c = AnsiColor::Color8(b);
                         }
-                        5 => {
+                        2 => {
+                            dim = true;
+                            cur_c = AnsiColor::Color8(a);
+                            cur_bg_c = AnsiColor::Color8(b);
+                        }
+                        3 => {
+                            italic = true;
+
+                            cur_c = AnsiColor::Color8(a);
+                            cur_bg_c = AnsiColor::Color8(b);
+                        }
+                        4 => {
+                            underline = true;
+                            cur_c = AnsiColor::Color8(a);
+                            cur_bg_c = AnsiColor::Color8(b);
+                        }
+
+                        5 | 6 => {
                             blink = true;
                             cur_bg_c = AnsiColor::Color256(a);
                             blink_c = b;
@@ -236,8 +254,7 @@ impl Canvas {
                     }
                 }
 
-                Token::SlowBlink => blink = true,
-                Token::RapidBlink => blink = true,
+                Token::SlowBlink | Token::RapidBlink => blink = true,
                 Token::ColorInvert => {
                     (cur_bg_c, cur_c) = (cur_c, cur_bg_c);
                 }
