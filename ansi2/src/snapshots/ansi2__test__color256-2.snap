@@ -1,0 +1,42 @@
+---
+source: ansi2/src/lib.rs
+expression: canvas
+---
+Canvas {
+    pixels: [
+        [
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color256(
+                    99,
+                ),
+                bold: false,
+                blink: false,
+                char: 'a',
+                dim: false,
+                italic: false,
+                underline: false,
+                hide: false,
+            },
+            Node {
+                bg_color: Color256(
+                    99,
+                ),
+                color: Color256(
+                    99,
+                ),
+                bold: false,
+                blink: false,
+                char: 'b',
+                dim: false,
+                italic: false,
+                underline: false,
+                hide: false,
+            },
+        ],
+    ],
+    w: 3,
+    h: 1,
+}

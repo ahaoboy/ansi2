@@ -328,7 +328,7 @@ impl Canvas {
 
 #[cfg(test)]
 mod test {
-    use crate::lex::parse_ansi;
+    use crate::{lex::parse_ansi, Canvas};
     use insta::assert_debug_snapshot;
 
     #[test]
@@ -336,12 +336,18 @@ mod test {
         let s = "\x1b[0;5;35;45m";
         let r = parse_ansi(s).unwrap();
         assert_debug_snapshot!(r);
+
+        let canvas = Canvas::new(s, None);
+        assert_debug_snapshot!(canvas);
     }
     #[test]
     fn test_reset() {
         let s = "\x1b[m\x1b";
         let r = parse_ansi(s).unwrap();
         assert_debug_snapshot!(r);
+
+        let canvas = Canvas::new(s, None);
+        assert_debug_snapshot!(canvas);
     }
 
     #[test]
@@ -349,12 +355,18 @@ mod test {
         let s = "\x1b[?2004h\x1b]0;/c/wt\x1b[30m\x1b(B\x1b[m\x1b[J\x1b[K";
         let r = parse_ansi(s).unwrap();
         assert_debug_snapshot!(r);
+
+        let canvas = Canvas::new(s, None);
+        assert_debug_snapshot!(canvas);
     }
     #[test]
     fn test_starship_prompt() {
         let s = "\x1b[38;2;218;98;125m\x1b[48;2;218;98;125;30mwin\x1b[38;2;218;98;125m\x1b[30mC:/wt \x1b[48;2;252;161;125;38;2;218;98;125m\x1b[48;2;134;187;216;38;2;252;161;125m\x1b[48;2;6;150;154;38;2;134;187;216m\x1b[48;2;51;101;138;38;2;6;150;154m\x1b[0m\x1b[K";
         let r = parse_ansi(s).unwrap();
         assert_debug_snapshot!(r);
+
+        let canvas = Canvas::new(s, None);
+        assert_debug_snapshot!(canvas);
     }
 
     #[test]
@@ -362,6 +374,9 @@ mod test {
         let s = "\x1b[36m\x1b[7m\x1b[1m BENCH \x1b[22m\x1b[27m\x1b[39m \x1b[36mSummary\x1b[39m";
         let r = parse_ansi(s).unwrap();
         assert_debug_snapshot!(r);
+
+        let canvas = Canvas::new(s, None);
+        assert_debug_snapshot!(canvas);
     }
 
     #[test]
@@ -369,6 +384,9 @@ mod test {
         let s = "\x1b[1G\x1b[19A\x1b[47C";
         let r = parse_ansi(s).unwrap();
         assert_debug_snapshot!(r);
+
+        let canvas = Canvas::new(s, None);
+        assert_debug_snapshot!(canvas);
     }
 
     #[test]
@@ -376,6 +394,9 @@ mod test {
         let s = "\x1b[38;5;99ma\x1b[48;5;99mb";
         let r = parse_ansi(s).unwrap();
         assert_debug_snapshot!(r);
+
+        let canvas = Canvas::new(s, None);
+        assert_debug_snapshot!(canvas);
     }
 
     #[test]
@@ -383,6 +404,9 @@ mod test {
         let s = "\x1b[38;2;0;0;114m";
         let r = parse_ansi(s).unwrap();
         assert_debug_snapshot!(r);
+
+        let canvas = Canvas::new(s, None);
+        assert_debug_snapshot!(canvas);
     }
     #[test]
     fn test_base() {
@@ -390,6 +414,9 @@ mod test {
             "\x1b[30mblack\x1b[0m    \x1b[90mbright black\x1b[0m     \x1b[40mblack\x1b[0m    \x1b[100mbright black\x1b[0m";
         let r = parse_ansi(s).unwrap();
         assert_debug_snapshot!(r);
+
+        let canvas = Canvas::new(s, None);
+        assert_debug_snapshot!(canvas);
     }
 
     #[test]
@@ -398,12 +425,18 @@ mod test {
             "\x1b]8;;file:///Users/xxx/src/new-nu-parser/Cargo.toml\x1b\\Cargo.toml\x1b]8;;\x1b";
         let r = parse_ansi(s).unwrap();
         assert_debug_snapshot!(r);
+
+        let canvas = Canvas::new(s, None);
+        assert_debug_snapshot!(canvas);
     }
     #[test]
     fn test_link_hide() {
         let s = "\x1b[8mhttp://example.com/how_about_me\x1b[m";
         let r = parse_ansi(s).unwrap();
         assert_debug_snapshot!(r);
+
+        let canvas = Canvas::new(s, None);
+        assert_debug_snapshot!(canvas);
     }
 
     #[test]
@@ -411,6 +444,9 @@ mod test {
         let s = "\x1b]8;id=1;http://example.com/id\x1b\\twice\x1b]8;;\x1b\\";
         let r = parse_ansi(s).unwrap();
         assert_debug_snapshot!(r);
+
+        let canvas = Canvas::new(s, None);
+        assert_debug_snapshot!(canvas);
     }
 
     #[test]
@@ -418,6 +454,9 @@ mod test {
         let s = "\x1b]8;;\x1b\\";
         let r = parse_ansi(s).unwrap();
         assert_debug_snapshot!(r);
+
+        let canvas = Canvas::new(s, None);
+        assert_debug_snapshot!(canvas);
     }
 
     #[test]
@@ -425,6 +464,9 @@ mod test {
         let s = "\x1b]8;;http://example.com/softreset\\\x1b[3;31mfoo[!pbar";
         let r = parse_ansi(s).unwrap();
         assert_debug_snapshot!(r);
+
+        let canvas = Canvas::new(s, None);
+        assert_debug_snapshot!(canvas);
     }
 
     #[test]
@@ -432,12 +474,18 @@ mod test {
         let s = "\x1b]8;;http://example.com/foo\x1b\\foo\x1b]8;;http://example.com/foo\x1b\\foo\x1b]8;;\x1b\\ \x1b]8;;http://example.com/foo\x1b\\foo\x1b]8;;http://example.com/bar\x1b\\bar\x1b]8;;\x1b\\";
         let r = parse_ansi(s).unwrap();
         assert_debug_snapshot!(r);
+
+        let canvas = Canvas::new(s, None);
+        assert_debug_snapshot!(canvas);
     }
     #[test]
     fn test_link_ll() {
         let s = "]8;;file://win/c/code/ansi2/targettarget]8;;";
         let r = parse_ansi(s).unwrap();
         assert_debug_snapshot!(r);
+
+        let canvas = Canvas::new(s, None);
+        assert_debug_snapshot!(canvas);
     }
 
     #[test]
@@ -445,6 +493,9 @@ mod test {
         let s = "\x1b[48;5;186;38;5;16m";
         let r = parse_ansi(s).unwrap();
         assert_debug_snapshot!(r);
+
+        let canvas = Canvas::new(s, None);
+        assert_debug_snapshot!(canvas);
     }
 
     #[test]
@@ -453,5 +504,17 @@ mod test {
             "aaa\x1b[1mbold\x1b[0m \x1b[2mdim\x1b[0m \x1b[3mitalic\x1b[3m \x1b[4munderline\x1b[4m";
         let r = parse_ansi(s).unwrap();
         assert_debug_snapshot!(r);
+
+        let canvas = Canvas::new(s, None);
+        assert_debug_snapshot!(canvas);
+    }
+    #[test]
+    fn test_dim() {
+        let s = "[39m[2;39mNUSHELL";
+        let r = parse_ansi(s).unwrap();
+        assert_debug_snapshot!(r);
+
+        let canvas = Canvas::new(s, None);
+        assert_debug_snapshot!(canvas);
     }
 }

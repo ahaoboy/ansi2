@@ -1,0 +1,102 @@
+---
+source: ansi2/src/lib.rs
+expression: canvas
+---
+Canvas {
+    pixels: [
+        [
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 't',
+                dim: false,
+                italic: false,
+                underline: true,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 'a',
+                dim: false,
+                italic: false,
+                underline: true,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 'r',
+                dim: false,
+                italic: false,
+                underline: true,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 'g',
+                dim: false,
+                italic: false,
+                underline: true,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 'e',
+                dim: false,
+                italic: false,
+                underline: true,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 't',
+                dim: false,
+                italic: false,
+                underline: true,
+                hide: false,
+            },
+        ],
+    ],
+    w: 7,
+    h: 1,
+}

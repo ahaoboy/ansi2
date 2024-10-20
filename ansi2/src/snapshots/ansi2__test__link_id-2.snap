@@ -1,0 +1,87 @@
+---
+source: ansi2/src/lib.rs
+expression: canvas
+---
+Canvas {
+    pixels: [
+        [
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 't',
+                dim: false,
+                italic: false,
+                underline: true,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 'w',
+                dim: false,
+                italic: false,
+                underline: true,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 'i',
+                dim: false,
+                italic: false,
+                underline: true,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 'c',
+                dim: false,
+                italic: false,
+                underline: true,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 'e',
+                dim: false,
+                italic: false,
+                underline: true,
+                hide: false,
+            },
+        ],
+    ],
+    w: 6,
+    h: 1,
+}

@@ -1,0 +1,38 @@
+---
+source: ansi2/src/lib.rs
+expression: r
+---
+(
+    "",
+    [
+        ColorDefaultForeground,
+        Sgr2(
+            2,
+            39,
+        ),
+        Char(
+            'N',
+        ),
+        Char(
+            'U',
+        ),
+        Char(
+            'S',
+        ),
+        Char(
+            'H',
+        ),
+        Char(
+            'E',
+        ),
+        Char(
+            'L',
+        ),
+        Char(
+            'L',
+        ),
+        Unknown(
+            27,
+        ),
+    ],
+)

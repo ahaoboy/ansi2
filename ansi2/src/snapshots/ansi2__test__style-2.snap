@@ -1,0 +1,432 @@
+---
+source: ansi2/src/lib.rs
+expression: canvas
+---
+Canvas {
+    pixels: [
+        [
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 'a',
+                dim: false,
+                italic: false,
+                underline: false,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 'a',
+                dim: false,
+                italic: false,
+                underline: false,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 'a',
+                dim: false,
+                italic: false,
+                underline: false,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: true,
+                blink: false,
+                char: 'b',
+                dim: false,
+                italic: false,
+                underline: false,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: true,
+                blink: false,
+                char: 'o',
+                dim: false,
+                italic: false,
+                underline: false,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: true,
+                blink: false,
+                char: 'l',
+                dim: false,
+                italic: false,
+                underline: false,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: true,
+                blink: false,
+                char: 'd',
+                dim: false,
+                italic: false,
+                underline: false,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: ' ',
+                dim: false,
+                italic: false,
+                underline: false,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 'd',
+                dim: true,
+                italic: false,
+                underline: false,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 'i',
+                dim: true,
+                italic: false,
+                underline: false,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 'm',
+                dim: true,
+                italic: false,
+                underline: false,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: ' ',
+                dim: false,
+                italic: false,
+                underline: false,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 'i',
+                dim: false,
+                italic: true,
+                underline: false,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 't',
+                dim: false,
+                italic: true,
+                underline: false,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 'a',
+                dim: false,
+                italic: true,
+                underline: false,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 'l',
+                dim: false,
+                italic: true,
+                underline: false,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 'i',
+                dim: false,
+                italic: true,
+                underline: false,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 'c',
+                dim: false,
+                italic: true,
+                underline: false,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: ' ',
+                dim: false,
+                italic: true,
+                underline: false,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 'u',
+                dim: false,
+                italic: true,
+                underline: true,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 'n',
+                dim: false,
+                italic: true,
+                underline: true,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 'd',
+                dim: false,
+                italic: true,
+                underline: true,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 'e',
+                dim: false,
+                italic: true,
+                underline: true,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 'r',
+                dim: false,
+                italic: true,
+                underline: true,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 'l',
+                dim: false,
+                italic: true,
+                underline: true,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 'i',
+                dim: false,
+                italic: true,
+                underline: true,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 'n',
+                dim: false,
+                italic: true,
+                underline: true,
+                hide: false,
+            },
+            Node {
+                bg_color: Color8(
+                    0,
+                ),
+                color: Color8(
+                    0,
+                ),
+                bold: false,
+                blink: false,
+                char: 'e',
+                dim: false,
+                italic: true,
+                underline: true,
+                hide: false,
+            },
+        ],
+    ],
+    w: 29,
+    h: 1,
+}
