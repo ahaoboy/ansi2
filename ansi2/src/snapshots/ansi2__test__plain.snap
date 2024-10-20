@@ -1,0 +1,21 @@
+---
+source: ansi2/src/lib.rs
+expression: r
+---
+(
+    "",
+    [
+        Char(
+            'a',
+        ),
+        Char(
+            'n',
+        ),
+        Char(
+            's',
+        ),
+        Char(
+            'i',
+        ),
+    ],
+)
