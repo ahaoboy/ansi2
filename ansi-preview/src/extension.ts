@@ -1,5 +1,5 @@
 import * as vscode from "vscode"
-import { to_svg, Theme } from "ansi2"
+import { Theme, to_html } from "ansi2"
 import * as fs from "node:fs"
 
 let panel: vscode.WebviewPanel | undefined
@@ -23,8 +23,10 @@ function updateWebviewContent(fileName: string): void {
   if (panel) {
     const s = fs.readFileSync(fileName, "utf-8")
 
+    // FIXME: html looks better than svg?
     // @ts-ignore
-    panel.webview.html = to_svg(s, Theme.Vscode)
+    panel.webview.html = to_html(s, Theme.Vscode)
+    // panel.webview.html = to_svg(s, Theme.Vscode)
   }
 }
 
