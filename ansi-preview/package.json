@@ -1,0 +1,89 @@
+{
+  "name": "ansi-preview",
+  "displayName": "ansi-preview",
+  "description": "ansi-preview",
+  "version": "0.0.2",
+  "author": "ahaoboy",
+  "license": "MIT",
+  "publisher": "ahaoboy",
+  "homepage": "https://github.com/ahaoboy/ansi2",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahaoboy/ansi2.git"
+  },
+  "engines": {
+    "vscode": "^1.94.0"
+  },
+  "categories": ["Other"],
+  "activationEvents": ["onFileSystem:ans"],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "views": {
+      "explorer": [
+        {
+          "id": "ansiPreview",
+          "name": "ansi preview"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "extension.openExtensionPage",
+        "title": "Open Extension's Page in the Marketplace"
+      },
+      {
+        "command": "extension.openPreviewOnFocus",
+        "title": "Open Preview"
+      },
+      {
+        "command": "extension.openPreviewMenu",
+        "title": "Open preview"
+      },
+      {
+        "command": "extension.openPreviewOnEditorShortcut",
+        "title": "Open preview"
+      }
+    ],
+    "keybindings": [
+      {
+        "key": "ctrl+shift+t",
+        "command": "extension.openPreviewOnFocus",
+        "when": "editorTextFocus",
+        "mac": "cmd+shift+t"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "when": "resourceFilename =~ /.*\\.ans$/",
+          "command": "extension.openPreviewOnEditorShortcut",
+          "group": "navigation"
+        }
+      ],
+      "explorer/context": [
+        {
+          "when": "resourceFilename =~ /.*\\.ans$/",
+          "command": "extension.openPreviewMenu",
+          "group": "navigation"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run package",
+    "compile": "pnpm run check-types && pnpm run lint && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package": "pnpm run check-types && pnpm run lint && node esbuild.js --production",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
+    "check-types": "tsc --noEmit",
+    "lint": "biome lint",
+    "test": "vscode-test"
+  },
+  "dependencies": {
+    "ansi2": "^0.1.14"
+  }
+}
