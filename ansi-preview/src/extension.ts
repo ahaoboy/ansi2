@@ -39,8 +39,8 @@ async function openViewer(fileName: string): Promise<void> {
 
   if (!panel) {
     panel = vscode.window.createWebviewPanel(
-      "SVG-Viewer",
-      "SVG-Viewer",
+      "Ansi-Viewer",
+      "Ansi-Viewer",
       vscode.ViewColumn.One,
       { enableScripts: true },
     )
@@ -61,8 +61,8 @@ export function activate(context: vscode.ExtensionContext): void {
     10000,
   )
 
-  statusBarItem.text = "SVG-Viewer"
-  statusBarItem.tooltip = "Looking for SVG files"
+  statusBarItem.text = "Ansi-Viewer"
+  statusBarItem.tooltip = "Looking for Ansi files"
   statusBarItem.command = "extension.openExtensionPage"
   statusBarItem.show()
 
