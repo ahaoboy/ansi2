@@ -295,11 +295,8 @@ fn parse_color_underline(input: &str) -> IResult<&str, Token> {
     ))
 }
 
-fn parse_sgr1(input: &str) -> IResult<&str, Token> {
-    let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("m")))(input)?;
-
-    let n: u8 = str::parse(b).unwrap_or_default();
-    let tk = match n {
+pub fn get_sgr(n: u8) -> Token {
+    match n {
         0 => Token::ColorReset,
         1 => Token::Bold,
         2 => Token::Dim,
@@ -329,8 +326,15 @@ fn parse_sgr1(input: &str) -> IResult<&str, Token> {
         _ => {
             todo!()
         }
-    };
-    Ok((rem, tk))
+    }
+}
+
+fn parse_sgr1(input: &str) -> IResult<&str, Token> {
+    let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("m")))(input)?;
+
+    let n: u8 = str::parse(b).unwrap_or_default();
+
+    Ok((rem, get_sgr(n)))
 }
 
 fn parse_color_reset(input: &str) -> IResult<&str, Token> {

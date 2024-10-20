@@ -6,7 +6,7 @@ pub mod text;
 pub mod theme;
 use std::collections::VecDeque;
 
-use lex::{parse_ansi, AnsiColor, Token};
+use lex::{get_sgr, parse_ansi, AnsiColor, Token};
 
 #[derive(Debug, Clone)]
 pub struct Node {
@@ -58,8 +58,8 @@ impl Canvas {
         let (_, lex) = parse_ansi(s).unwrap();
         let mut cur_x = 0;
         let mut cur_y = 0;
-        let mut cur_c = AnsiColor::Color8(0);
-        let mut cur_bg_c = AnsiColor::Color8(0);
+        let mut cur_c = AnsiColor::Color8(39);
+        let mut cur_bg_c = AnsiColor::Color8(49);
         let mut bold = false;
         let mut dim = false;
         let mut italic = false;
@@ -83,8 +83,8 @@ impl Canvas {
                     italic = false;
                     underline = false;
 
-                    cur_bg_c = AnsiColor::Color8(0);
-                    cur_c = AnsiColor::Color8(0);
+                    cur_bg_c = AnsiColor::Color8(39);
+                    cur_c = AnsiColor::Color8(49);
                     blink = false;
                     blink_c = 0;
                     hide = false;
@@ -94,6 +94,9 @@ impl Canvas {
                 3 => italic = true,
                 4 => underline = true,
                 5 | 6 => blink = true,
+                7 => {
+                    (cur_c, cur_bg_c) = (cur_bg_c, cur_c);
+                }
                 _ => {}
             };
 
@@ -184,13 +187,12 @@ impl Canvas {
                 }
 
                 Token::Sgr2(ctrl, background) => {
-                    do_sgr(ctrl);
-
                     match background {
-                        30..=37 | 90..=97 => cur_c = AnsiColor::Color8(background),
-                        40..=47 | 100..=107 => cur_bg_c = AnsiColor::Color8(background),
+                        30..=39 | 90..=97 => cur_c = AnsiColor::Color8(background),
+                        40..=49 | 100..=107 => cur_bg_c = AnsiColor::Color8(background),
                         _ => {}
-                    }
+                    };
+                    q.push_front(get_sgr(ctrl));
                 }
                 Token::Sgr3(ctrl, front, background) => {
                     do_sgr(ctrl);
@@ -266,10 +268,10 @@ impl Canvas {
                     (cur_bg_c, cur_c) = (cur_c, cur_bg_c);
                 }
                 Token::ColorDefaultForeground => {
-                    cur_c = AnsiColor::Color8(0);
+                    cur_c = AnsiColor::Color8(39);
                 }
                 Token::ColorDefaultBackground => {
-                    cur_bg_c = AnsiColor::Color8(0);
+                    cur_bg_c = AnsiColor::Color8(49);
                 }
 
                 Token::Link(_, title) => match parse_ansi(&title) {
