@@ -1,0 +1,28 @@
+---
+source: ansi2/src/lib.rs
+expression: r
+---
+(
+    "",
+    [
+        List(
+            [
+                ColorReset,
+                ColorBackground(
+                    Color256(
+                        45,
+                    ),
+                ),
+            ],
+        ),
+        Char(
+            'a',
+        ),
+        Char(
+            'a',
+        ),
+        Char(
+            'a',
+        ),
+    ],
+)

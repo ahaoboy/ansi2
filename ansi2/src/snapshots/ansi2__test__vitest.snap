@@ -1,0 +1,70 @@
+---
+source: ansi2/src/lib.rs
+expression: r
+---
+(
+    "",
+    [
+        ColorForeground(
+            Color8(
+                Cyan,
+            ),
+        ),
+        Reverse,
+        Bold,
+        Char(
+            ' ',
+        ),
+        Char(
+            'B',
+        ),
+        Char(
+            'E',
+        ),
+        Char(
+            'N',
+        ),
+        Char(
+            'C',
+        ),
+        Char(
+            'H',
+        ),
+        Char(
+            ' ',
+        ),
+        NormalIntensity,
+        NotReversed,
+        ColorDefaultForeground,
+        Char(
+            ' ',
+        ),
+        ColorForeground(
+            Color8(
+                Cyan,
+            ),
+        ),
+        Char(
+            'S',
+        ),
+        Char(
+            'u',
+        ),
+        Char(
+            'm',
+        ),
+        Char(
+            'm',
+        ),
+        Char(
+            'a',
+        ),
+        Char(
+            'r',
+        ),
+        Char(
+            'y',
+        ),
+        ColorDefaultForeground,
+    ],
+)

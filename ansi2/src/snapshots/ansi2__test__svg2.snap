@@ -1,0 +1,75 @@
+---
+source: ansi2/src/lib.rs
+expression: r
+---
+(
+    "",
+    [
+        List(
+            [
+                ColorDefaultForeground,
+                ColorBackground(
+                    Color8(
+                        Black,
+                    ),
+                ),
+            ],
+        ),
+        Char(
+            ' ',
+        ),
+        Char(
+            '3',
+        ),
+        Char(
+            '9',
+        ),
+        Char(
+            ';',
+        ),
+        Char(
+            '4',
+        ),
+        Char(
+            '0',
+        ),
+        Char(
+            'm',
+        ),
+        Char(
+            ' ',
+        ),
+        ColorReset,
+        List(
+            [
+                ColorDefaultForeground,
+                ColorBackground(
+                    Color8(
+                        Red,
+                    ),
+                ),
+            ],
+        ),
+        Char(
+            ' ',
+        ),
+        Char(
+            '3',
+        ),
+        Char(
+            '9',
+        ),
+        Char(
+            ';',
+        ),
+        Char(
+            '4',
+        ),
+        Char(
+            '1',
+        ),
+        Char(
+            'm',
+        ),
+    ],
+)
