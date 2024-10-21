@@ -10,7 +10,7 @@ expression: r
                 Cyan,
             ),
         ),
-        ColorInvert,
+        Reverse,
         Bold,
         Char(
             ' ',

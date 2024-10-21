@@ -63,9 +63,9 @@ impl Canvas {
         let mut bold = false;
         let mut dim = false;
         let mut italic = false;
+        let mut reverse = false;
         let mut underline = false;
         let mut blink = false;
-        let mut blink_c = 0;
         let mut w = 0;
         let mut h = 0;
         let mut pixels = Vec::new();
@@ -74,32 +74,27 @@ impl Canvas {
 
         let mut q = VecDeque::from(lex);
 
-        while let Some(i) = q.pop_front() {
-            let mut do_sgr = |ctrl: u8| match ctrl {
-                0 => {
-                    // reset
-                    bold = false;
-                    dim = false;
-                    italic = false;
-                    underline = false;
-
-                    cur_bg_c = AnsiColor::Default;
-                    cur_c = AnsiColor::Default;
-                    blink = false;
-                    blink_c = 0;
-                    hide = false;
+        macro_rules! set_bg_color {
+            ($color:expr) => {
+                if reverse && $color == AnsiColor::Default {
+                    cur_bg_c = AnsiColor::Color8(lex::Color8::Black);
+                } else {
+                    cur_bg_c = $color;
                 }
-                1 => bold = true,
-                2 => dim = true,
-                3 => italic = true,
-                4 => underline = true,
-                5 | 6 => blink = true,
-                7 => {
-                    (cur_c, cur_bg_c) = (cur_bg_c, cur_c);
-                }
-                _ => {}
             };
+        }
 
+        macro_rules! set_color {
+            ($color:expr) => {
+                if reverse && $color == AnsiColor::Default {
+                    cur_c = AnsiColor::Color8(lex::Color8::White);
+                } else {
+                    cur_c = $color;
+                }
+            };
+        }
+
+        while let Some(i) = q.pop_front() {
             match i {
                 Token::LineFeed => {
                     cur_y += 1;
@@ -124,11 +119,28 @@ impl Canvas {
                     set_node(&mut pixels, node, cur_x, cur_y);
                     cur_x += 1;
                 }
-                Token::ColorBackground(c) => cur_bg_c = c,
-                Token::ColorForeground(c) => cur_c = c,
+                Token::ColorBackground(c) => {
+                    if reverse {
+                        set_color!(c);
+                    } else {
+                        set_bg_color!(c);
+                    }
+                }
+                Token::ColorForeground(c) => {
+                    if reverse {
+                        set_bg_color!(c);
+                    } else {
+                        set_color!(c);
+                    }
+                }
                 Token::ColorFgBg(fg, bg) => {
-                    cur_bg_c = bg;
-                    cur_c = fg;
+                    if reverse {
+                        set_color!(bg);
+                        set_bg_color!(fg);
+                    } else {
+                        set_color!(fg);
+                        set_bg_color!(bg);
+                    }
                 }
                 Token::Bold => bold = true,
                 Token::Italic => {
@@ -141,7 +153,16 @@ impl Canvas {
                     dim = true;
                 }
                 Token::ColorReset => {
-                    do_sgr(0);
+                    bold = false;
+                    dim = false;
+                    italic = false;
+                    underline = false;
+                    reverse = false;
+
+                    cur_bg_c = AnsiColor::Default;
+                    cur_c = AnsiColor::Default;
+                    blink = false;
+                    hide = false;
                 }
                 Token::CursorUp(c) => cur_y = cur_y.saturating_sub(c as usize),
                 Token::CursorDown(c) => {
@@ -186,27 +207,35 @@ impl Canvas {
                     cur_y = y as usize;
                 }
                 Token::SlowBlink | Token::RapidBlink => blink = true,
-                Token::ColorInvert => {
-                    (cur_bg_c, cur_c) = (cur_c, cur_bg_c);
-                    if cur_bg_c == AnsiColor::Default {
-                        cur_bg_c = AnsiColor::Color8(lex::Color8::Black);
-                    }
-                    if cur_c == AnsiColor::Default {
-                        cur_c = AnsiColor::Color8(lex::Color8::White);
-                    }
+                Token::Reverse => {
+                    reverse = true;
+                    let tmp_c = cur_c;
+                    let tmp_bg_c = cur_bg_c;
+                    set_color!(tmp_bg_c);
+                    set_bg_color!(tmp_c);
                 }
                 Token::NormalIntensity => {
                     dim = false;
                     bold = false;
                 }
                 Token::NotReversed => {
-                    (cur_bg_c, cur_c) = (cur_c, cur_bg_c);
+                    reverse = false;
+                    set_bg_color!(AnsiColor::Default);
+                    set_color!(AnsiColor::Default);
                 }
                 Token::ColorDefaultForeground => {
-                    cur_c = AnsiColor::Default;
+                    if reverse {
+                        set_bg_color!(AnsiColor::Default);
+                    } else {
+                        set_color!(AnsiColor::Default);
+                    }
                 }
                 Token::ColorDefaultBackground => {
-                    cur_bg_c = AnsiColor::Default;
+                    if reverse {
+                        set_color!(AnsiColor::Default);
+                    } else {
+                        set_bg_color!(AnsiColor::Default);
+                    }
                 }
 
                 Token::Link(_, title) => match parse_ansi(&title) {
@@ -461,6 +490,35 @@ mod test {
     #[test]
     fn test_dim() {
         let s = "[39m[2;39mNUSHELL";
+        let r = parse_ansi(s).unwrap();
+        assert_debug_snapshot!(r);
+
+        let canvas = Canvas::new(s, None);
+        assert_debug_snapshot!(canvas);
+    }
+
+    #[test]
+    fn test_sgr4() {
+        let s = "[0;48;5;45maaa";
+        let r = parse_ansi(s).unwrap();
+        assert_debug_snapshot!(r);
+
+        let canvas = Canvas::new(s, None);
+        assert_debug_snapshot!(canvas);
+    }
+    #[test]
+    fn test_vitest() {
+        let s = "[36m[7m[1m BENCH [22m[27m[39m [36mSummary[39m";
+        let r = parse_ansi(s).unwrap();
+        assert_debug_snapshot!(r);
+
+        let canvas = Canvas::new(s, None);
+        assert_debug_snapshot!(canvas);
+    }
+
+    #[test]
+    fn test_svg2() {
+        let s = "[39;40m 39;40m [0m[39;41m 39;41m";
         let r = parse_ansi(s).unwrap();
         assert_debug_snapshot!(r);
 

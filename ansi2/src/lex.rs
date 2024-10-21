@@ -140,7 +140,7 @@ pub enum Token {
     ColorFgBg(AnsiColor, AnsiColor),
 
     ColorReset,
-    ColorInvert,
+    Reverse,
     ColorDefaultForeground,
     ColorDefaultBackground,
     ColorDefaultUnderline,
@@ -331,7 +331,7 @@ pub fn get_sgr(n: u8) -> Token {
         4 => Token::Underline,
         5 => Token::SlowBlink,
         6 => Token::RapidBlink,
-        7 => Token::ColorInvert,
+        7 => Token::Reverse,
         8 => Token::CursorHide,
         9 => Token::Strike,
         10 => Token::PrimaryFont,
@@ -446,20 +446,43 @@ fn parse_sgr4(input: &str) -> IResult<&str, Token> {
         digit0,
         tag_no_case("m"),
     ))(input)?;
-    let a = reset.parse().unwrap_or(0);
-    let b = ctrl.parse().unwrap_or(0);
-    let c = front.parse().unwrap_or(0);
-    let d = background.parse().unwrap_or(0);
+    let a: u8 = reset.parse().unwrap_or(0);
+    let b: u8 = ctrl.parse().unwrap_or(0);
+    let c: u8 = front.parse().unwrap_or(0);
+    let d: u8 = background.parse().unwrap_or(0);
 
-    Ok((
-        rem,
-        Token::List(vec![
-            get_sgr(a),
-            get_sgr(b),
-            get_token_color(c),
-            get_token_color(d),
-        ]),
-    ))
+    let mut v = vec![get_sgr(a)];
+
+    match b {
+        48 => match c {
+            5 => {
+                v.push(Token::ColorBackground(AnsiColor::Color256(d)));
+            }
+            _ => {
+                v.push(Token::ColorBackground(AnsiColor::from_u8(d)));
+            }
+        },
+        38 => match c {
+            5 => {
+                v.push(Token::ColorForeground(AnsiColor::Color256(d)));
+            }
+            _ => {
+                v.push(Token::ColorForeground(AnsiColor::from_u8(d)));
+            }
+        },
+        5 | 6 => {
+            v.push(get_sgr(b));
+            v.push(Token::ColorForeground(AnsiColor::from_u8(c)));
+            v.push(Token::ColorBackground(AnsiColor::from_u8(d)));
+        }
+        _ => {
+            v.push(get_sgr(b));
+            v.push(Token::ColorForeground(AnsiColor::Color256(c)));
+            v.push(Token::ColorBackground(AnsiColor::Color256(d)));
+        }
+    };
+
+    Ok((rem, Token::List(v)))
 }
 
 fn parse_sgr5(input: &str) -> IResult<&str, Token> {

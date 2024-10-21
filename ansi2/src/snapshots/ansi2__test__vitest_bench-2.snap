@@ -111,9 +111,7 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    White,
-                ),
+                bg_color: Default,
                 color: Default,
                 bold: false,
                 blink: false,
@@ -124,9 +122,7 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    White,
-                ),
+                bg_color: Default,
                 color: Color8(
                     Cyan,
                 ),
@@ -139,9 +135,7 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    White,
-                ),
+                bg_color: Default,
                 color: Color8(
                     Cyan,
                 ),
@@ -154,9 +148,7 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    White,
-                ),
+                bg_color: Default,
                 color: Color8(
                     Cyan,
                 ),
@@ -169,9 +161,7 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    White,
-                ),
+                bg_color: Default,
                 color: Color8(
                     Cyan,
                 ),
@@ -184,9 +174,7 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    White,
-                ),
+                bg_color: Default,
                 color: Color8(
                     Cyan,
                 ),
@@ -199,9 +187,7 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    White,
-                ),
+                bg_color: Default,
                 color: Color8(
                     Cyan,
                 ),
@@ -214,9 +200,7 @@ Canvas {
                 hide: false,
             },
             Node {
-                bg_color: Color8(
-                    White,
-                ),
+                bg_color: Default,
                 color: Color8(
                     Cyan,
                 ),
