@@ -2,7 +2,7 @@
   "compilerOptions": {
     "module": "Node16",
     "target": "ES2022",
-    // "rootDir": "src",
+    "rootDir": "src",
     "useDefineForClassFields": true,
     "lib": ["ESNext", "ES2022", "es2021", "DOM"],
     "allowJs": true,
@@ -19,5 +19,6 @@
     "declaration": true,
     "declarationMap": false,
     "sourceMap": false
-  }
+  },
+  "include": ["src"]
 }

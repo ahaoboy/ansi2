@@ -39,7 +39,6 @@ pub fn to_html<S: AsRef<str>>(
         s.push_str("<div class='row'>");
         for c in row.iter() {
             let mut text_class = vec!["char".into()];
-            let mut bg_class = vec!["char".into()];
             if c.bold {
                 text_class.push("bold".into());
             }
@@ -69,9 +68,8 @@ pub fn to_html<S: AsRef<str>>(
 
             if !c.bg_color.is_default() {
                 let name = "bg-".to_string() + &c.bg_color.class_name();
-                bg_class.push(name);
-
-                if let crate::lex::AnsiColor::Rgb(r, g, b) = c.color {
+                text_class.push(name);
+                if let crate::lex::AnsiColor::Rgb(r, g, b) = c.bg_color {
                     color256.insert(format!(
                         ".bg-rgb_{r}_{g}_{b}{{background:{};}}\n",
                         get_hex((r, g, b))
@@ -84,7 +82,6 @@ pub fn to_html<S: AsRef<str>>(
             }
 
             let text_class = text_class.join(" ").trim().to_string();
-            let bg_class = bg_class.join(" ");
             let html_char = c.char.to_string();
             let html_char = html_escape::encode_text(&html_char);
             let class_str = if text_class.is_empty() {
@@ -92,9 +89,7 @@ pub fn to_html<S: AsRef<str>>(
             } else {
                 format!("class='{text_class}'")
             };
-            s.push_str(&format!(
-                "<div class='{bg_class}'><div {class_str}>{html_char}</div></div>",
-            ))
+            s.push_str(&format!("<div {class_str}>{html_char}</div>",))
         }
         s.push_str("</div>");
     }

@@ -51,7 +51,7 @@ pub fn to_svg<S: AsRef<str>, T: ColorTable>(
                     r#"<rect x="{cur_x}px" y="{cur_y}px" width="{fn_w}px" height="{fn_h}px" {class_str}/>"#
                 ));
 
-                if let crate::lex::AnsiColor::Rgb(r, g, b) = c.color {
+                if let crate::lex::AnsiColor::Rgb(r, g, b) = c.bg_color {
                     color256.insert(format!(
                         ".bg-rgb_{r}_{g}_{b}{{fill:{};}}\n",
                         get_hex((r, g, b))
