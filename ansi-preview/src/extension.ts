@@ -24,7 +24,6 @@ function updateWebviewContent(fileName: string): void {
     const s = fs.readFileSync(fileName, "utf-8")
 
     // FIXME: html looks better than svg?
-    // @ts-ignore
     panel.webview.html = to_html(s, Theme.Vscode)
     // panel.webview.html = to_svg(s, Theme.Vscode)
   }

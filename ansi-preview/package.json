@@ -84,6 +84,6 @@
     "test": "vscode-test"
   },
   "dependencies": {
-    "ansi2": "^0.1.14"
+    "ansi2": "workspace:*"
   }
 }
