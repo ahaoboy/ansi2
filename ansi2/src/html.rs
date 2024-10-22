@@ -36,7 +36,7 @@ pub fn to_html<S: AsRef<str>>(
 
     let mut color256 = HashSet::new();
     for row in canvas.pixels.iter() {
-        s.push_str("<div class='row'>");
+        s.push_str("<div>");
         for c in row.iter() {
             let mut text_class = vec!["char".into()];
             if c.bold {
@@ -89,12 +89,15 @@ pub fn to_html<S: AsRef<str>>(
             } else {
                 format!("class='{text_class}'")
             };
-            s.push_str(&format!("<div {class_str}>{html_char}</div>",))
+            s.push_str(&format!("<p {class_str}>{html_char}</p>",))
         }
+
+        // .row
         s.push_str("</div>");
     }
 
     let color256_str: String = color256.into_iter().collect();
+    // .ansi-main
     s.push_str("</div>\n");
 
     format!(
@@ -104,8 +107,7 @@ pub fn to_html<S: AsRef<str>>(
 {style}
 {color256_str}
 .ansi-main{{display:flex;flex-direction:column;}}
-.row{{display: flex;}}
-.char{{margin: 0;padding: 0;font-family: {font_family};white-space: pre;}}</style></head><body>{s}</body></html>
+.char{{margin:0;padding:0;font-family:{font_family};white-space:pre;display:inline-block;}}</style></head><body>{s}</body></html>
 "#
     )
 }
