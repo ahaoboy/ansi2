@@ -115,7 +115,7 @@ ls | table | ansi2 | save nu-ls.svg -f
 
 ## todo
 
-- [ ] link
+- [x] link
 - [ ] merge characters of the same style to reduce the number of tags
-- [ ] vscode extension
+- [x] vscode extension: [preview-easy](https://github.com/ahaoboy/preview-easy.git)
 - [ ] ansi minify
