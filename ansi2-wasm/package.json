@@ -14,14 +14,14 @@
     "url": "git+https://github.com/ahaoboy/ansi2.git"
   },
   "scripts": {
-    "hack": "cp ./src-ts/wasm ./dist -r",
+    "copy:wasm": "cp ./src-ts/wasm ./dist -r",
     "build:lib": "tsc",
     "build:cli": "esbuild ./src-ts/cli.ts --bundle --outdir=./dist --platform=node",
-    "build": "pnpm run build:wasm && pnpm run build:inline && pnpm run build:lib && pnpm run build:cli && pnpm run hack",
+    "build": "pnpm run build:wasm && pnpm run build:inline && pnpm run build:lib && pnpm run build:cli && pnpm run copy:wasm",
     "build:wasm": "wasm-pack build --target=web --out-dir ./web --release",
     "build:inline": " wasm-pack-inline ./web -d ./src-ts/wasm --name index"
   },
-  "keywords": [],
+  "keywords": ["ansi"],
   "dependencies": {
     "commander": "12.1.0",
     "svgo": "^3.3.2"

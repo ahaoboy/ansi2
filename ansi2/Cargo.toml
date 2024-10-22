@@ -22,8 +22,9 @@ insta = { workspace = true }
 opt-level = 3
 
 [features]
-cli = ["clap", "osvg"]
+cli = ["clap", "minify"]
 wasm = ["wasm-bindgen"]
+minify = ["osvg"]
 
 [[bin]]
 required-features = ["cli"]

@@ -120,3 +120,4 @@ ls | table | ansi2 | save nu-ls.svg -f
 - [x] vscode extension: [preview-easy](https://github.com/ahaoboy/preview-easy.git)
 - [ ] ansi minify
 - [ ] html support copy text, continuous text will be separated by line breaks
+- [ ] html minify
