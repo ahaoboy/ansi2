@@ -13,7 +13,7 @@ dependencies = [
 
 [[package]]
 name = "ansi2"
-version = "0.2.10"
+version = "0.2.11"
 dependencies = [
  "base64",
  "clap",
@@ -26,7 +26,7 @@ dependencies = [
 
 [[package]]
 name = "ansi2-wasm"
-version = "0.2.10"
+version = "0.2.11"
 dependencies = [
  "ansi2",
  "wasm-bindgen",

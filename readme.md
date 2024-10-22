@@ -119,3 +119,4 @@ ls | table | ansi2 | save nu-ls.svg -f
 - [ ] merge characters of the same style to reduce the number of tags
 - [x] vscode extension: [preview-easy](https://github.com/ahaoboy/preview-easy.git)
 - [ ] ansi minify
+- [ ] html support copy text, continuous text will be separated by line breaks

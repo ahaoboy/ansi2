@@ -3,7 +3,7 @@ members = ["ansi2", "ansi2-wasm"]
 resolver = "2"
 
 [workspace.package]
-version = "0.2.10"
+version = "0.2.11"
 edition = "2021"
 license = "MIT"
 description = "ansi2"
