@@ -16,6 +16,3 @@ ansi2 = { workspace = true, features = ["wasm"] }
 
 [dev-dependencies]
 wasm-bindgen-test = { workspace = true }
-
-[profile.release]
-opt-level = 3

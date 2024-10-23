@@ -18,9 +18,6 @@ osvg = { workspace = true, optional = true }
 [dev-dependencies]
 insta = { workspace = true }
 
-[profile.release]
-opt-level = 3
-
 [features]
 cli = ["clap", "minify"]
 wasm = ["wasm-bindgen"]

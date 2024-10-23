@@ -39,16 +39,17 @@ pub fn to_svg<S: AsRef<str>, T: ColorTable>(
 
     let mut color256 = HashSet::new();
 
-    for row in canvas.pixels.iter() {
+    for row in canvas.minify().iter() {
         for c in row.iter() {
             let mut text_class = vec![];
 
+            let str_w = fn_w * c.text.chars().count();
             if !c.bg_color.is_default() {
                 let name = "bg-".to_string() + &c.bg_color.class_name();
 
                 let class_str = format!(" class='{}'", name);
                 s.push_str(&format!(
-                    r#"<rect x="{cur_x}px" y="{cur_y}px" width="{fn_w}px" height="{fn_h}px" {class_str}/>"#
+                    r#"<rect x="{cur_x}px" y="{cur_y}px" width="{str_w}px" height="{fn_h}px" {class_str}/>"#
                 ));
 
                 if let crate::lex::AnsiColor::Rgb(r, g, b) = c.bg_color {
@@ -103,12 +104,13 @@ pub fn to_svg<S: AsRef<str>, T: ColorTable>(
                 format!("class='{}'", text_class.join(" "))
             };
 
+            // FIXME: lengthAdjust="spacingAndGlyphs" or lengthAdjust="spacing"
             s.push_str(&format!(
-r#"<text x="{text_x}px" y="{text_y}px" width="{fn_w}px" height="{fn_h}px" {} {italic_str} {dim_str} {underline_str}><tspan>{}</tspan></text>"#,
+r#"<text x="{text_x}px" y="{text_y}px" width="{str_w}px" height="{fn_h}px" {} {italic_str} {dim_str} {underline_str}><tspan  textLength="{str_w}">{}</tspan></text>"#,
 class_str ,
-                html_escape::encode_text(&c.char.to_string())
+                html_escape::encode_text(&c.text)
             ));
-            cur_x += fn_w;
+            cur_x += str_w;
         }
         cur_y += fn_h;
         cur_x = 0;

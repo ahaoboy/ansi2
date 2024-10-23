@@ -1,0 +1,19 @@
+---
+source: ansi2/src/lib.rs
+expression: canvas.minify()
+---
+[
+    [
+        Node {
+            bg_color: Default,
+            color: Default,
+            bold: false,
+            blink: false,
+            text: "twice",
+            dim: false,
+            italic: false,
+            underline: true,
+            hide: false,
+        },
+    ],
+]

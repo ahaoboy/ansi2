@@ -35,7 +35,7 @@ pub fn to_html<S: AsRef<str>>(
     s.push_str("<div class='ansi-main'>\n");
 
     let mut color256 = HashSet::new();
-    for row in canvas.pixels.iter() {
+    for row in canvas.minify().iter() {
         s.push_str("<div class='row'>");
         for c in row.iter() {
             let mut text_class = vec!["char".into()];
@@ -82,7 +82,7 @@ pub fn to_html<S: AsRef<str>>(
             }
 
             let text_class = text_class.join(" ").trim().to_string();
-            let html_char = c.char.to_string();
+            let html_char = c.text.to_string();
             let html_char = html_escape::encode_text(&html_char);
             let class_str = if text_class.is_empty() {
                 String::new()

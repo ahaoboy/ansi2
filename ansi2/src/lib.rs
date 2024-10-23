@@ -4,7 +4,7 @@ pub mod lex;
 pub mod svg;
 pub mod text;
 pub mod theme;
-use std::collections::VecDeque;
+use std::{collections::VecDeque, vec};
 
 use lex::{parse_ansi, AnsiColor, Token};
 
@@ -14,11 +14,24 @@ pub struct Node {
     pub color: AnsiColor,
     pub bold: bool,
     pub blink: bool,
-    pub char: char,
+    pub text: String,
     pub dim: bool,
     pub italic: bool,
     pub underline: bool,
     pub hide: bool,
+}
+
+impl Node {
+    pub fn same_style(&self, other: &Node) -> bool {
+        self.bg_color == other.bg_color
+            && self.color == other.color
+            && self.bold == other.bold
+            && self.blink == other.blink
+            && self.dim == other.dim
+            && self.italic == other.italic
+            && self.underline == other.underline
+            && self.hide == other.hide
+    }
 }
 
 #[derive(Debug, Clone)]
@@ -39,7 +52,7 @@ fn set_node(v: &mut Vec<Vec<Node>>, node: Node, x: usize, y: usize) {
             bg_color: AnsiColor::Default,
             color: AnsiColor::Default,
             bold: false,
-            char: ' ',
+            text: ' '.into(),
             blink: false,
             dim: false,
             italic: false,
@@ -102,7 +115,7 @@ impl Canvas {
                 }
                 Token::Char(c) => {
                     let node = Node {
-                        char: c,
+                        text: c.into(),
                         bg_color: cur_bg_c,
                         color: cur_c,
                         bold,
@@ -256,7 +269,7 @@ impl Canvas {
                             }
 
                             let node = Node {
-                                char: i,
+                                text: i.into(),
                                 bg_color: cur_bg_c,
                                 color: cur_c,
                                 bold,
@@ -294,6 +307,35 @@ impl Canvas {
 
         Canvas { pixels, w, h }
     }
+
+    pub fn minify(&self) -> Vec<Vec<Node>> {
+        let mut v = vec![];
+        for row in &self.pixels {
+            let row_len = row.len();
+
+            if row_len == 0 {
+                v.push(vec![]);
+                continue;
+            }
+
+            let mut block = row[0].clone();
+
+            let mut list = vec![];
+            for c in row.iter().take(row_len).skip(1) {
+                if c.same_style(&block) {
+                    block.text.push_str(&c.text);
+                } else {
+                    list.push(block.clone());
+                    block = c.clone();
+                }
+            }
+
+            list.push(block);
+            v.push(list);
+        }
+
+        v
+    }
 }
 
 #[cfg(test)]
@@ -308,6 +350,7 @@ mod test {
 
         let canvas = Canvas::new(s, None);
         assert_debug_snapshot!(canvas);
+        assert_debug_snapshot!(canvas.minify());
     }
 
     #[test]
@@ -318,6 +361,7 @@ mod test {
 
         let canvas = Canvas::new(s, None);
         assert_debug_snapshot!(canvas);
+        assert_debug_snapshot!(canvas.minify());
     }
     #[test]
     fn test_reset() {
@@ -327,6 +371,7 @@ mod test {
 
         let canvas = Canvas::new(s, None);
         assert_debug_snapshot!(canvas);
+        assert_debug_snapshot!(canvas.minify());
     }
 
     #[test]
@@ -337,6 +382,7 @@ mod test {
 
         let canvas = Canvas::new(s, None);
         assert_debug_snapshot!(canvas);
+        assert_debug_snapshot!(canvas.minify());
     }
     #[test]
     fn test_starship_prompt() {
@@ -346,6 +392,7 @@ mod test {
 
         let canvas = Canvas::new(s, None);
         assert_debug_snapshot!(canvas);
+        assert_debug_snapshot!(canvas.minify());
     }
 
     #[test]
@@ -356,6 +403,7 @@ mod test {
 
         let canvas = Canvas::new(s, None);
         assert_debug_snapshot!(canvas);
+        assert_debug_snapshot!(canvas.minify());
     }
 
     #[test]
@@ -366,6 +414,7 @@ mod test {
 
         let canvas = Canvas::new(s, None);
         assert_debug_snapshot!(canvas);
+        assert_debug_snapshot!(canvas.minify());
     }
 
     #[test]
@@ -376,6 +425,7 @@ mod test {
 
         let canvas = Canvas::new(s, None);
         assert_debug_snapshot!(canvas);
+        assert_debug_snapshot!(canvas.minify());
     }
 
     #[test]
@@ -386,6 +436,7 @@ mod test {
 
         let canvas = Canvas::new(s, None);
         assert_debug_snapshot!(canvas);
+        assert_debug_snapshot!(canvas.minify());
     }
     #[test]
     fn test_base() {
@@ -396,6 +447,7 @@ mod test {
 
         let canvas = Canvas::new(s, None);
         assert_debug_snapshot!(canvas);
+        assert_debug_snapshot!(canvas.minify());
     }
 
     #[test]
@@ -407,6 +459,7 @@ mod test {
 
         let canvas = Canvas::new(s, None);
         assert_debug_snapshot!(canvas);
+        assert_debug_snapshot!(canvas.minify());
     }
     #[test]
     fn test_link_hide() {
@@ -416,6 +469,7 @@ mod test {
 
         let canvas = Canvas::new(s, None);
         assert_debug_snapshot!(canvas);
+        assert_debug_snapshot!(canvas.minify());
     }
 
     #[test]
@@ -426,6 +480,7 @@ mod test {
 
         let canvas = Canvas::new(s, None);
         assert_debug_snapshot!(canvas);
+        assert_debug_snapshot!(canvas.minify());
     }
 
     #[test]
@@ -436,6 +491,7 @@ mod test {
 
         let canvas = Canvas::new(s, None);
         assert_debug_snapshot!(canvas);
+        assert_debug_snapshot!(canvas.minify());
     }
 
     #[test]
@@ -446,6 +502,7 @@ mod test {
 
         let canvas = Canvas::new(s, None);
         assert_debug_snapshot!(canvas);
+        assert_debug_snapshot!(canvas.minify());
     }
 
     #[test]
@@ -456,6 +513,7 @@ mod test {
 
         let canvas = Canvas::new(s, None);
         assert_debug_snapshot!(canvas);
+        assert_debug_snapshot!(canvas.minify());
     }
     #[test]
     fn test_link_ll() {
@@ -465,6 +523,7 @@ mod test {
 
         let canvas = Canvas::new(s, None);
         assert_debug_snapshot!(canvas);
+        assert_debug_snapshot!(canvas.minify());
     }
 
     #[test]
@@ -475,6 +534,7 @@ mod test {
 
         let canvas = Canvas::new(s, None);
         assert_debug_snapshot!(canvas);
+        assert_debug_snapshot!(canvas.minify());
     }
 
     #[test]
@@ -486,6 +546,7 @@ mod test {
 
         let canvas = Canvas::new(s, None);
         assert_debug_snapshot!(canvas);
+        assert_debug_snapshot!(canvas.minify());
     }
     #[test]
     fn test_dim() {
@@ -495,6 +556,7 @@ mod test {
 
         let canvas = Canvas::new(s, None);
         assert_debug_snapshot!(canvas);
+        assert_debug_snapshot!(canvas.minify());
     }
 
     #[test]
@@ -505,6 +567,7 @@ mod test {
 
         let canvas = Canvas::new(s, None);
         assert_debug_snapshot!(canvas);
+        assert_debug_snapshot!(canvas.minify());
     }
     #[test]
     fn test_vitest() {
@@ -514,6 +577,7 @@ mod test {
 
         let canvas = Canvas::new(s, None);
         assert_debug_snapshot!(canvas);
+        assert_debug_snapshot!(canvas.minify());
     }
 
     #[test]
@@ -524,5 +588,6 @@ mod test {
 
         let canvas = Canvas::new(s, None);
         assert_debug_snapshot!(canvas);
+        assert_debug_snapshot!(canvas.minify());
     }
 }
