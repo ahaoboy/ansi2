@@ -1,0 +1,47 @@
+---
+source: ansi2/src/lib.rs
+expression: canvas.minify()
+---
+[
+    [
+        Node {
+            bg_color: Color8(
+                Cyan,
+            ),
+            color: Color8(
+                White,
+            ),
+            bold: true,
+            blink: false,
+            text: " BENCH ",
+            dim: false,
+            italic: false,
+            underline: false,
+            hide: false,
+        },
+        Node {
+            bg_color: Default,
+            color: Default,
+            bold: false,
+            blink: false,
+            text: " ",
+            dim: false,
+            italic: false,
+            underline: false,
+            hide: false,
+        },
+        Node {
+            bg_color: Default,
+            color: Color8(
+                Cyan,
+            ),
+            bold: false,
+            blink: false,
+            text: "Summary",
+            dim: false,
+            italic: false,
+            underline: false,
+            hide: false,
+        },
+    ],
+]

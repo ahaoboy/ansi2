@@ -1,0 +1,152 @@
+---
+source: ansi2/src/lib.rs
+expression: canvas.minify()
+---
+[
+    [
+        Node {
+            bg_color: Default,
+            color: Rgb(
+                218,
+                98,
+                125,
+            ),
+            bold: false,
+            blink: false,
+            text: "\u{e0b6}",
+            dim: false,
+            italic: false,
+            underline: false,
+            hide: false,
+        },
+        Node {
+            bg_color: Rgb(
+                218,
+                98,
+                125,
+            ),
+            color: Color8(
+                Black,
+            ),
+            bold: false,
+            blink: false,
+            text: "win",
+            dim: false,
+            italic: false,
+            underline: false,
+            hide: false,
+        },
+        Node {
+            bg_color: Rgb(
+                218,
+                98,
+                125,
+            ),
+            color: Rgb(
+                218,
+                98,
+                125,
+            ),
+            bold: false,
+            blink: false,
+            text: "\u{e0b0}",
+            dim: false,
+            italic: false,
+            underline: false,
+            hide: false,
+        },
+        Node {
+            bg_color: Rgb(
+                218,
+                98,
+                125,
+            ),
+            color: Color8(
+                Black,
+            ),
+            bold: false,
+            blink: false,
+            text: "C:/wt ",
+            dim: false,
+            italic: false,
+            underline: false,
+            hide: false,
+        },
+        Node {
+            bg_color: Rgb(
+                252,
+                161,
+                125,
+            ),
+            color: Rgb(
+                218,
+                98,
+                125,
+            ),
+            bold: false,
+            blink: false,
+            text: "\u{e0b0}",
+            dim: false,
+            italic: false,
+            underline: false,
+            hide: false,
+        },
+        Node {
+            bg_color: Rgb(
+                134,
+                187,
+                216,
+            ),
+            color: Rgb(
+                252,
+                161,
+                125,
+            ),
+            bold: false,
+            blink: false,
+            text: "\u{e0b0}",
+            dim: false,
+            italic: false,
+            underline: false,
+            hide: false,
+        },
+        Node {
+            bg_color: Rgb(
+                6,
+                150,
+                154,
+            ),
+            color: Rgb(
+                134,
+                187,
+                216,
+            ),
+            bold: false,
+            blink: false,
+            text: "\u{e0b0}",
+            dim: false,
+            italic: false,
+            underline: false,
+            hide: false,
+        },
+        Node {
+            bg_color: Rgb(
+                51,
+                101,
+                138,
+            ),
+            color: Rgb(
+                6,
+                150,
+                154,
+            ),
+            bold: false,
+            blink: false,
+            text: "\u{e0b0}",
+            dim: false,
+            italic: false,
+            underline: false,
+            hide: false,
+        },
+    ],
+]

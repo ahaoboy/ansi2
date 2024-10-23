@@ -1,0 +1,36 @@
+---
+source: ansi2/src/lib.rs
+expression: canvas.minify()
+---
+[
+    [
+        Node {
+            bg_color: Default,
+            color: Color256(
+                99,
+            ),
+            bold: false,
+            blink: false,
+            text: "a",
+            dim: false,
+            italic: false,
+            underline: false,
+            hide: false,
+        },
+        Node {
+            bg_color: Color256(
+                99,
+            ),
+            color: Color256(
+                99,
+            ),
+            bold: false,
+            blink: false,
+            text: "b",
+            dim: false,
+            italic: false,
+            underline: false,
+            hide: false,
+        },
+    ],
+]
