@@ -31,44 +31,44 @@ pub enum Color8 {
 }
 
 impl Color8 {
-    pub fn class_name(&self) -> String {
+    pub fn class_name(&self) -> &'static str {
         match self {
-            Color8::Black => "c0".into(),
-            Color8::Red => "c1".into(),
-            Color8::Green => "c2".into(),
-            Color8::Yellow => "c3".into(),
-            Color8::Blue => "c4".into(),
-            Color8::Magenta => "c5".into(),
-            Color8::Cyan => "c6".into(),
-            Color8::White => "c7".into(),
-            Color8::BrightBlack => "ca".into(),
-            Color8::BrightRed => "cb".into(),
-            Color8::BrightGreen => "cc".into(),
-            Color8::BrightYellow => "cd".into(),
-            Color8::BrightBlue => "ce".into(),
-            Color8::BrightMagenta => "cf".into(),
-            Color8::BrightCyan => "cg".into(),
-            Color8::BrightWhite => "ch".into(),
+            Color8::Black => "c0",
+            Color8::Red => "c1",
+            Color8::Green => "c2",
+            Color8::Yellow => "c3",
+            Color8::Blue => "c4",
+            Color8::Magenta => "c5",
+            Color8::Cyan => "c6",
+            Color8::White => "c7",
+            Color8::BrightBlack => "ca",
+            Color8::BrightRed => "cb",
+            Color8::BrightGreen => "cc",
+            Color8::BrightYellow => "cd",
+            Color8::BrightBlue => "ce",
+            Color8::BrightMagenta => "cf",
+            Color8::BrightCyan => "cg",
+            Color8::BrightWhite => "ch",
         }
     }
-    pub fn bg_class_name(&self) -> String {
+    pub fn bg_class_name(&self) -> &'static str {
         match self {
-            Color8::Black => "b0".into(),
-            Color8::Red => "b1".into(),
-            Color8::Green => "b2".into(),
-            Color8::Yellow => "b3".into(),
-            Color8::Blue => "b4".into(),
-            Color8::Magenta => "b5".into(),
-            Color8::Cyan => "b6".into(),
-            Color8::White => "b7".into(),
-            Color8::BrightBlack => "ba".into(),
-            Color8::BrightRed => "bb".into(),
-            Color8::BrightGreen => "bc".into(),
-            Color8::BrightYellow => "bd".into(),
-            Color8::BrightBlue => "be".into(),
-            Color8::BrightMagenta => "bf".into(),
-            Color8::BrightCyan => "bg".into(),
-            Color8::BrightWhite => "bh".into(),
+            Color8::Black => "b0",
+            Color8::Red => "b1",
+            Color8::Green => "b2",
+            Color8::Yellow => "b3",
+            Color8::Blue => "b4",
+            Color8::Magenta => "b5",
+            Color8::Cyan => "b6",
+            Color8::White => "b7",
+            Color8::BrightBlack => "ba",
+            Color8::BrightRed => "bb",
+            Color8::BrightGreen => "bc",
+            Color8::BrightYellow => "bd",
+            Color8::BrightBlue => "be",
+            Color8::BrightMagenta => "bf",
+            Color8::BrightCyan => "bg",
+            Color8::BrightWhite => "bh",
         }
     }
 
@@ -129,7 +129,7 @@ impl AnsiColor {
     pub fn class_name(&self) -> String {
         match self {
             AnsiColor::Default => "D".into(),
-            AnsiColor::Color8(n) => n.class_name(),
+            AnsiColor::Color8(n) => n.class_name().to_string(),
             AnsiColor::Rgb(r, g, b) => format!("c{:02X}{:02X}{:02X}", r, g, b),
             AnsiColor::Color256(c) => format!("c{:02X}", c),
         }
@@ -138,7 +138,7 @@ impl AnsiColor {
     pub fn bg_class_name(&self) -> String {
         match self {
             AnsiColor::Default => "D".into(),
-            AnsiColor::Color8(n) => n.bg_class_name(),
+            AnsiColor::Color8(n) => n.bg_class_name().to_string(),
             AnsiColor::Rgb(r, g, b) => format!("b{:02X}{:02X}{:02X}", r, g, b),
             AnsiColor::Color256(c) => format!("b{:02X}", c),
         }

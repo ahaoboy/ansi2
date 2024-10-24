@@ -41,29 +41,29 @@ pub fn to_html<S: AsRef<str>>(
     for row in canvas.minify().iter() {
         s.push_str(&row_style);
         for c in row.iter() {
-            let mut text_class = vec![NodeStyle::Text.class_name()];
+            let mut text_class = vec![NodeStyle::Text.class_name().to_string()];
             if c.bold {
-                text_class.push(NodeStyle::Bold.class_name());
+                text_class.push(NodeStyle::Bold.class_name().to_string());
                 style.bold = true;
             }
             if c.italic {
-                text_class.push(NodeStyle::Italic.class_name());
+                text_class.push(NodeStyle::Italic.class_name().to_string());
                 style.italic = true;
             }
             if c.dim {
-                text_class.push(NodeStyle::Dim.class_name());
+                text_class.push(NodeStyle::Dim.class_name().to_string());
                 style.dim = true;
             }
             if c.underline {
-                text_class.push(NodeStyle::Underline.class_name());
+                text_class.push(NodeStyle::Underline.class_name().to_string());
                 style.underline = true;
             }
             if c.hide {
-                text_class.push(NodeStyle::Hide.class_name());
+                text_class.push(NodeStyle::Hide.class_name().to_string());
                 style.hide = true;
             }
             if c.blink {
-                text_class.push(NodeStyle::Blink.class_name());
+                text_class.push(NodeStyle::Blink.class_name().to_string());
                 style.blink = true;
             }
 

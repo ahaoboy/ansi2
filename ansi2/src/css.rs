@@ -49,17 +49,17 @@ pub struct Style {
 }
 
 impl NodeStyle {
-    pub fn class_name(&self) -> String {
+    pub fn class_name(&self) -> &'static str {
         match self {
-            NodeStyle::Bold => "b".into(),
-            NodeStyle::Blink => "B".into(),
-            NodeStyle::Dim => "d".into(),
-            NodeStyle::Italic => "i".into(),
-            NodeStyle::Underline => "u".into(),
-            NodeStyle::Hide => "h".into(),
-            NodeStyle::Row => "r".into(),
-            NodeStyle::Text => "t".into(),
-            NodeStyle::Main => "m".into(),
+            NodeStyle::Bold => "b",
+            NodeStyle::Blink => "B",
+            NodeStyle::Dim => "d",
+            NodeStyle::Italic => "i",
+            NodeStyle::Underline => "u",
+            NodeStyle::Hide => "h",
+            NodeStyle::Row => "r",
+            NodeStyle::Text => "t",
+            NodeStyle::Main => "m",
         }
     }
 }
@@ -85,13 +85,7 @@ impl Style {
         match ty {
             CssType::Svg => {
                 let text_style = format!(
-                    r#".{}{{
-              dominant-baseline: central;
-              font-variant-ligatures: none;
-              white-space: pre;
-              font-family: {font_family};
-              font-size: {font_size}px;
-              }}"#,
+                    r#".{}{{dominant-baseline:central;font-variant-ligatures:none;white-space: pre;font-family:{font_family};font-size:{font_size}px;}}"#,
                     NodeStyle::Text.class_name()
                 );
 

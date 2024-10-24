@@ -44,7 +44,7 @@ pub fn to_svg<S: AsRef<str>, T: ColorTable>(
 
     for row in canvas.minify().iter() {
         for c in row.iter() {
-            let mut text_class = vec![NodeStyle::Text.class_name()];
+            let mut text_class = vec![NodeStyle::Text.class_name().to_string()];
             let str_w = fn_w * c.text.chars().count();
             // FIXME: baseline offset
             let text_x = cur_x;
@@ -69,11 +69,11 @@ pub fn to_svg<S: AsRef<str>, T: ColorTable>(
             let mut attr = vec![];
 
             if c.bold {
-                text_class.push(NodeStyle::Bold.class_name());
+                text_class.push(NodeStyle::Bold.class_name().to_string());
                 style.bold = true;
             }
             if c.blink {
-                text_class.push(NodeStyle::Blink.class_name());
+                text_class.push(NodeStyle::Blink.class_name().to_string());
                 style.blink = true;
             }
 
