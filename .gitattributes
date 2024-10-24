@@ -1,3 +1,7 @@
 *.svg linguist-generated
 *.html linguist-generated
 *.js linguist-generated
+*.sh linguist-generated
+*.json linguist-generated
+*.yml linguist-generated
+*.toml linguist-generated
