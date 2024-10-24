@@ -13,15 +13,17 @@ pub fn to_svg<S: AsRef<str>, T: ColorTable>(
     light_bg: Option<String>,
     dark_bg: Option<String>,
     font_size: Option<usize>,
+    length_adjust: Option<String>,
 ) -> String {
-    let font_size = font_size.unwrap_or(32);
+    let font_size = font_size.unwrap_or(16);
     let s = str.as_ref();
     let canvas = Canvas::new(s, width);
     let mut s = String::new();
     let mut cur_x = 0;
-    let fn_w = font_size * 3 / 5;
+    // FIXME: for better alignment
+    let fn_w = font_size * 5 / 8;
     let fn_h = font_size;
-    let baseline_h = font_size / 2;
+    let baseline_h = font_size * 5 / 8;
     let mut cur_y = 0;
     let mut style = Style::default();
     let mut font_style = "".into();
@@ -57,9 +59,8 @@ pub fn to_svg<S: AsRef<str>, T: ColorTable>(
                 style.add_color(c.color);
             };
 
-            let mut italic_str = "";
-            let mut dim_str = "";
-            let mut underline_str = "";
+            let mut attr = vec![];
+
             if c.bold {
                 text_class.push(NodeStyle::Bold.class_name());
                 style.bold = true;
@@ -70,16 +71,16 @@ pub fn to_svg<S: AsRef<str>, T: ColorTable>(
             }
 
             if c.italic {
-                italic_str = "font-style=\"italic\"";
+                attr.push("font-style=\"italic\"");
             }
             if c.dim {
-                dim_str = "opacity=\"0.5\"";
+                attr.push("opacity=\"0.5\"");
             }
             if c.underline {
-                underline_str = "text-decoration=\"underline\"";
+                attr.push("text-decoration=\"underline\"");
             }
 
-            // baseline offset
+            // FIXME: baseline offset
             let text_x = cur_x;
             let text_y = cur_y + baseline_h;
             let class_str = if text_class.is_empty() {
@@ -88,10 +89,17 @@ pub fn to_svg<S: AsRef<str>, T: ColorTable>(
                 format!("class='{}'", text_class.join(" "))
             };
 
+            // https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/lengthAdjust
+            let length_adjust_style = match length_adjust {
+                Some(ref s) => format!("lengthAdjust=\"{s}\" textLength=\"{str_w}\""),
+                None => "".to_string(),
+            };
+
             // FIXME: lengthAdjust="spacingAndGlyphs" or lengthAdjust="spacing"
             s.push_str(&format!(
-r#"<text x="{text_x}px" y="{text_y}px" width="{str_w}px" height="{fn_h}px" {} {italic_str} {dim_str} {underline_str}><tspan  textLength="{str_w}">{}</tspan></text>"#,
+r#"<text x="{text_x}px" y="{text_y}px" width="{str_w}px" height="{fn_h}px" {} {}><tspan {length_adjust_style}>{}</tspan></text>"#,
 class_str ,
+attr.join(" "),
                 html_escape::encode_text(&c.text)
             ));
             cur_x += str_w;

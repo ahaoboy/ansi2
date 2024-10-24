@@ -107,7 +107,7 @@ impl Style {
                 css.push_str(&row_style);
 
                 let text_style = format!(
-                  ".{}{{margin:0;padding:0;font-family:{font_family};white-space:pre;display:inline-block;}}",
+                  ".{}{{margin:0;padding:0;font-family:{font_family};white-space:pre;display:inline-block;font-size:{font_size}px}}",
                   NodeStyle::Text.class_name()
               );
                 css.push_str(&text_style);
@@ -144,7 +144,7 @@ impl Style {
         if self.blink {
             css.push_str(&format!(
                 ".{}{{animation:bk 1s steps(1, end) infinite;}} @keyframes bk{{50% {{opacity: 0}}",
-                NodeStyle::Underline.class_name()
+                NodeStyle::Blink.class_name()
             ));
         }
 
@@ -203,9 +203,6 @@ impl Style {
             acc.push_str(&format!(".{}{{{bg_field}:{}}}", c.bg_class_name(), hex));
             acc
         });
-
-        eprintln!("{:?}", self.colors);
-        eprintln!("{:?}", self.bg_colors);
 
         if let Some(mode) = mode {
             let default_text_style = match (mode, ty) {

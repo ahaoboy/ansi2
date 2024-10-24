@@ -63,6 +63,12 @@ neofetch | ansi2 --format=svg --font="Monaco" > neofetch.svg
 neofetch | ansi2 --format=svg --font=https://fonts.cdnfonts.com/s/98875/JetBrainsMonoRegular.woff > neofetch.svg
 ```
 
+### font-size
+
+```bash
+neofetch | ansi2 --format=svg --font-size=32 > neofetch.svg
+```
+
 ### mode
 dark / light
 ```bash
@@ -84,6 +90,17 @@ Compressing using [osvg](https://github.com/ahaoboy/osvg) and [svgo](https://git
 ```bash
 neofetch | ansi2 --format=svg --compress > neofetch.svg
 neofetch | ansi2 --format=svg -c > neofetch.svg
+```
+
+
+### length-adjust
+
+https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/lengthAdjust
+
+
+```bash
+neofetch | ansi2 --format=svg --length-adjust=spacing > neofetch.svg
+neofetch | ansi2 --format=svg --length-adjust=spacingAndGlyphs > neofetch.svg
 ```
 
 ## example

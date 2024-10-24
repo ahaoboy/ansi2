@@ -22,7 +22,6 @@ pub fn to_html<S: AsRef<str>>(
 
     let mut style = Style::default();
 
-    // let style = to_style(theme, CssType::Html, mode, light_bg, dark_bg);
     let mut font_style = "".into();
     let mut font_family = "Consolas,Courier New,Monaco".into();
 
@@ -38,7 +37,6 @@ pub fn to_html<S: AsRef<str>>(
 
     s.push_str(&format!("<div class='{}'>", NodeStyle::Main.class_name()));
 
-    // let mut color256 = HashSet::new();
     let row_style = format!("<div class='{}'>", NodeStyle::Row.class_name());
     for row in canvas.minify().iter() {
         s.push_str(&row_style);
@@ -109,7 +107,6 @@ pub fn to_html<S: AsRef<str>>(
         font_size,
     );
     format!(
-        r#"<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>{font_style}{style_css}</style></head><body>{s}</body></html>
-"#
+        r#"<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>{font_style}{style_css}</style></head><body>{s}</body></html>"#
     )
 }

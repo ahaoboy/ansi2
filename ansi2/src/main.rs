@@ -41,6 +41,9 @@ struct Args {
 
     #[arg(long)]
     font_size: Option<usize>,
+
+    #[arg(long)]
+    length_adjust: Option<String>,
 }
 
 fn main() {
@@ -84,6 +87,7 @@ fn main() {
                 args.light_bg,
                 args.dark_bg,
                 args.font_size,
+                args.length_adjust,
             );
             if args.compress {
                 svg = osvg::osvg(

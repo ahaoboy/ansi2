@@ -66,6 +66,11 @@ async function main() {
     .option("--light-bg [string eg.#FFFFFF]", "light-bg", undefined)
     .option("--dark-bg [string eg.#000000]", "dark-bg", undefined)
     .option("--font-size [number]", "font-size", undefined)
+    .option(
+      "--length-adjust [spacing|spacingAndGlyphs]",
+      "length-adjust",
+      undefined,
+    )
     .version(version)
 
   program.parse()
@@ -83,6 +88,8 @@ async function main() {
 
   const compress = options.compress === "undefined" ? false : options.compress
   const fontSize = options.fontSize === "undefined" ? 16 : options.fontSize
+  const lengthAdjust =
+    options.lengthAdjust === "undefined" ? 16 : options.lengthAdjust
 
   switch (format) {
     case "svg": {
@@ -95,6 +102,7 @@ async function main() {
         options.lightBg,
         options.darkBg,
         fontSize,
+        lengthAdjust,
       )
       const result = compress
         ? optimize(s, {
