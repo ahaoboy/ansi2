@@ -7,7 +7,10 @@ use nom::sequence::tuple;
 
 use nom::IResult;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+use crate::css::get_hex;
+use crate::theme::{ColorTable, COLOR256};
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Color8 {
     Black,
     Red,
@@ -30,22 +33,63 @@ pub enum Color8 {
 impl Color8 {
     pub fn class_name(&self) -> String {
         match self {
-            Color8::Black => "black".into(),
-            Color8::Red => "red".into(),
-            Color8::Green => "green".into(),
-            Color8::Yellow => "yellow".into(),
-            Color8::Blue => "blue".into(),
-            Color8::Magenta => "magenta".into(),
-            Color8::Cyan => "cyan".into(),
-            Color8::White => "white".into(),
-            Color8::BrightBlack => "bright_black".into(),
-            Color8::BrightRed => "bright_red".into(),
-            Color8::BrightGreen => "bright_green".into(),
-            Color8::BrightYellow => "bright_yellow".into(),
-            Color8::BrightBlue => "bright_blue".into(),
-            Color8::BrightMagenta => "bright_magenta".into(),
-            Color8::BrightCyan => "bright_cyan".into(),
-            Color8::BrightWhite => "bright_white".into(),
+            Color8::Black => "c0".into(),
+            Color8::Red => "c1".into(),
+            Color8::Green => "c2".into(),
+            Color8::Yellow => "c3".into(),
+            Color8::Blue => "c4".into(),
+            Color8::Magenta => "c5".into(),
+            Color8::Cyan => "c6".into(),
+            Color8::White => "c7".into(),
+            Color8::BrightBlack => "ca".into(),
+            Color8::BrightRed => "cb".into(),
+            Color8::BrightGreen => "cc".into(),
+            Color8::BrightYellow => "cd".into(),
+            Color8::BrightBlue => "ce".into(),
+            Color8::BrightMagenta => "cf".into(),
+            Color8::BrightCyan => "cg".into(),
+            Color8::BrightWhite => "ch".into(),
+        }
+    }
+    pub fn bg_class_name(&self) -> String {
+        match self {
+            Color8::Black => "b0".into(),
+            Color8::Red => "b1".into(),
+            Color8::Green => "b2".into(),
+            Color8::Yellow => "b3".into(),
+            Color8::Blue => "b4".into(),
+            Color8::Magenta => "b5".into(),
+            Color8::Cyan => "b6".into(),
+            Color8::White => "b7".into(),
+            Color8::BrightBlack => "ba".into(),
+            Color8::BrightRed => "bb".into(),
+            Color8::BrightGreen => "bc".into(),
+            Color8::BrightYellow => "bd".into(),
+            Color8::BrightBlue => "be".into(),
+            Color8::BrightMagenta => "bf".into(),
+            Color8::BrightCyan => "bg".into(),
+            Color8::BrightWhite => "bh".into(),
+        }
+    }
+
+    pub fn get_hex<T: ColorTable>(&self, theme: T) -> String {
+        match self {
+            Color8::Black => get_hex(theme.black()),
+            Color8::Red => get_hex(theme.red()),
+            Color8::Green => get_hex(theme.green()),
+            Color8::Yellow => get_hex(theme.yellow()),
+            Color8::Blue => get_hex(theme.blue()),
+            Color8::Magenta => get_hex(theme.magenta()),
+            Color8::Cyan => get_hex(theme.cyan()),
+            Color8::White => get_hex(theme.white()),
+            Color8::BrightBlack => get_hex(theme.bright_black()),
+            Color8::BrightRed => get_hex(theme.bright_red()),
+            Color8::BrightGreen => get_hex(theme.bright_green()),
+            Color8::BrightYellow => get_hex(theme.bright_yellow()),
+            Color8::BrightBlue => get_hex(theme.bright_blue()),
+            Color8::BrightMagenta => get_hex(theme.bright_magenta()),
+            Color8::BrightCyan => get_hex(theme.bright_cyan()),
+            Color8::BrightWhite => get_hex(theme.bright_white()),
         }
     }
 
@@ -72,20 +116,40 @@ impl Color8 {
         }
     }
 }
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
 pub enum AnsiColor {
+    #[default]
     Default,
     Color8(Color8),
     Color256(u8),
     Rgb(u8, u8, u8),
 }
+
 impl AnsiColor {
     pub fn class_name(&self) -> String {
         match self {
-            AnsiColor::Default => "default".into(),
+            AnsiColor::Default => "D".into(),
             AnsiColor::Color8(n) => n.class_name(),
-            AnsiColor::Rgb(r, g, b) => format!("rgb_{}_{}_{}", r, g, b),
-            AnsiColor::Color256(c) => format!("color256_{}", c),
+            AnsiColor::Rgb(r, g, b) => format!("c{:02X}{:02X}{:02X}", r, g, b),
+            AnsiColor::Color256(c) => format!("c{:02X}", c),
+        }
+    }
+
+    pub fn bg_class_name(&self) -> String {
+        match self {
+            AnsiColor::Default => "D".into(),
+            AnsiColor::Color8(n) => n.bg_class_name(),
+            AnsiColor::Rgb(r, g, b) => format!("b{:02X}{:02X}{:02X}", r, g, b),
+            AnsiColor::Color256(c) => format!("b{:02X}", c),
+        }
+    }
+
+    pub fn get_hex<T: ColorTable>(&self, theme: T) -> String {
+        match self {
+            AnsiColor::Default => "#00000000".into(),
+            AnsiColor::Color8(n) => n.get_hex(theme),
+            AnsiColor::Rgb(r, g, b) => get_hex((*r, *g, *b)),
+            AnsiColor::Color256(c) => get_hex(COLOR256[*c as usize]),
         }
     }
 

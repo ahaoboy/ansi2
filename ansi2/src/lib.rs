@@ -1,3 +1,4 @@
+#[allow(clippy::too_many_arguments)]
 pub mod css;
 pub mod html;
 pub mod lex;
