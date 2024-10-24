@@ -61,6 +61,7 @@ neofetch | ansi2 --format=svg --font=Consolas > neofetch.svg
 neofetch | ansi2 --format=svg --font="Courier New" > neofetch.svg
 neofetch | ansi2 --format=svg --font="Monaco" > neofetch.svg
 neofetch | ansi2 --format=svg --font=https://fonts.cdnfonts.com/s/98875/JetBrainsMonoRegular.woff > neofetch.svg
+neofetch | ansi2 --format=svg --font=https://fonts.cdnfonts.com/s/55487/FiraCode-Regular.woff > neofetch.svg
 ```
 
 ### font-size
@@ -97,10 +98,13 @@ neofetch | ansi2 --format=svg -c > neofetch.svg
 
 https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/lengthAdjust
 
+The textLength attribute is added by default and can be removed using an empty string
+
 
 ```bash
 neofetch | ansi2 --format=svg --length-adjust=spacing > neofetch.svg
 neofetch | ansi2 --format=svg --length-adjust=spacingAndGlyphs > neofetch.svg
+neofetch | ansi2 --format=svg --length-adjust="" > neofetch.svg
 ```
 
 ## example
@@ -130,11 +134,16 @@ ls | table | ansi2 | save nu-ls.svg -f
 	</a>
 </div>
 
+
+## changelog
+
+- [0.2.12](./assets/changelog/0.2.12.md)
+
 ## todo
 
 - [x] link
-- [ ] merge characters of the same style to reduce the number of tags
+- [x] merge characters of the same style to reduce the number of tags
 - [x] vscode extension: [preview-easy](https://github.com/ahaoboy/preview-easy.git)
 - [ ] ansi minify
 - [ ] html support copy text, continuous text will be separated by line breaks
-- [ ] html minify
+- [x] html minify
