@@ -42,7 +42,6 @@ pub fn to_svg<S: AsRef<str>, T: ColorTable>(
     for row in canvas.minify().iter() {
         for c in row.iter() {
             let mut text_class = vec![NodeStyle::Text.class_name()];
-
             let str_w = fn_w * c.text.chars().count();
             if !c.bg_color.is_default() {
                 let name = c.bg_color.bg_class_name();
@@ -91,8 +90,14 @@ pub fn to_svg<S: AsRef<str>, T: ColorTable>(
 
             // https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/lengthAdjust
             let length_adjust_style = match length_adjust {
-                Some(ref s) => format!("lengthAdjust=\"{s}\" textLength=\"{str_w}\""),
-                None => "".to_string(),
+                Some(ref s) => {
+                    if s == "spacingAndGlyphs" || s == "spacing" {
+                        format!("lengthAdjust=\"{s}\" textLength=\"{str_w}\"")
+                    } else {
+                        "".to_string()
+                    }
+                }
+                None => format!("textLength=\"{str_w}\""),
             };
 
             // FIXME: lengthAdjust="spacingAndGlyphs" or lengthAdjust="spacing"
