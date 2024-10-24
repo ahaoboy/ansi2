@@ -1,0 +1,35 @@
+
+> @xwat/bench@0.2.2 bench:run C:\wt\xwat\xwat-bench
+> vitest bench --run
+
+
+ RUN  v2.0.3 C:/wt/xwat/xwat-bench
+
+ ✓ bench/invert.bench.tsx > gray 2509ms
+     name            hz      min      max     mean      p75      p99     p995     p999     rme  samples
+   · js         48.4839  20.3462  21.0757  20.6254  20.7499  21.0757  21.0757  21.0757  ±0.40%       25   slowest
+   · wasm        132.98   7.2320   8.2683   7.5197   7.6484   8.2683   8.2683   8.2683  ±0.89%       67
+   · wasm-simd   269.44   3.4001   4.3596   3.7113   3.8567   4.3015   4.3596   4.3596  ±1.07%      135   fastest
+   · wasm-64     213.71   4.3320   5.3301   4.6793   4.8425   5.3176   5.3301   5.3301  ±1.18%      107
+ ✓ bench/gray.bench.tsx > gray 1306ms
+     name       hz      min      max     mean      p75      p99     p995     p999     rme  samples
+   · js    44.7290  22.0049  22.7500  22.3569  22.4467  22.7500  22.7500  22.7500  ±0.30%       23
+   · wasm   114.37   8.3838   9.4932   8.7436   8.8762   9.4932   9.4932   9.4932  ±0.79%       58   fastest
+ ✓ bench/fib.bench.tsx > fib 1238ms
+     name         hz     min     max    mean     p75     p99    p995    p999     rme  samples
+   · js    73,454.37  0.0127  0.2051  0.0136  0.0134  0.0196  0.0252  0.0646  ±0.25%    36728
+   · wasm  91,504.04  0.0103  0.1469  0.0109  0.0108  0.0156  0.0203  0.0536  ±0.22%    45753   fastest
+
+
+ BENCH  Summary
+
+  wasm - bench/fib.bench.tsx > fib
+    1.25x faster than js
+
+  wasm - bench/gray.bench.tsx > gray
+    2.56x faster than js
+
+  wasm-simd - bench/invert.bench.tsx > gray
+    1.26x faster than wasm-64
+    2.03x faster than wasm
+    5.56x faster than js

@@ -1,3 +1,4 @@
+pub mod color;
 #[allow(clippy::too_many_arguments)]
 pub mod css;
 pub mod html;
@@ -5,9 +6,9 @@ pub mod lex;
 pub mod svg;
 pub mod text;
 pub mod theme;
+use color::AnsiColor;
+use lex::{parse_ansi, Token};
 use std::{collections::VecDeque, vec};
-
-use lex::{parse_ansi, AnsiColor, Token};
 
 #[derive(Debug, Clone)]
 pub struct Node {
@@ -91,7 +92,7 @@ impl Canvas {
         macro_rules! set_bg_color {
             ($color:expr) => {
                 if reverse && $color == AnsiColor::Default {
-                    cur_bg_c = AnsiColor::Color8(lex::Color8::Black);
+                    cur_bg_c = AnsiColor::Color8(color::Color8::Black);
                 } else {
                     cur_bg_c = $color;
                 }
@@ -101,7 +102,7 @@ impl Canvas {
         macro_rules! set_color {
             ($color:expr) => {
                 if reverse && $color == AnsiColor::Default {
-                    cur_c = AnsiColor::Color8(lex::Color8::White);
+                    cur_c = AnsiColor::Color8(color::Color8::White);
                 } else {
                     cur_c = $color;
                 }

@@ -57,7 +57,7 @@ pub fn to_svg<S: AsRef<str>, T: ColorTable>(
                     r#"<rect x="{cur_x}px" y="{}px" width="{str_w}px" height="{text_h}px" {class_str}/>"#,
                     cur_y+underline_h
                 ));
-                style.add_bg(c.bg_color);
+                style.add_bg_color(c.bg_color);
             }
 
             if !c.color.is_default() {

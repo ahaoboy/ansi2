@@ -1,13 +1,8 @@
-use std::collections::HashSet;
-
 use crate::{
-    lex::{AnsiColor, Color8},
+    color::get_hex,
+    color::{AnsiColor, Color8},
     theme::ColorTable,
 };
-
-pub fn get_hex((r, g, b): (u8, u8, u8)) -> String {
-    format!("#{:02X}{:02X}{:02X}", r, g, b)
-}
 
 #[derive(Debug, Clone, Copy)]
 pub enum CssType {
@@ -38,8 +33,8 @@ pub enum NodeStyle {
 
 #[derive(Debug, Clone, Default)]
 pub struct Style {
-    pub colors: HashSet<AnsiColor>,
-    pub bg_colors: HashSet<AnsiColor>,
+    pub colors: Vec<AnsiColor>,
+    pub bg_colors: Vec<AnsiColor>,
     pub bold: bool,
     pub blink: bool,
     pub dim: bool,
@@ -66,10 +61,14 @@ impl NodeStyle {
 
 impl Style {
     pub fn add_color(&mut self, c: AnsiColor) {
-        self.colors.insert(c);
+        if !self.colors.contains(&c) {
+            self.colors.push(c);
+        }
     }
-    pub fn add_bg(&mut self, c: AnsiColor) {
-        self.bg_colors.insert(c);
+    pub fn add_bg_color(&mut self, c: AnsiColor) {
+        if !self.bg_colors.contains(&c) {
+            self.bg_colors.push(c);
+        }
     }
     pub fn to_css<T: ColorTable>(
         &self,

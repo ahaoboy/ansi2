@@ -76,7 +76,7 @@ pub fn to_html<S: AsRef<str>>(
             if !c.bg_color.is_default() {
                 let name = c.bg_color.bg_class_name();
                 text_class.push(name);
-                style.add_bg(c.bg_color);
+                style.add_bg_color(c.bg_color);
             }
 
             let text_class = text_class.join(" ").trim().to_string();

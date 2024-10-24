@@ -1,0 +1,11 @@
+╭─#─┬────name────┬─type─┬──size───┬───modified───╮
+│ 0 │ Cargo.lock │ file │ 60.5 KB │ 12 hours ago │
+│ 1 │ Cargo.toml │ file │   463 B │ 12 hours ago │
+│ 2 │ LICENSE    │ file │  1.1 KB │ 12 hours ago │
+│ 3 │ README.md  │ file │  4.2 KB │ 12 hours ago │
+│ 4 │ benches    │ dir  │   128 B │ 12 hours ago │
+│ 5 │ src        │ dir  │   448 B │ 12 hours ago │
+│ 6 │ target     │ dir  │   256 B │ 11 hours ago │
+│ 7 │ tests      │ dir  │  1.0 KB │ 12 hours ago │
+│ 8 │ toolkit.nu │ file │   436 B │ 12 hours ago │
+╰───┴────────────┴──────┴─────────┴──────────────╯
