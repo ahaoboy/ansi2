@@ -1,11 +1,10 @@
-use std::collections::HashSet;
-
 use crate::{
-    css::{get_hex, to_style, CssType, Mode},
+    css::{CssType, Mode, NodeStyle, Style},
     theme::ColorTable,
     Canvas,
 };
 
+#[allow(clippy::too_many_arguments)]
 pub fn to_html<S: AsRef<str>>(
     str: S,
     theme: impl ColorTable,
@@ -14,11 +13,16 @@ pub fn to_html<S: AsRef<str>>(
     mode: Option<Mode>,
     light_bg: Option<String>,
     dark_bg: Option<String>,
+    font_size: Option<usize>,
 ) -> String {
+    let font_size = font_size.unwrap_or(16);
     let s = str.as_ref();
     let canvas = Canvas::new(s, width);
     let mut s = String::new();
-    let style = to_style(theme, CssType::Html, mode, light_bg, dark_bg);
+
+    let mut style = Style::default();
+
+    // let style = to_style(theme, CssType::Html, mode, light_bg, dark_bg);
     let mut font_style = "".into();
     let mut font_family = "Consolas,Courier New,Monaco".into();
 
@@ -32,53 +36,49 @@ pub fn to_html<S: AsRef<str>>(
         }
     }
 
-    s.push_str("<div class='ansi-main'>\n");
+    s.push_str(&format!("<div class='{}'>", NodeStyle::Main.class_name()));
 
-    let mut color256 = HashSet::new();
+    // let mut color256 = HashSet::new();
+    let row_style = format!("<div class='{}'>", NodeStyle::Row.class_name());
     for row in canvas.minify().iter() {
-        s.push_str("<div class='row'>");
+        s.push_str(&row_style);
         for c in row.iter() {
-            let mut text_class = vec!["char".into()];
+            let mut text_class = vec![NodeStyle::Text.class_name()];
             if c.bold {
-                text_class.push("bold".into());
+                text_class.push(NodeStyle::Bold.class_name());
+                style.bold = true;
             }
             if c.italic {
-                text_class.push("italic".into());
+                text_class.push(NodeStyle::Italic.class_name());
+                style.italic = true;
             }
             if c.dim {
-                text_class.push("dim".into());
+                text_class.push(NodeStyle::Dim.class_name());
+                style.dim = true;
             }
             if c.underline {
-                text_class.push("underline".into());
+                text_class.push(NodeStyle::Underline.class_name());
+                style.underline = true;
             }
             if c.hide {
-                text_class.push("hide".into());
+                text_class.push(NodeStyle::Hide.class_name());
+                style.hide = true;
             }
+            if c.blink {
+                text_class.push(NodeStyle::Blink.class_name());
+                style.blink = true;
+            }
+
             if !c.color.is_default() {
                 let name = c.color.class_name();
                 text_class.push(name);
-
-                if let crate::lex::AnsiColor::Rgb(r, g, b) = c.color {
-                    color256.insert(format!(
-                        ".rgb_{r}_{g}_{b}{{color:{};}}\n",
-                        get_hex((r, g, b))
-                    ));
-                }
+                style.add_color(c.color);
             }
 
             if !c.bg_color.is_default() {
-                let name = "bg-".to_string() + &c.bg_color.class_name();
+                let name = c.bg_color.bg_class_name();
                 text_class.push(name);
-                if let crate::lex::AnsiColor::Rgb(r, g, b) = c.bg_color {
-                    color256.insert(format!(
-                        ".bg-rgb_{r}_{g}_{b}{{background:{};}}\n",
-                        get_hex((r, g, b))
-                    ));
-                }
-            }
-
-            if c.blink {
-                text_class.push("blink".into());
+                style.add_bg(c.bg_color);
             }
 
             let text_class = text_class.join(" ").trim().to_string();
@@ -96,19 +96,20 @@ pub fn to_html<S: AsRef<str>>(
         s.push_str("</div>");
     }
 
-    let color256_str: String = color256.into_iter().collect();
     // .ansi-main
-    s.push_str("</div>\n");
+    s.push_str("</div>");
 
+    let style_css = style.to_css(
+        theme,
+        CssType::Html,
+        mode,
+        light_bg,
+        dark_bg,
+        font_family,
+        font_size,
+    );
     format!(
-        r#"<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>
-{font_style}
-{style}
-{color256_str}
-.ansi-main{{display:flex;flex-direction:column;}}
-.row{{display:flex;}}
-.char{{margin:0;padding:0;font-family:{font_family};white-space:pre;display:inline-block;}}</style></head><body>{s}</body></html>
+        r#"<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>{font_style}{style_css}</style></head><body>{s}</body></html>
 "#
     )
 }

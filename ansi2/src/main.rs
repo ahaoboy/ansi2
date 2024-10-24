@@ -38,6 +38,9 @@ struct Args {
     light_bg: Option<String>,
     #[arg(long)]
     dark_bg: Option<String>,
+
+    #[arg(long)]
+    font_size: Option<usize>,
 }
 
 fn main() {
@@ -72,7 +75,16 @@ fn main() {
     let s = String::from_utf8_lossy(&buf);
     let output = match format {
         Format::Svg => {
-            let mut svg = to_svg(s, theme, width, base64, mode, args.light_bg, args.dark_bg);
+            let mut svg = to_svg(
+                s,
+                theme,
+                width,
+                base64,
+                mode,
+                args.light_bg,
+                args.dark_bg,
+                args.font_size,
+            );
             if args.compress {
                 svg = osvg::osvg(
                     &svg,
@@ -96,7 +108,16 @@ fn main() {
             }
             svg
         }
-        Format::Html => to_html(&s, theme, width, base64, mode, args.light_bg, args.dark_bg),
+        Format::Html => to_html(
+            &s,
+            theme,
+            width,
+            base64,
+            mode,
+            args.light_bg,
+            args.dark_bg,
+            args.font_size,
+        ),
         Format::Text => to_text(&s, width),
     };
 

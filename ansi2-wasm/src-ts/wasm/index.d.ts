@@ -8,9 +8,10 @@
  * @param {Mode | undefined} [mode]
  * @param {string | undefined} [light_bg]
  * @param {string | undefined} [dark_bg]
+ * @param {number | undefined} [font_size]
  * @returns {string}
  */
-export function to_svg(s: string, theme: Theme, width?: number, font?: string, mode?: Mode, light_bg?: string, dark_bg?: string): string;
+export function to_svg(s: string, theme: Theme, width?: number, font?: string, mode?: Mode, light_bg?: string, dark_bg?: string, font_size?: number): string;
 /**
  * @param {string} s
  * @param {Theme} theme
@@ -19,9 +20,10 @@ export function to_svg(s: string, theme: Theme, width?: number, font?: string, m
  * @param {Mode | undefined} [mode]
  * @param {string | undefined} [light_bg]
  * @param {string | undefined} [dark_bg]
+ * @param {number | undefined} [font_size]
  * @returns {string}
  */
-export function to_html(s: string, theme: Theme, width?: number, font?: string, mode?: Mode, light_bg?: string, dark_bg?: string): string;
+export function to_html(s: string, theme: Theme, width?: number, font?: string, mode?: Mode, light_bg?: string, dark_bg?: string, font_size?: number): string;
 /**
  * @param {string} s
  * @param {number | undefined} [width]

@@ -2,6 +2,7 @@ use ansi2::{css::Mode, theme::Theme};
 use wasm_bindgen::prelude::wasm_bindgen;
 
 #[wasm_bindgen]
+#[allow(clippy::too_many_arguments)]
 pub fn to_svg(
     s: String,
     theme: Theme,
@@ -10,6 +11,7 @@ pub fn to_svg(
     mode: Option<Mode>,
     light_bg: Option<String>,
     dark_bg: Option<String>,
+    font_size: Option<usize>,
 ) -> String {
     let mode = mode.map(|m| match m {
         Mode::Dark => ansi2::css::Mode::Dark,
@@ -23,10 +25,12 @@ pub fn to_svg(
         mode,
         light_bg,
         dark_bg,
+        font_size,
     )
 }
 
 #[wasm_bindgen]
+#[allow(clippy::too_many_arguments)]
 pub fn to_html(
     s: String,
     theme: Theme,
@@ -35,6 +39,7 @@ pub fn to_html(
     mode: Option<Mode>,
     light_bg: Option<String>,
     dark_bg: Option<String>,
+    font_size: Option<usize>,
 ) -> String {
     let mode = mode.map(|m| match m {
         Mode::Dark => ansi2::css::Mode::Dark,
@@ -48,6 +53,7 @@ pub fn to_html(
         mode,
         light_bg,
         dark_bg,
+        font_size,
     )
 }
 

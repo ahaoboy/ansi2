@@ -65,6 +65,7 @@ async function main() {
     .option("-c, --compress [bool]", "compress", undefined)
     .option("--light-bg [string eg.#FFFFFF]", "light-bg", undefined)
     .option("--dark-bg [string eg.#000000]", "dark-bg", undefined)
+    .option("--font-size [number]", "font-size", undefined)
     .version(version)
 
   program.parse()
@@ -81,6 +82,7 @@ async function main() {
     typeof options.font === "undefined" ? undefined : getFontUrl(options.font)
 
   const compress = options.compress === "undefined" ? false : options.compress
+  const fontSize = options.fontSize === "undefined" ? 16 : options.fontSize
 
   switch (format) {
     case "svg": {
@@ -92,6 +94,7 @@ async function main() {
         mode,
         options.lightBg,
         options.darkBg,
+        fontSize,
       )
       const result = compress
         ? optimize(s, {
@@ -120,6 +123,7 @@ async function main() {
           mode,
           options.lightBg,
           options.darkBg,
+          fontSize,
         ),
       )
       break
