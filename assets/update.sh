@@ -11,3 +11,5 @@ do
   cat "$i.ans" | node ../ansi2-wasm/bin/cli.js --mode=dark -c -f html > "$i-dark.html"
   echo "$i done"
 done
+
+cat "nu-ls.ans" | node ../ansi2-wasm/bin/cli.js -c > "nu-ls.fix.svg"

@@ -23,7 +23,10 @@ pub fn to_svg<S: AsRef<str>, T: ColorTable>(
     // FIXME: for better alignment
     let fn_w = font_size * 5 / 8;
     let fn_h = font_size;
-    let baseline_h = font_size * 5 / 8;
+    let baseline_h = font_size / 2;
+    let underline_h = font_size / 8;
+    let text_h = fn_h + underline_h;
+
     let mut cur_y = 0;
     let mut style = Style::default();
     let mut font_style = "".into();
@@ -43,11 +46,16 @@ pub fn to_svg<S: AsRef<str>, T: ColorTable>(
         for c in row.iter() {
             let mut text_class = vec![NodeStyle::Text.class_name()];
             let str_w = fn_w * c.text.chars().count();
+            // FIXME: baseline offset
+            let text_x = cur_x;
+            let text_y = cur_y + baseline_h + underline_h;
+
             if !c.bg_color.is_default() {
                 let name = c.bg_color.bg_class_name();
-                let class_str = format!(" class='{}'", name);
+                let class_str = format!("class='{}'", name);
                 s.push_str(&format!(
-                    r#"<rect x="{cur_x}px" y="{cur_y}px" width="{str_w}px" height="{fn_h}px" {class_str}/>"#
+                    r#"<rect x="{cur_x}px" y="{}px" width="{str_w}px" height="{text_h}px" {class_str}/>"#,
+                    cur_y+underline_h
                 ));
                 style.add_bg(c.bg_color);
             }
@@ -79,9 +87,6 @@ pub fn to_svg<S: AsRef<str>, T: ColorTable>(
                 attr.push("text-decoration=\"underline\"");
             }
 
-            // FIXME: baseline offset
-            let text_x = cur_x;
-            let text_y = cur_y + baseline_h;
             let class_str = if text_class.is_empty() {
                 String::new()
             } else {
@@ -102,19 +107,19 @@ pub fn to_svg<S: AsRef<str>, T: ColorTable>(
 
             // FIXME: lengthAdjust="spacingAndGlyphs" or lengthAdjust="spacing"
             s.push_str(&format!(
-r#"<text x="{text_x}px" y="{text_y}px" width="{str_w}px" height="{fn_h}px" {} {}><tspan {length_adjust_style}>{}</tspan></text>"#,
+r#"<text x="{text_x}px" y="{text_y}px" width="{str_w}px" height="{text_h}px" {} {}><tspan {length_adjust_style}>{}</tspan></text>"#,
 class_str ,
 attr.join(" "),
                 html_escape::encode_text(&c.text)
             ));
             cur_x += str_w;
         }
-        cur_y += fn_h;
+        cur_y += fn_h + underline_h;
         cur_x = 0;
     }
 
     let svg_w = fn_w * canvas.w;
-    let svg_h = fn_h * canvas.h;
+    let svg_h = (fn_h + underline_h) * canvas.h;
 
     let style_css = style.to_css(
         theme,

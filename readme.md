@@ -125,7 +125,7 @@ neofetch | ansi2 --format=svg --length-adjust="" > neofetch.svg
 
 ### nushell
 
-```shell
+```bash
 ls | table | ansi2 | save nu-ls.svg -f
 ```
 <div align="center">
@@ -134,6 +134,16 @@ ls | table | ansi2 | save nu-ls.svg -f
 	</a>
 </div>
 
+length-adjust can make the text look better
+
+```bash
+ls | table | ansi2 --length-adjust=spacingAndGlyphs | save nu-ls.svg -f
+```
+<div align="center">
+	<a href="https://github.com/ahaoboy/ansi2">
+		<img src="assets/nu-ls.fix.svg">
+	</a>
+</div>
 
 ## changelog
 

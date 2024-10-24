@@ -90,6 +90,9 @@ pub fn to_html<S: AsRef<str>>(
             s.push_str(&format!("<p {class_str}>{html_char}</p>",))
         }
 
+        if row.is_empty() {
+            s.push_str("<br>");
+        }
         // .row
         s.push_str("</div>");
     }
