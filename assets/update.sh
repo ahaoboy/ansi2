@@ -12,4 +12,4 @@ do
   echo "$i done"
 done
 
-cat "nu-ls.ans" | node ../ansi2-wasm/bin/cli.js -c > "nu-ls.fix.svg"
+cat "nu-ls.ans" | node ../ansi2-wasm/bin/cli.js -c --length-adjust=spacingAndGlyphs > "nu-ls.fix.svg"
