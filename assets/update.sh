@@ -13,3 +13,6 @@ do
 done
 
 cat "nu-ls.ans" | node ../ansi2-wasm/bin/cli.js -c --length-adjust=spacingAndGlyphs > "nu-ls.fix.svg"
+
+cat "take-my-ansi.utf8.ans" | node ../ansi2-wasm/bin/cli.js -c -w=80 > "take-my-ansi.utf8.svg"
+cat "take-my-ansi.utf8.ans" | node ../ansi2-wasm/bin/cli.js -c -w=80 -f=html > "take-my-ansi.utf8.html"
