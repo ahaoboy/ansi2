@@ -1,9 +1,137 @@
-import { program } from "commander"
 import { to_svg, to_html, to_text, Theme } from "./wasm"
 import { readFileSync, existsSync } from "node:fs"
 import { optimize } from "svgo"
 import { Mode } from "./wasm"
 import { version } from "../package.json"
+import * as t from "typanion"
+import { Command, Option, Cli, Builtins } from "clipanion"
+
+const isInteger = t.cascade(t.isNumber(), [t.isInteger()])
+const isFormat = t.cascade(t.isEnum(["html", "svg", "text"]))
+const isTheme = t.cascade(t.isEnum(["vscode", "ubuntu", "vga", "xterm"]))
+const isLengthAdjust = t.cascade(t.isEnum(["spacing", "spacingAndGlyphs"]))
+const isColor = t.cascade(
+  // @ts-ignore
+  t.isHexColor({ alpha: true }),
+)
+
+class AnsiCmd extends Command {
+  format = Option.String("-f,--format", "svg", {
+    description: "output file format",
+    validator: isFormat,
+  })
+
+  theme = Option.String("-t,--theme", "vscode", {
+    description: "color theme",
+    validator: isTheme,
+  })
+
+  width = Option.String("-w,--width", {
+    description: "width",
+    validator: isInteger,
+    required: false,
+  })
+
+  font = Option.String("--font", {
+    description: "font",
+    required: false,
+  })
+  mode = Option.String("-m,--mode", {
+    description: "mode",
+    required: false,
+  })
+  compress = Option.Boolean("-c,--compress", false, {
+    description: "compress",
+  })
+  lightBg = Option.String("--light-bg", {
+    description: "light-bg",
+    validator: isColor,
+    required: false,
+  })
+  darkBg = Option.String("--dark-bg", {
+    description: "dark-bg",
+    validator: isColor,
+    required: false,
+  })
+  fontSize = Option.String("--font-size", {
+    description: "font-size",
+    validator: isInteger,
+    required: false,
+  })
+  lengthAdjust = Option.String("--length-adjust", {
+    description: "length-adjust",
+    validator: isLengthAdjust,
+    required: false,
+  })
+
+  async execute() {
+    const theme = getTheme(this.theme)
+    const mode = getMode(this.mode)
+    const format = this.format
+    const width = this.width
+    const font = getFontUrl(this.font)
+    const compress = this.compress
+    const fontSize = this.fontSize
+    const lengthAdjust = this.lengthAdjust
+    const lightBg = this.lightBg
+    const darkBg = this.darkBg
+
+    // console.log({
+    //   theme,
+    //   mode,
+    //   format,
+    //   width,
+    //   font,
+    //   compress,
+    //   fontSize,
+    //   lengthAdjust,
+    //   lightBg,
+    //   darkBg,
+    // })
+
+    const input = await readToString()
+    switch (format) {
+      case "svg": {
+        const s = to_svg(
+          input,
+          theme,
+          width,
+          font,
+          mode,
+          lightBg,
+          darkBg,
+          fontSize,
+          lengthAdjust,
+        )
+        const result = compress
+          ? optimize(s, {
+              plugins: [
+                {
+                  name: "preset-default",
+                  params: {
+                    overrides: {
+                      inlineStyles: false,
+                    },
+                  },
+                },
+              ],
+            }).data
+          : s
+        process.stdout.write(result)
+        break
+      }
+      case "html": {
+        process.stdout.write(
+          to_html(input, theme, width, font, mode, lightBg, darkBg, fontSize),
+        )
+        break
+      }
+      case "text": {
+        process.stdout.write(to_text(input, width))
+      }
+    }
+  }
+}
 
 async function readToString() {
   return new Promise<string>((resolve) => {
@@ -19,7 +147,10 @@ async function readToString() {
   })
 }
 
-function getFontUrl(p: string) {
+function getFontUrl(p: undefined | string) {
+  if (!p?.length) {
+    return undefined
+  }
   if (p.startsWith("http")) {
     return p
   }
@@ -56,90 +187,13 @@ function getMode(s: string | undefined): Mode | undefined {
 }
 
 async function main() {
-  program
-    .option("-f, --format [html, svg, text]", "output format", "svg")
-    .option("-t, --theme [vscode, ubuntu, vga, xterm]", "color theme", "vscode")
-    .option("-w, --width [number]", "width", undefined)
-    .option("--font [string]", "font", undefined)
-    .option("-m, --mode [dark, light]", "mode", undefined)
-    .option("-c, --compress [bool]", "compress", undefined)
-    .option("--light-bg [string eg.#FFFFFF]", "light-bg", undefined)
-    .option("--dark-bg [string eg.#000000]", "dark-bg", undefined)
-    .option("--font-size [number]", "font-size", undefined)
-    .option(
-      "--length-adjust [spacing|spacingAndGlyphs]",
-      "length-adjust",
-      undefined,
-    )
-    .version(version)
-
-  program.parse()
-
-  const input = await readToString()
-
-  const options = program.opts()
-  const theme = getTheme(options.theme ?? "vscode")
-  const mode = getMode(options.mode)
-  const format = options.format ?? "svg"
-  const width =
-    typeof options.width === "undefined" ? undefined : +options.width
-  const font =
-    typeof options.font === "undefined" ? undefined : getFontUrl(options.font)
-
-  const compress = options.compress === "undefined" ? false : options.compress
-  const fontSize = options.fontSize === "undefined" ? 16 : options.fontSize
-  const lengthAdjust =
-    options.lengthAdjust === "undefined" ? 16 : options.lengthAdjust
-
-  switch (format) {
-    case "svg": {
-      const s = to_svg(
-        input,
-        theme,
-        width,
-        font,
-        mode,
-        options.lightBg,
-        options.darkBg,
-        fontSize,
-        lengthAdjust,
-      )
-      const result = compress
-        ? optimize(s, {
-            plugins: [
-              {
-                name: "preset-default",
-                params: {
-                  overrides: {
-                    inlineStyles: false,
-                  },
-                },
-              },
-            ],
-          }).data
-        : s
-      process.stdout.write(result)
-      break
-    }
-    case "html": {
-      process.stdout.write(
-        to_html(
-          input,
-          theme,
-          width,
-          font,
-          mode,
-          options.lightBg,
-          options.darkBg,
-          fontSize,
-        ),
-      )
-      break
-    }
-    case "text": {
-      process.stdout.write(to_text(input, width))
-    }
-  }
+  const cli = new Cli({
+    binaryName: "ansi2",
+    binaryVersion: version,
+  })
+  cli.register(AnsiCmd)
+  cli.register(Builtins.VersionCommand)
+  cli.runExit(process.argv.slice(2))
 }
 
 main()

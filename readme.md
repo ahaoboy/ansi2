@@ -76,6 +76,16 @@ dark / light
 neofetch | ansi2 --format=svg --mode=dark > neofetch.svg
 ```
 
+
+### width
+
+Set the terminal width, the default value is 0, which means unlimited width
+
+```bash
+neofetch | ansi2 --width=100 > neofetch.svg
+```
+
+
 ### light-bg and dark-bg
 
 Set the background color for dark and light modes. The default for light mode is ```#FFFFFF```, and the default for dark mode is ```#181818```

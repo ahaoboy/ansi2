@@ -33,6 +33,7 @@ pub enum NodeStyle {
 
 #[derive(Debug, Clone, Default)]
 pub struct Style {
+    // FIXME: Hashset order is different in wasm
     pub colors: Vec<AnsiColor>,
     pub bg_colors: Vec<AnsiColor>,
     pub bold: bool,

@@ -6,9 +6,9 @@ do
   cat "$i.ans" | node ../ansi2-wasm/bin/cli.js --mode=light -c > "$i-light.svg"
   cat "$i.ans" | node ../ansi2-wasm/bin/cli.js --mode=dark -c > "$i-dark.svg"
 
-  cat "$i.ans" | node ../ansi2-wasm/bin/cli.js -c -f html > "$i.html"
-  cat "$i.ans" | node ../ansi2-wasm/bin/cli.js --mode=light -c -f html  > "$i-light.html"
-  cat "$i.ans" | node ../ansi2-wasm/bin/cli.js --mode=dark -c -f html > "$i-dark.html"
+  cat "$i.ans" | node ../ansi2-wasm/bin/cli.js -c -f=html > "$i.html"
+  cat "$i.ans" | node ../ansi2-wasm/bin/cli.js --mode=light -c -f=html  > "$i-light.html"
+  cat "$i.ans" | node ../ansi2-wasm/bin/cli.js --mode=dark -c -f=html > "$i-dark.html"
   echo "$i done"
 done
 
