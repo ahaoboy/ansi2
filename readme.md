@@ -149,7 +149,7 @@ cat take-my-ansi.utf8.ans | ansi2 > take-my-ansi.svg
 
 <div align="center">
 	<a href="https://github.com/ahaoboy/ansi2">
-		<img src="assets/take-my-ansi.svg">
+		<img src="assets/take-my-ansi.utf8.svg">
 	</a>
 </div>
 
