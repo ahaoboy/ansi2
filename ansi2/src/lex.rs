@@ -530,6 +530,7 @@ fn parse_unknown(input: &str) -> IResult<&str, Token> {
         nom::character::complete::char('\x06'),
         nom::character::complete::char('\x0e'),
         nom::character::complete::char('\x0f'),
+        nom::character::complete::char('\x10'),
         nom::character::complete::char('\x11'),
         nom::character::complete::char('\x12'),
         nom::character::complete::char('\x14'),
@@ -540,6 +541,10 @@ fn parse_unknown(input: &str) -> IResult<&str, Token> {
         nom::character::complete::char('\x1c'),
         nom::character::complete::char('\x1e'),
     ))(input)?;
+
+    if n == '\x1a' {
+        return Ok((rem, Token::Char('␦')));
+    }
 
     Ok((rem, Token::Unknown(n as u8)))
 }
