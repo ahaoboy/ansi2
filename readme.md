@@ -127,9 +127,29 @@ neofetch | ansi2 --format=svg --length-adjust="" > neofetch.svg
 </div>
 
 ### vitest
+
+```bash
+vitest bench --run | ansi2 > bench.png
+```
 <div align="center">
 	<a href="https://github.com/ahaoboy/ansi2">
 		<img src="assets/vitest.svg">
+	</a>
+</div>
+
+
+
+### 16colo
+
+[16colo](https://16colo.rs/) is an online archive for ANSI and ASCII artpacks.
+
+```bash
+cat take-my-ansi.utf8.ans | ansi2 > take-my-ansi.svg
+```
+
+<div align="center">
+	<a href="https://github.com/ahaoboy/ansi2">
+		<img src="assets/take-my-ansi.svg">
 	</a>
 </div>
 
