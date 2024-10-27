@@ -335,6 +335,12 @@ fn parse_sgr3(input: &str) -> IResult<&str, Token> {
     let b = front.parse().unwrap_or(0);
     let c = background.parse().unwrap_or(0);
 
+    if a == 38 && b == 5 {
+        return Ok((rem, Token::ColorForeground(AnsiColor::from_u8(c))));
+    }
+    if a == 48 && b == 5 {
+        return Ok((rem, Token::ColorBackground(AnsiColor::from_u8(c))));
+    }
     Ok((
         rem,
         Token::List(vec![get_sgr(a), get_token_color(b), get_token_color(c)]),
@@ -413,6 +419,10 @@ fn parse_sgr5(input: &str) -> IResult<&str, Token> {
     let b = b.parse().unwrap_or(0);
     if ctrl == 38 && ty == 2 {
         return Ok((rem, Token::ColorForeground(AnsiColor::Rgb(r, g, b))));
+    }
+
+    if ctrl == 48 && ty == 2 {
+        return Ok((rem, Token::ColorBackground(AnsiColor::Rgb(r, g, b))));
     }
     todo!()
 }

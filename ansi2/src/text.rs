@@ -3,12 +3,13 @@ use crate::Canvas;
 pub fn to_text<S: AsRef<str>>(str: S, width: Option<usize>) -> String {
     let s = str.as_ref();
     let canvas = Canvas::new(s, width);
-    let mut text = String::new();
+    let mut text: Vec<String> = Vec::new();
     for row in canvas.pixels.iter() {
+        let mut row_str = String::new();
         for c in row.iter() {
-            text.push_str(&c.text)
+            row_str.push_str(&c.text)
         }
-        text.push('\n')
+        text.push(row_str);
     }
-    text
+    text.join("\n")
 }

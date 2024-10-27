@@ -109,6 +109,27 @@ impl Color8 {
             _ => Color8::Black,
         }
     }
+
+    pub fn to_u8(&self) -> u8 {
+        match self {
+            Color8::Black => 30,
+            Color8::Red => 31,
+            Color8::Green => 32,
+            Color8::Yellow => 33,
+            Color8::Blue => 34,
+            Color8::Magenta => 35,
+            Color8::Cyan => 36,
+            Color8::White => 37,
+            Color8::BrightBlack => 90,
+            Color8::BrightRed => 91,
+            Color8::BrightGreen => 92,
+            Color8::BrightYellow => 93,
+            Color8::BrightBlue => 94,
+            Color8::BrightMagenta => 95,
+            Color8::BrightCyan => 96,
+            Color8::BrightWhite => 97,
+        }
+    }
 }
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
 pub enum AnsiColor {

@@ -1,3 +1,4 @@
+pub mod ans;
 pub mod color;
 #[allow(clippy::too_many_arguments)]
 pub mod css;
@@ -10,7 +11,7 @@ use color::AnsiColor;
 use lex::{parse_ansi, Token};
 use std::{collections::VecDeque, vec};
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct Node {
     pub bg_color: AnsiColor,
     pub color: AnsiColor,
