@@ -1,3 +1,4 @@
+use ansi2::ans::to_ans;
 use ansi2::{css::Mode, theme::Theme};
 use ansi2::{html::to_html, svg::to_svg, text::to_text};
 use base64::prelude::BASE64_STANDARD;
@@ -11,6 +12,7 @@ enum Format {
     Svg,
     Html,
     Text,
+    Ans,
 }
 
 #[derive(Parser, Debug, Clone)]
@@ -48,20 +50,26 @@ struct Args {
 
 fn main() {
     let args: Args = Args::parse();
-
-    let format = args.format.unwrap_or(Format::Svg);
-    let theme = args.theme.unwrap_or(Theme::Vscode);
-    let mode = args.mode.map(|m| match m {
-        Mode::Dark => ansi2::css::Mode::Dark,
-        Mode::Light => ansi2::css::Mode::Light,
-    });
-    let width = args.width;
+    let Args {
+        width,
+        format,
+        theme,
+        mode,
+        font,
+        compress,
+        light_bg,
+        dark_bg,
+        font_size,
+        length_adjust,
+    } = args;
+    let format = format.unwrap_or(Format::Svg);
+    let theme = theme.unwrap_or(Theme::Vscode);
 
     let mut buf = Vec::new();
     std::io::stdin()
         .read_to_end(&mut buf)
         .expect("can't read string from stdin");
-    let base64 = args.font.map(|font_url| {
+    let base64 = font.map(|font_url| {
         if font_url.starts_with("http") {
             return font_url;
         }
@@ -84,12 +92,12 @@ fn main() {
                 width,
                 base64,
                 mode,
-                args.light_bg,
-                args.dark_bg,
-                args.font_size,
-                args.length_adjust,
+                light_bg,
+                dark_bg,
+                font_size,
+                length_adjust,
             );
-            if args.compress {
+            if compress {
                 svg = osvg::osvg(
                     &svg,
                     Some(
@@ -112,18 +120,9 @@ fn main() {
             }
             svg
         }
-        Format::Html => to_html(
-            &s,
-            theme,
-            width,
-            base64,
-            mode,
-            args.light_bg,
-            args.dark_bg,
-            args.font_size,
-        ),
+        Format::Html => to_html(&s, theme, width, base64, mode, light_bg, dark_bg, font_size),
         Format::Text => to_text(&s, width),
+        Format::Ans => to_ans(&s, width, compress),
     };
-
-    println!("{}", output);
+    print!("{}", output);
 }

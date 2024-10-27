@@ -1,4 +1,4 @@
-import { to_svg, to_html, to_text, Theme } from "./wasm"
+import { to_svg, to_html, to_text, Theme, to_ans } from "./wasm"
 import { readFileSync, existsSync } from "node:fs"
 import { optimize } from "svgo"
 import { Mode } from "./wasm"
@@ -7,7 +7,7 @@ import * as t from "typanion"
 import { Command, Option, Cli, Builtins } from "clipanion"
 
 const isInteger = t.cascade(t.isNumber(), [t.isInteger()])
-const isFormat = t.cascade(t.isEnum(["html", "svg", "text"]))
+const isFormat = t.cascade(t.isEnum(["html", "svg", "text", "ans"]))
 const isTheme = t.cascade(t.isEnum(["vscode", "ubuntu", "vga", "xterm"]))
 const isLengthAdjust = t.cascade(t.isEnum(["spacing", "spacingAndGlyphs"]))
 const isColor = t.cascade(
@@ -128,6 +128,9 @@ class AnsiCmd extends Command {
       }
       case "text": {
         process.stdout.write(to_text(input, width))
+      }
+      case "ans": {
+        process.stdout.write(to_ans(input, width, compress))
       }
     }
   }
