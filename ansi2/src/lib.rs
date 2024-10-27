@@ -45,9 +45,7 @@ pub struct Canvas {
 }
 
 fn set_node(v: &mut Vec<Vec<Node>>, node: Node, x: usize, y: usize) {
-    while y >= v.len() {
-        v.push(Vec::new());
-    }
+    ensure_height(v, y);
 
     let row = &mut v[y];
     while x >= row.len() {
@@ -66,6 +64,12 @@ fn set_node(v: &mut Vec<Vec<Node>>, node: Node, x: usize, y: usize) {
     }
 
     row[x] = node;
+}
+
+fn ensure_height(v: &mut Vec<Vec<Node>>, h: usize) {
+    while v.len() <= h {
+        v.push(Vec::new());
+    }
 }
 
 impl Canvas {
@@ -115,7 +119,9 @@ impl Canvas {
                 Token::LineFeed => {
                     cur_y += 1;
                     cur_x = 0;
+                    ensure_height(&mut pixels, cur_y);
                 }
+
                 Token::Char(c) => {
                     let node = Node {
                         text: c.into(),
@@ -183,6 +189,7 @@ impl Canvas {
                 Token::CursorUp(c) => cur_y = cur_y.saturating_sub(c as usize),
                 Token::CursorDown(c) => {
                     cur_y += c as usize;
+                    ensure_height(&mut pixels, cur_y);
                 }
                 Token::CursorBack(c) => cur_x = cur_x.saturating_sub(c as usize),
                 Token::CursorForward(c) => {
@@ -191,6 +198,7 @@ impl Canvas {
                         cur_x %= max_width;
                         cur_y += 1;
                     }
+                    ensure_height(&mut pixels, cur_y);
                 }
                 Token::Backspace => cur_x = cur_x.saturating_sub(1),
                 Token::Tab => {
@@ -205,6 +213,7 @@ impl Canvas {
                         cur_x %= max_width;
                         cur_y += 1;
                     }
+                    ensure_height(&mut pixels, cur_y);
                 }
 
                 Token::CarriageReturn => cur_x = 0,
@@ -212,15 +221,18 @@ impl Canvas {
                 Token::CursorNextLine(n) => {
                     cur_y += n as usize;
                     cur_x = 0;
+                    ensure_height(&mut pixels, cur_y);
                 }
                 Token::CursorPreviousLine(n) => {
                     cur_y = cur_y.saturating_sub(n as usize);
                     cur_x = 0;
+                    ensure_height(&mut pixels, cur_y);
                 }
                 Token::CursorHorizontalAbsolute(n) => cur_x = (n - 1).max(0) as usize,
                 Token::CursorPosition(x, y) => {
                     cur_x = x as usize;
                     cur_y = y as usize;
+                    ensure_height(&mut pixels, cur_y);
                 }
                 Token::SlowBlink | Token::RapidBlink => blink = true,
                 Token::Reverse => {
@@ -268,6 +280,7 @@ impl Canvas {
                             if i == '\n' {
                                 cur_x = 0;
                                 cur_y += 1;
+                                ensure_height(&mut pixels, cur_y);
                                 continue;
                             }
 

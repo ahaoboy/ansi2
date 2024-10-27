@@ -3,7 +3,9 @@ source: ansi2/src/lib.rs
 expression: canvas
 ---
 Canvas {
-    pixels: [],
+    pixels: [
+        [],
+    ],
     w: 48,
     h: 1,
 }

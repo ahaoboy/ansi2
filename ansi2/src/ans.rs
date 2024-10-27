@@ -80,16 +80,12 @@ mod test {
             if p.ends_with(".min.ans") {
                 continue;
             }
-            println!("{:?}", p);
             let s = std::fs::read_to_string(&p).unwrap();
             let min = to_ans(&s, None, true);
 
             let c1 = Canvas::new(&s, None);
             let c2 = Canvas::new(&min, None);
-            // assert_eq!(c1, c2);
-            if c1 != c2 {
-                println!("{}", p);
-            }
+            assert_eq!(c1, c2);
         }
     }
 }
