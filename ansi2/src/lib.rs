@@ -11,7 +11,7 @@ use color::AnsiColor;
 use lex::{parse_ansi, Token};
 use std::{collections::VecDeque, vec};
 
-#[derive(Debug, Clone, Default)]
+#[derive(Debug, Clone, Default, PartialEq, Eq)]
 pub struct Node {
     pub bg_color: AnsiColor,
     pub color: AnsiColor,
@@ -37,7 +37,7 @@ impl Node {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default, PartialEq, Eq)]
 pub struct Canvas {
     pub pixels: Vec<Vec<Node>>,
     pub w: usize,

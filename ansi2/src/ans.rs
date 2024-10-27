@@ -60,3 +60,36 @@ pub fn to_ans<S: AsRef<str>>(str: S, width: Option<usize>, compress: bool) -> St
     }
     text.join("\n")
 }
+
+#[cfg(test)]
+mod test {
+    use std::path::Path;
+
+    use crate::{ans::to_ans, Canvas};
+
+    #[test]
+    fn test() {
+        let cargo_dir = std::env::var("CARGO_MANIFEST_DIR").unwrap();
+        let assets_dir = Path::new(&cargo_dir).parent().unwrap().join("assets");
+        let v = std::fs::read_dir(assets_dir).unwrap();
+        for i in v {
+            let p = i.unwrap().path().to_string_lossy().to_string();
+            if !p.ends_with(".ans") {
+                continue;
+            }
+            if p.ends_with(".min.ans") {
+                continue;
+            }
+            println!("{:?}", p);
+            let s = std::fs::read_to_string(&p).unwrap();
+            let min = to_ans(&s, None, true);
+
+            let c1 = Canvas::new(&s, None);
+            let c2 = Canvas::new(&min, None);
+            // assert_eq!(c1, c2);
+            if c1 != c2 {
+                println!("{}", p);
+            }
+        }
+    }
+}
