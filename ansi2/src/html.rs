@@ -66,7 +66,10 @@ pub fn to_html<S: AsRef<str>>(
                 text_class.push(NodeStyle::Blink.class_name().to_string());
                 style.blink = true;
             }
-
+            if c.strike {
+                text_class.push(NodeStyle::Strike.class_name().to_string());
+                style.strike = true;
+            }
             if !c.color.is_default() {
                 let name = c.color.class_name();
                 text_class.push(name);

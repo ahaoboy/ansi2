@@ -1,5 +1,6 @@
 ---
 source: ansi2/src/lib.rs
+assertion_line: 548
 expression: canvas
 ---
 Canvas {

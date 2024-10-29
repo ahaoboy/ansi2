@@ -16,6 +16,7 @@ expression: canvas.minify()
             italic: true,
             underline: true,
             hide: false,
+            strike: false,
         },
         Node {
             bg_color: Default,
@@ -27,6 +28,7 @@ expression: canvas.minify()
             italic: false,
             underline: false,
             hide: false,
+            strike: false,
         },
     ],
 ]

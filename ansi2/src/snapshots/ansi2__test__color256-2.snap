@@ -17,6 +17,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Color256(
@@ -32,6 +33,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
         ],
     ],

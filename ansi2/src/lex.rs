@@ -1,4 +1,4 @@
-use crate::color::AnsiColor;
+use crate::color::{AnsiColor, Color8};
 use nom::branch::alt;
 use nom::bytes::complete::{tag, tag_no_case, take_until};
 use nom::character::complete::{anychar, digit0};
@@ -60,10 +60,12 @@ pub enum Token {
     SlowBlink,
     RapidBlink,
     Strike,
+    UnStrike,
+    UnItalic,
     PrimaryFont,
     DoublyUnderlined,
-    NotUnderlined,
-    NotBlinking,
+    UnUnderlined,
+    UnBlink,
 
     List(Vec<Token>),
 
@@ -71,7 +73,9 @@ pub enum Token {
     Link(String, String),
 
     AlternativeFont(u8),
-    NotReversed,
+    Fraktur,
+    UnReversed,
+    UnHide,
     Unknown(u8),
 }
 
@@ -243,23 +247,22 @@ pub fn get_sgr(n: u8) -> Token {
         9 => Token::Strike,
         10 => Token::PrimaryFont,
         11..=19 => Token::AlternativeFont(n - 10),
-        20 => {
-            todo!()
-        }
+        20 => Token::Fraktur,
         21 => Token::DoublyUnderlined,
-        24 => Token::NotUnderlined,
-        25 => Token::NotBlinking,
+        24 => Token::UnUnderlined,
+        25 => Token::UnBlink,
         30..=37 | 90..=97 => Token::ColorForeground(AnsiColor::from_u8(n)),
         40..=47 | 100..=107 => Token::ColorBackground(AnsiColor::from_u8(n)),
         39 => Token::ColorDefaultForeground,
         49 => Token::ColorDefaultBackground,
         59 => Token::ColorDefaultUnderline,
         22 => Token::NormalIntensity,
-        27 => Token::NotReversed,
+        27 => Token::UnReversed,
+        29 => Token::UnStrike,
+        28 => Token::UnHide,
+        23 => Token::UnItalic,
 
-        _ => {
-            todo!()
-        }
+        _ => Token::Unknown(n),
     }
 }
 
@@ -477,6 +480,89 @@ fn parse_sgr6(input: &str) -> IResult<&str, Token> {
     }
     todo!()
 }
+
+fn parse_sgr7(input: &str) -> IResult<&str, Token> {
+    let (rem, (_, ctrl, _, a, _, b, _, c, _, d, _, e, _, f, _)) = tuple((
+        tag("\x1b["),
+        digit0,
+        tag(";"),
+        digit0,
+        tag(";"),
+        digit0,
+        tag(";"),
+        digit0,
+        tag(";"),
+        digit0,
+        tag(";"),
+        digit0,
+        tag(";"),
+        digit0,
+        tag_no_case("m"),
+    ))(input)?;
+    let ctrl = ctrl.parse().unwrap_or(0);
+    let a = a.parse().unwrap_or(0);
+    let b = b.parse().unwrap_or(0);
+    let c = c.parse().unwrap_or(0);
+    let d = d.parse().unwrap_or(0);
+    let e = e.parse().unwrap_or(0);
+    let f = f.parse().unwrap_or(0);
+    let mut v = vec![get_sgr(ctrl)];
+
+    match a {
+        38 => match b {
+            5 => {
+                v.push(Token::ColorForeground(AnsiColor::Color256(c)));
+            }
+            2 => {
+                v.push(Token::ColorForeground(AnsiColor::Color8(Color8::from_u8(
+                    c,
+                ))));
+            }
+            _ => {}
+        },
+        48 => match b {
+            5 => {
+                v.push(Token::ColorBackground(AnsiColor::Color256(c)));
+            }
+            2 => {
+                v.push(Token::ColorBackground(AnsiColor::Color8(Color8::from_u8(
+                    c,
+                ))));
+            }
+            _ => {}
+        },
+        _ => {}
+    }
+
+    match d {
+        38 => match e {
+            5 => {
+                v.push(Token::ColorForeground(AnsiColor::Color256(f)));
+            }
+            2 => {
+                v.push(Token::ColorForeground(AnsiColor::Color8(Color8::from_u8(
+                    f,
+                ))));
+            }
+            _ => {}
+        },
+        48 => match e {
+            5 => {
+                v.push(Token::ColorBackground(AnsiColor::Color256(f)));
+            }
+            2 => {
+                v.push(Token::ColorBackground(AnsiColor::Color8(Color8::from_u8(
+                    f,
+                ))));
+            }
+            _ => {}
+        },
+        _ => {}
+    }
+
+    Ok((rem, Token::List(v)))
+}
+
 fn parse_sgr10(input: &str) -> IResult<&str, Token> {
     let (rem, (_, c1, _, t1, _, r1, _, g1, _, b1, _, c2, _, t2, _, r2, _, g2, _, b2, _)) =
         tuple((
@@ -638,6 +724,7 @@ pub(crate) fn parse_ansi(input: &str) -> IResult<&str, Vec<Token>> {
             parse_sgr4,
             parse_sgr5,
             parse_sgr6,
+            parse_sgr7,
             parse_sgr10,
         )),
         alt((parse_link_with_title, parse_link_no_title, parse_link_ll)),

@@ -50,7 +50,7 @@ pub fn to_svg<S: AsRef<str>, T: ColorTable>(
             let text_x = cur_x;
             let text_y = cur_y + baseline_h + underline_h;
 
-            if !c.bg_color.is_default() {
+            if !c.bg_color.is_default() && !c.hide {
                 let name = c.bg_color.bg_class_name();
                 let class_str = format!("class='{}'", name);
                 s.push_str(&format!(
@@ -84,9 +84,18 @@ pub fn to_svg<S: AsRef<str>, T: ColorTable>(
                 attr.push("opacity=\"0.5\"");
             }
             if c.underline {
-                attr.push("text-decoration=\"underline\"");
+                text_class.push(NodeStyle::Underline.class_name().to_string());
+                style.underline = true;
             }
 
+            if c.strike {
+                text_class.push(NodeStyle::Strike.class_name().to_string());
+                style.strike = true;
+            }
+            if c.hide {
+                text_class.push(NodeStyle::Hide.class_name().to_string());
+                style.hide = true;
+            }
             let class_str = if text_class.is_empty() {
                 String::new()
             } else {

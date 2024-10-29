@@ -34,7 +34,7 @@ expression: r
             ' ',
         ),
         NormalIntensity,
-        NotReversed,
+        UnReversed,
         ColorDefaultForeground,
         Char(
             ' ',

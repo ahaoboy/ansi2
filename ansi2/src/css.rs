@@ -29,6 +29,7 @@ pub enum NodeStyle {
     Row,
     Text,
     Main,
+    Strike,
 }
 
 #[derive(Debug, Clone, Default)]
@@ -42,6 +43,7 @@ pub struct Style {
     pub italic: bool,
     pub underline: bool,
     pub hide: bool,
+    pub strike: bool,
 }
 
 impl NodeStyle {
@@ -56,6 +58,7 @@ impl NodeStyle {
             NodeStyle::Row => "r",
             NodeStyle::Text => "t",
             NodeStyle::Main => "m",
+            NodeStyle::Strike => "s",
         }
     }
 }
@@ -135,9 +138,15 @@ impl Style {
                 NodeStyle::Underline.class_name()
             ));
         }
+        if self.strike {
+            css.push_str(&format!(
+                ".{}{{text-decoration:line-through}}",
+                NodeStyle::Strike.class_name()
+            ));
+        }
         if self.blink {
             css.push_str(&format!(
-                ".{}{{animation:bk 1s steps(1, end) infinite;}} @keyframes bk{{50% {{opacity: 0}}",
+                ".{}{{animation:bk 1s steps(1, end) infinite;}} @keyframes bk{{50% {{opacity: 0}}}}",
                 NodeStyle::Blink.class_name()
             ));
         }

@@ -22,6 +22,7 @@ pub struct Node {
     pub italic: bool,
     pub underline: bool,
     pub hide: bool,
+    pub strike: bool,
 }
 
 impl Node {
@@ -34,6 +35,7 @@ impl Node {
             && self.italic == other.italic
             && self.underline == other.underline
             && self.hide == other.hide
+            && self.strike == other.strike
     }
 }
 
@@ -59,6 +61,7 @@ fn set_node(v: &mut Vec<Vec<Node>>, node: Node, x: usize, y: usize) {
             italic: false,
             underline: false,
             hide: false,
+            strike: false,
         };
         row.push(empty);
     }
@@ -86,6 +89,7 @@ impl Canvas {
         let mut reverse = false;
         let mut underline = false;
         let mut blink = false;
+        let mut strike = false;
         let mut w = 0;
         let mut h = 0;
         let mut pixels = Vec::new();
@@ -115,6 +119,7 @@ impl Canvas {
         }
 
         while let Some(i) = q.pop_front() {
+            // eprintln!("{:?}", i);
             match i {
                 Token::LineFeed => {
                     cur_y += 1;
@@ -133,6 +138,7 @@ impl Canvas {
                         italic,
                         underline,
                         hide,
+                        strike,
                     };
                     if cur_x >= max_width {
                         cur_x = 0;
@@ -168,8 +174,14 @@ impl Canvas {
                 Token::Italic => {
                     italic = true;
                 }
+                Token::UnItalic => {
+                    italic = false;
+                }
                 Token::Underline => {
                     underline = true;
+                }
+                Token::UnUnderlined => {
+                    underline = false;
                 }
                 Token::Dim => {
                     dim = true;
@@ -185,6 +197,7 @@ impl Canvas {
                     cur_c = AnsiColor::Default;
                     blink = false;
                     hide = false;
+                    strike = false;
                 }
                 Token::CursorUp(c) => cur_y = cur_y.saturating_sub(c as usize),
                 Token::CursorDown(c) => {
@@ -235,6 +248,7 @@ impl Canvas {
                     ensure_height(&mut pixels, cur_y);
                 }
                 Token::SlowBlink | Token::RapidBlink => blink = true,
+                Token::UnBlink => blink = false,
                 Token::Reverse => {
                     reverse = true;
                     let tmp_c = cur_c;
@@ -246,10 +260,16 @@ impl Canvas {
                     dim = false;
                     bold = false;
                 }
-                Token::NotReversed => {
+                Token::UnReversed => {
                     reverse = false;
                     set_bg_color!(AnsiColor::Default);
                     set_color!(AnsiColor::Default);
+                }
+                Token::Strike => {
+                    strike = true;
+                }
+                Token::UnStrike => {
+                    strike = false;
                 }
                 Token::ColorDefaultForeground => {
                     if reverse {
@@ -271,9 +291,9 @@ impl Canvas {
                         // FIXME: Avoid the influence of styles in link on subsequent characters
                         q.push_front(Token::ColorReset);
                         for i in tokens.into_iter().rev() {
-                            underline = true;
                             q.push_front(i);
                         }
+                        q.push_front(Token::Underline);
                     }
                     Err(_) => {
                         for i in title.chars() {
@@ -294,6 +314,7 @@ impl Canvas {
                                 italic,
                                 underline: true,
                                 hide,
+                                strike,
                             };
 
                             if cur_x >= max_width {
@@ -308,7 +329,13 @@ impl Canvas {
                 Token::CursorHide => {
                     hide = true;
                 }
-
+                Token::UnHide => {
+                    hide = false;
+                }
+                Token::DoublyUnderlined => {
+                    bold = false;
+                    underline = true;
+                }
                 Token::List(v) => {
                     for i in v.into_iter().rev() {
                         q.push_front(i);

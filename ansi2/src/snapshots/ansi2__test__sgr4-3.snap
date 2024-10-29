@@ -16,6 +16,7 @@ expression: canvas.minify()
             italic: false,
             underline: false,
             hide: false,
+            strike: false,
         },
     ],
 ]

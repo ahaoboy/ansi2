@@ -16,6 +16,7 @@ expression: canvas.minify()
             italic: false,
             underline: false,
             hide: false,
+            strike: false,
         },
         Node {
             bg_color: Default,
@@ -27,6 +28,7 @@ expression: canvas.minify()
             italic: false,
             underline: false,
             hide: false,
+            strike: false,
         },
         Node {
             bg_color: Default,
@@ -40,6 +42,7 @@ expression: canvas.minify()
             italic: false,
             underline: false,
             hide: false,
+            strike: false,
         },
         Node {
             bg_color: Default,
@@ -51,6 +54,7 @@ expression: canvas.minify()
             italic: false,
             underline: false,
             hide: false,
+            strike: false,
         },
         Node {
             bg_color: Color8(
@@ -64,6 +68,7 @@ expression: canvas.minify()
             italic: false,
             underline: false,
             hide: false,
+            strike: false,
         },
         Node {
             bg_color: Default,
@@ -75,6 +80,7 @@ expression: canvas.minify()
             italic: false,
             underline: false,
             hide: false,
+            strike: false,
         },
         Node {
             bg_color: Color8(
@@ -88,6 +94,7 @@ expression: canvas.minify()
             italic: false,
             underline: false,
             hide: false,
+            strike: false,
         },
     ],
 ]

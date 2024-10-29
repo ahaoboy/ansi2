@@ -18,6 +18,7 @@ expression: canvas.minify()
             italic: false,
             underline: false,
             hide: false,
+            strike: false,
         },
         Node {
             bg_color: Rgb(
@@ -35,6 +36,7 @@ expression: canvas.minify()
             italic: false,
             underline: false,
             hide: false,
+            strike: false,
         },
         Node {
             bg_color: Rgb(
@@ -54,6 +56,7 @@ expression: canvas.minify()
             italic: false,
             underline: false,
             hide: false,
+            strike: false,
         },
         Node {
             bg_color: Rgb(
@@ -71,6 +74,7 @@ expression: canvas.minify()
             italic: false,
             underline: false,
             hide: false,
+            strike: false,
         },
         Node {
             bg_color: Rgb(
@@ -90,6 +94,7 @@ expression: canvas.minify()
             italic: false,
             underline: false,
             hide: false,
+            strike: false,
         },
         Node {
             bg_color: Rgb(
@@ -109,6 +114,7 @@ expression: canvas.minify()
             italic: false,
             underline: false,
             hide: false,
+            strike: false,
         },
         Node {
             bg_color: Rgb(
@@ -128,6 +134,7 @@ expression: canvas.minify()
             italic: false,
             underline: false,
             hide: false,
+            strike: false,
         },
         Node {
             bg_color: Rgb(
@@ -147,6 +154,7 @@ expression: canvas.minify()
             italic: false,
             underline: false,
             hide: false,
+            strike: false,
         },
     ],
 ]

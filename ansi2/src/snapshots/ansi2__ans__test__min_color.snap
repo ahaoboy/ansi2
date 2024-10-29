@@ -1,0 +1,16 @@
+---
+source: ansi2/src/ans.rs
+expression: s
+---
+[
+    Bg(
+        Color8(
+            Yellow,
+        ),
+    ),
+    Color(
+        Color8(
+            Red,
+        ),
+    ),
+]

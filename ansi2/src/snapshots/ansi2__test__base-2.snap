@@ -17,6 +17,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -30,6 +31,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -43,6 +45,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -56,6 +59,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -69,6 +73,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -80,6 +85,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -91,6 +97,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -102,6 +109,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -113,6 +121,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -126,6 +135,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -139,6 +149,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -152,6 +163,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -165,6 +177,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -178,6 +191,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -191,6 +205,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -204,6 +219,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -217,6 +233,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -230,6 +247,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -243,6 +261,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -256,6 +275,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -269,6 +289,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -280,6 +301,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -291,6 +313,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -302,6 +325,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -313,6 +337,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -324,6 +349,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Color8(
@@ -337,6 +363,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Color8(
@@ -350,6 +377,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Color8(
@@ -363,6 +391,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Color8(
@@ -376,6 +405,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Color8(
@@ -389,6 +419,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -400,6 +431,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -411,6 +443,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -422,6 +455,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -433,6 +467,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Color8(
@@ -446,6 +481,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Color8(
@@ -459,6 +495,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Color8(
@@ -472,6 +509,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Color8(
@@ -485,6 +523,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Color8(
@@ -498,6 +537,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Color8(
@@ -511,6 +551,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Color8(
@@ -524,6 +565,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Color8(
@@ -537,6 +579,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Color8(
@@ -550,6 +593,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Color8(
@@ -563,6 +607,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Color8(
@@ -576,6 +621,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Color8(
@@ -589,6 +635,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
         ],
     ],

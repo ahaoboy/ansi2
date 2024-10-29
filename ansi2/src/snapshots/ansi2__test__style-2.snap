@@ -15,6 +15,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -26,6 +27,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -37,6 +39,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -48,6 +51,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -59,6 +63,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -70,6 +75,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -81,6 +87,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -92,6 +99,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -103,6 +111,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -114,6 +123,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -125,6 +135,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -136,6 +147,7 @@ Canvas {
                 italic: false,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -147,6 +159,7 @@ Canvas {
                 italic: true,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -158,6 +171,7 @@ Canvas {
                 italic: true,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -169,6 +183,7 @@ Canvas {
                 italic: true,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -180,6 +195,7 @@ Canvas {
                 italic: true,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -191,6 +207,7 @@ Canvas {
                 italic: true,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -202,6 +219,7 @@ Canvas {
                 italic: true,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -213,6 +231,7 @@ Canvas {
                 italic: true,
                 underline: false,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -224,6 +243,7 @@ Canvas {
                 italic: true,
                 underline: true,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -235,6 +255,7 @@ Canvas {
                 italic: true,
                 underline: true,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -246,6 +267,7 @@ Canvas {
                 italic: true,
                 underline: true,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -257,6 +279,7 @@ Canvas {
                 italic: true,
                 underline: true,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -268,6 +291,7 @@ Canvas {
                 italic: true,
                 underline: true,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -279,6 +303,7 @@ Canvas {
                 italic: true,
                 underline: true,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -290,6 +315,7 @@ Canvas {
                 italic: true,
                 underline: true,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -301,6 +327,7 @@ Canvas {
                 italic: true,
                 underline: true,
                 hide: false,
+                strike: false,
             },
             Node {
                 bg_color: Default,
@@ -312,6 +339,7 @@ Canvas {
                 italic: true,
                 underline: true,
                 hide: false,
+                strike: false,
             },
         ],
     ],
