@@ -34,7 +34,7 @@ Canvas {
                 ),
                 text_r: (
                     0,
-                    1,
+                    71,
                 ),
                 dim_r: (
                     0,
@@ -46,7 +46,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -86,7 +86,7 @@ Canvas {
                 ),
                 text_r: (
                     1,
-                    2,
+                    72,
                 ),
                 dim_r: (
                     0,
@@ -98,7 +98,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -138,7 +138,7 @@ Canvas {
                 ),
                 text_r: (
                     2,
-                    3,
+                    73,
                 ),
                 dim_r: (
                     0,
@@ -150,7 +150,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -190,7 +190,7 @@ Canvas {
                 ),
                 text_r: (
                     4,
-                    5,
+                    75,
                 ),
                 dim_r: (
                     0,
@@ -202,7 +202,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -242,7 +242,7 @@ Canvas {
                 ),
                 text_r: (
                     5,
-                    6,
+                    76,
                 ),
                 dim_r: (
                     0,
@@ -254,7 +254,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -294,7 +294,7 @@ Canvas {
                 ),
                 text_r: (
                     6,
-                    7,
+                    77,
                 ),
                 dim_r: (
                     0,
@@ -306,7 +306,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -346,7 +346,7 @@ Canvas {
                 ),
                 text_r: (
                     7,
-                    8,
+                    78,
                 ),
                 dim_r: (
                     0,
@@ -358,7 +358,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -398,7 +398,7 @@ Canvas {
                 ),
                 text_r: (
                     8,
-                    9,
+                    79,
                 ),
                 dim_r: (
                     0,
@@ -410,7 +410,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -450,7 +450,7 @@ Canvas {
                 ),
                 text_r: (
                     9,
-                    10,
+                    80,
                 ),
                 dim_r: (
                     0,
@@ -462,7 +462,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -502,7 +502,7 @@ Canvas {
                 ),
                 text_r: (
                     10,
-                    11,
+                    81,
                 ),
                 dim_r: (
                     0,
@@ -514,7 +514,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -554,7 +554,7 @@ Canvas {
                 ),
                 text_r: (
                     11,
-                    12,
+                    82,
                 ),
                 dim_r: (
                     0,
@@ -566,7 +566,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -606,7 +606,7 @@ Canvas {
                 ),
                 text_r: (
                     12,
-                    13,
+                    83,
                 ),
                 dim_r: (
                     0,
@@ -618,7 +618,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -658,7 +658,7 @@ Canvas {
                 ),
                 text_r: (
                     13,
-                    14,
+                    84,
                 ),
                 dim_r: (
                     0,
@@ -670,7 +670,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -710,7 +710,7 @@ Canvas {
                 ),
                 text_r: (
                     14,
-                    15,
+                    85,
                 ),
                 dim_r: (
                     0,
@@ -722,7 +722,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -762,7 +762,7 @@ Canvas {
                 ),
                 text_r: (
                     15,
-                    16,
+                    86,
                 ),
                 dim_r: (
                     0,
@@ -774,7 +774,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -814,7 +814,7 @@ Canvas {
                 ),
                 text_r: (
                     16,
-                    17,
+                    87,
                 ),
                 dim_r: (
                     0,
@@ -826,7 +826,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -866,7 +866,7 @@ Canvas {
                 ),
                 text_r: (
                     17,
-                    18,
+                    88,
                 ),
                 dim_r: (
                     0,
@@ -878,7 +878,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -918,7 +918,7 @@ Canvas {
                 ),
                 text_r: (
                     18,
-                    19,
+                    89,
                 ),
                 dim_r: (
                     0,
@@ -930,7 +930,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -970,7 +970,7 @@ Canvas {
                 ),
                 text_r: (
                     19,
-                    20,
+                    90,
                 ),
                 dim_r: (
                     0,
@@ -982,7 +982,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -1022,7 +1022,7 @@ Canvas {
                 ),
                 text_r: (
                     20,
-                    21,
+                    91,
                 ),
                 dim_r: (
                     0,
@@ -1034,7 +1034,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -1074,7 +1074,7 @@ Canvas {
                 ),
                 text_r: (
                     21,
-                    22,
+                    92,
                 ),
                 dim_r: (
                     0,
@@ -1086,7 +1086,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -1126,7 +1126,7 @@ Canvas {
                 ),
                 text_r: (
                     22,
-                    23,
+                    93,
                 ),
                 dim_r: (
                     0,
@@ -1138,7 +1138,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -1178,7 +1178,7 @@ Canvas {
                 ),
                 text_r: (
                     23,
-                    24,
+                    94,
                 ),
                 dim_r: (
                     0,
@@ -1190,7 +1190,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -1230,7 +1230,7 @@ Canvas {
                 ),
                 text_r: (
                     24,
-                    25,
+                    95,
                 ),
                 dim_r: (
                     0,
@@ -1242,7 +1242,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -1282,7 +1282,7 @@ Canvas {
                 ),
                 text_r: (
                     25,
-                    26,
+                    96,
                 ),
                 dim_r: (
                     0,
@@ -1294,7 +1294,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -1334,7 +1334,7 @@ Canvas {
                 ),
                 text_r: (
                     26,
-                    27,
+                    97,
                 ),
                 dim_r: (
                     0,
@@ -1346,7 +1346,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -1386,7 +1386,7 @@ Canvas {
                 ),
                 text_r: (
                     27,
-                    28,
+                    98,
                 ),
                 dim_r: (
                     0,
@@ -1398,7 +1398,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -1438,7 +1438,7 @@ Canvas {
                 ),
                 text_r: (
                     28,
-                    29,
+                    99,
                 ),
                 dim_r: (
                     0,
@@ -1450,7 +1450,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -1490,7 +1490,7 @@ Canvas {
                 ),
                 text_r: (
                     29,
-                    30,
+                    100,
                 ),
                 dim_r: (
                     0,
@@ -1502,7 +1502,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -1542,7 +1542,7 @@ Canvas {
                 ),
                 text_r: (
                     31,
-                    32,
+                    102,
                 ),
                 dim_r: (
                     0,
@@ -1554,7 +1554,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -1594,7 +1594,7 @@ Canvas {
                 ),
                 text_r: (
                     32,
-                    33,
+                    103,
                 ),
                 dim_r: (
                     0,
@@ -1606,7 +1606,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -1646,7 +1646,7 @@ Canvas {
                 ),
                 text_r: (
                     33,
-                    34,
+                    104,
                 ),
                 dim_r: (
                     0,
@@ -1658,7 +1658,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -1698,7 +1698,7 @@ Canvas {
                 ),
                 text_r: (
                     34,
-                    35,
+                    105,
                 ),
                 dim_r: (
                     0,
@@ -1710,7 +1710,7 @@ Canvas {
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
@@ -1734,19 +1734,19 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
                     71,
@@ -1754,23 +1754,23 @@ Canvas {
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
                     0,
-                    0,
+                    71,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -1786,43 +1786,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    0,
-                    1,
+                    72,
+                    143,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -1838,43 +1838,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    1,
-                    2,
+                    73,
+                    144,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -1890,43 +1890,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    2,
-                    3,
+                    74,
+                    145,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -1942,43 +1942,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    4,
-                    5,
+                    76,
+                    147,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -1994,43 +1994,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    5,
-                    6,
+                    77,
+                    148,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -2046,43 +2046,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    6,
-                    7,
+                    78,
+                    149,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -2098,43 +2098,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    7,
-                    8,
+                    79,
+                    150,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -2150,43 +2150,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    8,
-                    9,
+                    80,
+                    151,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -2202,43 +2202,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    9,
-                    10,
+                    81,
+                    152,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -2254,43 +2254,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    10,
-                    11,
+                    82,
+                    153,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -2306,43 +2306,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    11,
-                    12,
+                    83,
+                    154,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -2358,43 +2358,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    12,
-                    13,
+                    84,
+                    155,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -2410,43 +2410,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    13,
-                    14,
+                    85,
+                    156,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -2462,43 +2462,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    14,
-                    15,
+                    86,
+                    157,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -2514,43 +2514,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    15,
-                    16,
+                    87,
+                    158,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -2566,43 +2566,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    16,
-                    17,
+                    88,
+                    159,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -2618,43 +2618,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    17,
-                    18,
+                    89,
+                    160,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -2670,43 +2670,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    18,
-                    19,
+                    90,
+                    161,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -2722,43 +2722,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    19,
-                    20,
+                    91,
+                    162,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -2774,43 +2774,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    20,
-                    21,
+                    92,
+                    163,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -2826,43 +2826,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    21,
-                    22,
+                    93,
+                    164,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -2878,43 +2878,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    22,
-                    23,
+                    94,
+                    165,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -2930,43 +2930,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    23,
-                    24,
+                    95,
+                    166,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -2982,43 +2982,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    24,
-                    25,
+                    96,
+                    167,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -3034,43 +3034,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    25,
-                    26,
+                    97,
+                    168,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -3086,43 +3086,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    26,
-                    27,
+                    98,
+                    169,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -3138,43 +3138,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    27,
-                    28,
+                    99,
+                    170,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -3190,43 +3190,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    28,
-                    29,
+                    100,
+                    171,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -3242,43 +3242,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    29,
-                    30,
+                    101,
+                    172,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -3294,43 +3294,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    31,
-                    32,
+                    103,
+                    174,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -3346,43 +3346,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    32,
-                    33,
+                    104,
+                    175,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -3398,43 +3398,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    33,
-                    34,
+                    105,
+                    176,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
             Node {
@@ -3450,43 +3450,43 @@ Canvas {
                 strike: false,
                 bg_color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 color_r: (
                     0,
-                    0,
+                    71,
                 ),
                 bold_r: (
                     0,
-                    0,
+                    71,
                 ),
                 blink_r: (
                     0,
-                    0,
+                    71,
                 ),
                 text_r: (
-                    34,
-                    35,
+                    106,
+                    177,
                 ),
                 dim_r: (
                     0,
-                    0,
+                    71,
                 ),
                 italic_r: (
                     0,
-                    0,
+                    71,
                 ),
                 underline_r: (
-                    0,
-                    0,
+                    72,
+                    143,
                 ),
                 hide_r: (
                     0,
-                    0,
+                    71,
                 ),
                 strike_r: (
                     0,
-                    0,
+                    71,
                 ),
             },
         ],

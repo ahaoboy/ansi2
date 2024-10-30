@@ -26,3 +26,6 @@ minify = ["osvg"]
 [[bin]]
 required-features = ["cli"]
 name = "ansi2"
+
+[lints.rust]
+unused_assignments = "allow"

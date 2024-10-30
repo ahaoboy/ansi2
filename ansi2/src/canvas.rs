@@ -60,6 +60,12 @@ fn merge_range(a: (usize, usize), b: (usize, usize)) -> (usize, usize) {
     (a1.min(b1), a2.max(b2))
 }
 
+fn offset_range(range: (usize, usize), offset: (usize, usize)) -> (usize, usize) {
+    let (a1, _) = range;
+    let (b1, b2) = offset;
+
+    (a1 + b1, a1 + b2)
+}
 impl Canvas {
     pub fn new<S: AsRef<str>>(str: S, max_width: Option<usize>) -> Self {
         let s = str.as_ref();
@@ -322,24 +328,25 @@ impl Canvas {
                     }
                 }
 
-                Sgr::Link(_, title) => match parse_ansi(&title) {
-                    Ok((_, tokens)) => {
-                        // FIXME: Avoid the influence of styles in link on subsequent characters
-                        q.push_front(Token {
-                            range: (0, 0),
-                            sgr: Sgr::ColorReset,
-                        });
-                        for i in tokens.into_iter().rev() {
-                            q.push_front(i);
+                Sgr::Link(_, title) => {
+                    if title.contains("\x1b") {
+                        if let Ok((_, tokens)) = parse_ansi(&title) {
+                            // FIXME: Avoid the influence of styles in link on subsequent characters
+                            q.push_front(Token {
+                                range,
+                                sgr: Sgr::ColorReset,
+                            });
+                            for mut i in tokens.into_iter().rev() {
+                                i.range = offset_range(i.range, range);
+                                q.push_front(i);
+                            }
+                            q.push_front(Token {
+                                range,
+                                sgr: Sgr::Underline,
+                            });
                         }
-                        q.push_front(Token {
-                            range: (0, 0),
-
-                            sgr: Sgr::Underline,
-                        });
-                    }
-                    Err(_) => {
-                        for i in title.chars() {
+                    } else {
+                        for (k, i) in title.chars().enumerate() {
                             if i == '\n' {
                                 cur_x = 0;
                                 cur_y += 1;
@@ -363,7 +370,7 @@ impl Canvas {
                                 color_r,
                                 bold_r,
                                 blink_r,
-                                text_r,
+                                text_r: (range.0 + k, range.1 + k),
                                 dim_r,
                                 italic_r,
                                 underline_r,
@@ -379,7 +386,7 @@ impl Canvas {
                             cur_x += 1;
                         }
                     }
-                },
+                }
                 Sgr::CursorHide => {
                     hide = true;
                     hide_r = range;

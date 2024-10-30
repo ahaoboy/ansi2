@@ -33,7 +33,7 @@ expression: canvas.minify()
             ),
             text_r: (
                 0,
-                6,
+                53,
             ),
             dim_r: (
                 0,

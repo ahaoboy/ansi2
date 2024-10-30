@@ -35,7 +35,7 @@ expression: canvas.minify()
             ),
             text_r: (
                 7,
-                10,
+                58,
             ),
             dim_r: (
                 0,
@@ -47,7 +47,7 @@ expression: canvas.minify()
             ),
             underline_r: (
                 0,
-                0,
+                49,
             ),
             hide_r: (
                 0,
@@ -71,19 +71,19 @@ expression: canvas.minify()
             strike: false,
             bg_color_r: (
                 0,
-                0,
+                49,
             ),
             color_r: (
                 0,
-                0,
+                49,
             ),
             bold_r: (
                 0,
-                0,
+                49,
             ),
             blink_r: (
                 0,
-                0,
+                49,
             ),
             text_r: (
                 49,
@@ -91,23 +91,23 @@ expression: canvas.minify()
             ),
             dim_r: (
                 0,
-                0,
+                49,
             ),
             italic_r: (
                 0,
-                0,
+                49,
             ),
             underline_r: (
                 0,
-                0,
+                49,
             ),
             hide_r: (
                 0,
-                0,
+                49,
             ),
             strike_r: (
                 0,
-                0,
+                49,
             ),
         },
     ],
