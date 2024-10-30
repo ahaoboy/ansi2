@@ -117,6 +117,19 @@ neofetch | ansi2 --format=svg --length-adjust=spacingAndGlyphs > neofetch.svg
 neofetch | ansi2 --format=svg --length-adjust="" > neofetch.svg
 ```
 
+### sourcemap
+
+
+Add data to the class field of the corresponding pixel in the html/svg file
+
+```text:10:20``` means the text comes from characters 10 to 20 of the ans file
+
+
+```bash
+neofetch | ansi2 --format=svg -s > neofetch.svg
+```
+
+
 ## example
 ### neofetch
 

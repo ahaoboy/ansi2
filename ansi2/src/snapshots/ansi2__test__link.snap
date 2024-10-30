@@ -5,212 +5,626 @@ expression: r
 (
     "",
     [
-        Unknown(
-            27,
-        ),
-        Char(
-            ']',
-        ),
-        Char(
-            '8',
-        ),
-        Char(
-            ';',
-        ),
-        Char(
-            ';',
-        ),
-        Char(
-            'f',
-        ),
-        Char(
-            'i',
-        ),
-        Char(
-            'l',
-        ),
-        Char(
-            'e',
-        ),
-        Char(
-            ':',
-        ),
-        Char(
-            '/',
-        ),
-        Char(
-            '/',
-        ),
-        Char(
-            '/',
-        ),
-        Char(
-            'U',
-        ),
-        Char(
-            's',
-        ),
-        Char(
-            'e',
-        ),
-        Char(
-            'r',
-        ),
-        Char(
-            's',
-        ),
-        Char(
-            '/',
-        ),
-        Char(
-            'x',
-        ),
-        Char(
-            'x',
-        ),
-        Char(
-            'x',
-        ),
-        Char(
-            '/',
-        ),
-        Char(
-            's',
-        ),
-        Char(
-            'r',
-        ),
-        Char(
-            'c',
-        ),
-        Char(
-            '/',
-        ),
-        Char(
-            'n',
-        ),
-        Char(
-            'e',
-        ),
-        Char(
-            'w',
-        ),
-        Char(
-            '-',
-        ),
-        Char(
-            'n',
-        ),
-        Char(
-            'u',
-        ),
-        Char(
-            '-',
-        ),
-        Char(
-            'p',
-        ),
-        Char(
-            'a',
-        ),
-        Char(
-            'r',
-        ),
-        Char(
-            's',
-        ),
-        Char(
-            'e',
-        ),
-        Char(
-            'r',
-        ),
-        Char(
-            '/',
-        ),
-        Char(
-            'C',
-        ),
-        Char(
-            'a',
-        ),
-        Char(
-            'r',
-        ),
-        Char(
-            'g',
-        ),
-        Char(
-            'o',
-        ),
-        Char(
-            '.',
-        ),
-        Char(
-            't',
-        ),
-        Char(
-            'o',
-        ),
-        Char(
-            'm',
-        ),
-        Char(
-            'l',
-        ),
-        Unknown(
-            27,
-        ),
-        Char(
-            '\\',
-        ),
-        Char(
-            'C',
-        ),
-        Char(
-            'a',
-        ),
-        Char(
-            'r',
-        ),
-        Char(
-            'g',
-        ),
-        Char(
-            'o',
-        ),
-        Char(
-            '.',
-        ),
-        Char(
-            't',
-        ),
-        Char(
-            'o',
-        ),
-        Char(
-            'm',
-        ),
-        Char(
-            'l',
-        ),
-        Unknown(
-            27,
-        ),
-        Char(
-            ']',
-        ),
-        Char(
-            '8',
-        ),
-        Char(
-            ';',
-        ),
-        Char(
-            ';',
-        ),
-        Unknown(
-            27,
-        ),
+        Token {
+            sgr: Unknown(
+                27,
+            ),
+            range: (
+                0,
+                1,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ']',
+            ),
+            range: (
+                1,
+                2,
+            ),
+        },
+        Token {
+            sgr: Char(
+                '8',
+            ),
+            range: (
+                2,
+                3,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ';',
+            ),
+            range: (
+                3,
+                4,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ';',
+            ),
+            range: (
+                4,
+                5,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'f',
+            ),
+            range: (
+                5,
+                6,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'i',
+            ),
+            range: (
+                6,
+                7,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'l',
+            ),
+            range: (
+                7,
+                8,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'e',
+            ),
+            range: (
+                8,
+                9,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ':',
+            ),
+            range: (
+                9,
+                10,
+            ),
+        },
+        Token {
+            sgr: Char(
+                '/',
+            ),
+            range: (
+                10,
+                11,
+            ),
+        },
+        Token {
+            sgr: Char(
+                '/',
+            ),
+            range: (
+                11,
+                12,
+            ),
+        },
+        Token {
+            sgr: Char(
+                '/',
+            ),
+            range: (
+                12,
+                13,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'U',
+            ),
+            range: (
+                13,
+                14,
+            ),
+        },
+        Token {
+            sgr: Char(
+                's',
+            ),
+            range: (
+                14,
+                15,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'e',
+            ),
+            range: (
+                15,
+                16,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'r',
+            ),
+            range: (
+                16,
+                17,
+            ),
+        },
+        Token {
+            sgr: Char(
+                's',
+            ),
+            range: (
+                17,
+                18,
+            ),
+        },
+        Token {
+            sgr: Char(
+                '/',
+            ),
+            range: (
+                18,
+                19,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'x',
+            ),
+            range: (
+                19,
+                20,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'x',
+            ),
+            range: (
+                20,
+                21,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'x',
+            ),
+            range: (
+                21,
+                22,
+            ),
+        },
+        Token {
+            sgr: Char(
+                '/',
+            ),
+            range: (
+                22,
+                23,
+            ),
+        },
+        Token {
+            sgr: Char(
+                's',
+            ),
+            range: (
+                23,
+                24,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'r',
+            ),
+            range: (
+                24,
+                25,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'c',
+            ),
+            range: (
+                25,
+                26,
+            ),
+        },
+        Token {
+            sgr: Char(
+                '/',
+            ),
+            range: (
+                26,
+                27,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'n',
+            ),
+            range: (
+                27,
+                28,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'e',
+            ),
+            range: (
+                28,
+                29,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'w',
+            ),
+            range: (
+                29,
+                30,
+            ),
+        },
+        Token {
+            sgr: Char(
+                '-',
+            ),
+            range: (
+                30,
+                31,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'n',
+            ),
+            range: (
+                31,
+                32,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'u',
+            ),
+            range: (
+                32,
+                33,
+            ),
+        },
+        Token {
+            sgr: Char(
+                '-',
+            ),
+            range: (
+                33,
+                34,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'p',
+            ),
+            range: (
+                34,
+                35,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'a',
+            ),
+            range: (
+                35,
+                36,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'r',
+            ),
+            range: (
+                36,
+                37,
+            ),
+        },
+        Token {
+            sgr: Char(
+                's',
+            ),
+            range: (
+                37,
+                38,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'e',
+            ),
+            range: (
+                38,
+                39,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'r',
+            ),
+            range: (
+                39,
+                40,
+            ),
+        },
+        Token {
+            sgr: Char(
+                '/',
+            ),
+            range: (
+                40,
+                41,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'C',
+            ),
+            range: (
+                41,
+                42,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'a',
+            ),
+            range: (
+                42,
+                43,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'r',
+            ),
+            range: (
+                43,
+                44,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'g',
+            ),
+            range: (
+                44,
+                45,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'o',
+            ),
+            range: (
+                45,
+                46,
+            ),
+        },
+        Token {
+            sgr: Char(
+                '.',
+            ),
+            range: (
+                46,
+                47,
+            ),
+        },
+        Token {
+            sgr: Char(
+                't',
+            ),
+            range: (
+                47,
+                48,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'o',
+            ),
+            range: (
+                48,
+                49,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'm',
+            ),
+            range: (
+                49,
+                50,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'l',
+            ),
+            range: (
+                50,
+                51,
+            ),
+        },
+        Token {
+            sgr: Unknown(
+                27,
+            ),
+            range: (
+                51,
+                52,
+            ),
+        },
+        Token {
+            sgr: Char(
+                '\\',
+            ),
+            range: (
+                52,
+                53,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'C',
+            ),
+            range: (
+                53,
+                54,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'a',
+            ),
+            range: (
+                54,
+                55,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'r',
+            ),
+            range: (
+                55,
+                56,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'g',
+            ),
+            range: (
+                56,
+                57,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'o',
+            ),
+            range: (
+                57,
+                58,
+            ),
+        },
+        Token {
+            sgr: Char(
+                '.',
+            ),
+            range: (
+                58,
+                59,
+            ),
+        },
+        Token {
+            sgr: Char(
+                't',
+            ),
+            range: (
+                59,
+                60,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'o',
+            ),
+            range: (
+                60,
+                61,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'm',
+            ),
+            range: (
+                61,
+                62,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'l',
+            ),
+            range: (
+                62,
+                63,
+            ),
+        },
+        Token {
+            sgr: Unknown(
+                27,
+            ),
+            range: (
+                63,
+                64,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ']',
+            ),
+            range: (
+                64,
+                65,
+            ),
+        },
+        Token {
+            sgr: Char(
+                '8',
+            ),
+            range: (
+                65,
+                66,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ';',
+            ),
+            range: (
+                66,
+                67,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ';',
+            ),
+            range: (
+                67,
+                68,
+            ),
+        },
+        Token {
+            sgr: Unknown(
+                27,
+            ),
+            range: (
+                68,
+                69,
+            ),
+        },
     ],
 )

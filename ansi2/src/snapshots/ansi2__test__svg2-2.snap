@@ -18,6 +18,46 @@ Canvas {
                 underline: false,
                 hide: false,
                 strike: false,
+                bg_color_r: (
+                    0,
+                    0,
+                ),
+                color_r: (
+                    0,
+                    0,
+                ),
+                bold_r: (
+                    0,
+                    0,
+                ),
+                blink_r: (
+                    0,
+                    0,
+                ),
+                text_r: (
+                    8,
+                    9,
+                ),
+                dim_r: (
+                    0,
+                    0,
+                ),
+                italic_r: (
+                    0,
+                    0,
+                ),
+                underline_r: (
+                    0,
+                    0,
+                ),
+                hide_r: (
+                    0,
+                    0,
+                ),
+                strike_r: (
+                    0,
+                    0,
+                ),
             },
             Node {
                 bg_color: Color8(
@@ -32,6 +72,46 @@ Canvas {
                 underline: false,
                 hide: false,
                 strike: false,
+                bg_color_r: (
+                    0,
+                    0,
+                ),
+                color_r: (
+                    0,
+                    0,
+                ),
+                bold_r: (
+                    0,
+                    0,
+                ),
+                blink_r: (
+                    0,
+                    0,
+                ),
+                text_r: (
+                    9,
+                    10,
+                ),
+                dim_r: (
+                    0,
+                    0,
+                ),
+                italic_r: (
+                    0,
+                    0,
+                ),
+                underline_r: (
+                    0,
+                    0,
+                ),
+                hide_r: (
+                    0,
+                    0,
+                ),
+                strike_r: (
+                    0,
+                    0,
+                ),
             },
             Node {
                 bg_color: Color8(
@@ -46,6 +126,46 @@ Canvas {
                 underline: false,
                 hide: false,
                 strike: false,
+                bg_color_r: (
+                    0,
+                    0,
+                ),
+                color_r: (
+                    0,
+                    0,
+                ),
+                bold_r: (
+                    0,
+                    0,
+                ),
+                blink_r: (
+                    0,
+                    0,
+                ),
+                text_r: (
+                    10,
+                    11,
+                ),
+                dim_r: (
+                    0,
+                    0,
+                ),
+                italic_r: (
+                    0,
+                    0,
+                ),
+                underline_r: (
+                    0,
+                    0,
+                ),
+                hide_r: (
+                    0,
+                    0,
+                ),
+                strike_r: (
+                    0,
+                    0,
+                ),
             },
             Node {
                 bg_color: Color8(
@@ -60,6 +180,46 @@ Canvas {
                 underline: false,
                 hide: false,
                 strike: false,
+                bg_color_r: (
+                    0,
+                    0,
+                ),
+                color_r: (
+                    0,
+                    0,
+                ),
+                bold_r: (
+                    0,
+                    0,
+                ),
+                blink_r: (
+                    0,
+                    0,
+                ),
+                text_r: (
+                    11,
+                    12,
+                ),
+                dim_r: (
+                    0,
+                    0,
+                ),
+                italic_r: (
+                    0,
+                    0,
+                ),
+                underline_r: (
+                    0,
+                    0,
+                ),
+                hide_r: (
+                    0,
+                    0,
+                ),
+                strike_r: (
+                    0,
+                    0,
+                ),
             },
             Node {
                 bg_color: Color8(
@@ -74,6 +234,46 @@ Canvas {
                 underline: false,
                 hide: false,
                 strike: false,
+                bg_color_r: (
+                    0,
+                    0,
+                ),
+                color_r: (
+                    0,
+                    0,
+                ),
+                bold_r: (
+                    0,
+                    0,
+                ),
+                blink_r: (
+                    0,
+                    0,
+                ),
+                text_r: (
+                    12,
+                    13,
+                ),
+                dim_r: (
+                    0,
+                    0,
+                ),
+                italic_r: (
+                    0,
+                    0,
+                ),
+                underline_r: (
+                    0,
+                    0,
+                ),
+                hide_r: (
+                    0,
+                    0,
+                ),
+                strike_r: (
+                    0,
+                    0,
+                ),
             },
             Node {
                 bg_color: Color8(
@@ -88,6 +288,46 @@ Canvas {
                 underline: false,
                 hide: false,
                 strike: false,
+                bg_color_r: (
+                    0,
+                    0,
+                ),
+                color_r: (
+                    0,
+                    0,
+                ),
+                bold_r: (
+                    0,
+                    0,
+                ),
+                blink_r: (
+                    0,
+                    0,
+                ),
+                text_r: (
+                    13,
+                    14,
+                ),
+                dim_r: (
+                    0,
+                    0,
+                ),
+                italic_r: (
+                    0,
+                    0,
+                ),
+                underline_r: (
+                    0,
+                    0,
+                ),
+                hide_r: (
+                    0,
+                    0,
+                ),
+                strike_r: (
+                    0,
+                    0,
+                ),
             },
             Node {
                 bg_color: Color8(
@@ -102,6 +342,46 @@ Canvas {
                 underline: false,
                 hide: false,
                 strike: false,
+                bg_color_r: (
+                    0,
+                    0,
+                ),
+                color_r: (
+                    0,
+                    0,
+                ),
+                bold_r: (
+                    0,
+                    0,
+                ),
+                blink_r: (
+                    0,
+                    0,
+                ),
+                text_r: (
+                    14,
+                    15,
+                ),
+                dim_r: (
+                    0,
+                    0,
+                ),
+                italic_r: (
+                    0,
+                    0,
+                ),
+                underline_r: (
+                    0,
+                    0,
+                ),
+                hide_r: (
+                    0,
+                    0,
+                ),
+                strike_r: (
+                    0,
+                    0,
+                ),
             },
             Node {
                 bg_color: Color8(
@@ -116,6 +396,46 @@ Canvas {
                 underline: false,
                 hide: false,
                 strike: false,
+                bg_color_r: (
+                    0,
+                    0,
+                ),
+                color_r: (
+                    0,
+                    0,
+                ),
+                bold_r: (
+                    0,
+                    0,
+                ),
+                blink_r: (
+                    0,
+                    0,
+                ),
+                text_r: (
+                    15,
+                    16,
+                ),
+                dim_r: (
+                    0,
+                    0,
+                ),
+                italic_r: (
+                    0,
+                    0,
+                ),
+                underline_r: (
+                    0,
+                    0,
+                ),
+                hide_r: (
+                    0,
+                    0,
+                ),
+                strike_r: (
+                    0,
+                    0,
+                ),
             },
             Node {
                 bg_color: Color8(
@@ -130,6 +450,46 @@ Canvas {
                 underline: false,
                 hide: false,
                 strike: false,
+                bg_color_r: (
+                    0,
+                    0,
+                ),
+                color_r: (
+                    0,
+                    0,
+                ),
+                bold_r: (
+                    16,
+                    20,
+                ),
+                blink_r: (
+                    16,
+                    20,
+                ),
+                text_r: (
+                    28,
+                    29,
+                ),
+                dim_r: (
+                    16,
+                    20,
+                ),
+                italic_r: (
+                    16,
+                    20,
+                ),
+                underline_r: (
+                    16,
+                    20,
+                ),
+                hide_r: (
+                    16,
+                    20,
+                ),
+                strike_r: (
+                    16,
+                    20,
+                ),
             },
             Node {
                 bg_color: Color8(
@@ -144,6 +504,46 @@ Canvas {
                 underline: false,
                 hide: false,
                 strike: false,
+                bg_color_r: (
+                    0,
+                    0,
+                ),
+                color_r: (
+                    0,
+                    0,
+                ),
+                bold_r: (
+                    16,
+                    20,
+                ),
+                blink_r: (
+                    16,
+                    20,
+                ),
+                text_r: (
+                    29,
+                    30,
+                ),
+                dim_r: (
+                    16,
+                    20,
+                ),
+                italic_r: (
+                    16,
+                    20,
+                ),
+                underline_r: (
+                    16,
+                    20,
+                ),
+                hide_r: (
+                    16,
+                    20,
+                ),
+                strike_r: (
+                    16,
+                    20,
+                ),
             },
             Node {
                 bg_color: Color8(
@@ -158,6 +558,46 @@ Canvas {
                 underline: false,
                 hide: false,
                 strike: false,
+                bg_color_r: (
+                    0,
+                    0,
+                ),
+                color_r: (
+                    0,
+                    0,
+                ),
+                bold_r: (
+                    16,
+                    20,
+                ),
+                blink_r: (
+                    16,
+                    20,
+                ),
+                text_r: (
+                    30,
+                    31,
+                ),
+                dim_r: (
+                    16,
+                    20,
+                ),
+                italic_r: (
+                    16,
+                    20,
+                ),
+                underline_r: (
+                    16,
+                    20,
+                ),
+                hide_r: (
+                    16,
+                    20,
+                ),
+                strike_r: (
+                    16,
+                    20,
+                ),
             },
             Node {
                 bg_color: Color8(
@@ -172,6 +612,46 @@ Canvas {
                 underline: false,
                 hide: false,
                 strike: false,
+                bg_color_r: (
+                    0,
+                    0,
+                ),
+                color_r: (
+                    0,
+                    0,
+                ),
+                bold_r: (
+                    16,
+                    20,
+                ),
+                blink_r: (
+                    16,
+                    20,
+                ),
+                text_r: (
+                    31,
+                    32,
+                ),
+                dim_r: (
+                    16,
+                    20,
+                ),
+                italic_r: (
+                    16,
+                    20,
+                ),
+                underline_r: (
+                    16,
+                    20,
+                ),
+                hide_r: (
+                    16,
+                    20,
+                ),
+                strike_r: (
+                    16,
+                    20,
+                ),
             },
             Node {
                 bg_color: Color8(
@@ -186,6 +666,46 @@ Canvas {
                 underline: false,
                 hide: false,
                 strike: false,
+                bg_color_r: (
+                    0,
+                    0,
+                ),
+                color_r: (
+                    0,
+                    0,
+                ),
+                bold_r: (
+                    16,
+                    20,
+                ),
+                blink_r: (
+                    16,
+                    20,
+                ),
+                text_r: (
+                    32,
+                    33,
+                ),
+                dim_r: (
+                    16,
+                    20,
+                ),
+                italic_r: (
+                    16,
+                    20,
+                ),
+                underline_r: (
+                    16,
+                    20,
+                ),
+                hide_r: (
+                    16,
+                    20,
+                ),
+                strike_r: (
+                    16,
+                    20,
+                ),
             },
             Node {
                 bg_color: Color8(
@@ -200,6 +720,46 @@ Canvas {
                 underline: false,
                 hide: false,
                 strike: false,
+                bg_color_r: (
+                    0,
+                    0,
+                ),
+                color_r: (
+                    0,
+                    0,
+                ),
+                bold_r: (
+                    16,
+                    20,
+                ),
+                blink_r: (
+                    16,
+                    20,
+                ),
+                text_r: (
+                    33,
+                    34,
+                ),
+                dim_r: (
+                    16,
+                    20,
+                ),
+                italic_r: (
+                    16,
+                    20,
+                ),
+                underline_r: (
+                    16,
+                    20,
+                ),
+                hide_r: (
+                    16,
+                    20,
+                ),
+                strike_r: (
+                    16,
+                    20,
+                ),
             },
             Node {
                 bg_color: Color8(
@@ -214,6 +774,46 @@ Canvas {
                 underline: false,
                 hide: false,
                 strike: false,
+                bg_color_r: (
+                    0,
+                    0,
+                ),
+                color_r: (
+                    0,
+                    0,
+                ),
+                bold_r: (
+                    16,
+                    20,
+                ),
+                blink_r: (
+                    16,
+                    20,
+                ),
+                text_r: (
+                    34,
+                    35,
+                ),
+                dim_r: (
+                    16,
+                    20,
+                ),
+                italic_r: (
+                    16,
+                    20,
+                ),
+                underline_r: (
+                    16,
+                    20,
+                ),
+                hide_r: (
+                    16,
+                    20,
+                ),
+                strike_r: (
+                    16,
+                    20,
+                ),
             },
         ],
     ],

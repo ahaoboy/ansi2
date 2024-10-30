@@ -1,4 +1,4 @@
-use crate::Canvas;
+use crate::canvas::Canvas;
 
 pub fn to_text<S: AsRef<str>>(str: S, width: Option<usize>) -> String {
     let s = str.as_ref();

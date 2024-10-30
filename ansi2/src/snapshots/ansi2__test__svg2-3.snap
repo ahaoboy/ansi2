@@ -17,6 +17,46 @@ expression: canvas.minify()
             underline: false,
             hide: false,
             strike: false,
+            bg_color_r: (
+                0,
+                0,
+            ),
+            color_r: (
+                0,
+                0,
+            ),
+            bold_r: (
+                0,
+                0,
+            ),
+            blink_r: (
+                0,
+                0,
+            ),
+            text_r: (
+                8,
+                16,
+            ),
+            dim_r: (
+                0,
+                0,
+            ),
+            italic_r: (
+                0,
+                0,
+            ),
+            underline_r: (
+                0,
+                0,
+            ),
+            hide_r: (
+                0,
+                0,
+            ),
+            strike_r: (
+                0,
+                0,
+            ),
         },
         Node {
             bg_color: Color8(
@@ -31,6 +71,46 @@ expression: canvas.minify()
             underline: false,
             hide: false,
             strike: false,
+            bg_color_r: (
+                0,
+                0,
+            ),
+            color_r: (
+                0,
+                0,
+            ),
+            bold_r: (
+                16,
+                20,
+            ),
+            blink_r: (
+                16,
+                20,
+            ),
+            text_r: (
+                28,
+                35,
+            ),
+            dim_r: (
+                16,
+                20,
+            ),
+            italic_r: (
+                16,
+                20,
+            ),
+            underline_r: (
+                16,
+                20,
+            ),
+            hide_r: (
+                16,
+                20,
+            ),
+            strike_r: (
+                16,
+                20,
+            ),
         },
     ],
 ]

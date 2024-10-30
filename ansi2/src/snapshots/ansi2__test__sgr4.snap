@@ -5,24 +5,48 @@ expression: r
 (
     "",
     [
-        List(
-            [
-                ColorReset,
-                ColorBackground(
-                    Color256(
-                        45,
+        Token {
+            sgr: List(
+                [
+                    ColorReset,
+                    ColorBackground(
+                        Color256(
+                            45,
+                        ),
                     ),
-                ),
-            ],
-        ),
-        Char(
-            'a',
-        ),
-        Char(
-            'a',
-        ),
-        Char(
-            'a',
-        ),
+                ],
+            ),
+            range: (
+                0,
+                12,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'a',
+            ),
+            range: (
+                12,
+                13,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'a',
+            ),
+            range: (
+                13,
+                14,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'a',
+            ),
+            range: (
+                14,
+                15,
+            ),
+        },
     ],
 )

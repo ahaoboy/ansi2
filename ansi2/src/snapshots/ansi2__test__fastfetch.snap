@@ -5,14 +5,32 @@ expression: r
 (
     "",
     [
-        CursorHorizontalAbsolute(
-            1,
-        ),
-        CursorUp(
-            19,
-        ),
-        CursorForward(
-            47,
-        ),
+        Token {
+            sgr: CursorHorizontalAbsolute(
+                1,
+            ),
+            range: (
+                0,
+                4,
+            ),
+        },
+        Token {
+            sgr: CursorUp(
+                19,
+            ),
+            range: (
+                4,
+                9,
+            ),
+        },
+        Token {
+            sgr: CursorForward(
+                47,
+            ),
+            range: (
+                9,
+                14,
+            ),
+        },
     ],
 )
