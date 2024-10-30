@@ -74,6 +74,7 @@ impl Style {
             self.bg_colors.push(c);
         }
     }
+    #[allow(clippy::too_many_arguments)]
     pub fn to_css<T: ColorTable>(
         &self,
         theme: T,
