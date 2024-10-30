@@ -5,17 +5,41 @@ expression: r
 (
     "",
     [
-        Char(
-            'a',
-        ),
-        Char(
-            'n',
-        ),
-        Char(
-            's',
-        ),
-        Char(
-            'i',
-        ),
+        Token {
+            sgr: Char(
+                'a',
+            ),
+            range: (
+                0,
+                1,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'n',
+            ),
+            range: (
+                1,
+                2,
+            ),
+        },
+        Token {
+            sgr: Char(
+                's',
+            ),
+            range: (
+                2,
+                3,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'i',
+            ),
+            range: (
+                3,
+                4,
+            ),
+        },
     ],
 )

@@ -46,6 +46,9 @@ struct Args {
 
     #[arg(long)]
     length_adjust: Option<String>,
+
+    #[arg(short, long, default_value_t = false)]
+    sourcemap: bool,
 }
 
 fn main() {
@@ -61,6 +64,7 @@ fn main() {
         dark_bg,
         font_size,
         length_adjust,
+        sourcemap,
     } = args;
     let format = format.unwrap_or(Format::Svg);
     let theme = theme.unwrap_or(Theme::Vscode);
@@ -96,6 +100,7 @@ fn main() {
                 dark_bg,
                 font_size,
                 length_adjust,
+                sourcemap,
             );
             if compress {
                 svg = osvg::osvg(
@@ -120,7 +125,9 @@ fn main() {
             }
             svg
         }
-        Format::Html => to_html(&s, theme, width, base64, mode, light_bg, dark_bg, font_size),
+        Format::Html => to_html(
+            &s, theme, width, base64, mode, light_bg, dark_bg, font_size, sourcemap,
+        ),
         Format::Text => to_text(&s, width),
         Format::Ans => to_ans(&s, width, compress),
     };

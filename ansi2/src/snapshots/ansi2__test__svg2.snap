@@ -5,71 +5,179 @@ expression: r
 (
     "",
     [
-        List(
-            [
-                ColorDefaultForeground,
-                ColorBackground(
-                    Color8(
-                        Black,
+        Token {
+            sgr: List(
+                [
+                    ColorDefaultForeground,
+                    ColorBackground(
+                        Color8(
+                            Black,
+                        ),
                     ),
-                ),
-            ],
-        ),
-        Char(
-            ' ',
-        ),
-        Char(
-            '3',
-        ),
-        Char(
-            '9',
-        ),
-        Char(
-            ';',
-        ),
-        Char(
-            '4',
-        ),
-        Char(
-            '0',
-        ),
-        Char(
-            'm',
-        ),
-        Char(
-            ' ',
-        ),
-        ColorReset,
-        List(
-            [
-                ColorDefaultForeground,
-                ColorBackground(
-                    Color8(
-                        Red,
+                ],
+            ),
+            range: (
+                0,
+                8,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ' ',
+            ),
+            range: (
+                8,
+                9,
+            ),
+        },
+        Token {
+            sgr: Char(
+                '3',
+            ),
+            range: (
+                9,
+                10,
+            ),
+        },
+        Token {
+            sgr: Char(
+                '9',
+            ),
+            range: (
+                10,
+                11,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ';',
+            ),
+            range: (
+                11,
+                12,
+            ),
+        },
+        Token {
+            sgr: Char(
+                '4',
+            ),
+            range: (
+                12,
+                13,
+            ),
+        },
+        Token {
+            sgr: Char(
+                '0',
+            ),
+            range: (
+                13,
+                14,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'm',
+            ),
+            range: (
+                14,
+                15,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ' ',
+            ),
+            range: (
+                15,
+                16,
+            ),
+        },
+        Token {
+            sgr: ColorReset,
+            range: (
+                16,
+                20,
+            ),
+        },
+        Token {
+            sgr: List(
+                [
+                    ColorDefaultForeground,
+                    ColorBackground(
+                        Color8(
+                            Red,
+                        ),
                     ),
-                ),
-            ],
-        ),
-        Char(
-            ' ',
-        ),
-        Char(
-            '3',
-        ),
-        Char(
-            '9',
-        ),
-        Char(
-            ';',
-        ),
-        Char(
-            '4',
-        ),
-        Char(
-            '1',
-        ),
-        Char(
-            'm',
-        ),
+                ],
+            ),
+            range: (
+                20,
+                28,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ' ',
+            ),
+            range: (
+                28,
+                29,
+            ),
+        },
+        Token {
+            sgr: Char(
+                '3',
+            ),
+            range: (
+                29,
+                30,
+            ),
+        },
+        Token {
+            sgr: Char(
+                '9',
+            ),
+            range: (
+                30,
+                31,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ';',
+            ),
+            range: (
+                31,
+                32,
+            ),
+        },
+        Token {
+            sgr: Char(
+                '4',
+            ),
+            range: (
+                32,
+                33,
+            ),
+        },
+        Token {
+            sgr: Char(
+                '1',
+            ),
+            range: (
+                33,
+                34,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'm',
+            ),
+            range: (
+                34,
+                35,
+            ),
+        },
     ],
 )

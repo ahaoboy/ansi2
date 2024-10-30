@@ -5,9 +5,15 @@ expression: r
 (
     "",
     [
-        Link(
-            "file://win/c/code/ansi2/target",
-            "target",
-        ),
+        Token {
+            sgr: Link(
+                "file://win/c/code/ansi2/target",
+                "target",
+            ),
+            range: (
+                0,
+                48,
+            ),
+        },
     ],
 )

@@ -5,170 +5,500 @@ expression: r
 (
     "",
     [
-        ColorForeground(
-            Color8(
-                Black,
+        Token {
+            sgr: ColorForeground(
+                Color8(
+                    Black,
+                ),
             ),
-        ),
-        Char(
-            'b',
-        ),
-        Char(
-            'l',
-        ),
-        Char(
-            'a',
-        ),
-        Char(
-            'c',
-        ),
-        Char(
-            'k',
-        ),
-        ColorReset,
-        Char(
-            ' ',
-        ),
-        Char(
-            ' ',
-        ),
-        Char(
-            ' ',
-        ),
-        Char(
-            ' ',
-        ),
-        ColorForeground(
-            Color8(
-                BrightBlack,
+            range: (
+                0,
+                5,
             ),
-        ),
-        Char(
-            'b',
-        ),
-        Char(
-            'r',
-        ),
-        Char(
-            'i',
-        ),
-        Char(
-            'g',
-        ),
-        Char(
-            'h',
-        ),
-        Char(
-            't',
-        ),
-        Char(
-            ' ',
-        ),
-        Char(
-            'b',
-        ),
-        Char(
-            'l',
-        ),
-        Char(
-            'a',
-        ),
-        Char(
-            'c',
-        ),
-        Char(
-            'k',
-        ),
-        ColorReset,
-        Char(
-            ' ',
-        ),
-        Char(
-            ' ',
-        ),
-        Char(
-            ' ',
-        ),
-        Char(
-            ' ',
-        ),
-        Char(
-            ' ',
-        ),
-        ColorBackground(
-            Color8(
-                Black,
+        },
+        Token {
+            sgr: Char(
+                'b',
             ),
-        ),
-        Char(
-            'b',
-        ),
-        Char(
-            'l',
-        ),
-        Char(
-            'a',
-        ),
-        Char(
-            'c',
-        ),
-        Char(
-            'k',
-        ),
-        ColorReset,
-        Char(
-            ' ',
-        ),
-        Char(
-            ' ',
-        ),
-        Char(
-            ' ',
-        ),
-        Char(
-            ' ',
-        ),
-        ColorBackground(
-            Color8(
-                BrightBlack,
+            range: (
+                5,
+                6,
             ),
-        ),
-        Char(
-            'b',
-        ),
-        Char(
-            'r',
-        ),
-        Char(
-            'i',
-        ),
-        Char(
-            'g',
-        ),
-        Char(
-            'h',
-        ),
-        Char(
-            't',
-        ),
-        Char(
-            ' ',
-        ),
-        Char(
-            'b',
-        ),
-        Char(
-            'l',
-        ),
-        Char(
-            'a',
-        ),
-        Char(
-            'c',
-        ),
-        Char(
-            'k',
-        ),
-        ColorReset,
+        },
+        Token {
+            sgr: Char(
+                'l',
+            ),
+            range: (
+                6,
+                7,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'a',
+            ),
+            range: (
+                7,
+                8,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'c',
+            ),
+            range: (
+                8,
+                9,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'k',
+            ),
+            range: (
+                9,
+                10,
+            ),
+        },
+        Token {
+            sgr: ColorReset,
+            range: (
+                10,
+                14,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ' ',
+            ),
+            range: (
+                14,
+                15,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ' ',
+            ),
+            range: (
+                15,
+                16,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ' ',
+            ),
+            range: (
+                16,
+                17,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ' ',
+            ),
+            range: (
+                17,
+                18,
+            ),
+        },
+        Token {
+            sgr: ColorForeground(
+                Color8(
+                    BrightBlack,
+                ),
+            ),
+            range: (
+                18,
+                23,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'b',
+            ),
+            range: (
+                23,
+                24,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'r',
+            ),
+            range: (
+                24,
+                25,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'i',
+            ),
+            range: (
+                25,
+                26,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'g',
+            ),
+            range: (
+                26,
+                27,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'h',
+            ),
+            range: (
+                27,
+                28,
+            ),
+        },
+        Token {
+            sgr: Char(
+                't',
+            ),
+            range: (
+                28,
+                29,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ' ',
+            ),
+            range: (
+                29,
+                30,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'b',
+            ),
+            range: (
+                30,
+                31,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'l',
+            ),
+            range: (
+                31,
+                32,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'a',
+            ),
+            range: (
+                32,
+                33,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'c',
+            ),
+            range: (
+                33,
+                34,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'k',
+            ),
+            range: (
+                34,
+                35,
+            ),
+        },
+        Token {
+            sgr: ColorReset,
+            range: (
+                35,
+                39,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ' ',
+            ),
+            range: (
+                39,
+                40,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ' ',
+            ),
+            range: (
+                40,
+                41,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ' ',
+            ),
+            range: (
+                41,
+                42,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ' ',
+            ),
+            range: (
+                42,
+                43,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ' ',
+            ),
+            range: (
+                43,
+                44,
+            ),
+        },
+        Token {
+            sgr: ColorBackground(
+                Color8(
+                    Black,
+                ),
+            ),
+            range: (
+                44,
+                49,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'b',
+            ),
+            range: (
+                49,
+                50,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'l',
+            ),
+            range: (
+                50,
+                51,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'a',
+            ),
+            range: (
+                51,
+                52,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'c',
+            ),
+            range: (
+                52,
+                53,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'k',
+            ),
+            range: (
+                53,
+                54,
+            ),
+        },
+        Token {
+            sgr: ColorReset,
+            range: (
+                54,
+                58,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ' ',
+            ),
+            range: (
+                58,
+                59,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ' ',
+            ),
+            range: (
+                59,
+                60,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ' ',
+            ),
+            range: (
+                60,
+                61,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ' ',
+            ),
+            range: (
+                61,
+                62,
+            ),
+        },
+        Token {
+            sgr: ColorBackground(
+                Color8(
+                    BrightBlack,
+                ),
+            ),
+            range: (
+                62,
+                68,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'b',
+            ),
+            range: (
+                68,
+                69,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'r',
+            ),
+            range: (
+                69,
+                70,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'i',
+            ),
+            range: (
+                70,
+                71,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'g',
+            ),
+            range: (
+                71,
+                72,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'h',
+            ),
+            range: (
+                72,
+                73,
+            ),
+        },
+        Token {
+            sgr: Char(
+                't',
+            ),
+            range: (
+                73,
+                74,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ' ',
+            ),
+            range: (
+                74,
+                75,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'b',
+            ),
+            range: (
+                75,
+                76,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'l',
+            ),
+            range: (
+                76,
+                77,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'a',
+            ),
+            range: (
+                77,
+                78,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'c',
+            ),
+            range: (
+                78,
+                79,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'k',
+            ),
+            range: (
+                79,
+                80,
+            ),
+        },
+        Token {
+            sgr: ColorReset,
+            range: (
+                80,
+                84,
+            ),
+        },
     ],
 )

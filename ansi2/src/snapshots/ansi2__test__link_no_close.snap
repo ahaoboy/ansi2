@@ -5,16 +5,34 @@ expression: r
 (
     "",
     [
-        Link(
-            "http://example.com/foo",
-            "foo\u{1b}]8;;http://example.com/foo\u{1b}\\foo",
-        ),
-        Char(
-            ' ',
-        ),
-        Link(
-            "http://example.com/foo",
-            "foo\u{1b}]8;;http://example.com/bar\u{1b}\\bar",
-        ),
+        Token {
+            sgr: Link(
+                "http://example.com/foo",
+                "foo\u{1b}]8;;http://example.com/foo\u{1b}\\foo",
+            ),
+            range: (
+                0,
+                71,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ' ',
+            ),
+            range: (
+                71,
+                72,
+            ),
+        },
+        Token {
+            sgr: Link(
+                "http://example.com/foo",
+                "foo\u{1b}]8;;http://example.com/bar\u{1b}\\bar",
+            ),
+            range: (
+                72,
+                143,
+            ),
+        },
     ],
 )

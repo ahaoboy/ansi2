@@ -5,26 +5,68 @@ expression: r
 (
     "",
     [
-        Unknown(
-            27,
-        ),
-        Char(
-            ']',
-        ),
-        Char(
-            '8',
-        ),
-        Char(
-            ';',
-        ),
-        Char(
-            ';',
-        ),
-        Unknown(
-            27,
-        ),
-        Char(
-            '\\',
-        ),
+        Token {
+            sgr: Unknown(
+                27,
+            ),
+            range: (
+                0,
+                1,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ']',
+            ),
+            range: (
+                1,
+                2,
+            ),
+        },
+        Token {
+            sgr: Char(
+                '8',
+            ),
+            range: (
+                2,
+                3,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ';',
+            ),
+            range: (
+                3,
+                4,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ';',
+            ),
+            range: (
+                4,
+                5,
+            ),
+        },
+        Token {
+            sgr: Unknown(
+                27,
+            ),
+            range: (
+                5,
+                6,
+            ),
+        },
+        Token {
+            sgr: Char(
+                '\\',
+            ),
+            range: (
+                6,
+                7,
+            ),
+        },
     ],
 )

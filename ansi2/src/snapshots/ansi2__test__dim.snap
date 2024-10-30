@@ -5,36 +5,96 @@ expression: r
 (
     "",
     [
-        ColorDefaultForeground,
-        List(
-            [
-                Dim,
-                ColorDefaultForeground,
-            ],
-        ),
-        Char(
-            'N',
-        ),
-        Char(
-            'U',
-        ),
-        Char(
-            'S',
-        ),
-        Char(
-            'H',
-        ),
-        Char(
-            'E',
-        ),
-        Char(
-            'L',
-        ),
-        Char(
-            'L',
-        ),
-        Unknown(
-            27,
-        ),
+        Token {
+            sgr: ColorDefaultForeground,
+            range: (
+                0,
+                5,
+            ),
+        },
+        Token {
+            sgr: List(
+                [
+                    Dim,
+                    ColorDefaultForeground,
+                ],
+            ),
+            range: (
+                5,
+                12,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'N',
+            ),
+            range: (
+                12,
+                13,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'U',
+            ),
+            range: (
+                13,
+                14,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'S',
+            ),
+            range: (
+                14,
+                15,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'H',
+            ),
+            range: (
+                15,
+                16,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'E',
+            ),
+            range: (
+                16,
+                17,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'L',
+            ),
+            range: (
+                17,
+                18,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'L',
+            ),
+            range: (
+                18,
+                19,
+            ),
+        },
+        Token {
+            sgr: Unknown(
+                27,
+            ),
+            range: (
+                19,
+                20,
+            ),
+        },
     ],
 )

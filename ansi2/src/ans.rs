@@ -1,6 +1,6 @@
 use std::collections::BinaryHeap;
 
-use crate::{color::AnsiColor, Canvas, Node};
+use crate::{canvas::Canvas, color::AnsiColor, node::Node};
 #[derive(Debug, Clone, PartialEq, Eq)]
 struct Item {
     state: Node,
@@ -278,8 +278,9 @@ mod test {
 
     use crate::{
         ans::{bfs, to_ans},
+        canvas::Canvas,
         color::AnsiColor,
-        Canvas, Node,
+        node::Node,
     };
 
     use super::min_distance;

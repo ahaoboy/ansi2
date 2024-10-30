@@ -5,21 +5,27 @@ expression: r
 (
     "",
     [
-        List(
-            [
-                ColorReset,
-                SlowBlink,
-                ColorForeground(
-                    Color8(
-                        Magenta,
+        Token {
+            sgr: List(
+                [
+                    ColorReset,
+                    SlowBlink,
+                    ColorForeground(
+                        Color8(
+                            Magenta,
+                        ),
                     ),
-                ),
-                ColorBackground(
-                    Color8(
-                        Magenta,
+                    ColorBackground(
+                        Color8(
+                            Magenta,
+                        ),
                     ),
-                ),
-            ],
-        ),
+                ],
+            ),
+            range: (
+                0,
+                12,
+            ),
+        },
     ],
 )

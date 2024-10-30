@@ -5,22 +5,64 @@ expression: r
 (
     "",
     [
-        CursorHide,
-        Title(
-            "/c/wt",
-        ),
-        ColorForeground(
-            Color8(
-                Black,
+        Token {
+            sgr: CursorHide,
+            range: (
+                0,
+                8,
             ),
-        ),
-        Bold,
-        ColorReset,
-        EraseInDisplay(
-            0,
-        ),
-        EraseInLine(
-            0,
-        ),
+        },
+        Token {
+            sgr: Title(
+                "/c/wt",
+            ),
+            range: (
+                8,
+                18,
+            ),
+        },
+        Token {
+            sgr: ColorForeground(
+                Color8(
+                    Black,
+                ),
+            ),
+            range: (
+                18,
+                23,
+            ),
+        },
+        Token {
+            sgr: Bold,
+            range: (
+                23,
+                26,
+            ),
+        },
+        Token {
+            sgr: ColorReset,
+            range: (
+                26,
+                29,
+            ),
+        },
+        Token {
+            sgr: EraseInDisplay(
+                0,
+            ),
+            range: (
+                29,
+                32,
+            ),
+        },
+        Token {
+            sgr: EraseInLine(
+                0,
+            ),
+            range: (
+                32,
+                35,
+            ),
+        },
     ],
 )

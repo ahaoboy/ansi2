@@ -5,131 +5,281 @@ expression: r
 (
     "",
     [
-        ColorForeground(
-            Rgb(
-                218,
-                98,
-                125,
+        Token {
+            sgr: ColorForeground(
+                Rgb(
+                    218,
+                    98,
+                    125,
+                ),
             ),
-        ),
-        Char(
-            '\u{e0b6}',
-        ),
-        ColorFgBg(
-            Color8(
-                Black,
+            range: (
+                0,
+                18,
             ),
-            Rgb(
-                218,
-                98,
-                125,
+        },
+        Token {
+            sgr: Char(
+                '\u{e0b6}',
             ),
-        ),
-        Char(
-            'w',
-        ),
-        Char(
-            'i',
-        ),
-        Char(
-            'n',
-        ),
-        ColorForeground(
-            Rgb(
-                218,
-                98,
-                125,
+            range: (
+                18,
+                19,
             ),
-        ),
-        Char(
-            '\u{e0b0}',
-        ),
-        ColorForeground(
-            Color8(
-                Black,
+        },
+        Token {
+            sgr: ColorFgBg(
+                Color8(
+                    Black,
+                ),
+                Rgb(
+                    218,
+                    98,
+                    125,
+                ),
             ),
-        ),
-        Char(
-            'C',
-        ),
-        Char(
-            ':',
-        ),
-        Char(
-            '/',
-        ),
-        Char(
-            'w',
-        ),
-        Char(
-            't',
-        ),
-        Char(
-            ' ',
-        ),
-        ColorFgBg(
-            Rgb(
-                218,
-                98,
-                125,
+            range: (
+                19,
+                40,
             ),
-            Rgb(
-                252,
-                161,
-                125,
+        },
+        Token {
+            sgr: Char(
+                'w',
             ),
-        ),
-        Char(
-            '\u{e0b0}',
-        ),
-        ColorFgBg(
-            Rgb(
-                252,
-                161,
-                125,
+            range: (
+                40,
+                41,
             ),
-            Rgb(
-                134,
-                187,
-                216,
+        },
+        Token {
+            sgr: Char(
+                'i',
             ),
-        ),
-        Char(
-            '\u{e0b0}',
-        ),
-        ColorFgBg(
-            Rgb(
-                134,
-                187,
-                216,
+            range: (
+                41,
+                42,
             ),
-            Rgb(
-                6,
-                150,
-                154,
+        },
+        Token {
+            sgr: Char(
+                'n',
             ),
-        ),
-        Char(
-            '\u{e0b0}',
-        ),
-        ColorFgBg(
-            Rgb(
-                6,
-                150,
-                154,
+            range: (
+                42,
+                43,
             ),
-            Rgb(
-                51,
-                101,
-                138,
+        },
+        Token {
+            sgr: ColorForeground(
+                Rgb(
+                    218,
+                    98,
+                    125,
+                ),
             ),
-        ),
-        Char(
-            '\u{e0b0}',
-        ),
-        ColorReset,
-        EraseInLine(
-            0,
-        ),
+            range: (
+                43,
+                61,
+            ),
+        },
+        Token {
+            sgr: Char(
+                '\u{e0b0}',
+            ),
+            range: (
+                61,
+                62,
+            ),
+        },
+        Token {
+            sgr: ColorForeground(
+                Color8(
+                    Black,
+                ),
+            ),
+            range: (
+                62,
+                67,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'C',
+            ),
+            range: (
+                67,
+                68,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ':',
+            ),
+            range: (
+                68,
+                69,
+            ),
+        },
+        Token {
+            sgr: Char(
+                '/',
+            ),
+            range: (
+                69,
+                70,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'w',
+            ),
+            range: (
+                70,
+                71,
+            ),
+        },
+        Token {
+            sgr: Char(
+                't',
+            ),
+            range: (
+                71,
+                72,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ' ',
+            ),
+            range: (
+                72,
+                73,
+            ),
+        },
+        Token {
+            sgr: ColorFgBg(
+                Rgb(
+                    218,
+                    98,
+                    125,
+                ),
+                Rgb(
+                    252,
+                    161,
+                    125,
+                ),
+            ),
+            range: (
+                73,
+                108,
+            ),
+        },
+        Token {
+            sgr: Char(
+                '\u{e0b0}',
+            ),
+            range: (
+                108,
+                109,
+            ),
+        },
+        Token {
+            sgr: ColorFgBg(
+                Rgb(
+                    252,
+                    161,
+                    125,
+                ),
+                Rgb(
+                    134,
+                    187,
+                    216,
+                ),
+            ),
+            range: (
+                109,
+                145,
+            ),
+        },
+        Token {
+            sgr: Char(
+                '\u{e0b0}',
+            ),
+            range: (
+                145,
+                146,
+            ),
+        },
+        Token {
+            sgr: ColorFgBg(
+                Rgb(
+                    134,
+                    187,
+                    216,
+                ),
+                Rgb(
+                    6,
+                    150,
+                    154,
+                ),
+            ),
+            range: (
+                146,
+                180,
+            ),
+        },
+        Token {
+            sgr: Char(
+                '\u{e0b0}',
+            ),
+            range: (
+                180,
+                181,
+            ),
+        },
+        Token {
+            sgr: ColorFgBg(
+                Rgb(
+                    6,
+                    150,
+                    154,
+                ),
+                Rgb(
+                    51,
+                    101,
+                    138,
+                ),
+            ),
+            range: (
+                181,
+                214,
+            ),
+        },
+        Token {
+            sgr: Char(
+                '\u{e0b0}',
+            ),
+            range: (
+                214,
+                215,
+            ),
+        },
+        Token {
+            sgr: ColorReset,
+            range: (
+                215,
+                219,
+            ),
+        },
+        Token {
+            sgr: EraseInLine(
+                0,
+            ),
+            range: (
+                219,
+                222,
+            ),
+        },
     ],
 )

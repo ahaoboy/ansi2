@@ -5,66 +5,204 @@ expression: r
 (
     "",
     [
-        ColorForeground(
-            Color8(
-                Cyan,
+        Token {
+            sgr: ColorForeground(
+                Color8(
+                    Cyan,
+                ),
             ),
-        ),
-        Reverse,
-        Bold,
-        Char(
-            ' ',
-        ),
-        Char(
-            'B',
-        ),
-        Char(
-            'E',
-        ),
-        Char(
-            'N',
-        ),
-        Char(
-            'C',
-        ),
-        Char(
-            'H',
-        ),
-        Char(
-            ' ',
-        ),
-        NormalIntensity,
-        UnReversed,
-        ColorDefaultForeground,
-        Char(
-            ' ',
-        ),
-        ColorForeground(
-            Color8(
-                Cyan,
+            range: (
+                0,
+                5,
             ),
-        ),
-        Char(
-            'S',
-        ),
-        Char(
-            'u',
-        ),
-        Char(
-            'm',
-        ),
-        Char(
-            'm',
-        ),
-        Char(
-            'a',
-        ),
-        Char(
-            'r',
-        ),
-        Char(
-            'y',
-        ),
-        ColorDefaultForeground,
+        },
+        Token {
+            sgr: Reverse,
+            range: (
+                5,
+                9,
+            ),
+        },
+        Token {
+            sgr: Bold,
+            range: (
+                9,
+                13,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ' ',
+            ),
+            range: (
+                13,
+                14,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'B',
+            ),
+            range: (
+                14,
+                15,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'E',
+            ),
+            range: (
+                15,
+                16,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'N',
+            ),
+            range: (
+                16,
+                17,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'C',
+            ),
+            range: (
+                17,
+                18,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'H',
+            ),
+            range: (
+                18,
+                19,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ' ',
+            ),
+            range: (
+                19,
+                20,
+            ),
+        },
+        Token {
+            sgr: NormalIntensity,
+            range: (
+                20,
+                25,
+            ),
+        },
+        Token {
+            sgr: UnReversed,
+            range: (
+                25,
+                30,
+            ),
+        },
+        Token {
+            sgr: ColorDefaultForeground,
+            range: (
+                30,
+                35,
+            ),
+        },
+        Token {
+            sgr: Char(
+                ' ',
+            ),
+            range: (
+                35,
+                36,
+            ),
+        },
+        Token {
+            sgr: ColorForeground(
+                Color8(
+                    Cyan,
+                ),
+            ),
+            range: (
+                36,
+                41,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'S',
+            ),
+            range: (
+                41,
+                42,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'u',
+            ),
+            range: (
+                42,
+                43,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'm',
+            ),
+            range: (
+                43,
+                44,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'm',
+            ),
+            range: (
+                44,
+                45,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'a',
+            ),
+            range: (
+                45,
+                46,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'r',
+            ),
+            range: (
+                46,
+                47,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'y',
+            ),
+            range: (
+                47,
+                48,
+            ),
+        },
+        Token {
+            sgr: ColorDefaultForeground,
+            range: (
+                48,
+                53,
+            ),
+        },
     ],
 )

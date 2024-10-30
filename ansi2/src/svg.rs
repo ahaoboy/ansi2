@@ -1,7 +1,7 @@
 use crate::{
+    canvas::Canvas,
     css::{CssType, Mode, NodeStyle, Style},
     theme::ColorTable,
-    Canvas,
 };
 #[allow(clippy::too_many_arguments)]
 pub fn to_svg<S: AsRef<str>, T: ColorTable>(
@@ -14,6 +14,7 @@ pub fn to_svg<S: AsRef<str>, T: ColorTable>(
     dark_bg: Option<String>,
     font_size: Option<usize>,
     length_adjust: Option<String>,
+    sourcemap: bool,
 ) -> String {
     let font_size = font_size.unwrap_or(16);
     let s = str.as_ref();
@@ -96,6 +97,20 @@ pub fn to_svg<S: AsRef<str>, T: ColorTable>(
                 text_class.push(NodeStyle::Hide.class_name().to_string());
                 style.hide = true;
             }
+
+            if sourcemap {
+                text_class.push(format!("text:{}:{}", c.text_r.0, c.text_r.1));
+                text_class.push(format!("color:{}:{}", c.color_r.0, c.color_r.1));
+                text_class.push(format!("bg:{}:{}", c.bg_color_r.0, c.bg_color_r.1));
+                text_class.push(format!("bold:{}:{}", c.bold_r.0, c.bold_r.1));
+                text_class.push(format!("blink:{}:{}", c.blink_r.0, c.blink_r.1));
+                text_class.push(format!("dim:{}:{}", c.dim_r.0, c.dim_r.1));
+                text_class.push(format!("italic:{}:{}", c.italic_r.0, c.italic_r.1));
+                text_class.push(format!("underline:{}:{}", c.underline_r.0, c.underline_r.1));
+                text_class.push(format!("hide:{}:{}", c.hide_r.0, c.hide_r.1));
+                text_class.push(format!("strike:{}:{}", c.strike_r.0, c.strike_r.1));
+            }
+
             let class_str = if text_class.is_empty() {
                 String::new()
             } else {

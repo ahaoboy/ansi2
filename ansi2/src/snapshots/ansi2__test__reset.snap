@@ -5,9 +5,21 @@ expression: r
 (
     "",
     [
-        ColorReset,
-        Unknown(
-            27,
-        ),
+        Token {
+            sgr: ColorReset,
+            range: (
+                0,
+                3,
+            ),
+        },
+        Token {
+            sgr: Unknown(
+                27,
+            ),
+            range: (
+                3,
+                4,
+            ),
+        },
     ],
 )

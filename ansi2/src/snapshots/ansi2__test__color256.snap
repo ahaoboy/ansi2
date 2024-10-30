@@ -5,21 +5,45 @@ expression: r
 (
     "",
     [
-        ColorForeground(
-            Color256(
-                99,
+        Token {
+            sgr: ColorForeground(
+                Color256(
+                    99,
+                ),
             ),
-        ),
-        Char(
-            'a',
-        ),
-        ColorBackground(
-            Color256(
-                99,
+            range: (
+                0,
+                10,
             ),
-        ),
-        Char(
-            'b',
-        ),
+        },
+        Token {
+            sgr: Char(
+                'a',
+            ),
+            range: (
+                10,
+                11,
+            ),
+        },
+        Token {
+            sgr: ColorBackground(
+                Color256(
+                    99,
+                ),
+            ),
+            range: (
+                11,
+                21,
+            ),
+        },
+        Token {
+            sgr: Char(
+                'b',
+            ),
+            range: (
+                21,
+                22,
+            ),
+        },
     ],
 )

@@ -8,7 +8,7 @@ use nom::sequence::tuple;
 use nom::IResult;
 
 #[derive(Debug, Clone)]
-pub enum Token {
+pub enum Sgr {
     Char(char),
 
     Bell,
@@ -67,7 +67,7 @@ pub enum Token {
     UnUnderlined,
     UnBlink,
 
-    List(Vec<Token>),
+    List(Vec<Sgr>),
 
     // url, title
     Link(String, String),
@@ -79,51 +79,96 @@ pub enum Token {
     Unknown(u8),
 }
 
-fn get_token_color(n: u8) -> Token {
+#[derive(Debug, Clone)]
+pub struct Token {
+    pub sgr: Sgr,
+    pub range: (usize, usize),
+}
+
+fn get_sgr_color(n: u8) -> Sgr {
     match n {
-        39 => Token::ColorDefaultForeground,
-        49 => Token::ColorDefaultBackground,
-        30..=37 | 90..=97 => Token::ColorForeground(AnsiColor::from_u8(n)),
-        40..=47 | 100..=107 => Token::ColorBackground(AnsiColor::from_u8(n)),
-        _ => Token::Unknown(0),
+        39 => Sgr::ColorDefaultForeground,
+        49 => Sgr::ColorDefaultBackground,
+        30..=37 | 90..=97 => Sgr::ColorForeground(AnsiColor::from_u8(n)),
+        40..=47 | 100..=107 => Sgr::ColorBackground(AnsiColor::from_u8(n)),
+        _ => Sgr::Unknown(0),
     }
 }
 
 fn parse_cursor_up(input: &str) -> IResult<&str, Token> {
     let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("a")))(input)?;
-    Ok((rem, Token::CursorUp(str::parse(b).unwrap_or(1))))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::CursorUp(str::parse(b).unwrap_or(1)),
+        },
+    ))
 }
 
 fn parse_cursor_down(input: &str) -> IResult<&str, Token> {
     let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("b")))(input)?;
-    Ok((rem, Token::CursorDown(str::parse(b).unwrap_or(1))))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::CursorDown(str::parse(b).unwrap_or(1)),
+        },
+    ))
 }
 
 fn parse_cursor_forward(input: &str) -> IResult<&str, Token> {
     let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("c")))(input)?;
-    Ok((rem, Token::CursorForward(str::parse(b).unwrap_or(1))))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::CursorForward(str::parse(b).unwrap_or(1)),
+        },
+    ))
 }
 
 fn parse_cursor_back(input: &str) -> IResult<&str, Token> {
     let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("d")))(input)?;
-    Ok((rem, Token::CursorBack(str::parse(b).unwrap_or(1))))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::CursorBack(str::parse(b).unwrap_or(1)),
+        },
+    ))
 }
 
 fn parse_cursor_next_line(input: &str) -> IResult<&str, Token> {
     let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("e")))(input)?;
-    Ok((rem, Token::CursorNextLine(str::parse(b).unwrap_or(1))))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::CursorNextLine(str::parse(b).unwrap_or(1)),
+        },
+    ))
 }
 
 fn parse_cursor_previous_line(input: &str) -> IResult<&str, Token> {
     let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("f")))(input)?;
-    Ok((rem, Token::CursorPreviousLine(str::parse(b).unwrap_or(1))))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::CursorPreviousLine(str::parse(b).unwrap_or(1)),
+        },
+    ))
 }
 
 fn parse_cursor_horizontal(input: &str) -> IResult<&str, Token> {
     let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("g")))(input)?;
     Ok((
         rem,
-        Token::CursorHorizontalAbsolute(str::parse(b).unwrap_or(1)),
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::CursorHorizontalAbsolute(str::parse(b).unwrap_or(1)),
+        },
     ))
 }
 
@@ -132,27 +177,54 @@ fn parse_cursor_position(input: &str) -> IResult<&str, Token> {
         tuple((tag("\x1b["), digit0, tag(":"), digit0, tag_no_case("h")))(input)?;
     Ok((
         rem,
-        Token::CursorPosition(str::parse(x).unwrap_or(0), str::parse(y).unwrap_or(0)),
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::CursorPosition(str::parse(x).unwrap_or(0), str::parse(y).unwrap_or(0)),
+        },
     ))
 }
 
 fn parse_erase_in_display(input: &str) -> IResult<&str, Token> {
     let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("j")))(input)?;
-    Ok((rem, Token::EraseInDisplay(str::parse(b).unwrap_or(0))))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::EraseInDisplay(str::parse(b).unwrap_or(0)),
+        },
+    ))
 }
 
 fn parse_erase_in_line(input: &str) -> IResult<&str, Token> {
     let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("k")))(input)?;
-    Ok((rem, Token::EraseInLine(str::parse(b).unwrap_or(0))))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::EraseInLine(str::parse(b).unwrap_or(0)),
+        },
+    ))
 }
 
 fn parse_scroll_up(input: &str) -> IResult<&str, Token> {
     let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("s")))(input)?;
-    Ok((rem, Token::ScrollUp(str::parse(b).unwrap_or(0))))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::ScrollUp(str::parse(b).unwrap_or(0)),
+        },
+    ))
 }
 fn parse_scroll_down(input: &str) -> IResult<&str, Token> {
     let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("t")))(input)?;
-    Ok((rem, Token::ScrollDown(str::parse(b).unwrap_or(0))))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::ScrollDown(str::parse(b).unwrap_or(0)),
+        },
+    ))
 }
 
 fn parse_horizontal_vertical_position(input: &str) -> IResult<&str, Token> {
@@ -160,45 +232,99 @@ fn parse_horizontal_vertical_position(input: &str) -> IResult<&str, Token> {
         tuple((tag("\x1b["), digit0, tag(":"), digit0, tag_no_case("f")))(input)?;
     Ok((
         rem,
-        Token::HorizontalVerticalPosition(str::parse(x).unwrap_or(0), str::parse(y).unwrap_or(0)),
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::HorizontalVerticalPosition(
+                str::parse(x).unwrap_or(0),
+                str::parse(y).unwrap_or(0),
+            ),
+        },
     ))
 }
 
 fn parse_aux_port_on(input: &str) -> IResult<&str, Token> {
     let (rem, _) = tag("\x1b5i")(input)?;
-    Ok((rem, Token::AUXPortOn))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::AUXPortOn,
+        },
+    ))
 }
 fn parse_aux_port_off(input: &str) -> IResult<&str, Token> {
     let (rem, _) = tag("\x1b[4i")(input)?;
-    Ok((rem, Token::AUXPortOff))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::AUXPortOff,
+        },
+    ))
 }
 fn parse_device_status_report(input: &str) -> IResult<&str, Token> {
     let (rem, _) = tag("\x1b[6n")(input)?;
-    Ok((rem, Token::DeviceStatusReport))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::DeviceStatusReport,
+        },
+    ))
 }
 
 fn parse_cursor_hide(input: &str) -> IResult<&str, Token> {
     let (rem, _) = tuple((tag("\x1b["), opt(tag("?")), digit0, tag_no_case("l")))(input)?;
-    Ok((rem, Token::CursorHide))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::CursorHide,
+        },
+    ))
 }
 fn parse_cursor_hide_windows(input: &str) -> IResult<&str, Token> {
     let (rem, _) = tag("\x1b[?2004h")(input)?;
-    Ok((rem, Token::CursorHide))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::CursorHide,
+        },
+    ))
 }
 
 fn parse_title(input: &str) -> IResult<&str, Token> {
     let (rem, (_, s, _)) = tuple((tag("\x1b]0;"), take_until("\x07"), tag("\x07")))(input)?;
-    Ok((rem, Token::Title(s.into())))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::Title(s.into()),
+        },
+    ))
 }
 
 fn parse_bold(input: &str) -> IResult<&str, Token> {
     let (rem, _) = tag("\x1b(B")(input)?;
-    Ok((rem, Token::Bold))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::Bold,
+        },
+    ))
 }
 
 fn parse_cursor_show(input: &str) -> IResult<&str, Token> {
     let (rem, _) = tuple((tag("\x1b["), opt(tag("?")), digit0, tag_no_case("h")))(input)?;
-    Ok((rem, Token::CursorShow))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::CursorShow,
+        },
+    ))
 }
 
 fn parse_color_foreground(input: &str) -> IResult<&str, Token> {
@@ -209,9 +335,23 @@ fn parse_color_foreground(input: &str) -> IResult<&str, Token> {
     let c = match b {
         0..=7 => b + 30,
         8..=15 => b + 82,
-        _ => return Ok((rem, Token::ColorForeground(AnsiColor::Color256(b)))),
+        _ => {
+            return Ok((
+                rem,
+                Token {
+                    range: (input.chars().count(), rem.chars().count()),
+                    sgr: Sgr::ColorForeground(AnsiColor::Color256(b)),
+                },
+            ))
+        }
     };
-    Ok((rem, Token::ColorForeground(AnsiColor::from_u8(c))))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::ColorForeground(AnsiColor::from_u8(c)),
+        },
+    ))
 }
 fn parse_color_background(input: &str) -> IResult<&str, Token> {
     let (rem, (_, b, _)) = tuple((tag("\x1b[48;5;"), digit0, tag_no_case("m")))(input)?;
@@ -220,49 +360,66 @@ fn parse_color_background(input: &str) -> IResult<&str, Token> {
     let c = match b {
         0..=7 => b + 40,
         8..=15 => b + 92,
-        _ => return Ok((rem, Token::ColorBackground(AnsiColor::Color256(b)))),
+        _ => {
+            return Ok((
+                rem,
+                Token {
+                    range: (input.chars().count(), rem.chars().count()),
+                    sgr: Sgr::ColorBackground(AnsiColor::Color256(b)),
+                },
+            ))
+        }
     };
-    Ok((rem, Token::ColorBackground(AnsiColor::from_u8(c))))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::ColorBackground(AnsiColor::from_u8(c)),
+        },
+    ))
 }
 
 fn parse_color_underline(input: &str) -> IResult<&str, Token> {
     let (rem, (_, b, _)) = tuple((tag("\x1b[58;5;"), digit0, tag_no_case("m")))(input)?;
     Ok((
         rem,
-        Token::ColorUnderLine(AnsiColor::from_u8(str::parse(b).unwrap_or(1))),
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::ColorUnderLine(AnsiColor::from_u8(str::parse(b).unwrap_or(1))),
+        },
     ))
 }
 
-pub fn get_sgr(n: u8) -> Token {
+pub fn get_sgr(n: u8) -> Sgr {
     match n {
-        0 => Token::ColorReset,
-        1 => Token::Bold,
-        2 => Token::Dim,
-        3 => Token::Italic,
-        4 => Token::Underline,
-        5 => Token::SlowBlink,
-        6 => Token::RapidBlink,
-        7 => Token::Reverse,
-        8 => Token::CursorHide,
-        9 => Token::Strike,
-        10 => Token::PrimaryFont,
-        11..=19 => Token::AlternativeFont(n - 10),
-        20 => Token::Fraktur,
-        21 => Token::DoublyUnderlined,
-        24 => Token::UnUnderlined,
-        25 => Token::UnBlink,
-        30..=37 | 90..=97 => Token::ColorForeground(AnsiColor::from_u8(n)),
-        40..=47 | 100..=107 => Token::ColorBackground(AnsiColor::from_u8(n)),
-        39 => Token::ColorDefaultForeground,
-        49 => Token::ColorDefaultBackground,
-        59 => Token::ColorDefaultUnderline,
-        22 => Token::NormalIntensity,
-        27 => Token::UnReversed,
-        29 => Token::UnStrike,
-        28 => Token::UnHide,
-        23 => Token::UnItalic,
+        0 => Sgr::ColorReset,
+        1 => Sgr::Bold,
+        2 => Sgr::Dim,
+        3 => Sgr::Italic,
+        4 => Sgr::Underline,
+        5 => Sgr::SlowBlink,
+        6 => Sgr::RapidBlink,
+        7 => Sgr::Reverse,
+        8 => Sgr::CursorHide,
+        9 => Sgr::Strike,
+        10 => Sgr::PrimaryFont,
+        11..=19 => Sgr::AlternativeFont(n - 10),
+        20 => Sgr::Fraktur,
+        21 => Sgr::DoublyUnderlined,
+        24 => Sgr::UnUnderlined,
+        25 => Sgr::UnBlink,
+        30..=37 | 90..=97 => Sgr::ColorForeground(AnsiColor::from_u8(n)),
+        40..=47 | 100..=107 => Sgr::ColorBackground(AnsiColor::from_u8(n)),
+        39 => Sgr::ColorDefaultForeground,
+        49 => Sgr::ColorDefaultBackground,
+        59 => Sgr::ColorDefaultUnderline,
+        22 => Sgr::NormalIntensity,
+        27 => Sgr::UnReversed,
+        29 => Sgr::UnStrike,
+        28 => Sgr::UnHide,
+        23 => Sgr::UnItalic,
 
-        _ => Token::Unknown(n),
+        _ => Sgr::Unknown(n),
     }
 }
 
@@ -271,47 +428,101 @@ fn parse_sgr1(input: &str) -> IResult<&str, Token> {
 
     let n: u8 = str::parse(b).unwrap_or_default();
 
-    Ok((rem, get_sgr(n)))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: get_sgr(n),
+        },
+    ))
 }
 
 fn parse_color_reset(input: &str) -> IResult<&str, Token> {
     let (rem, _) = tuple((tag("\x1b[0"), tag_no_case("m")))(input)?;
-    Ok((rem, Token::ColorReset))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::ColorReset,
+        },
+    ))
 }
 
 fn parse_anychar(input: &str) -> IResult<&str, Token> {
     let (rem, c) = anychar(input)?;
-    Ok((rem, Token::Char(c)))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::Char(c),
+        },
+    ))
 }
 
 fn parse_bell(input: &str) -> IResult<&str, Token> {
     let (rem, _) = nom::character::complete::char('\x07')(input)?;
-    Ok((rem, Token::Bell))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::Bell,
+        },
+    ))
 }
 
 fn parse_backspace(input: &str) -> IResult<&str, Token> {
     let (rem, _) = nom::character::complete::char('\x08')(input)?;
-    Ok((rem, Token::Backspace))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::Backspace,
+        },
+    ))
 }
 
 fn parse_tab(input: &str) -> IResult<&str, Token> {
     let (rem, _) = nom::character::complete::char('\x09')(input)?;
-    Ok((rem, Token::Bell))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::Bell,
+        },
+    ))
 }
 
 fn parse_line_feed(input: &str) -> IResult<&str, Token> {
     let (rem, _) = nom::character::complete::char('\x0A')(input)?;
-    Ok((rem, Token::LineFeed))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::LineFeed,
+        },
+    ))
 }
 
 fn parse_form_feed(input: &str) -> IResult<&str, Token> {
     let (rem, _) = nom::character::complete::char('\x0C')(input)?;
-    Ok((rem, Token::FormFeed))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::FormFeed,
+        },
+    ))
 }
 
 fn parse_carriage_return(input: &str) -> IResult<&str, Token> {
     let (rem, _) = nom::character::complete::char('\x0D')(input)?;
-    Ok((rem, Token::CarriageReturn))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::CarriageReturn,
+        },
+    ))
 }
 
 fn parse_sgr2(input: &str) -> IResult<&str, Token> {
@@ -320,7 +531,13 @@ fn parse_sgr2(input: &str) -> IResult<&str, Token> {
 
     let a = front.parse().unwrap_or(0);
     let b = background.parse().unwrap_or(0);
-    Ok((rem, Token::List(vec![get_sgr(a), get_token_color(b)])))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::List(vec![get_sgr(a), get_sgr_color(b)]),
+        },
+    ))
 }
 
 fn parse_sgr3(input: &str) -> IResult<&str, Token> {
@@ -339,14 +556,29 @@ fn parse_sgr3(input: &str) -> IResult<&str, Token> {
     let c = background.parse().unwrap_or(0);
 
     if a == 38 && b == 5 {
-        return Ok((rem, Token::ColorForeground(AnsiColor::from_u8(c))));
+        return Ok((
+            rem,
+            Token {
+                range: (input.chars().count(), rem.chars().count()),
+                sgr: Sgr::ColorForeground(AnsiColor::from_u8(c)),
+            },
+        ));
     }
     if a == 48 && b == 5 {
-        return Ok((rem, Token::ColorBackground(AnsiColor::from_u8(c))));
+        return Ok((
+            rem,
+            Token {
+                range: (input.chars().count(), rem.chars().count()),
+                sgr: Sgr::ColorBackground(AnsiColor::from_u8(c)),
+            },
+        ));
     }
     Ok((
         rem,
-        Token::List(vec![get_sgr(a), get_token_color(b), get_token_color(c)]),
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::List(vec![get_sgr(a), get_sgr_color(b), get_sgr_color(c)]),
+        },
     ))
 }
 
@@ -372,33 +604,39 @@ fn parse_sgr4(input: &str) -> IResult<&str, Token> {
     match b {
         48 => match c {
             5 => {
-                v.push(Token::ColorBackground(AnsiColor::Color256(d)));
+                v.push(Sgr::ColorBackground(AnsiColor::Color256(d)));
             }
             _ => {
-                v.push(Token::ColorBackground(AnsiColor::from_u8(d)));
+                v.push(Sgr::ColorBackground(AnsiColor::from_u8(d)));
             }
         },
         38 => match c {
             5 => {
-                v.push(Token::ColorForeground(AnsiColor::Color256(d)));
+                v.push(Sgr::ColorForeground(AnsiColor::Color256(d)));
             }
             _ => {
-                v.push(Token::ColorForeground(AnsiColor::from_u8(d)));
+                v.push(Sgr::ColorForeground(AnsiColor::from_u8(d)));
             }
         },
         5 | 6 => {
             v.push(get_sgr(b));
-            v.push(Token::ColorForeground(AnsiColor::from_u8(c)));
-            v.push(Token::ColorBackground(AnsiColor::from_u8(d)));
+            v.push(Sgr::ColorForeground(AnsiColor::from_u8(c)));
+            v.push(Sgr::ColorBackground(AnsiColor::from_u8(d)));
         }
         _ => {
             v.push(get_sgr(b));
-            v.push(Token::ColorForeground(AnsiColor::Color256(c)));
-            v.push(Token::ColorBackground(AnsiColor::Color256(d)));
+            v.push(Sgr::ColorForeground(AnsiColor::Color256(c)));
+            v.push(Sgr::ColorBackground(AnsiColor::Color256(d)));
         }
     };
 
-    Ok((rem, Token::List(v)))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::List(v),
+        },
+    ))
 }
 
 fn parse_sgr5(input: &str) -> IResult<&str, Token> {
@@ -421,11 +659,23 @@ fn parse_sgr5(input: &str) -> IResult<&str, Token> {
     let g = g.parse().unwrap_or(0);
     let b = b.parse().unwrap_or(0);
     if ctrl == 38 && ty == 2 {
-        return Ok((rem, Token::ColorForeground(AnsiColor::Rgb(r, g, b))));
+        return Ok((
+            rem,
+            Token {
+                range: (input.chars().count(), rem.chars().count()),
+                sgr: Sgr::ColorForeground(AnsiColor::Rgb(r, g, b)),
+            },
+        ));
     }
 
     if ctrl == 48 && ty == 2 {
-        return Ok((rem, Token::ColorBackground(AnsiColor::Rgb(r, g, b))));
+        return Ok((
+            rem,
+            Token {
+                range: (input.chars().count(), rem.chars().count()),
+                sgr: Sgr::ColorBackground(AnsiColor::Rgb(r, g, b)),
+            },
+        ));
     }
     todo!()
 }
@@ -455,27 +705,39 @@ fn parse_sgr6(input: &str) -> IResult<&str, Token> {
     if ctrl == 38 && ty == 2 {
         return Ok((
             rem,
-            Token::ColorFgBg(AnsiColor::Rgb(r, g, b), AnsiColor::from_u8(n)),
+            Token {
+                range: (input.chars().count(), rem.chars().count()),
+                sgr: Sgr::ColorFgBg(AnsiColor::Rgb(r, g, b), AnsiColor::from_u8(n)),
+            },
         ));
     }
 
     if ctrl == 48 && ty == 2 {
         return Ok((
             rem,
-            Token::ColorFgBg(AnsiColor::from_u8(n), AnsiColor::Rgb(r, g, b)),
+            Token {
+                range: (input.chars().count(), rem.chars().count()),
+                sgr: Sgr::ColorFgBg(AnsiColor::from_u8(n), AnsiColor::Rgb(r, g, b)),
+            },
         ));
     }
 
     if ctrl == 48 && ty == 5 && g == 38 && b == 5 {
         return Ok((
             rem,
-            Token::ColorFgBg(AnsiColor::Color256(n), AnsiColor::Color256(r)),
+            Token {
+                range: (input.chars().count(), rem.chars().count()),
+                sgr: Sgr::ColorFgBg(AnsiColor::Color256(n), AnsiColor::Color256(r)),
+            },
         ));
     }
     if ctrl == 38 && ty == 5 && g == 48 && b == 5 {
         return Ok((
             rem,
-            Token::ColorFgBg(AnsiColor::Color256(r), AnsiColor::Color256(n)),
+            Token {
+                range: (input.chars().count(), rem.chars().count()),
+                sgr: Sgr::ColorFgBg(AnsiColor::Color256(r), AnsiColor::Color256(n)),
+            },
         ));
     }
     todo!()
@@ -511,23 +773,19 @@ fn parse_sgr7(input: &str) -> IResult<&str, Token> {
     match a {
         38 => match b {
             5 => {
-                v.push(Token::ColorForeground(AnsiColor::Color256(c)));
+                v.push(Sgr::ColorForeground(AnsiColor::Color256(c)));
             }
             2 => {
-                v.push(Token::ColorForeground(AnsiColor::Color8(Color8::from_u8(
-                    c,
-                ))));
+                v.push(Sgr::ColorForeground(AnsiColor::Color8(Color8::from_u8(c))));
             }
             _ => {}
         },
         48 => match b {
             5 => {
-                v.push(Token::ColorBackground(AnsiColor::Color256(c)));
+                v.push(Sgr::ColorBackground(AnsiColor::Color256(c)));
             }
             2 => {
-                v.push(Token::ColorBackground(AnsiColor::Color8(Color8::from_u8(
-                    c,
-                ))));
+                v.push(Sgr::ColorBackground(AnsiColor::Color8(Color8::from_u8(c))));
             }
             _ => {}
         },
@@ -537,30 +795,32 @@ fn parse_sgr7(input: &str) -> IResult<&str, Token> {
     match d {
         38 => match e {
             5 => {
-                v.push(Token::ColorForeground(AnsiColor::Color256(f)));
+                v.push(Sgr::ColorForeground(AnsiColor::Color256(f)));
             }
             2 => {
-                v.push(Token::ColorForeground(AnsiColor::Color8(Color8::from_u8(
-                    f,
-                ))));
+                v.push(Sgr::ColorForeground(AnsiColor::Color8(Color8::from_u8(f))));
             }
             _ => {}
         },
         48 => match e {
             5 => {
-                v.push(Token::ColorBackground(AnsiColor::Color256(f)));
+                v.push(Sgr::ColorBackground(AnsiColor::Color256(f)));
             }
             2 => {
-                v.push(Token::ColorBackground(AnsiColor::Color8(Color8::from_u8(
-                    f,
-                ))));
+                v.push(Sgr::ColorBackground(AnsiColor::Color8(Color8::from_u8(f))));
             }
             _ => {}
         },
         _ => {}
     }
 
-    Ok((rem, Token::List(v)))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::List(v),
+        },
+    ))
 }
 
 fn parse_sgr10(input: &str) -> IResult<&str, Token> {
@@ -613,7 +873,13 @@ fn parse_sgr10(input: &str) -> IResult<&str, Token> {
     if c2 == 48 && t2 == 2 {
         bg = AnsiColor::Rgb(r2, g2, b2)
     }
-    Ok((rem, Token::ColorFgBg(fg, bg)))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::ColorFgBg(fg, bg),
+        },
+    ))
 }
 fn parse_unknown(input: &str) -> IResult<&str, Token> {
     let (rem, n) = alt((
@@ -639,10 +905,22 @@ fn parse_unknown(input: &str) -> IResult<&str, Token> {
     ))(input)?;
 
     if n == '\x1a' {
-        return Ok((rem, Token::Char('␦')));
+        return Ok((
+            rem,
+            Token {
+                range: (input.chars().count(), rem.chars().count()),
+                sgr: Sgr::Char('␦'),
+            },
+        ));
     }
 
-    Ok((rem, Token::Unknown(n as u8)))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::Unknown(n as u8),
+        },
+    ))
 }
 
 fn parse_link_no_title(input: &str) -> IResult<&str, Token> {
@@ -652,7 +930,13 @@ fn parse_link_no_title(input: &str) -> IResult<&str, Token> {
         alt((take_until("\x1b]8;;\x1b\\"), take_until("\x1b[!p"))),
         alt((tag("\x1b]8;;\x1b\\"), tag("\x1b[!p"))),
     ))(input)?;
-    Ok((rem, Token::Link(url.to_string(), url.to_string())))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::Link(url.to_string(), url.to_string()),
+        },
+    ))
 }
 
 fn parse_link_with_title(input: &str) -> IResult<&str, Token> {
@@ -664,7 +948,13 @@ fn parse_link_with_title(input: &str) -> IResult<&str, Token> {
         alt((take_until("\x1b]8;;\x1b\\"), take_until("\x1b[!p"))),
         alt((tag("\x1b]8;;\x1b\\"), tag("\x1b[!p"))),
     ))(input)?;
-    Ok((rem, Token::Link(url.to_string(), title.to_string())))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::Link(url.to_string(), title.to_string()),
+        },
+    ))
 }
 
 fn parse_link_ll(input: &str) -> IResult<&str, Token> {
@@ -675,11 +965,17 @@ fn parse_link_ll(input: &str) -> IResult<&str, Token> {
         take_until("\x1b]8;;\x07"),
         tag("\x1b]8;;\x07"),
     ))(input)?;
-    Ok((rem, Token::Link(url.to_string(), title.to_string())))
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::Link(url.to_string(), title.to_string()),
+        },
+    ))
 }
 
 pub(crate) fn parse_ansi(input: &str) -> IResult<&str, Vec<Token>> {
-    many0(alt((
+    let mut v = many0(alt((
         alt((
             parse_bell,
             parse_backspace,
@@ -730,5 +1026,13 @@ pub(crate) fn parse_ansi(input: &str) -> IResult<&str, Vec<Token>> {
         alt((parse_link_with_title, parse_link_no_title, parse_link_ll)),
         parse_unknown,
         parse_anychar,
-    )))(input)
+    )))(input)?;
+
+    for i in v.1.iter_mut() {
+        i.range = (
+            input.chars().count() - i.range.0,
+            input.chars().count() - i.range.1,
+        )
+    }
+    Ok(v)
 }

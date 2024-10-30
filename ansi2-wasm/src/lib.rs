@@ -13,6 +13,7 @@ pub fn to_svg(
     dark_bg: Option<String>,
     font_size: Option<usize>,
     length_adjust: Option<String>,
+    sourcemap: Option<bool>,
 ) -> String {
     let mode = mode.map(|m| match m {
         Mode::Dark => ansi2::css::Mode::Dark,
@@ -28,6 +29,7 @@ pub fn to_svg(
         dark_bg,
         font_size,
         length_adjust,
+        sourcemap.unwrap_or(false),
     )
 }
 
@@ -42,6 +44,7 @@ pub fn to_html(
     light_bg: Option<String>,
     dark_bg: Option<String>,
     font_size: Option<usize>,
+    sourcemap: Option<bool>,
 ) -> String {
     let mode = mode.map(|m| match m {
         Mode::Dark => ansi2::css::Mode::Dark,
@@ -56,6 +59,7 @@ pub fn to_html(
         light_bg,
         dark_bg,
         font_size,
+        sourcemap.unwrap_or(false),
     )
 }
 
