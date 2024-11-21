@@ -116,7 +116,6 @@ jobs:
           else
             printf '%s\n' "artifact-target=${target}" >>"${GITHUB_OUTPUT}"
           fi
-      # For debugging
       - uses: actions/upload-artifact@v4
         with:
           name: ansi2-${{ steps.artifact-target.outputs.artifact-target }}
