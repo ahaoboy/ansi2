@@ -21,6 +21,8 @@ wasm-bindgen-test = "0.3.45"
 ansi2 = { path = "./ansi2", features = ["wasm"] }
 osvg = { version = "0.1.3", features = ["bindgen"] }
 insta = { version = "1.40.0" }
+infer = "0.16.0"
+image = "0.25.5"
 
 [profile.release]
 debug = false

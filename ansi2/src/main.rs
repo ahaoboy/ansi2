@@ -1,4 +1,5 @@
 use ansi2::ans::to_ans;
+use ansi2::image::image_to_ans;
 use ansi2::{css::Mode, theme::Theme};
 use ansi2::{html::to_html, svg::to_svg, text::to_text};
 use base64::prelude::BASE64_STANDARD;
@@ -51,6 +52,17 @@ struct Args {
     sourcemap: bool,
 }
 
+fn process_input(buf: Vec<u8>) -> String {
+    if let Some(ty) = infer::get(&buf) {
+        if ty.matcher_type() == infer::MatcherType::Image {
+            if let Some(s) = image_to_ans(&buf) {
+                return s;
+            }
+        }
+    }
+
+    return String::from_utf8_lossy(&buf).to_string();
+}
 fn main() {
     let args: Args = Args::parse();
     let Args {
@@ -73,6 +85,8 @@ fn main() {
     std::io::stdin()
         .read_to_end(&mut buf)
         .expect("can't read string from stdin");
+
+    let s = process_input(buf);
     let base64 = font.map(|font_url| {
         if font_url.starts_with("http") {
             return font_url;
@@ -87,7 +101,6 @@ fn main() {
         return format!("data:font;base64,{base64}");
     });
 
-    let s = String::from_utf8_lossy(&buf);
     let output = match format {
         Format::Svg => {
             let mut svg = to_svg(
