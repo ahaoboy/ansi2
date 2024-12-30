@@ -1,6 +1,7 @@
 use std::collections::VecDeque;
 
 use crate::{
+    ans::min_distance,
     color::{AnsiColor, Color8},
     lex::{parse_ansi, Sgr, Token},
     node::Node,
@@ -449,4 +450,19 @@ impl Canvas {
 
         v
     }
+}
+
+pub fn pixels_to_ans(pixels: Vec<Vec<Node>>) -> String {
+    let mut text: Vec<String> = Vec::new();
+    let mut last_node = Node::default();
+    for row in pixels.iter() {
+        let mut row_str = Vec::new();
+        for c in row.iter() {
+            row_str.push(min_distance(&last_node, c));
+            row_str.push(c.text.clone());
+            last_node = c.clone();
+        }
+        text.push(row_str.into_iter().collect());
+    }
+    text.join("\n")
 }

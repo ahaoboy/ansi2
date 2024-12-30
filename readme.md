@@ -16,6 +16,7 @@ neofetch | ansi2 --format=svg --theme=vscode > neofetch.svg
 vitest bench --run | ansi2 --format=html --mode=light > bench.html
 vitest bench --run | ansi2 --format=text > bench.txt
 vitest bench --run | ansi2 --format=svg --mode=dark  | resvg - -c > bench.png
+cat ./assets/ghostty.png | ansi2 -f=ans
 ```
 
 ## [ansi2](./ansi2)

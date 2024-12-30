@@ -3,6 +3,7 @@ pub mod canvas;
 pub mod color;
 pub mod css;
 pub mod html;
+pub mod image;
 pub mod lex;
 pub mod node;
 pub mod svg;

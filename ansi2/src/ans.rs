@@ -1,6 +1,10 @@
 use std::collections::BinaryHeap;
 
-use crate::{canvas::Canvas, color::AnsiColor, node::Node};
+use crate::{
+    canvas::{pixels_to_ans, Canvas},
+    color::AnsiColor,
+    node::Node,
+};
 #[derive(Debug, Clone, PartialEq, Eq)]
 struct Item {
     state: Node,
@@ -227,7 +231,7 @@ fn bfs(from: &Node, to: &Node) -> Vec<Step> {
     Vec::new()
 }
 
-fn min_distance(from: &Node, to: &Node) -> String {
+pub fn min_distance(from: &Node, to: &Node) -> String {
     if from.same_style(to) {
         return String::new();
     }
@@ -249,25 +253,12 @@ pub fn to_ans<S: AsRef<str>>(str: S, width: Option<usize>, compress: bool) -> St
     let s = str.as_ref();
     let canvas = Canvas::new(s, width);
 
-    let iter = if compress {
-        canvas.minify().into_iter()
+    let pixels = if compress {
+        canvas.minify()
     } else {
-        canvas.pixels.into_iter()
+        canvas.pixels
     };
-
-    let mut text: Vec<String> = Vec::new();
-    let mut last_node = Node::default();
-
-    for row in iter {
-        let mut row_str = Vec::new();
-        for c in row.iter() {
-            row_str.push(min_distance(&last_node, c));
-            row_str.push(c.text.clone());
-            last_node = c.clone();
-        }
-        text.push(row_str.into_iter().collect());
-    }
-    text.join("\n")
+    pixels_to_ans(pixels)
 }
 
 #[cfg(test)]
