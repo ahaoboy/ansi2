@@ -116,25 +116,10 @@ fn main() {
                 sourcemap,
             );
             if compress {
-                svg = osvg::osvg(
-                    &svg,
-                    Some(
-                        r#"
-{
-  plugins: [
-    {
-      name: "preset-default",
-      params: {
-        overrides: {
-          inlineStyles: false,
-        },
-      },
-    },
-  ],
-}"#,
-                    ),
-                )
-                .expect("compress error");
+                #[cfg(feature = "minify")]
+                {
+                    svg = minify_svg(&svg).expect("compress error");
+                }
             }
             svg
         }
@@ -145,4 +130,25 @@ fn main() {
         Format::Ans => to_ans(&s, width, compress),
     };
     print!("{}", output);
+}
+
+fn minify_svg(svg: &str) -> Result<String, String> {
+    use oxvg_ast::{
+        implementations::{roxmltree::parse, shared::Element},
+        serialize::{self, Node as _, Options},
+        visitor::Info,
+    };
+    use oxvg_optimiser::Jobs;
+    let arena = typed_arena::Arena::new();
+    let dom = parse(svg, &arena).map_err(|e| e.to_string())?;
+
+    Jobs::default()
+        .run(&dom, &Info::<Element>::new(&arena))
+        .map_err(|err| err.to_string())?;
+
+    dom.serialize_with_options(Options {
+        indent: serialize::Indent::None,
+        ..Default::default()
+    })
+    .map_err(|err| err.to_string())
 }

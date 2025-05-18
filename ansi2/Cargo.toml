@@ -13,9 +13,12 @@ wasm-bindgen = { workspace = true, optional = true }
 nom = { workspace = true }
 html-escape = { workspace = true }
 base64 = { workspace = true }
-osvg = { workspace = true, optional = true }
 infer = { workspace = true }
 image = { workspace = true }
+typed-arena = { workspace = true, optional = true }
+oxvg = { workspace = true, optional = true }
+oxvg_optimiser = { workspace = true, optional = true }
+oxvg_ast = { workspace = true, optional = true }
 
 
 [dev-dependencies]
@@ -24,7 +27,7 @@ insta = { workspace = true }
 [features]
 cli = ["clap", "minify"]
 wasm = ["wasm-bindgen"]
-minify = ["osvg"]
+minify = ["oxvg", "typed-arena", "oxvg_optimiser", "oxvg_ast"]
 
 [[bin]]
 required-features = ["cli"]

@@ -12,17 +12,20 @@ homepage = "https://github.com/ahaoboy/ansi2"
 authors = ["ahaoboy"]
 
 [workspace.dependencies]
-clap = { version = "4.5", features = ["derive"] }
+clap = { version = "4", features = ["derive"] }
 wasm-bindgen = { version = "0.2" }
-nom = "7.1"
+nom = "7"
 html-escape = "0.2"
 base64 = "0.22"
 wasm-bindgen-test = "0.3"
 ansi2 = { path = "./ansi2", features = ["wasm"] }
-osvg = { version = "0.1", features = ["bindgen"] }
-insta = { version = "1.40" }
-infer = "0.16"
+insta = { version = "1" }
+infer = "0.19"
 image = "0.25"
+typed-arena = "2.0"
+oxvg = { git = "https://github.com/noahbald/oxvg.git" }
+oxvg_optimiser = { git = "https://github.com/noahbald/oxvg.git" }
+oxvg_ast = { git = "https://github.com/noahbald/oxvg.git" }
 
 [profile.release]
 debug = false
