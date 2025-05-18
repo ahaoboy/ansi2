@@ -12,7 +12,7 @@ jobs:
   rust-test:
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-24.04, windows-latest, macos-13, macos-14]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
@@ -22,10 +22,20 @@ jobs:
           components: rustfmt,clippy
           rustflags: "-A warnings"
           toolchain: "nightly"
+      - name: Install cargo-binstall
+        if: matrix.os != 'windows-latest'
+        shell: sh
+        run: curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash
+
+      - name: Install cargo-binstall
+        if: matrix.os == 'windows-latest'
+        run: Set-ExecutionPolicy Unrestricted -Scope Process; iex (iwr "https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.ps1").Content
+        shell: powershell
+
       - name: Run
         run: |
-          cargo install neofetch
-          neofetch | cargo run --features="cli" > ./neofetch.svg
+          cargo binstall neofetch -y
+          neofetch | cargo run --features="cli" -q > ./neofetch.svg
 
       - name: Upload
         uses: actions/upload-artifact@v4
@@ -34,7 +44,7 @@ jobs:
           path: ./*.svg
 
   npm-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - name: test
