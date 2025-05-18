@@ -316,6 +316,9 @@ function __wbg_finalize_init(instance, module) {
 }
 
 function initSync() {
+    if (wasm !== undefined) return wasm;
+
+
     
 
       const bytes = __decode_base64__(__wasm_base64__);
