@@ -51,7 +51,7 @@ jobs:
         with:
           components: rustfmt,clippy
           rustflags: "-A warnings"
-          toolchain: "nightly"
+          toolchain: "stable"
 
       - name: Setup musl aarch64
         if: startsWith(matrix.target, 'aarch64-unknown-linux')
