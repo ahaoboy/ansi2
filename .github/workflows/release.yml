@@ -22,6 +22,7 @@ jobs:
   upload-assets:
     needs: create-release
     strategy:
+      fail-fast: false
       matrix:
         include:
           - target: x86_64-apple-darwin
