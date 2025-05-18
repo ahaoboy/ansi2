@@ -24,18 +24,16 @@ jobs:
           rustflags: "-A warnings"
           toolchain: "stable"
       - name: Install cargo-binstall
-        if: matrix.os != 'windows-latest'
-        shell: sh
         run: curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash
 
-      - name: Install cargo-binstall
-        if: matrix.os == 'windows-latest'
-        run: Set-ExecutionPolicy Unrestricted -Scope Process; iex (iwr "https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.ps1").Content
-        shell: powershell
+      # - name: Install cargo-binstall
+      #   if: matrix.os == 'windows-latest'
+      #   run: Set-ExecutionPolicy Unrestricted -Scope Process; iex (iwr "https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.ps1").Content
+      #   shell: powershell
 
       - name: Run
         run: |
-          cargo binstall neofetch -y
+          cargo binstall neofetch -y --force
           neofetch | cargo run --features="cli" -q > ./neofetch.svg
 
       - name: Upload
