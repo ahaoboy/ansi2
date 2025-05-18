@@ -132,6 +132,7 @@ fn main() {
     print!("{}", output);
 }
 
+#[cfg(feature = "minify")]
 fn minify_svg(svg: &str) -> Result<String, String> {
     use oxvg_ast::{
         implementations::{roxmltree::parse, shared::Element},
