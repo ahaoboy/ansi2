@@ -14,5 +14,5 @@ crate-type = ["cdylib", "rlib"]
 wasm-bindgen = { workspace = true }
 ansi2 = { workspace = true, features = ["wasm"] }
 
-[dev-dependencies]
-wasm-bindgen-test = { workspace = true }
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = false

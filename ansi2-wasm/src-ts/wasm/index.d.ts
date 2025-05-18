@@ -1,43 +1,9 @@
 /* tslint:disable */
 /* eslint-disable */
-/**
- * @param {string} s
- * @param {Theme} theme
- * @param {number | undefined} [width]
- * @param {string | undefined} [font]
- * @param {Mode | undefined} [mode]
- * @param {string | undefined} [light_bg]
- * @param {string | undefined} [dark_bg]
- * @param {number | undefined} [font_size]
- * @param {string | undefined} [length_adjust]
- * @returns {string}
- */
-export function to_svg(s: string, theme: Theme, width?: number, font?: string, mode?: Mode, light_bg?: string, dark_bg?: string, font_size?: number, length_adjust?: string): string;
-/**
- * @param {string} s
- * @param {Theme} theme
- * @param {number | undefined} [width]
- * @param {string | undefined} [font]
- * @param {Mode | undefined} [mode]
- * @param {string | undefined} [light_bg]
- * @param {string | undefined} [dark_bg]
- * @param {number | undefined} [font_size]
- * @returns {string}
- */
-export function to_html(s: string, theme: Theme, width?: number, font?: string, mode?: Mode, light_bg?: string, dark_bg?: string, font_size?: number): string;
-/**
- * @param {string} s
- * @param {number | undefined} [width]
- * @returns {string}
- */
-export function to_text(s: string, width?: number): string;
-/**
- * @param {string} s
- * @param {number | undefined} [width]
- * @param {boolean | undefined} [compress]
- * @returns {string}
- */
-export function to_ans(s: string, width?: number, compress?: boolean): string;
+export function to_svg(s: string, theme: Theme, width?: number | null, font?: string | null, mode?: Mode | null, light_bg?: string | null, dark_bg?: string | null, font_size?: number | null, length_adjust?: string | null, sourcemap?: boolean | null): string;
+export function to_html(s: string, theme: Theme, width?: number | null, font?: string | null, mode?: Mode | null, light_bg?: string | null, dark_bg?: string | null, font_size?: number | null, sourcemap?: boolean | null): string;
+export function to_text(s: string, width?: number | null): string;
+export function to_ans(s: string, width?: number | null, compress?: boolean | null): string;
 export enum Mode {
   Dark = 0,
   Light = 1,
