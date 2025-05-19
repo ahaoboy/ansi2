@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "update:snapshot": "INSTA_UPDATE=always cargo test",
+    "update:svg": "cd assets && sh ./update.sh",
     "pre-check": "cargo fmt && cargo clippy --fix --allow-dirty --allow-staged && cargo test && npm run format && npm run lint:fix",
     "format": "biome format --write  ./",
     "lint:fix": "biome lint ./ --write --unsafe"
