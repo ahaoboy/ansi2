@@ -56,14 +56,14 @@ impl Step {
             Step::Color(ansi_color) => match ansi_color {
                 AnsiColor::Default => "39".to_string(),
                 AnsiColor::Color8(color8) => format!("{}", color8.to_u8()),
-                AnsiColor::Color256(n) => format!("38;5;{}", n),
-                AnsiColor::Rgb(r, g, b) => format!("38;2;{};{};{}", r, g, b),
+                AnsiColor::Color256(n) => format!("38;5;{n}"),
+                AnsiColor::Rgb(r, g, b) => format!("38;2;{r};{g};{b}"),
             },
             Step::Bg(ansi_color) => match ansi_color {
                 AnsiColor::Default => "49".to_string(),
                 AnsiColor::Color8(color8) => format!("{}", color8.to_u8() + 10),
-                AnsiColor::Color256(n) => format!("48;5;{}", n),
-                AnsiColor::Rgb(r, g, b) => format!("48;2;{};{};{}", r, g, b),
+                AnsiColor::Color256(n) => format!("48;5;{n}"),
+                AnsiColor::Rgb(r, g, b) => format!("48;2;{r};{g};{b}"),
             },
             Step::Bold => "1".to_string(),
             Step::Blink => "5".to_string(),

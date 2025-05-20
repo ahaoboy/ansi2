@@ -53,10 +53,10 @@ pub fn to_svg<S: AsRef<str>, T: ColorTable>(
 
             if !c.bg_color.is_default() && !c.hide {
                 let name = c.bg_color.bg_class_name();
-                let class_str = format!("class='{}'", name);
+                let class_str = format!("class='{name}'");
                 s.push_str(&format!(
-                    r#"<rect x="{cur_x}px" y="{}px" width="{str_w}px" height="{text_h}px" {class_str}/>"#,
-                    cur_y+underline_h
+                    r#"<rect x="{cur_x}" y="{}" width="{str_w}" height="{text_h}" {class_str}/>"#,
+                    cur_y + underline_h
                 ));
                 style.add_bg_color(c.bg_color);
             }
@@ -131,7 +131,7 @@ pub fn to_svg<S: AsRef<str>, T: ColorTable>(
 
             // FIXME: lengthAdjust="spacingAndGlyphs" or lengthAdjust="spacing"
             s.push_str(&format!(
-r#"<text x="{text_x}px" y="{text_y}px" width="{str_w}px" height="{text_h}px" {} {}><tspan {length_adjust_style}>{}</tspan></text>"#,
+r#"<text x="{text_x}" y="{text_y}" width="{str_w}" height="{text_h}" {} {}><tspan {length_adjust_style}>{}</tspan></text>"#,
 class_str ,
 attr.join(" "),
                 html_escape::encode_text(&c.text)
@@ -155,6 +155,6 @@ attr.join(" "),
         fn_h,
     );
     format!(
-        r#"<svg width="{svg_w}px" height="{svg_h}px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><style>{font_style}{style_css}</style>{s}</svg>"#
+        r#"<svg width="{svg_w}" height="{svg_h}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><style>{font_style}{style_css}</style>{s}</svg>"#
     )
 }

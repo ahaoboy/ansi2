@@ -136,7 +136,7 @@ fn main() {
 fn minify_svg(svg: &str) -> Result<String, String> {
     use oxvg_ast::{
         implementations::{roxmltree::parse, shared::Element},
-        serialize::{Node as _, Options},
+        serialize::{Indent, Node as _, Options},
         visitor::Info,
     };
     use oxvg_optimiser::Jobs;
@@ -147,6 +147,9 @@ fn minify_svg(svg: &str) -> Result<String, String> {
         .run(&dom, &Info::<Element>::new(&arena))
         .map_err(|err| err.to_string())?;
 
-    dom.serialize_with_options(Options::default())
+    dom.serialize_with_options(Options {
+        indent: Indent::None,
+        ..Default::default()
+    })
     .map_err(|err| err.to_string())
 }

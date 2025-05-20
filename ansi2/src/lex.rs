@@ -4,8 +4,8 @@ use nom::bytes::complete::{tag, tag_no_case, take_until};
 use nom::character::complete::{anychar, digit0};
 use nom::combinator::opt;
 use nom::multi::many0;
-use nom::sequence::tuple;
 use nom::IResult;
+use nom::Parser;
 
 #[derive(Debug, Clone)]
 pub enum Sgr {
@@ -96,7 +96,7 @@ fn get_sgr_color(n: u8) -> Sgr {
 }
 
 fn parse_cursor_up(input: &str) -> IResult<&str, Token> {
-    let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("a")))(input)?;
+    let (rem, (_, b, _)) = (tag("\x1b["), digit0, tag_no_case("a")).parse(input)?;
     Ok((
         rem,
         Token {
@@ -107,7 +107,7 @@ fn parse_cursor_up(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_cursor_down(input: &str) -> IResult<&str, Token> {
-    let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("b")))(input)?;
+    let (rem, (_, b, _)) = (tag("\x1b["), digit0, tag_no_case("b")).parse(input)?;
     Ok((
         rem,
         Token {
@@ -118,7 +118,7 @@ fn parse_cursor_down(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_cursor_forward(input: &str) -> IResult<&str, Token> {
-    let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("c")))(input)?;
+    let (rem, (_, b, _)) = (tag("\x1b["), digit0, tag_no_case("c")).parse(input)?;
     Ok((
         rem,
         Token {
@@ -129,7 +129,7 @@ fn parse_cursor_forward(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_cursor_back(input: &str) -> IResult<&str, Token> {
-    let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("d")))(input)?;
+    let (rem, (_, b, _)) = (tag("\x1b["), digit0, tag_no_case("d")).parse(input)?;
     Ok((
         rem,
         Token {
@@ -140,7 +140,7 @@ fn parse_cursor_back(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_cursor_next_line(input: &str) -> IResult<&str, Token> {
-    let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("e")))(input)?;
+    let (rem, (_, b, _)) = (tag("\x1b["), digit0, tag_no_case("e")).parse(input)?;
     Ok((
         rem,
         Token {
@@ -151,7 +151,7 @@ fn parse_cursor_next_line(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_cursor_previous_line(input: &str) -> IResult<&str, Token> {
-    let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("f")))(input)?;
+    let (rem, (_, b, _)) = (tag("\x1b["), digit0, tag_no_case("f")).parse(input)?;
     Ok((
         rem,
         Token {
@@ -162,7 +162,7 @@ fn parse_cursor_previous_line(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_cursor_horizontal(input: &str) -> IResult<&str, Token> {
-    let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("g")))(input)?;
+    let (rem, (_, b, _)) = (tag("\x1b["), digit0, tag_no_case("g")).parse(input)?;
     Ok((
         rem,
         Token {
@@ -174,7 +174,7 @@ fn parse_cursor_horizontal(input: &str) -> IResult<&str, Token> {
 
 fn parse_cursor_position(input: &str) -> IResult<&str, Token> {
     let (rem, (_, x, _, y, _)) =
-        tuple((tag("\x1b["), digit0, tag(":"), digit0, tag_no_case("h")))(input)?;
+        (tag("\x1b["), digit0, tag(":"), digit0, tag_no_case("h")).parse(input)?;
     Ok((
         rem,
         Token {
@@ -185,7 +185,7 @@ fn parse_cursor_position(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_erase_in_display(input: &str) -> IResult<&str, Token> {
-    let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("j")))(input)?;
+    let (rem, (_, b, _)) = (tag("\x1b["), digit0, tag_no_case("j")).parse(input)?;
     Ok((
         rem,
         Token {
@@ -196,7 +196,7 @@ fn parse_erase_in_display(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_erase_in_line(input: &str) -> IResult<&str, Token> {
-    let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("k")))(input)?;
+    let (rem, (_, b, _)) = (tag("\x1b["), digit0, tag_no_case("k")).parse(input)?;
     Ok((
         rem,
         Token {
@@ -207,7 +207,7 @@ fn parse_erase_in_line(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_scroll_up(input: &str) -> IResult<&str, Token> {
-    let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("s")))(input)?;
+    let (rem, (_, b, _)) = (tag("\x1b["), digit0, tag_no_case("s")).parse(input)?;
     Ok((
         rem,
         Token {
@@ -217,7 +217,7 @@ fn parse_scroll_up(input: &str) -> IResult<&str, Token> {
     ))
 }
 fn parse_scroll_down(input: &str) -> IResult<&str, Token> {
-    let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("t")))(input)?;
+    let (rem, (_, b, _)) = (tag("\x1b["), digit0, tag_no_case("t")).parse(input)?;
     Ok((
         rem,
         Token {
@@ -229,7 +229,7 @@ fn parse_scroll_down(input: &str) -> IResult<&str, Token> {
 
 fn parse_horizontal_vertical_position(input: &str) -> IResult<&str, Token> {
     let (rem, (_, x, _, y, _)) =
-        tuple((tag("\x1b["), digit0, tag(":"), digit0, tag_no_case("f")))(input)?;
+        (tag("\x1b["), digit0, tag(":"), digit0, tag_no_case("f")).parse(input)?;
     Ok((
         rem,
         Token {
@@ -243,7 +243,7 @@ fn parse_horizontal_vertical_position(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_aux_port_on(input: &str) -> IResult<&str, Token> {
-    let (rem, _) = tag("\x1b5i")(input)?;
+    let (rem, _) = tag("\x1b5i").parse(input)?;
     Ok((
         rem,
         Token {
@@ -253,7 +253,7 @@ fn parse_aux_port_on(input: &str) -> IResult<&str, Token> {
     ))
 }
 fn parse_aux_port_off(input: &str) -> IResult<&str, Token> {
-    let (rem, _) = tag("\x1b[4i")(input)?;
+    let (rem, _) = tag("\x1b[4i").parse(input)?;
     Ok((
         rem,
         Token {
@@ -263,7 +263,7 @@ fn parse_aux_port_off(input: &str) -> IResult<&str, Token> {
     ))
 }
 fn parse_device_status_report(input: &str) -> IResult<&str, Token> {
-    let (rem, _) = tag("\x1b[6n")(input)?;
+    let (rem, _) = tag("\x1b[6n").parse(input)?;
     Ok((
         rem,
         Token {
@@ -274,7 +274,7 @@ fn parse_device_status_report(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_cursor_hide(input: &str) -> IResult<&str, Token> {
-    let (rem, _) = tuple((tag("\x1b["), opt(tag("?")), digit0, tag_no_case("l")))(input)?;
+    let (rem, _) = (tag("\x1b["), opt(tag("?")), digit0, tag_no_case("l")).parse(input)?;
     Ok((
         rem,
         Token {
@@ -284,7 +284,7 @@ fn parse_cursor_hide(input: &str) -> IResult<&str, Token> {
     ))
 }
 fn parse_cursor_hide_windows(input: &str) -> IResult<&str, Token> {
-    let (rem, _) = tag("\x1b[?2004h")(input)?;
+    let (rem, _) = tag("\x1b[?2004h").parse(input)?;
     Ok((
         rem,
         Token {
@@ -295,7 +295,7 @@ fn parse_cursor_hide_windows(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_title(input: &str) -> IResult<&str, Token> {
-    let (rem, (_, s, _)) = tuple((tag("\x1b]0;"), take_until("\x07"), tag("\x07")))(input)?;
+    let (rem, (_, s, _)) = (tag("\x1b]0;"), take_until("\x07"), tag("\x07")).parse(input)?;
     Ok((
         rem,
         Token {
@@ -306,7 +306,7 @@ fn parse_title(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_bold(input: &str) -> IResult<&str, Token> {
-    let (rem, _) = tag("\x1b(B")(input)?;
+    let (rem, _) = tag("\x1b(B").parse(input)?;
     Ok((
         rem,
         Token {
@@ -317,7 +317,7 @@ fn parse_bold(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_cursor_show(input: &str) -> IResult<&str, Token> {
-    let (rem, _) = tuple((tag("\x1b["), opt(tag("?")), digit0, tag_no_case("h")))(input)?;
+    let (rem, _) = (tag("\x1b["), opt(tag("?")), digit0, tag_no_case("h")).parse(input)?;
     Ok((
         rem,
         Token {
@@ -328,7 +328,7 @@ fn parse_cursor_show(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_color_foreground(input: &str) -> IResult<&str, Token> {
-    let (rem, (_, b, _)) = tuple((tag("\x1b[38;5;"), digit0, tag_no_case("m")))(input)?;
+    let (rem, (_, b, _)) = (tag("\x1b[38;5;"), digit0, tag_no_case("m")).parse(input)?;
 
     let b = str::parse(b).unwrap_or_default();
 
@@ -354,7 +354,7 @@ fn parse_color_foreground(input: &str) -> IResult<&str, Token> {
     ))
 }
 fn parse_color_background(input: &str) -> IResult<&str, Token> {
-    let (rem, (_, b, _)) = tuple((tag("\x1b[48;5;"), digit0, tag_no_case("m")))(input)?;
+    let (rem, (_, b, _)) = (tag("\x1b[48;5;"), digit0, tag_no_case("m")).parse(input)?;
     let b = str::parse(b).unwrap_or_default();
 
     let c = match b {
@@ -380,7 +380,7 @@ fn parse_color_background(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_color_underline(input: &str) -> IResult<&str, Token> {
-    let (rem, (_, b, _)) = tuple((tag("\x1b[58;5;"), digit0, tag_no_case("m")))(input)?;
+    let (rem, (_, b, _)) = (tag("\x1b[58;5;"), digit0, tag_no_case("m")).parse(input)?;
     Ok((
         rem,
         Token {
@@ -424,7 +424,7 @@ pub fn get_sgr(n: u8) -> Sgr {
 }
 
 fn parse_sgr1(input: &str) -> IResult<&str, Token> {
-    let (rem, (_, b, _)) = tuple((tag("\x1b["), digit0, tag_no_case("m")))(input)?;
+    let (rem, (_, b, _)) = (tag("\x1b["), digit0, tag_no_case("m")).parse(input)?;
 
     let n: u8 = str::parse(b).unwrap_or_default();
 
@@ -438,7 +438,7 @@ fn parse_sgr1(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_color_reset(input: &str) -> IResult<&str, Token> {
-    let (rem, _) = tuple((tag("\x1b[0"), tag_no_case("m")))(input)?;
+    let (rem, _) = (tag("\x1b[0"), tag_no_case("m")).parse(input)?;
     Ok((
         rem,
         Token {
@@ -460,7 +460,7 @@ fn parse_anychar(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_bell(input: &str) -> IResult<&str, Token> {
-    let (rem, _) = nom::character::complete::char('\x07')(input)?;
+    let (rem, _) = nom::character::complete::char('\x07').parse(input)?;
     Ok((
         rem,
         Token {
@@ -471,7 +471,7 @@ fn parse_bell(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_backspace(input: &str) -> IResult<&str, Token> {
-    let (rem, _) = nom::character::complete::char('\x08')(input)?;
+    let (rem, _) = nom::character::complete::char('\x08').parse(input)?;
     Ok((
         rem,
         Token {
@@ -482,7 +482,7 @@ fn parse_backspace(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_tab(input: &str) -> IResult<&str, Token> {
-    let (rem, _) = nom::character::complete::char('\x09')(input)?;
+    let (rem, _) = nom::character::complete::char('\x09').parse(input)?;
     Ok((
         rem,
         Token {
@@ -493,7 +493,7 @@ fn parse_tab(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_line_feed(input: &str) -> IResult<&str, Token> {
-    let (rem, _) = nom::character::complete::char('\x0A')(input)?;
+    let (rem, _) = nom::character::complete::char('\x0A').parse(input)?;
     Ok((
         rem,
         Token {
@@ -504,7 +504,7 @@ fn parse_line_feed(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_form_feed(input: &str) -> IResult<&str, Token> {
-    let (rem, _) = nom::character::complete::char('\x0C')(input)?;
+    let (rem, _) = nom::character::complete::char('\x0C').parse(input)?;
     Ok((
         rem,
         Token {
@@ -515,7 +515,7 @@ fn parse_form_feed(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_carriage_return(input: &str) -> IResult<&str, Token> {
-    let (rem, _) = nom::character::complete::char('\x0D')(input)?;
+    let (rem, _) = nom::character::complete::char('\x0D').parse(input)?;
     Ok((
         rem,
         Token {
@@ -527,7 +527,7 @@ fn parse_carriage_return(input: &str) -> IResult<&str, Token> {
 
 fn parse_sgr2(input: &str) -> IResult<&str, Token> {
     let (rem, (_, front, _, background, _)) =
-        tuple((tag("\x1b["), digit0, tag(";"), digit0, tag_no_case("m")))(input)?;
+        (tag("\x1b["), digit0, tag(";"), digit0, tag_no_case("m")).parse(input)?;
 
     let a = front.parse().unwrap_or(0);
     let b = background.parse().unwrap_or(0);
@@ -541,7 +541,7 @@ fn parse_sgr2(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_sgr3(input: &str) -> IResult<&str, Token> {
-    let (rem, (_, ctrl, _, front, _, background, _)) = tuple((
+    let (rem, (_, ctrl, _, front, _, background, _)) = (
         tag("\x1b["),
         digit0,
         tag(";"),
@@ -549,7 +549,8 @@ fn parse_sgr3(input: &str) -> IResult<&str, Token> {
         tag(";"),
         digit0,
         tag_no_case("m"),
-    ))(input)?;
+    )
+        .parse(input)?;
 
     let a = ctrl.parse().unwrap_or(0);
     let b = front.parse().unwrap_or(0);
@@ -583,7 +584,7 @@ fn parse_sgr3(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_sgr4(input: &str) -> IResult<&str, Token> {
-    let (rem, (_, reset, _, ctrl, _, front, _, background, _)) = tuple((
+    let (rem, (_, reset, _, ctrl, _, front, _, background, _)) = (
         tag("\x1b["),
         digit0,
         tag(";"),
@@ -593,7 +594,8 @@ fn parse_sgr4(input: &str) -> IResult<&str, Token> {
         tag(";"),
         digit0,
         tag_no_case("m"),
-    ))(input)?;
+    )
+        .parse(input)?;
     let a: u8 = reset.parse().unwrap_or(0);
     let b: u8 = ctrl.parse().unwrap_or(0);
     let c: u8 = front.parse().unwrap_or(0);
@@ -640,7 +642,7 @@ fn parse_sgr4(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_sgr5(input: &str) -> IResult<&str, Token> {
-    let (rem, (_, ctrl, _, ty, _, r, _, g, _, b, _)) = tuple((
+    let (rem, (_, ctrl, _, ty, _, r, _, g, _, b, _)) = (
         tag("\x1b["),
         digit0,
         tag(";"),
@@ -652,7 +654,8 @@ fn parse_sgr5(input: &str) -> IResult<&str, Token> {
         tag(";"),
         digit0,
         tag_no_case("m"),
-    ))(input)?;
+    )
+        .parse(input)?;
     let ctrl = ctrl.parse().unwrap_or(0);
     let ty = ty.parse().unwrap_or(0);
     let r = r.parse().unwrap_or(0);
@@ -681,7 +684,7 @@ fn parse_sgr5(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_sgr6(input: &str) -> IResult<&str, Token> {
-    let (rem, (_, ctrl, _, ty, _, r, _, g, _, b, _, n, _)) = tuple((
+    let (rem, (_, ctrl, _, ty, _, r, _, g, _, b, _, n, _)) = (
         tag("\x1b["),
         digit0,
         tag(";"),
@@ -695,7 +698,8 @@ fn parse_sgr6(input: &str) -> IResult<&str, Token> {
         tag(";"),
         digit0,
         tag_no_case("m"),
-    ))(input)?;
+    )
+        .parse(input)?;
     let ctrl = ctrl.parse().unwrap_or(0);
     let ty = ty.parse().unwrap_or(0);
     let r = r.parse().unwrap_or(0);
@@ -744,7 +748,7 @@ fn parse_sgr6(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_sgr7(input: &str) -> IResult<&str, Token> {
-    let (rem, (_, ctrl, _, a, _, b, _, c, _, d, _, e, _, f, _)) = tuple((
+    let (rem, (_, ctrl, _, a, _, b, _, c, _, d, _, e, _, f, _)) = (
         tag("\x1b["),
         digit0,
         tag(";"),
@@ -760,7 +764,8 @@ fn parse_sgr7(input: &str) -> IResult<&str, Token> {
         tag(";"),
         digit0,
         tag_no_case("m"),
-    ))(input)?;
+    )
+        .parse(input)?;
     let ctrl = ctrl.parse().unwrap_or(0);
     let a = a.parse().unwrap_or(0);
     let b = b.parse().unwrap_or(0);
@@ -824,30 +829,30 @@ fn parse_sgr7(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_sgr10(input: &str) -> IResult<&str, Token> {
-    let (rem, (_, c1, _, t1, _, r1, _, g1, _, b1, _, c2, _, t2, _, r2, _, g2, _, b2, _)) =
-        tuple((
-            tag("\x1b["),
-            digit0,
-            tag(";"),
-            digit0,
-            tag(";"),
-            digit0,
-            tag(";"),
-            digit0,
-            tag(";"),
-            digit0,
-            tag(";"),
-            digit0,
-            tag(";"),
-            digit0,
-            tag(";"),
-            digit0,
-            tag(";"),
-            digit0,
-            tag(";"),
-            digit0,
-            tag_no_case("m"),
-        ))(input)?;
+    let (rem, (_, c1, _, t1, _, r1, _, g1, _, b1, _, c2, _, t2, _, r2, _, g2, _, b2, _)) = (
+        tag("\x1b["),
+        digit0,
+        tag(";"),
+        digit0,
+        tag(";"),
+        digit0,
+        tag(";"),
+        digit0,
+        tag(";"),
+        digit0,
+        tag(";"),
+        digit0,
+        tag(";"),
+        digit0,
+        tag(";"),
+        digit0,
+        tag(";"),
+        digit0,
+        tag(";"),
+        digit0,
+        tag_no_case("m"),
+    )
+        .parse(input)?;
     let mut fg = AnsiColor::Default;
     let mut bg = AnsiColor::Default;
     let c1: u8 = c1.parse().unwrap_or_default();
@@ -902,7 +907,8 @@ fn parse_unknown(input: &str) -> IResult<&str, Token> {
         nom::character::complete::char('\x1b'),
         nom::character::complete::char('\x1c'),
         nom::character::complete::char('\x1e'),
-    ))(input)?;
+    ))
+    .parse(input)?;
 
     if n == '\x1a' {
         return Ok((
@@ -924,12 +930,13 @@ fn parse_unknown(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_link_no_title(input: &str) -> IResult<&str, Token> {
-    let (rem, (_, _, url, _)) = tuple((
+    let (rem, (_, _, url, _)) = (
         tag("\x1b]8;"),
         opt(tag(";")),
         alt((take_until("\x1b]8;;\x1b\\"), take_until("\x1b[!p"))),
         alt((tag("\x1b]8;;\x1b\\"), tag("\x1b[!p"))),
-    ))(input)?;
+    )
+        .parse(input)?;
     Ok((
         rem,
         Token {
@@ -940,14 +947,15 @@ fn parse_link_no_title(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_link_with_title(input: &str) -> IResult<&str, Token> {
-    let (rem, (_, _, url, _, title, _)) = tuple((
+    let (rem, (_, _, url, _, title, _)) = (
         tag("\x1b]8;"),
         opt(tag(";")),
         take_until("\x1b\\"),
         tag("\x1b\\"),
         alt((take_until("\x1b]8;;\x1b\\"), take_until("\x1b[!p"))),
         alt((tag("\x1b]8;;\x1b\\"), tag("\x1b[!p"))),
-    ))(input)?;
+    )
+        .parse(input)?;
     Ok((
         rem,
         Token {
@@ -958,13 +966,14 @@ fn parse_link_with_title(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_link_ll(input: &str) -> IResult<&str, Token> {
-    let (rem, (_, url, _, title, _)) = tuple((
+    let (rem, (_, url, _, title, _)) = (
         tag("\x1b]8;;"),
         take_until("\x07"),
         tag("\x07"),
         take_until("\x1b]8;;\x07"),
         tag("\x1b]8;;\x07"),
-    ))(input)?;
+    )
+        .parse(input)?;
     Ok((
         rem,
         Token {
@@ -1026,7 +1035,8 @@ pub(crate) fn parse_ansi(input: &str) -> IResult<&str, Vec<Token>> {
         alt((parse_link_with_title, parse_link_no_title, parse_link_ll)),
         parse_unknown,
         parse_anychar,
-    )))(input)?;
+    )))
+    .parse(input)?;
 
     for i in v.1.iter_mut() {
         i.range = (

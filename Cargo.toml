@@ -14,7 +14,7 @@ authors = ["ahaoboy"]
 [workspace.dependencies]
 clap = { version = "4", features = ["derive"] }
 wasm-bindgen = { version = "0.2" }
-nom = "7"
+nom = "8"
 html-escape = "0.2"
 base64 = "0.22"
 wasm-bindgen-test = "0.3"
