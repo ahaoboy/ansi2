@@ -33,3 +33,9 @@ lto = true
 strip = true
 opt-level = 3
 codegen-units = 1
+
+[profile.bloaty]
+debug = true
+lto = false
+strip = false
+inherits = 'release'
