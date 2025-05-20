@@ -249,15 +249,11 @@ pub fn min_distance(from: &Node, to: &Node) -> String {
         .collect()
 }
 
-pub fn to_ans<S: AsRef<str>>(str: S, width: Option<usize>, compress: bool) -> String {
+pub fn to_ans<S: AsRef<str>>(str: S, width: Option<usize>) -> String {
     let s = str.as_ref();
     let canvas = Canvas::new(s, width);
 
-    let pixels = if compress {
-        canvas.minify()
-    } else {
-        canvas.pixels
-    };
+    let pixels = canvas.minify();
     pixels_to_ans(pixels)
 }
 

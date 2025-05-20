@@ -69,6 +69,6 @@ pub fn to_text(s: String, width: Option<usize>) -> String {
 }
 
 #[wasm_bindgen]
-pub fn to_ans(s: String, width: Option<usize>, compress: Option<bool>) -> String {
-    ansi2::ans::to_ans(&s, width, compress.unwrap_or(false))
+pub fn to_ans(s: String, width: Option<usize>) -> String {
+    ansi2::ans::to_ans(&s, width)
 }

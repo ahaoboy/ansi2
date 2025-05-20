@@ -119,7 +119,7 @@ fn main() {
             &s, theme, width, base64, mode, light_bg, dark_bg, font_size, sourcemap,
         ),
         Format::Text => to_text(&s, width),
-        Format::Ans => to_ans(&s, width, compress),
+        Format::Ans => to_ans(&s, width),
     };
     print!("{}", output);
 }
