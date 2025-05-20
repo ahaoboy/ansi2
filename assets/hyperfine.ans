@@ -1,0 +1,16 @@
+[1mBenchmark [0m[1m1[0m: svgo ./bench.svg -o ./a.svg
+  Time ([1;32mmean[0m ± [32mσ[0m):     [1;32m 1.154 s[0m ± [32m 0.017 s[0m    [User: [34m1.048 s[0m, System: [34m0.316 s[0m]
+  Range ([36mmin[0m … [35mmax[0m):   [36m 1.125 s[0m … [35m 1.178 s[0m    [2m10 runs[0m
+ 
+[1mBenchmark [0m[1m2[0m: osvg ./bench.svg ./b.svg
+  Time ([1;32mmean[0m ± [32mσ[0m):     [1;32m15.603 s[0m ± [32m 0.146 s[0m    [User: [34m14.569 s[0m, System: [34m0.519 s[0m]
+  Range ([36mmin[0m … [35mmax[0m):   [36m15.390 s[0m … [35m15.804 s[0m    [2m10 runs[0m
+ 
+[1mBenchmark [0m[1m3[0m: oxvg optimize  ./bench.svg > ./c.svg
+  Time ([1;32mmean[0m ± [32mσ[0m):     [1;32m500.0 ms[0m ± [32m  4.3 ms[0m    [User: [34m411.6 ms[0m, System: [34m83.1 ms[0m]
+  Range ([36mmin[0m … [35mmax[0m):   [36m495.6 ms[0m … [35m507.5 ms[0m    [2m10 runs[0m
+ 
+[1mSummary[0m
+  [36moxvg optimize  ./bench.svg > ./c.svg[0m ran
+[1;32m    2.31[0m ± [32m0.04[0m times faster than [35msvgo ./bench.svg -o ./a.svg[0m
+[1;32m   31.21[0m ± [32m0.40[0m times faster than [35mosvg ./bench.svg ./b.svg[0m

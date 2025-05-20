@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for i in win11 vitest 8bit-color 24bit-color nu-ls ansi-default colortable hyperlink-demo
+for i in win11 vitest 8bit-color 24bit-color nu-ls ansi-default colortable hyperlink-demo hyperfine
 do
   cat "$i.ans" | node ../ansi2-wasm/bin/cli.js -c > "$i.svg"
   cat "$i.ans" | node ../ansi2-wasm/bin/cli.js -c -f=ans > "$i.min.ans"
