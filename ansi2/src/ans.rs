@@ -286,13 +286,13 @@ mod test {
                 continue;
             }
             let s = std::fs::read_to_string(&p).unwrap();
-            let min = to_ans(&s, None, true);
+            let min = to_ans(&s, None);
 
             let c1 = Canvas::new(&s, None);
             let c2 = Canvas::new(&min, None);
             assert_eq!(c1, c2);
 
-            let min2 = to_ans(&min, None, true);
+            let min2 = to_ans(&min, None);
             assert_eq!(min2, min);
         }
     }

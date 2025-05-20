@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "bloaty": "cargo build --profile bloaty --features=\"cli\" && bloaty ./target/bloaty/ansi2 -d sections,symbols -n 0  --csv | bloaty-metafile --name=ansi2 --lock=Cargo.lock --no-sections  > meta.json",
+    "bloaty": "cargo -q build --profile bloaty --features=\"cli\" && bloaty ./target/bloaty/ansi2 -d sections,symbols -n 0  --csv | bloaty-metafile --name=ansi2 --lock=Cargo.lock --no-sections  > meta.json",
     "update:snapshot": "INSTA_UPDATE=always cargo test",
     "update:svg": "cd assets && sh ./update.sh",
     "pre-check": "cargo fmt && cargo clippy --fix --allow-dirty --allow-staged && cargo test && npm run format && npm run lint:fix",
