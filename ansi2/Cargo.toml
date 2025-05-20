@@ -16,10 +16,9 @@ base64 = { workspace = true }
 infer = { workspace = true }
 image = { workspace = true }
 typed-arena = { workspace = true, optional = true }
-oxvg = { workspace = true, optional = true }
 oxvg_optimiser = { workspace = true, optional = true }
 oxvg_ast = { workspace = true, optional = true }
-
+ahash = { workspace = true, optional = true }
 
 [dev-dependencies]
 insta = { workspace = true }
@@ -27,7 +26,7 @@ insta = { workspace = true }
 [features]
 cli = ["clap", "minify"]
 wasm = ["wasm-bindgen"]
-minify = ["oxvg", "typed-arena", "oxvg_optimiser", "oxvg_ast"]
+minify = ["typed-arena", "oxvg_optimiser/wasm", "oxvg_ast" ]
 
 [[bin]]
 required-features = ["cli"]
