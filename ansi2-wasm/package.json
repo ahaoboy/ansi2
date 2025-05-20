@@ -24,7 +24,6 @@
   "keywords": ["ansi"],
   "dependencies": {
     "clipanion": "4.0.0-rc.4",
-    "svgo": "^3.3.2",
     "typanion": "^3.14.0"
   }
 }

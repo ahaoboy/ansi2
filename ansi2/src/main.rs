@@ -34,9 +34,6 @@ struct Args {
     #[arg(long)]
     font: Option<String>,
 
-    #[arg(short, long, default_value_t = false)]
-    compress: bool,
-
     #[arg(long)]
     light_bg: Option<String>,
     #[arg(long)]
@@ -71,7 +68,6 @@ fn main() {
         theme,
         mode,
         font,
-        compress,
         light_bg,
         dark_bg,
         font_size,
@@ -103,7 +99,7 @@ fn main() {
 
     let output = match format {
         Format::Svg => {
-            let mut svg = to_svg(
+            let svg = to_svg(
                 s,
                 theme,
                 width,
@@ -115,12 +111,8 @@ fn main() {
                 length_adjust,
                 sourcemap,
             );
-            if compress {
-                #[cfg(feature = "minify")]
-                {
-                    svg = minify_svg(&svg).expect("compress error");
-                }
-            }
+            #[cfg(feature = "minify")]
+            let svg = minify_svg(&svg).expect("compress error");
             svg
         }
         Format::Html => to_html(

@@ -1,6 +1,5 @@
 import { to_svg, to_html, to_text, Theme, to_ans } from "./wasm"
 import { readFileSync, existsSync } from "node:fs"
-import { optimize } from "svgo"
 import { Mode } from "./wasm"
 import { version } from "../package.json"
 import * as t from "typanion"
@@ -76,19 +75,6 @@ class AnsiCmd extends Command {
     const lightBg = this.lightBg
     const darkBg = this.darkBg
 
-    // console.log({
-    //   theme,
-    //   mode,
-    //   format,
-    //   width,
-    //   font,
-    //   compress,
-    //   fontSize,
-    //   lengthAdjust,
-    //   lightBg,
-    //   darkBg,
-    // })
-
     const input = await readToString()
     switch (format) {
       case "svg": {
@@ -103,21 +89,7 @@ class AnsiCmd extends Command {
           fontSize,
           lengthAdjust,
         )
-        const result = compress
-          ? optimize(s, {
-              plugins: [
-                {
-                  name: "preset-default",
-                  params: {
-                    overrides: {
-                      inlineStyles: false,
-                    },
-                  },
-                },
-              ],
-            }).data
-          : s
-        process.stdout.write(result)
+        process.stdout.write(s)
         break
       }
       case "html": {

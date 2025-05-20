@@ -12,7 +12,7 @@ crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 wasm-bindgen = { workspace = true }
-ansi2 = { workspace = true, features = ["wasm"] }
+ansi2 = { workspace = true, features = ["wasm", "minify"] }
 
 [package.metadata.wasm-pack.profile.release]
 wasm-opt = false
