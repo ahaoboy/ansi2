@@ -69,7 +69,7 @@ jobs:
           cargo binstall wasm-pack -y --force
 
           cd ./ansi2
-          cargo test
+          cargo test -- --nocapture
           cd ..
 
           cd ./ansi2-wasm
