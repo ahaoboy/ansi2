@@ -287,6 +287,7 @@ mod test {
             }
             let s = std::fs::read_to_string(&p).unwrap();
             let min = to_ans(&s, None);
+            println!("path: {}", p);
             println!("s:\n{}\n\nmin:\n{}", s, min);
 
             let c1 = Canvas::new(&s, None);

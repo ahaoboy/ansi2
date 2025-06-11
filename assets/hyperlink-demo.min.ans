@@ -1,24 +1,24 @@
-[0m[1mTests for [0m[1m[4mgnome-terminal #779734[0m and [0m[4miTerm2 #5158
+[1mTests for [4mgnome-terminal #779734[24m and [4miTerm2 #5158
 [0m═════════════════════════════════════════════════
 
-[0m[33mcommit [0m[4m[33ma9b0b4c75a6dc7282f7cfcaef71413d69f7f0731
-[0mAuthor: Egmont Koblinger <[0m[4megmont@gmail.com[0m>
+[33mcommit [4ma9b0b4c75a6dc7282f7cfcaef71413d69f7f0731
+[0mAuthor: Egmont Koblinger <[4megmont@gmail.com[0m>
 Date:   Sat Oct 24 00:12:22 2015 +0200
 
     widget: Implement smooth scrolling
 
-    [0m[4mBug #746690
+    [4mBug #746690
 
-[0m[33mcommit [0m[4m[33m6a74baeaabb0a1ce54444611b324338f94721a5c
-[0mMerge: [0m[4m3fac446[0m [0m[4m56ea581
-[0mAuthor: Christian Persch <[0m[4mchpe@gnome.org[0m>
+[0;33mcommit [4m6a74baeaabb0a1ce54444611b324338f94721a5c
+[0mMerge: [4m3fac446[0m [4m56ea581
+[0mAuthor: Christian Persch <[4mchpe@gnome.org[0m>
 Date:   Mon Apr 27 13:48:52 2015 +0200
 
     Merge branch 'work-html' into merge-html
 
-[0m[4mA file with a % sign in its name (escaped as %25)
-[0mIcons: [0m[4mTheme[0m [0m[4mGraphics[0m [0m[4mStar[0m [0m[4mExit[0m [0m[4mTerminal
-[0mBackgrounds: [0m[4mBokeh[0m [0m[4mChmiri[0m [0m[4mIvy[0m [0m[4mFlower[0m [0m[4mIceland[0m [0m[4mIcescape[0m [0m[4mMirror[0m [0m[4mRoad[0m [0m[4mSandstone[0m [0m[4mStones[0m [0m[4mWaterfalls[0m [0m[4mWaves
+[4mA file with a % sign in its name (escaped as %25)
+[0mIcons: [4mTheme[0m [4mGraphics[0m [4mStar[0m [4mExit[0m [4mTerminal
+[0mBackgrounds: [4mBokeh[0m [4mChmiri[0m [4mIvy[0m [4mFlower[0m [4mIceland[0m [4mIcescape[0m [4mMirror[0m [4mRoad[0m [4mSandstone[0m [4mStones[0m [4mWaterfalls[0m [4mWaves
 
 Wiki page of � (unescaped raw Latin-1; invalid UTF-8)
 Wiki page of Á (unescaped raw UTF-8)
@@ -27,38 +27,38 @@ Wiki page of % (escaped as %25)
 http://المغرب.icom.museum (with URI-escaped domain name)
 http://xn--4wa8awb4637h.org (Παν語.org)
 
-[0mTwo adjacent links pointing to the same URL:   [0m[4mfoofoo
-[0mTwo adjacent links pointing to different URLs: [0m[4mfoobar
+[0mTwo adjacent links pointing to the same URL:   [4mfoofoo
+[0mTwo adjacent links pointing to different URLs: [4mfoobar
 
-[0mThe same two without closing the first link: [0m[4mfoo]8;;http://example.com/foo\foo[0m [0m[4mfoo]8;;http://example.com/bar\bar
+[0mThe same two without closing the first link: [4mfoo]8;;http://example.com/foo\foo[0m [4mfoo]8;;http://example.com/bar\bar
 
-[0mA URL wrapping to the next line, and a trailing whitespace: [0m[4mfoo
-bar 
+[0mA URL wrapping to the next line, and a trailing whitespace: [4mfoo
+bar
 
-[0m[4m[31mM[0m[4m[32mu[0m[4m[33ml[0m[4m[34mt[0m[4m[35mi[0m[4m[36m-[0m[48;5;21mc[0m[48;5;27mo[0m[48;5;33ml[0m[48;5;39mo[0m[48;5;45mu[0m[48;5;51mr[0m [0m[1ml[0mink also tests that "\e[m" or "\e[0m" does [0m[3mnot[0m terminate the link
+[31mM[32mu[33ml[34mt[35mi[36m-[0m[48;5;21mc[48;5;27mo[48;5;33ml[48;5;39mo[48;5;45mu[48;5;51mr[0m [1ml[0mink also tests that "\e[m" or "\e[0m" does [3mnot[0m terminate the link
 
-Soft reset "\e[!p" resets attributes and terminates link: [0m[3m[4m[31mfoo[!pbar
+Soft reset "\e[!p" resets attributes and terminates link: [4m[3;31mfoo[!pbar
 
 ]8;;http://example.com/width\Some CJK and combining accents: 䀀䀁䀂ćĝm̃n̄o̅
 
 [0m(Introducing the "under_score" character for even more fun)
 
-Explicit and implicit link: [0m[4mhttp://example.com/under_score
-[0mExplicit and implicit link with different targets: [0m[4mhttp://example.com/implicit_under_score
-[0mExplicit and implicit link, broken into two lines: [0m[4mhttp://examp
+Explicit and implicit link: [4mhttp://example.com/under_score
+[0mExplicit and implicit link with different targets: [4mhttp://example.com/implicit_under_score
+[0mExplicit and implicit link, broken into two lines: [4mhttp://examp
 le.com/under_score
 
 Explicitly underlined links ("\e[4m"):
-[0mExplicit link only: [0m[4mI'm an explicit link with under_score
-[0mImplicit link only: [0m[4mhttp://example.com/under_score
-[0mBoth:               [0m[4mhttp://example.com/under_score
+[0mExplicit link only: [4mI'm an explicit link with under_score
+[0mImplicit link only: [4mhttp://example.com/under_score
+[0mBoth:               [4mhttp://example.com/under_score
 
-[0mConflicting explicit and implicit links: http://example.com/foobar-[0m[4mexplicit[0m-rest
+[0mConflicting explicit and implicit links: http://example.com/foobar-[4mexplicit[0m-rest
 
-Invisible explicit link: «[0m[4m[8mCan you see me?[0m»
-Invisible implicit link: «[0m[8mhttp://example.com/how_about_me[0m»
+Invisible explicit link: «[4m[8mCan you see me?[0m»
+Invisible implicit link: «[8mhttp://example.com/how_about_me[0m»
 
-[0m[4mExplicit link with stupid target
+[4mExplicit link with stupid target
 
 URL of 100 bytes
 URL of 200 bytes
@@ -69,24 +69,24 @@ URL of 2000 bytes
 URL of 2083 bytes
 URL of 2084 bytes
 
-ID of 250 bytes once,[0m [0m[4mtwice
-ID of 251 bytes once,[0m [0m[4mtwice
+ID of 250 bytes once,[0m [4mtwice
+ID of 251 bytes once,[0m [4mtwice
 
 ID of 250 bytes + URL of 2083 bytes
 ID of 251 bytes + URL of 2083 bytes
 ID of 250 bytes + URL of 2084 bytes
 ID of 251 bytes + URL of 2084 bytes
 
-move[0m   [0m[4mright
+move[0m   [4mright
 
 [0mAlternating URIs, all with the same ID. Either all foos or all bars should be underlined on hover:
-[0m[4mfoobarfoobarfoobarfoo
+[4mfoobarfoobarfoobarfoo
 
 [0mScreenshot from an imaginary text editor:
 ╔═ file1 ════╗
 ║          ╔═ file2 ═══╗
-║[0m[4mhttp://exa[0m║Lorem ipsum║
-║[0m[4mle.com[0m    ║ dolor sit ║
+║[4mhttp://exa[0m║Lorem ipsum║
+║[4mle.com[0m    ║ dolor sit ║
 ║          ║amet, conse║
 ╚══════════║ctetur adip║
            ╚═══════════╝
