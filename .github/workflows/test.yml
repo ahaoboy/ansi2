@@ -27,37 +27,46 @@ jobs:
           components: rustfmt,clippy
           rustflags: "-A warnings"
           toolchain: "stable"
-      - name: Install cargo-binstall
-        run: curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash
-
-      # - name: Install cargo-binstall
-      #   if: matrix.os == 'windows-latest'
-      #   run: Set-ExecutionPolicy Unrestricted -Scope Process; iex (iwr "https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.ps1").Content
-      #   shell: powershell
-
+          target: wasm32-unknown-unknown
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: cargo-bins/cargo-binstall@main
       - name: Run
         run: |
           cargo binstall neofetch -y --force
-          neofetch | cargo run --features="cli" -q > ./neofetch.svg
+          neofetch > ./neofetch-${{ matrix.os }}.ans
+          neofetch | cargo run --features="cli" -q > ./neofetch-${{ matrix.os }}.svg
 
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.os }}
-          path: ./*.svg
+          name: ansi2-${{ matrix.os }}
+          path: |
+            ./*.svg
+            ./*.ans
 
   npm-test:
-    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-latest, macos-13, macos-14]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          components: rustfmt,clippy
+          rustflags: "-A warnings"
+          toolchain: "stable"
+          target: wasm32-unknown-unknown
+      - uses: cargo-bins/cargo-binstall@main
       - name: test
         run: |
-          curl --proto '=https' --tlsv1.2 -sSf https://rsproxy.cn/rustup-init.sh | sh -s -- -y --default-toolchain stable
-          curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash
-          rustup target add wasm32-unknown-unknown
-
           cargo binstall wasm-pack -y --force
-          npm i pnpm -g
 
           cd ./ansi2
           cargo test
@@ -67,11 +76,14 @@ jobs:
           pnpm i
           pnpm run build
 
-          sudo apt-get install neofetch -y
-          neofetch | node ./bin/cli.js --format=svg --theme=vscode > neofetch.svg
+          cargo binstall neofetch -y --force
+          neofetch > neofetch-${{ matrix.os }}.ans
+          neofetch | node ./bin/cli.js --format=svg --theme=vscode > neofetch-${{ matrix.os }}.svg
 
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
-          name: ansi2
-          path: ./ansi2-wasm/*.svg
+          name: ansi2-wasm-${{ matrix.os }}
+          path: |
+            ./ansi2-wasm/*.svg
+            ./ansi2-wasm/*.ans
