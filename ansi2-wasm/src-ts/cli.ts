@@ -39,9 +39,6 @@ class AnsiCmd extends Command {
     description: "mode",
     required: false,
   })
-  compress = Option.Boolean("-c,--compress", false, {
-    description: "compress",
-  })
   lightBg = Option.String("--light-bg", {
     description: "light-bg",
     validator: isColor,
@@ -62,6 +59,10 @@ class AnsiCmd extends Command {
     validator: isLengthAdjust,
     required: false,
   })
+  sourcemap = Option.Boolean("-s,--sourcemap", {
+    description: "sourcemap",
+    required: false,
+  })
 
   async execute() {
     const theme = getTheme(this.theme)
@@ -69,11 +70,11 @@ class AnsiCmd extends Command {
     const format = this.format
     const width = this.width
     const font = getFontUrl(this.font)
-    const compress = this.compress
     const fontSize = this.fontSize
     const lengthAdjust = this.lengthAdjust
     const lightBg = this.lightBg
     const darkBg = this.darkBg
+    const sourcemap = this.darkBg
 
     const input = await readToString()
     switch (format) {
@@ -88,13 +89,14 @@ class AnsiCmd extends Command {
           darkBg,
           fontSize,
           lengthAdjust,
+          sourcemap
         )
         process.stdout.write(s)
         break
       }
       case "html": {
         process.stdout.write(
-          to_html(input, theme, width, font, mode, lightBg, darkBg, fontSize),
+          to_html(input, theme, width, font, mode, lightBg, darkBg, fontSize, sourcemap),
         )
         break
       }
@@ -102,7 +104,7 @@ class AnsiCmd extends Command {
         process.stdout.write(to_text(input, width))
       }
       case "ans": {
-        process.stdout.write(to_ans(input, width, compress))
+        process.stdout.write(to_ans(input, width,))
       }
     }
   }

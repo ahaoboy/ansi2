@@ -33,7 +33,7 @@ http://xn--4wa8awb4637h.org (Παν語.org)
 [0mThe same two without closing the first link: [4mfoo]8;;http://example.com/foo\foo[0m [4mfoo]8;;http://example.com/bar\bar
 
 [0mA URL wrapping to the next line, and a trailing whitespace: [4mfoo
-bar
+bar 
 
 [31mM[32mu[33ml[34mt[35mi[36m-[0m[48;5;21mc[48;5;27mo[48;5;33ml[48;5;39mo[48;5;45mu[48;5;51mr[0m [1ml[0mink also tests that "\e[m" or "\e[0m" does [3mnot[0m terminate the link
 
