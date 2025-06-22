@@ -1,6 +1,6 @@
 use crate::color::{AnsiColor, Color8};
 use nom::branch::alt;
-use nom::bytes::complete::{tag, tag_no_case, take_until};
+use nom::bytes::complete::{tag, tag_no_case, take_until, take_while1};
 use nom::character::complete::{anychar, digit0};
 use nom::combinator::opt;
 use nom::multi::many0;
@@ -18,7 +18,8 @@ pub enum Sgr {
     FormFeed,
     CarriageReturn,
     Title(String),
-
+    Cwd(String),
+    Prompt,
     CursorUp(i32),
     CursorDown(i32),
     CursorForward(i32),
@@ -305,6 +306,30 @@ fn parse_title(input: &str) -> IResult<&str, Token> {
     ))
 }
 
+fn parse_cwd(input: &str) -> IResult<&str, Token> {
+    let (rem, (_, s, _)) = (tag("\x1b]7;"), take_until("\x07"), tag("\x07")).parse(input)?;
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::Cwd(s.into()),
+        },
+    ))
+}
+fn parse_prompt(input: &str) -> IResult<&str, Token> {
+    let (rem, (_, _)) = (
+        tag("\x1b]133;"),
+        take_while1(|c: char| !(c.is_control() || c.is_whitespace())),
+    )
+        .parse(input)?;
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::Prompt,
+        },
+    ))
+}
 fn parse_bold(input: &str) -> IResult<&str, Token> {
     let (rem, _) = tag("\x1b(B").parse(input)?;
     Ok((
@@ -1032,7 +1057,13 @@ pub(crate) fn parse_ansi(input: &str) -> IResult<&str, Vec<Token>> {
             parse_sgr7,
             parse_sgr10,
         )),
-        alt((parse_link_with_title, parse_link_no_title, parse_link_ll)),
+        alt((
+            parse_link_with_title,
+            parse_link_no_title,
+            parse_link_ll,
+            parse_cwd,
+            parse_prompt,
+        )),
         parse_unknown,
         parse_anychar,
     )))

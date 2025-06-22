@@ -262,4 +262,12 @@ mod test {
         assert_debug_snapshot!(canvas);
         assert_debug_snapshot!(canvas.minify());
     }
+
+    #[test]
+    fn test_starship() {
+        let s =
+            "]7;file://win/c/code/ansi2]0;/c/c/ansi2[30m(B[m[K]133;A;special_key=1[J";
+        let r = parse_ansi(s).unwrap();
+        assert_debug_snapshot!(r);
+    }
 }

@@ -1,0 +1,84 @@
+---
+source: ansi2/src/lib.rs
+expression: r
+---
+(
+    "",
+    [
+        Token {
+            sgr: Cwd(
+                "file://win/c/code/ansi2",
+            ),
+            range: (
+                0,
+                28,
+            ),
+        },
+        Token {
+            sgr: Title(
+                "/c/c/ansi2",
+            ),
+            range: (
+                28,
+                43,
+            ),
+        },
+        Token {
+            sgr: ColorForeground(
+                Color8(
+                    Black,
+                ),
+            ),
+            range: (
+                43,
+                48,
+            ),
+        },
+        Token {
+            sgr: Bold,
+            range: (
+                48,
+                51,
+            ),
+        },
+        Token {
+            sgr: ColorReset,
+            range: (
+                51,
+                54,
+            ),
+        },
+        Token {
+            sgr: EraseInLine(
+                0,
+            ),
+            range: (
+                54,
+                57,
+            ),
+        },
+        Token {
+            sgr: Prompt,
+            range: (
+                57,
+                78,
+            ),
+        },
+        Token {
+            sgr: Bell,
+            range: (
+                78,
+                79,
+            ),
+        },
+        Token {
+            sgr: EraseInDisplay(
+                0,
+            ),
+            range: (
+                79,
+                82,
+            ),
+        },
+    ],
+)
