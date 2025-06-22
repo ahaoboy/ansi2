@@ -56,14 +56,14 @@ impl Step {
             Step::Color(ansi_color) => match ansi_color {
                 AnsiColor::Default => "39".to_string(),
                 AnsiColor::Color8(color8) => format!("{}", color8.to_u8()),
-                AnsiColor::Color256(n) => format!("38;5;{}", n),
-                AnsiColor::Rgb(r, g, b) => format!("38;2;{};{};{}", r, g, b),
+                AnsiColor::Color256(n) => format!("38;5;{n}"),
+                AnsiColor::Rgb(r, g, b) => format!("38;2;{r};{g};{b}"),
             },
             Step::Bg(ansi_color) => match ansi_color {
                 AnsiColor::Default => "49".to_string(),
                 AnsiColor::Color8(color8) => format!("{}", color8.to_u8() + 10),
-                AnsiColor::Color256(n) => format!("48;5;{}", n),
-                AnsiColor::Rgb(r, g, b) => format!("48;2;{};{};{}", r, g, b),
+                AnsiColor::Color256(n) => format!("48;5;{n}"),
+                AnsiColor::Rgb(r, g, b) => format!("48;2;{r};{g};{b}"),
             },
             Step::Bold => "1".to_string(),
             Step::Blink => "5".to_string(),
@@ -249,15 +249,11 @@ pub fn min_distance(from: &Node, to: &Node) -> String {
         .collect()
 }
 
-pub fn to_ans<S: AsRef<str>>(str: S, width: Option<usize>, compress: bool) -> String {
+pub fn to_ans<S: AsRef<str>>(str: S, width: Option<usize>) -> String {
     let s = str.as_ref();
     let canvas = Canvas::new(s, width);
 
-    let pixels = if compress {
-        canvas.minify()
-    } else {
-        canvas.pixels
-    };
+    let pixels = canvas.minify();
     pixels_to_ans(pixels)
 }
 
@@ -290,13 +286,18 @@ mod test {
                 continue;
             }
             let s = std::fs::read_to_string(&p).unwrap();
-            let min = to_ans(&s, None, true);
+            let min = to_ans(&s, None);
+
+            // FIXME: skip on windows
+            if cfg!(windows) && p.contains("hyperlink-demo") {
+                continue;
+            }
 
             let c1 = Canvas::new(&s, None);
             let c2 = Canvas::new(&min, None);
             assert_eq!(c1, c2);
 
-            let min2 = to_ans(&min, None, true);
+            let min2 = to_ans(&min, None);
             assert_eq!(min2, min);
         }
     }

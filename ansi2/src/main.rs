@@ -34,9 +34,6 @@ struct Args {
     #[arg(long)]
     font: Option<String>,
 
-    #[arg(short, long, default_value_t = false)]
-    compress: bool,
-
     #[arg(long)]
     light_bg: Option<String>,
     #[arg(long)]
@@ -71,7 +68,6 @@ fn main() {
         theme,
         mode,
         font,
-        compress,
         light_bg,
         dark_bg,
         font_size,
@@ -103,7 +99,7 @@ fn main() {
 
     let output = match format {
         Format::Svg => {
-            let mut svg = to_svg(
+            let svg = to_svg(
                 s,
                 theme,
                 width,
@@ -115,34 +111,37 @@ fn main() {
                 length_adjust,
                 sourcemap,
             );
-            if compress {
-                svg = osvg::osvg(
-                    &svg,
-                    Some(
-                        r#"
-{
-  plugins: [
-    {
-      name: "preset-default",
-      params: {
-        overrides: {
-          inlineStyles: false,
-        },
-      },
-    },
-  ],
-}"#,
-                    ),
-                )
-                .expect("compress error");
-            }
+            #[cfg(feature = "minify")]
+            let svg = minify_svg(&svg).expect("compress error");
             svg
         }
         Format::Html => to_html(
             &s, theme, width, base64, mode, light_bg, dark_bg, font_size, sourcemap,
         ),
         Format::Text => to_text(&s, width),
-        Format::Ans => to_ans(&s, width, compress),
+        Format::Ans => to_ans(&s, width),
     };
     print!("{}", output);
+}
+
+#[cfg(feature = "minify")]
+fn minify_svg(svg: &str) -> Result<String, String> {
+    use oxvg_ast::{
+        implementations::{roxmltree::parse, shared::Element},
+        serialize::{Indent, Node as _, Options},
+        visitor::Info,
+    };
+    use oxvg_optimiser::Jobs;
+    let arena = typed_arena::Arena::new();
+    let dom = parse(svg, &arena).map_err(|e| e.to_string())?;
+
+    Jobs::default()
+        .run(&dom, &Info::<Element>::new(&arena))
+        .map_err(|err| err.to_string())?;
+
+    dom.serialize_with_options(Options {
+        indent: Indent::None,
+        ..Default::default()
+    })
+    .map_err(|err| err.to_string())
 }

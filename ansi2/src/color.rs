@@ -1,7 +1,7 @@
 use crate::theme::{ColorTable, COLOR256};
 
 pub fn get_hex((r, g, b): (u8, u8, u8)) -> String {
-    format!("#{:02X}{:02X}{:02X}", r, g, b)
+    format!("#{r:02X}{g:02X}{b:02X}")
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
@@ -145,8 +145,8 @@ impl AnsiColor {
         match self {
             AnsiColor::Default => "D".into(),
             AnsiColor::Color8(n) => n.class_name().to_string(),
-            AnsiColor::Rgb(r, g, b) => format!("c{:02X}{:02X}{:02X}", r, g, b),
-            AnsiColor::Color256(c) => format!("c{:02X}", c),
+            AnsiColor::Rgb(r, g, b) => format!("c{r:02X}{g:02X}{b:02X}"),
+            AnsiColor::Color256(c) => format!("c{c:02X}"),
         }
     }
 
@@ -154,8 +154,8 @@ impl AnsiColor {
         match self {
             AnsiColor::Default => "D".into(),
             AnsiColor::Color8(n) => n.bg_class_name().to_string(),
-            AnsiColor::Rgb(r, g, b) => format!("b{:02X}{:02X}{:02X}", r, g, b),
-            AnsiColor::Color256(c) => format!("b{:02X}", c),
+            AnsiColor::Rgb(r, g, b) => format!("b{r:02X}{g:02X}{b:02X}"),
+            AnsiColor::Color256(c) => format!("b{c:02X}"),
         }
     }
 
