@@ -2,9 +2,9 @@ use ansi2::ans::to_ans;
 use ansi2::image::image_to_ans;
 use ansi2::{css::Mode, theme::Theme};
 use ansi2::{html::to_html, svg::to_svg, text::to_text};
-use base64::prelude::BASE64_STANDARD;
 use base64::Engine;
-use clap::{command, Parser, ValueEnum};
+use base64::prelude::BASE64_STANDARD;
+use clap::{Parser, ValueEnum, command};
 use std::path::Path;
 use std::{fs::read, io::Read};
 
@@ -47,6 +47,9 @@ struct Args {
 
     #[arg(short, long, default_value_t = false)]
     sourcemap: bool,
+
+    #[clap()]
+    file: Option<String>,
 }
 
 fn process_input(buf: Vec<u8>) -> String {
@@ -73,14 +76,20 @@ fn main() {
         font_size,
         length_adjust,
         sourcemap,
+        file,
     } = args;
     let format = format.unwrap_or(Format::Svg);
     let theme = theme.unwrap_or(Theme::Vscode);
 
-    let mut buf = Vec::new();
-    std::io::stdin()
-        .read_to_end(&mut buf)
-        .expect("can't read string from stdin");
+    let buf = if let Some(file) = file {
+        std::fs::read(file).expect("can't read string from file")
+    } else {
+        let mut v = Vec::new();
+        std::io::stdin()
+            .read_to_end(&mut v)
+            .expect("can't read string from stdin");
+        v
+    };
 
     let s = process_input(buf);
     let base64 = font.map(|font_url| {

@@ -31,6 +31,3 @@ minify = ["typed-arena", "oxvg_optimiser/wasm", "oxvg_ast" ]
 [[bin]]
 required-features = ["cli"]
 name = "ansi2"
-
-[lints.rust]
-unused_assignments = "allow"

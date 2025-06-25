@@ -3,7 +3,7 @@ use std::collections::VecDeque;
 use crate::{
     ans::min_distance,
     color::{AnsiColor, Color8},
-    lex::{parse_ansi, Sgr, Token},
+    lex::{Sgr, Token, parse_ansi},
     node::Node,
 };
 
@@ -87,7 +87,7 @@ impl Canvas {
         let mut color_r = (0, 0);
         let mut bold_r = (0, 0);
         let mut blink_r = (0, 0);
-        let mut text_r = (0, 0);
+        // let mut text_r = (0, 0);
         let mut dim_r = (0, 0);
         let mut italic_r = (0, 0);
         let mut underline_r = (0, 0);
@@ -137,7 +137,7 @@ impl Canvas {
                 }
 
                 Sgr::Char(c) => {
-                    text_r = range;
+                    // text_r = range;
                     let node = Node {
                         text: c.into(),
                         bg_color: cur_bg_c,
@@ -154,7 +154,7 @@ impl Canvas {
                         color_r,
                         bold_r,
                         blink_r,
-                        text_r,
+                        text_r: range,
                         dim_r,
                         italic_r,
                         underline_r,
