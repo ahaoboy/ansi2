@@ -1,6 +1,6 @@
 {
   "name": "ansi2",
-  "version": "0.1.15",
+  "version": "0.3.0",
   "description": "ansi2",
   "main": "dist/index.js",
   "bin": "./bin/cli.js",
