@@ -1,6 +1,6 @@
 use crate::{
     canvas::Canvas,
-    css::{CssType, Mode, NodeStyle, Style},
+    css::{CssType, Mode, NodeStyle, Style,DEFAULT_FONTS},
     theme::ColorTable,
 };
 #[allow(clippy::too_many_arguments)]
@@ -31,7 +31,7 @@ pub fn to_svg<S: AsRef<str>, T: ColorTable>(
     let mut cur_y = 0;
     let mut style = Style::default();
     let mut font_style = "".into();
-    let mut font_family = "Consolas,Courier New,Monaco".into();
+    let mut font_family = DEFAULT_FONTS.into();
 
     if let Some(url) = font {
         if url.starts_with("http") || url.starts_with("data:font;base64") {

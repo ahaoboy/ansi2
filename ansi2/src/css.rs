@@ -267,3 +267,5 @@ impl Style {
         css
     }
 }
+
+pub const DEFAULT_FONTS: &str = "Consolas,Courier New,Monaco,monospace";
