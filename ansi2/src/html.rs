@@ -1,6 +1,6 @@
 use crate::{
     canvas::Canvas,
-    css::{CssType, Mode, NodeStyle, Style},
+    css::{CssType, DEFAULT_FONTS, Mode, NodeStyle, Style},
     theme::ColorTable,
 };
 
@@ -24,7 +24,7 @@ pub fn to_html<S: AsRef<str>>(
     let mut style = Style::default();
 
     let mut font_style = "".into();
-    let mut font_family = "Consolas,Courier New,Monaco".into();
+    let mut font_family = DEFAULT_FONTS.into();
 
     if let Some(url) = font {
         if url.starts_with("http") || url.starts_with("data:font;base64") {

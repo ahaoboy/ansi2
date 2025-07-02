@@ -105,9 +105,9 @@ impl Style {
                 css.push_str(&row_style);
 
                 let text_style = format!(
-                  ".{}{{margin:0;padding:0;font-family:{font_family};white-space:pre;display:inline-block;font-size:{font_size}px}}",
-                  NodeStyle::Text.class_name()
-              );
+                    ".{}{{margin:0;padding:0;font-family:{font_family};white-space:pre;display:inline-block;font-size:{font_size}px}}",
+                    NodeStyle::Text.class_name()
+                );
                 css.push_str(&text_style);
             }
         }
@@ -267,3 +267,5 @@ impl Style {
         css
     }
 }
+
+pub const DEFAULT_FONTS: &str = "Consolas,Courier New,Monaco,monospace";
