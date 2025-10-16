@@ -4,7 +4,7 @@ use ansi2::{css::Mode, theme::Theme};
 use ansi2::{html::to_html, svg::to_svg, text::to_text};
 use base64::Engine;
 use base64::prelude::BASE64_STANDARD;
-use clap::{Parser, ValueEnum, command};
+use clap::{Parser, ValueEnum};
 use std::path::Path;
 use std::{fs::read, io::Read};
 
@@ -53,15 +53,14 @@ struct Args {
 }
 
 fn process_input(buf: Vec<u8>) -> String {
-    if let Some(ty) = infer::get(&buf) {
-        if ty.matcher_type() == infer::MatcherType::Image {
-            if let Some(s) = image_to_ans(&buf) {
-                return s;
-            }
-        }
+    if let Some(ty) = infer::get(&buf)
+        && ty.matcher_type() == infer::MatcherType::Image
+        && let Some(s) = image_to_ans(&buf)
+    {
+        return s;
     }
 
-    return String::from_utf8_lossy(&buf).to_string();
+    String::from_utf8_lossy(&buf).to_string()
 }
 fn main() {
     let args: Args = Args::parse();
@@ -103,7 +102,7 @@ fn main() {
 
         let bin = read(font_url).expect("read font file error");
         let base64 = BASE64_STANDARD.encode(bin);
-        return format!("data:font;base64,{base64}");
+        format!("data:font;base64,{base64}")
     });
 
     let output = match format {
