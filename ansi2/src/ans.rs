@@ -1,7 +1,7 @@
 use std::collections::BinaryHeap;
 
 use crate::{
-    canvas::{pixels_to_ans, Canvas},
+    canvas::{Canvas, pixels_to_ans},
     color::AnsiColor,
     node::Node,
 };

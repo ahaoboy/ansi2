@@ -1,4 +1,4 @@
-use crate::theme::{ColorTable, COLOR256};
+use crate::theme::{COLOR256, ColorTable};
 
 pub fn get_hex((r, g, b): (u8, u8, u8)) -> String {
     format!("#{r:02X}{g:02X}{b:02X}")

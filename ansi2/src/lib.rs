@@ -112,8 +112,7 @@ mod test {
     }
     #[test]
     fn test_base() {
-        let s =
-            "\x1b[30mblack\x1b[0m    \x1b[90mbright black\x1b[0m     \x1b[40mblack\x1b[0m    \x1b[100mbright black\x1b[0m";
+        let s = "\x1b[30mblack\x1b[0m    \x1b[90mbright black\x1b[0m     \x1b[40mblack\x1b[0m    \x1b[100mbright black\x1b[0m";
         let r = parse_ansi(s).unwrap();
         assert_debug_snapshot!(r);
 

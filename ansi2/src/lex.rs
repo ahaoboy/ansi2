@@ -1,11 +1,11 @@
 use crate::color::{AnsiColor, Color8};
+use nom::IResult;
+use nom::Parser;
 use nom::branch::alt;
 use nom::bytes::complete::{tag, tag_no_case, take_until, take_while1};
 use nom::character::complete::{anychar, digit0};
 use nom::combinator::opt;
 use nom::multi::many0;
-use nom::IResult;
-use nom::Parser;
 
 #[derive(Debug, Clone)]
 pub enum Sgr {
@@ -367,7 +367,7 @@ fn parse_color_foreground(input: &str) -> IResult<&str, Token> {
                     range: (input.chars().count(), rem.chars().count()),
                     sgr: Sgr::ColorForeground(AnsiColor::Color256(b)),
                 },
-            ))
+            ));
         }
     };
     Ok((
@@ -392,7 +392,7 @@ fn parse_color_background(input: &str) -> IResult<&str, Token> {
                     range: (input.chars().count(), rem.chars().count()),
                     sgr: Sgr::ColorBackground(AnsiColor::Color256(b)),
                 },
-            ))
+            ));
         }
     };
     Ok((
