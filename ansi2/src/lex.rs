@@ -67,6 +67,12 @@ pub enum Sgr {
     DoublyUnderlined,
     UnUnderlined,
     UnBlink,
+    Decset,
+    Decrst,
+    Keypad,
+
+    // \x1b[>4;1m
+    Ext,
 
     List(Vec<Sgr>),
 
@@ -129,6 +135,46 @@ fn parse_cursor_forward(input: &str) -> IResult<&str, Token> {
     ))
 }
 
+fn parse_decset(input: &str) -> IResult<&str, Token> {
+    let (rem, _s) = tag("\x1b[?2004h").parse(input)?;
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::Decset,
+        },
+    ))
+}
+fn parse_decrst(input: &str) -> IResult<&str, Token> {
+    let (rem, _) = tag("\x1b[?20041").parse(input)?;
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::Decrst,
+        },
+    ))
+}
+fn parse_keypad(input: &str) -> IResult<&str, Token> {
+    let (rem, _) = tag("\x1b=").parse(input)?;
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::Keypad,
+        },
+    ))
+}
+fn parse_ext(input: &str) -> IResult<&str, Token> {
+    let (rem, _) = tag("\x1b[>4;1m").parse(input)?;
+    Ok((
+        rem,
+        Token {
+            range: (input.chars().count(), rem.chars().count()),
+            sgr: Sgr::Ext,
+        },
+    ))
+}
 fn parse_cursor_back(input: &str) -> IResult<&str, Token> {
     let (rem, (_, b, _)) = (tag("\x1b["), digit0, tag_no_case("d")).parse(input)?;
     Ok((
@@ -1018,6 +1064,10 @@ pub(crate) fn parse_ansi(input: &str) -> IResult<&str, Vec<Token>> {
             parse_form_feed,
             parse_carriage_return,
             parse_title,
+            parse_decrst,
+            parse_decset,
+            parse_keypad,
+            parse_ext,
         )),
         alt((
             parse_cursor_up,

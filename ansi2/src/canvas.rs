@@ -15,7 +15,7 @@ pub struct Canvas {
 }
 
 fn set_node(v: &mut Vec<Vec<Node>>, node: Node, x: usize, y: usize) {
-    ensure_height(v, y);
+    ensure_shape(v, x, y);
 
     let row = &mut v[y];
     while x >= row.len() {
@@ -48,9 +48,15 @@ fn set_node(v: &mut Vec<Vec<Node>>, node: Node, x: usize, y: usize) {
     row[x] = node;
 }
 
-fn ensure_height(v: &mut Vec<Vec<Node>>, h: usize) {
+fn ensure_shape(v: &mut Vec<Vec<Node>>, w: usize, h: usize) {
     while v.len() <= h {
         v.push(Vec::new());
+    }
+
+    for i in v {
+        while i.len() < w {
+            i.push(Default::default());
+        }
     }
 }
 
@@ -67,6 +73,15 @@ fn offset_range(range: (usize, usize), offset: (usize, usize)) -> (usize, usize)
 
     (a1 + b1, a1 + b2)
 }
+
+fn erase(pixels: &mut [Vec<Node>], start_x: usize, start_y: usize, end_x: usize, end_y: usize) {
+    for row in pixels.iter_mut().skip(start_y).take(end_y - start_y) {
+        for cell in row.iter_mut().skip(start_x).take(end_x - start_x) {
+            *cell = Default::default();
+        }
+    }
+}
+
 impl Canvas {
     pub fn new<S: AsRef<str>>(str: S, max_width: Option<usize>) -> Self {
         let s = str.as_ref();
@@ -133,7 +148,7 @@ impl Canvas {
                 Sgr::LineFeed => {
                     cur_y += 1;
                     cur_x = 0;
-                    ensure_height(&mut pixels, cur_y);
+                    ensure_shape(&mut pixels, w, cur_y);
                 }
 
                 Sgr::Char(c) => {
@@ -240,7 +255,7 @@ impl Canvas {
                 Sgr::CursorUp(c) => cur_y = cur_y.saturating_sub(c as usize),
                 Sgr::CursorDown(c) => {
                     cur_y += c as usize;
-                    ensure_height(&mut pixels, cur_y);
+                    ensure_shape(&mut pixels, w, cur_y);
                 }
                 Sgr::CursorBack(c) => cur_x = cur_x.saturating_sub(c as usize),
                 Sgr::CursorForward(c) => {
@@ -249,7 +264,7 @@ impl Canvas {
                         cur_x %= max_width;
                         cur_y += 1;
                     }
-                    ensure_height(&mut pixels, cur_y);
+                    ensure_shape(&mut pixels, cur_x, cur_y);
                 }
                 Sgr::Backspace => cur_x = cur_x.saturating_sub(1),
                 Sgr::Tab => {
@@ -264,7 +279,7 @@ impl Canvas {
                         cur_x %= max_width;
                         cur_y += 1;
                     }
-                    ensure_height(&mut pixels, cur_y);
+                    ensure_shape(&mut pixels, w, cur_y);
                 }
 
                 Sgr::CarriageReturn => cur_x = 0,
@@ -272,18 +287,18 @@ impl Canvas {
                 Sgr::CursorNextLine(n) => {
                     cur_y += n as usize;
                     cur_x = 0;
-                    ensure_height(&mut pixels, cur_y);
+                    ensure_shape(&mut pixels, w, cur_y);
                 }
                 Sgr::CursorPreviousLine(n) => {
                     cur_y = cur_y.saturating_sub(n as usize);
                     cur_x = 0;
-                    ensure_height(&mut pixels, cur_y);
+                    ensure_shape(&mut pixels, w, cur_y);
                 }
                 Sgr::CursorHorizontalAbsolute(n) => cur_x = (n - 1).max(0) as usize,
                 Sgr::CursorPosition(x, y) => {
                     cur_x = x as usize;
                     cur_y = y as usize;
-                    ensure_height(&mut pixels, cur_y);
+                    ensure_shape(&mut pixels, w, cur_y);
                 }
                 Sgr::SlowBlink | Sgr::RapidBlink => blink = true,
                 Sgr::UnBlink => blink = false,
@@ -351,7 +366,7 @@ impl Canvas {
                             if i == '\n' {
                                 cur_x = 0;
                                 cur_y += 1;
-                                ensure_height(&mut pixels, cur_y);
+                                ensure_shape(&mut pixels, w, cur_y);
                                 continue;
                             }
 
@@ -411,11 +426,23 @@ impl Canvas {
                         });
                     }
                 }
+                Sgr::EraseInDisplay(n) => match n {
+                    0 => {
+                        erase(&mut pixels, cur_x, cur_y, w, h);
+                    }
+                    _ => {
+                        erase(&mut pixels, 0, 0, w, h);
+                    }
+                },
+                Sgr::EraseInLine(_) => {
+                    erase(&mut pixels, cur_x, cur_y, w, cur_y);
+                }
                 _ => {}
             }
 
             w = w.max(cur_x + 1);
             h = h.max(cur_y + 1);
+            ensure_shape(&mut pixels, w, h);
         }
 
         Canvas { pixels, w, h }
