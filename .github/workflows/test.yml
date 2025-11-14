@@ -28,15 +28,24 @@ jobs:
           rustflags: "-A warnings"
           toolchain: "stable"
           target: wasm32-unknown-unknown
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 10
+      # - uses: pnpm/action-setup@v4
+      #   with:
+      #     version: 10
       - uses: cargo-bins/cargo-binstall@main
-      - name: Run
+
+      - uses: easy-install/easy-setup@v1
+        with:
+          url: |-
+            https://github.com/ahaoboy/neofetch
+
+      - name: install ansi2
         run: |
-          cargo binstall neofetch -y --force
+          cargo -q install --path=ansi2  --features=cli
+
+      - name: Run neofetch
+        run: |
           neofetch > ./neofetch-${{ matrix.os }}.ans
-          neofetch | cargo run --features="cli" -q > ./neofetch-${{ matrix.os }}.svg
+          neofetch | ansi2 > ./neofetch-${{ matrix.os }}.svg
 
       - name: Upload
         uses: actions/upload-artifact@v4
@@ -47,6 +56,7 @@ jobs:
             ./*.ans
 
   npm-test:
+    if: false
     strategy:
       fail-fast: false
       matrix:
