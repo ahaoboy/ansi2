@@ -16,36 +16,7 @@ pub struct Canvas {
 
 fn set_node(v: &mut Vec<Vec<Node>>, node: Node, x: usize, y: usize) {
     ensure_shape(v, x, y);
-
-    let row = &mut v[y];
-    while x >= row.len() {
-        let empty = Node {
-            bg_color: AnsiColor::Default,
-            color: AnsiColor::Default,
-            bold: false,
-            text: ' '.into(),
-            blink: false,
-            dim: false,
-            italic: false,
-            underline: false,
-            hide: false,
-            strike: false,
-
-            bg_color_r: (0, 0),
-            color_r: (0, 0),
-            bold_r: (0, 0),
-            blink_r: (0, 0),
-            text_r: (0, 0),
-            dim_r: (0, 0),
-            italic_r: (0, 0),
-            underline_r: (0, 0),
-            hide_r: (0, 0),
-            strike_r: (0, 0),
-        };
-        row.push(empty);
-    }
-
-    row[x] = node;
+    v[y][x] = node;
 }
 
 fn ensure_shape(v: &mut Vec<Vec<Node>>, w: usize, h: usize) {
@@ -53,9 +24,32 @@ fn ensure_shape(v: &mut Vec<Vec<Node>>, w: usize, h: usize) {
         v.push(Vec::new());
     }
 
-    for i in v {
-        while i.len() < w {
-            i.push(Default::default());
+    for row in v {
+        while row.len() <= w {
+            let empty = Node {
+                bg_color: AnsiColor::Default,
+                color: AnsiColor::Default,
+                bold: false,
+                text: ' '.into(),
+                blink: false,
+                dim: false,
+                italic: false,
+                underline: false,
+                hide: false,
+                strike: false,
+
+                bg_color_r: (0, 0),
+                color_r: (0, 0),
+                bold_r: (0, 0),
+                blink_r: (0, 0),
+                text_r: (0, 0),
+                dim_r: (0, 0),
+                italic_r: (0, 0),
+                underline_r: (0, 0),
+                hide_r: (0, 0),
+                strike_r: (0, 0),
+            };
+            row.push(empty);
         }
     }
 }
