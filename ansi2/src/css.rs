@@ -214,13 +214,13 @@ impl Style {
                     format!("div{{color: {} }}", get_hex(theme.white()))
                 }
                 (Mode::Dark, CssType::Svg) => {
-                    format!("svg > text{{fill:{}}}", get_hex(theme.white()))
+                    format!("svg text{{fill:{}}}", get_hex(theme.white()))
                 }
                 (Mode::Light, CssType::Html) => {
                     format!("div{{color:{}}}", get_hex(theme.black()))
                 }
                 (Mode::Light, CssType::Svg) => {
-                    format!("svg > text{{fill:{}}}", get_hex(theme.black()))
+                    format!("svg text{{fill:{}}}", get_hex(theme.black()))
                 }
             };
 
@@ -243,12 +243,12 @@ impl Style {
         }
 
         let default_light_text_style = match ty {
-            CssType::Svg => format!("svg > text{{fill:{}}}", get_hex(theme.black())),
+            CssType::Svg => format!("svg text{{fill:{}}}", get_hex(theme.black())),
             CssType::Html => format!("div{{color:{}}}", get_hex(theme.black())),
         };
 
         let default_dark_text_style = match ty {
-            CssType::Svg => format!("svg > text{{fill:{}}}", get_hex(theme.white())),
+            CssType::Svg => format!("svg text{{fill:{}}}", get_hex(theme.white())),
             CssType::Html => format!("div{{color:{}}}", get_hex(theme.white())),
         };
 
