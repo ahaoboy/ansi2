@@ -143,7 +143,7 @@ neofetch | ansi2 --format=svg -s > neofetch.svg
 ### vitest
 
 ```bash
-vitest bench --run | ansi2 > bench.png
+vitest bench --run | ansi2 > bench.svg
 ```
 <div align="center">
 	<a href="https://github.com/ahaoboy/ansi2">
