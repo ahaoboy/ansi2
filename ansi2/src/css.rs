@@ -268,4 +268,5 @@ impl Style {
     }
 }
 
+// pub const DEFAULT_FONTS: &str = "SFMono-Regular,Menlo,Monaco,'Segoe UI Mono',Consolas,'Liberation Mono','DejaVu Sans Mono','Roboto Mono','Courier New',monospace";
 pub const DEFAULT_FONTS: &str = "Consolas,Courier New,Monaco,monospace";
