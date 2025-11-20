@@ -19,6 +19,31 @@ vitest bench --run | ansi2 --format=svg --mode=dark  | resvg - -c > bench.png
 cat ./assets/ghostty.png | ansi2 -f=ans
 ```
 
+### cmd subcommand
+Execute commands with optional shell prompt and syntax highlighting:
+```bash
+# Basic usage
+ansi2 cmd "neofetch" --format=svg > output.svg
+ansi2 cmd "ls -la" --format=html > output.html
+
+# With shell prompt (auto-detects shell from $SHELL)
+ansi2 cmd "neofetch" --prompt --format=ans > output.ans
+
+# Specify shell explicitly (fish, bash, zsh)
+ansi2 cmd "neofetch" --prompt --shell=fish --format=svg > output.svg
+
+# Combine with other options
+ansi2 cmd "ls -la" --prompt --shell=fish --theme=vscode --mode=dark > output.svg
+```
+
+The `cmd` subcommand:
+- Executes the specified command and captures its output
+- Optionally adds shell prompt before the command (using `--prompt`)
+- Supports syntax highlighting for fish shell (via `fish_indent --ansi`)
+- Auto-detects shell from `$SHELL` environment variable or use `--shell` to specify
+- Combines prompt + highlighted command + command output into a single ANSI stream
+- Supports all format options (svg, html, ans, text) and styling parameters
+
 ## [ansi2](./ansi2)
 
 ```rs
