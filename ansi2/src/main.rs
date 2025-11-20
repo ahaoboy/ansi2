@@ -156,10 +156,8 @@ fn handle_cmd_subcommand(
     let mut ansi_output = String::new();
 
     // Add prompt if requested
-    if prompt {
-        if let Some(prompt_str) = get_prompt(&shell.to_string()) {
-            ansi_output.push_str(&prompt_str);
-        }
+    if prompt && let Some(prompt_str) = get_prompt(&shell.to_string()) {
+        ansi_output.push_str(&prompt_str);
     }
 
     // Add highlighted command
@@ -312,16 +310,21 @@ fn main() {
 #[cfg(feature = "minify")]
 fn minify_svg(svg: &str) -> Result<String, String> {
     use oxvg_ast::{
-        implementations::{roxmltree::parse, shared::Element},
-        serialize::{Indent, Node as _, Options},
+        arena::Allocator,
+        parse::roxmltree::parse,
+        serialize::Node as _,
         visitor::Info,
+        xmlwriter::{Indent, Options},
     };
     use oxvg_optimiser::Jobs;
-    let arena = typed_arena::Arena::new();
-    let dom = parse(svg, &arena).map_err(|e| e.to_string())?;
+    let xml = roxmltree::Document::parse(svg).map_err(|e| e.to_string())?;
+    let values = Allocator::new_values();
+    let mut arena = Allocator::new_arena();
+    let mut allocator = Allocator::new(&mut arena, &values);
+    let dom = parse(&xml, &mut allocator).map_err(|e| e.to_string())?;
 
     Jobs::default()
-        .run(&dom, &Info::<Element>::new(&arena))
+        .run(dom, &Info::new(allocator))
         .map_err(|err| err.to_string())?;
 
     dom.serialize_with_options(Options {

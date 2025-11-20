@@ -24,9 +24,15 @@ infer = "0.19"
 image = "0.25"
 typed-arena = "2"
 oxvg_optimiser = { git = "https://github.com/noahbald/oxvg.git", version = "0.0.3" }
-oxvg_ast = { git = "https://github.com/noahbald/oxvg.git", version = "0.0.3" }
+oxvg_ast = { git = "https://github.com/noahbald/oxvg.git", version = "0.0.3", features = [
+  "parse",
+  "roxmltree",
+] }
 # FIXME: https://github.com/parcel-bundler/lightningcss/issues/985
 ahash = "=0.8.11"
+# oxvg_ast/roxmltree
+roxmltree = "0.20"
+which-shell = { version = "0.1", git = "https://github.com/ahaoboy/which-shell.git" }
 
 [profile.release]
 debug = false

@@ -19,7 +19,8 @@ typed-arena = { workspace = true, optional = true }
 oxvg_optimiser = { workspace = true, optional = true }
 oxvg_ast = { workspace = true, optional = true }
 ahash = { workspace = true, optional = true }
-which-shell = { version = "0.1", git = "https://github.com/ahaoboy/which-shell.git" }
+which-shell = { workspace = true }
+roxmltree = { workspace = true, optional = true }
 
 [dev-dependencies]
 insta = { workspace = true }
@@ -27,7 +28,13 @@ insta = { workspace = true }
 [features]
 cli = ["clap", "minify"]
 wasm = ["wasm-bindgen"]
-minify = ["typed-arena", "oxvg_optimiser/wasm", "oxvg_ast"]
+minify = [
+  "dep:typed-arena",
+  "dep:oxvg_ast",
+  "dep:roxmltree",
+  "dep:oxvg_optimiser",
+  "oxvg_optimiser/wasm",
+]
 
 [[bin]]
 required-features = ["cli"]
