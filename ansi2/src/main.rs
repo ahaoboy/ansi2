@@ -162,7 +162,6 @@ fn handle_cmd_subcommand(
     shell: Option<Shell>,
     common: CommonOptions,
 ) {
-
     let shell = shell.unwrap_or_else(|| which_shell().map(|i| i.shell).unwrap_or(Shell::Bash));
     let format = common.format.unwrap_or(Format::Svg);
     let theme = common.theme.unwrap_or(Theme::Vscode);
@@ -336,11 +335,10 @@ fn write_output(content: &str, output_path: Option<PathBuf>, open: bool) {
         std::fs::write(&path, content).expect("Failed to write output file");
 
         // Open in browser if requested
-        if open
-            && let Err(e) = opener::open(&path) {
-                eprintln!("Failed to open file in browser: {}", e);
-                std::process::exit(1);
-            }
+        if open && let Err(e) = opener::open(&path) {
+            eprintln!("Failed to open file in browser: {}", e);
+            std::process::exit(1);
+        }
     } else {
         // Print to stdout
         print!("{}", content);
