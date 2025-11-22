@@ -21,12 +21,13 @@ ahash = { workspace = true, optional = true }
 which-shell = { workspace = true }
 git-version = { workspace = true }
 const-str = { workspace = true }
+opener = { workspace = true, optional = true }
 
 [dev-dependencies]
 insta = { workspace = true }
 
 [features]
-cli = ["clap", "minify"]
+cli = ["clap", "minify", "opener"]
 wasm = ["wasm-bindgen"]
 minify = [
   "dep:oxvg_ast",

@@ -51,6 +51,14 @@ struct CommonOptions {
     #[arg(short, long, default_value_t = false)]
     sourcemap: bool,
 
+    /// Output file path (e.g., -o output.svg)
+    #[arg(short = 'o', long)]
+    output: Option<PathBuf>,
+
+    /// Open the output file in default browser
+    #[arg(long, default_value_t = false)]
+    open: bool,
+
     #[clap()]
     input: Option<PathBuf>,
 }
@@ -228,7 +236,7 @@ fn handle_cmd_subcommand(
         Format::Ans => to_ans(&ansi_output, common.width),
     };
 
-    print!("{}", output);
+    write_output(&output, common.output, common.open);
 }
 
 fn main() {
@@ -308,7 +316,25 @@ fn main() {
         Format::Text => to_text(&s, common.width),
         Format::Ans => to_ans(&s, common.width),
     };
-    print!("{}", output);
+
+    write_output(&output, common.output, common.open);
+}
+
+fn write_output(content: &str, output_path: Option<PathBuf>, open: bool) {
+    if let Some(path) = output_path {
+        // Write to file
+        std::fs::write(&path, content).expect("Failed to write output file");
+
+        // Open in browser if requested
+        if open
+            && let Err(e) = opener::open(&path) {
+                eprintln!("Failed to open file in browser: {}", e);
+                std::process::exit(1);
+            }
+    } else {
+        // Print to stdout
+        print!("{}", content);
+    }
 }
 
 #[cfg(feature = "minify")]

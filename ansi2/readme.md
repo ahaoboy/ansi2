@@ -17,6 +17,14 @@ vitest bench --run | ansi2 --format=html --mode=light > bench.html
 vitest bench --run | ansi2 --format=text > bench.txt
 vitest bench --run | ansi2 --format=svg --mode=dark  | resvg - -c > bench.png
 cat ./assets/ghostty.png | ansi2 -f=ans
+
+# Output to file
+neofetch | ansi2 -o neofetch.svg
+neofetch | ansi2 --output=neofetch.html --format=html
+
+# Output to file and open in browser
+neofetch | ansi2 -o neofetch.svg --open
+vitest bench --run | ansi2 -o bench.html --format=html --open
 ```
 
 ### cmd subcommand
@@ -163,6 +171,25 @@ Add data to the class field of the corresponding pixel in the html/svg file
 
 ```bash
 neofetch | ansi2 --format=svg -s > neofetch.svg
+```
+
+### output
+
+Write output to a file instead of stdout
+
+```bash
+neofetch | ansi2 -o neofetch.svg
+neofetch | ansi2 --output=neofetch.html --format=html
+```
+
+### open
+
+Open the output file in the default browser (requires `-o` or `--output`)
+
+```bash
+neofetch | ansi2 -o neofetch.svg --open
+vitest bench --run | ansi2 -o bench.html --format=html --open
+ansi2 cmd "ls -la" -o output.svg --open
 ```
 
 

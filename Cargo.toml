@@ -32,6 +32,7 @@ ahash = "=0.8.11"
 which-shell = { version = "0.1", git = "https://github.com/ahaoboy/which-shell.git" }
 git-version = "0.3"
 const-str = "0.7"
+opener = "0.7"
 
 [profile.release]
 debug = false
