@@ -109,51 +109,58 @@ fn process_input(buf: Vec<u8>) -> String {
     String::from_utf8_lossy(&buf).to_string()
 }
 
-fn get_prompt(shell: &str) -> Option<String> {
-    let output = match shell {
-        "fish" => Command::new(shell).arg("-c").arg("fish_prompt").output(),
-        "bash" => Command::new(shell)
-            .arg("-c")
-            .arg("PS1='\\u@\\h:\\w\\$ ' bash -i -c 'echo -n \"$PS1\"'")
-            .output(),
-        "zsh" => Command::new(shell)
-            .arg("-c")
-            .arg("print -P '%n@%m:%~%# '")
-            .output(),
-        _ => return None,
-    };
-
-    output
-        .ok()
-        .map(|o| String::from_utf8_lossy(&o.stdout).to_string())
-}
-
-fn highlight_command(shell: &str, command: &str) -> Option<String> {
-    let output = match shell {
-        "fish" => Command::new(shell)
-            .arg("-c")
-            .arg(format!("echo '{}' | fish_indent --ansi", command))
-            .output(),
-        "bash" | "zsh" => {
-            // For bash/zsh, we can try using bat or just return the command as-is
-            return Some(command.to_string());
-        }
-        _ => return Some(command.to_string()),
-    };
-
-    output
-        .ok()
-        .map(|o| String::from_utf8_lossy(&o.stdout).trim_end().to_string())
-}
-
-fn execute_command(shell: &str, command: &str) -> Result<String, String> {
+/// Execute a shell command and return the stdout as a string
+fn exec(shell: &str, args: &[&str]) -> Result<String, String> {
     let output = Command::new(shell)
-        .arg("-c")
-        .arg(command)
+        .args(args)
         .output()
         .map_err(|e| format!("Failed to execute command: {}", e))?;
 
     Ok(String::from_utf8_lossy(&output.stdout).to_string())
+}
+
+/// Trim trailing "\n\x1b[m" pattern and replace with just "\x1b[m"
+fn trim_ansi_newline(s: &str) -> String {
+    if let Some(trimmed) = s.strip_suffix("\n\x1b[m") {
+        // Remove "\n\x1b[m"
+        format!("{}\x1b[m", trimmed)
+    } else {
+        s.to_string()
+    }
+}
+
+fn get_prompt(shell: &str) -> Option<String> {
+    let result = match shell {
+        "fish" => exec(shell, &["-c", "fish_prompt"]),
+        "bash" => exec(
+            shell,
+            &["-c", "PS1='\\u@\\h:\\w\\$ ' bash -i -c 'echo -n \"$PS1\"'"],
+        ),
+        "zsh" => exec(shell, &["-c", "print -P '%n@%m:%~%# '"]),
+        _ => return None,
+    };
+
+    result.ok().map(|s| trim_ansi_newline(&s))
+}
+
+fn highlight_command(shell: &str, command: &str) -> Option<String> {
+    match shell {
+        "fish" => {
+            let cmd = format!("echo -n '{}' | fish_indent --ansi", command);
+            exec(shell, &["-c", &cmd])
+                .ok()
+                .map(|s| trim_ansi_newline(&s))
+        }
+        "bash" | "zsh" => {
+            // For bash/zsh, we can try using bat or just return the command as-is
+            Some(command.to_string())
+        }
+        _ => Some(command.to_string()),
+    }
+}
+
+fn execute_command(shell: &str, command: &str) -> Result<String, String> {
+    exec(shell, &["-c", command])
 }
 
 fn handle_cmd_subcommand(
@@ -169,13 +176,7 @@ fn handle_cmd_subcommand(
     let mut ansi_output = String::new();
 
     // Process each command
-    for (idx, cmd) in commands.iter().enumerate() {
-        // Add separator between commands (except for the first one)
-        if idx > 0 {
-            ansi_output.push('\n');
-        }
-
-        // Add prompt if requested
+    for cmd in &commands {
         if prompt && let Some(prompt_str) = get_prompt(&shell.to_string()) {
             ansi_output.push_str(&prompt_str);
         }
@@ -183,7 +184,10 @@ fn handle_cmd_subcommand(
         // Add highlighted command
         if let Some(highlighted) = highlight_command(&shell.to_string(), cmd) {
             ansi_output.push_str(&highlighted);
-            ansi_output.push('\n');
+            // Only add newline if highlighted command doesn't already end with one
+            if !highlighted.ends_with('\n') {
+                ansi_output.push('\n');
+            }
         }
 
         // Execute command and add output
