@@ -79,10 +79,11 @@ struct Args {
 
 #[derive(Subcommand, Debug, Clone)]
 enum Commands {
-    /// Execute a command with optional prompt and syntax highlighting
+    /// Execute commands with optional prompt and syntax highlighting
     Cmd {
-        /// The command to execute
-        command: String,
+        /// The command to execute (can be specified multiple times)
+        #[arg(short = 'c', long = "command", required = true)]
+        commands: Vec<String>,
 
         /// Add shell prompt before the command
         #[arg(long, default_value_t = true)]
@@ -156,34 +157,43 @@ fn execute_command(shell: &str, command: &str) -> Result<String, String> {
 }
 
 fn handle_cmd_subcommand(
-    command: String,
+    commands: Vec<String>,
     prompt: bool,
     shell: Option<Shell>,
     common: CommonOptions,
 ) {
+
     let shell = shell.unwrap_or_else(|| which_shell().map(|i| i.shell).unwrap_or(Shell::Bash));
     let format = common.format.unwrap_or(Format::Svg);
     let theme = common.theme.unwrap_or(Theme::Vscode);
 
     let mut ansi_output = String::new();
 
-    // Add prompt if requested
-    if prompt && let Some(prompt_str) = get_prompt(&shell.to_string()) {
-        ansi_output.push_str(&prompt_str);
-    }
+    // Process each command
+    for (idx, cmd) in commands.iter().enumerate() {
+        // Add separator between commands (except for the first one)
+        if idx > 0 {
+            ansi_output.push('\n');
+        }
 
-    // Add highlighted command
-    if let Some(highlighted) = highlight_command(&shell.to_string(), &command) {
-        ansi_output.push_str(&highlighted);
-        ansi_output.push('\n');
-    }
+        // Add prompt if requested
+        if prompt && let Some(prompt_str) = get_prompt(&shell.to_string()) {
+            ansi_output.push_str(&prompt_str);
+        }
 
-    // Execute command and add output
-    match execute_command(&shell.to_string(), &command) {
-        Ok(output) => ansi_output.push_str(&output),
-        Err(e) => {
-            eprintln!("Error: {}", e);
-            std::process::exit(1);
+        // Add highlighted command
+        if let Some(highlighted) = highlight_command(&shell.to_string(), cmd) {
+            ansi_output.push_str(&highlighted);
+            ansi_output.push('\n');
+        }
+
+        // Execute command and add output
+        match execute_command(&shell.to_string(), cmd) {
+            Ok(output) => ansi_output.push_str(&output),
+            Err(e) => {
+                eprintln!("Error executing command '{}': {}", cmd, e);
+                std::process::exit(1);
+            }
         }
     }
 
@@ -244,13 +254,13 @@ fn main() {
 
     // Handle subcommands
     if let Some(Commands::Cmd {
-        command,
+        commands,
         prompt,
         shell,
         common,
     }) = args.command
     {
-        handle_cmd_subcommand(command, prompt, shell, common);
+        handle_cmd_subcommand(commands, prompt, shell, common);
         return;
     }
 

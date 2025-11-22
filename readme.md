@@ -30,31 +30,42 @@ vitest bench --run | ansi2 -o bench.html --format=html --open
 ### cmd subcommand
 Execute commands with optional shell prompt and syntax highlighting:
 ```bash
-# Basic usage
-ansi2 cmd "neofetch" --format=svg > output.svg
-ansi2 cmd "ls -la" --format=html > output.html
+# Single command
+ansi2 cmd -c "neofetch" --format=svg > output.svg
+ansi2 cmd -c "ls -la" --format=html > output.html
+
+# Multiple commands
+ansi2 cmd -c "ls -la" -c "pwd" -c "date" --format=svg > output.svg
+
+# With prompt and syntax highlighting
+ansi2 cmd -c "echo 'Hello'" -c "ls -la" -c "pwd" --prompt --shell=fish -o output.svg
 
 # With shell prompt (auto-detects shell from $SHELL)
-ansi2 cmd "neofetch" --prompt --format=ans > output.ans
+ansi2 cmd -c "neofetch" --prompt --format=ans > output.ans
 
 # Specify shell explicitly (fish, bash, zsh)
-ansi2 cmd "neofetch" --prompt --shell=fish --format=svg > output.svg
+ansi2 cmd -c "neofetch" --prompt --shell=fish --format=svg > output.svg
 
 # Combine with other options
-ansi2 cmd "ls -la" --prompt --shell=fish --theme=vscode --mode=dark > output.svg
+ansi2 cmd -c "ls -la" --prompt --shell=fish --theme=vscode --mode=dark > output.svg
+
+# Multiple commands with output to file and open in browser
+ansi2 cmd -c "neofetch" -c "ls -la" --prompt -o output.svg --open
 ```
 
 The `cmd` subcommand:
-- Executes the specified command and captures its output
-- Optionally adds shell prompt before the command (using `--prompt`)
+- Executes one or more commands and captures their output
+- Use `-c` or `--command` flag (required, can be specified multiple times)
+- Optionally adds shell prompt before each command (using `--prompt`)
 - Supports syntax highlighting for fish shell (via `fish_indent --ansi`)
 - Auto-detects shell from `$SHELL` environment variable or use `--shell` to specify
-- Combines prompt + highlighted command + command output into a single ANSI stream
+- For multiple commands: executes each with prompt → syntax highlighting → command output
+- Combines all outputs into a single ANSI stream
 - Supports all format options (svg, html, ans, text) and styling parameters
 
 
 ```bash
-ansi2 cmd "neofetch" > neofetch-cmd.svg
+ansi2 cmd -c "neofetch" > neofetch-cmd.svg
 ```
 <div align="center">
   <a href="https://github.com/ahaoboy/ansi2">
@@ -189,7 +200,7 @@ Open the output file in the default browser (requires `-o` or `--output`)
 ```bash
 neofetch | ansi2 -o neofetch.svg --open
 vitest bench --run | ansi2 -o bench.html --format=html --open
-ansi2 cmd "ls -la" -o output.svg --open
+ansi2 cmd -c "ls -la" -o output.svg --open
 ```
 
 
