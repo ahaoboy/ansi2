@@ -163,13 +163,7 @@ fn execute_command(shell: &str, command: &str) -> Result<String, String> {
     exec(shell, &["-c", command])
 }
 
-fn handle_cmd_subcommand(
-    commands: Vec<String>,
-    prompt: bool,
-    shell: Option<Shell>,
-    common: CommonOptions,
-) {
-    let shell = shell.unwrap_or_else(|| which_shell().map(|i| i.shell).unwrap_or(Shell::Bash));
+fn handle_cmd_subcommand(commands: Vec<String>, prompt: bool, shell: Shell, common: CommonOptions) {
     let format = common.format.unwrap_or(Format::Svg);
     let theme = common.theme.unwrap_or(Theme::Vscode);
 
@@ -263,6 +257,14 @@ fn main() {
         common,
     }) = args.command
     {
+        let shell = shell.unwrap_or_else(|| which_shell().map(|i| i.shell).unwrap_or(Shell::Bash));
+
+        if shell == Shell::Unknown {
+            eprintln!(
+                "Error: Unknown shell detected. Please specify a shell using --shell option."
+            );
+            std::process::exit(1);
+        }
         handle_cmd_subcommand(commands, prompt, shell, common);
         return;
     }

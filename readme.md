@@ -65,7 +65,7 @@ The `cmd` subcommand:
 
 
 ```bash
-ansi2 cmd -c "neofetch" > neofetch-cmd.svg
+ansi2 cmd -c "uname -a" -c "neofetch" --shell=fish > neofetch-cmd.svg
 ```
 <div align="center">
   <a href="https://github.com/ahaoboy/ansi2">
