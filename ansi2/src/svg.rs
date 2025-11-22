@@ -1,6 +1,6 @@
 use crate::{
     canvas::Canvas,
-    css::{CssType, Mode, NodeStyle, Style,DEFAULT_FONTS},
+    css::{CssType, DEFAULT_FONTS, Mode, NodeStyle, Style},
     theme::ColorTable,
 };
 #[allow(clippy::too_many_arguments)]

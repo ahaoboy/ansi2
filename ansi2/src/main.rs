@@ -55,8 +55,12 @@ struct CommonOptions {
     input: Option<PathBuf>,
 }
 
+const CARGO_PKG_VERSION: &str = env!("CARGO_PKG_VERSION");
+const GIT_HASH: &str = git_version::git_version!();
+const VERSION: &str = const_str::concat!(CARGO_PKG_VERSION, " ", GIT_HASH);
+
 #[derive(Parser, Debug, Clone)]
-#[command(version, about, long_about = None)]
+#[command(version=VERSION, about, long_about = None)]
 struct Args {
     #[command(subcommand)]
     command: Option<Commands>,
@@ -310,26 +314,23 @@ fn main() {
 #[cfg(feature = "minify")]
 fn minify_svg(svg: &str) -> Result<String, String> {
     use oxvg_ast::{
-        arena::Allocator,
         parse::roxmltree::parse,
         serialize::Node as _,
         visitor::Info,
-        xmlwriter::{Indent, Options},
+        xmlwriter::{Options, Space},
     };
     use oxvg_optimiser::Jobs;
-    let xml = roxmltree::Document::parse(svg).map_err(|e| e.to_string())?;
-    let values = Allocator::new_values();
-    let mut arena = Allocator::new_arena();
-    let mut allocator = Allocator::new(&mut arena, &values);
-    let dom = parse(&xml, &mut allocator).map_err(|e| e.to_string())?;
+    let config = Jobs::default();
 
-    Jobs::default()
-        .run(dom, &Info::new(allocator))
-        .map_err(|err| err.to_string())?;
-
-    dom.serialize_with_options(Options {
-        indent: Indent::None,
+    let opt = Options {
+        trim_whitespace: Space::Never,
         ..Default::default()
+    };
+    parse(svg, |dom, allocator| {
+        config
+            .run(dom, &Info::new(allocator))
+            .map_err(|e| e.to_string())?;
+        dom.serialize_with_options(opt).map_err(|e| e.to_string())
     })
-    .map_err(|err| err.to_string())
+    .map_err(|e| e.to_string())?
 }

@@ -10,7 +10,7 @@ bloaty-json:
 bloaty: bloaty-build bloaty-csv bloaty-json
 
 clippy:
-  cargo clippy --fix --allow-dirty --allow-staged --all-targets
+  cargo clippy --fix --allow-dirty --allow-staged --all-targets --all-features
 fmt:
   cargo fmt
 check: fmt clippy
