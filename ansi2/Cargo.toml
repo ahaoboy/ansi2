@@ -27,7 +27,9 @@ opener = { workspace = true, optional = true }
 insta = { workspace = true }
 
 [features]
-cli = ["clap", "minify", "opener"]
+default = ["cli"]
+sequin = []
+cli = ["clap", "minify", "opener", "sequin"]
 wasm = ["wasm-bindgen"]
 minify = [
   "dep:oxvg_ast",

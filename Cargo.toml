@@ -22,8 +22,8 @@ ansi2 = { path = "./ansi2", features = ["wasm"] }
 insta = { version = "1" }
 infer = "0.19"
 image = "0.25"
-oxvg_optimiser = { git = "https://github.com/noahbald/oxvg.git", version = "0.0.3" }
-oxvg_ast = { git = "https://github.com/noahbald/oxvg.git", version = "0.0.3", features = [
+oxvg_optimiser = { git = "https://github.com/noahbald/oxvg.git", version = "0.0.5" }
+oxvg_ast = { git = "https://github.com/noahbald/oxvg.git", version = "0.0.5", features = [
   "parse",
   "roxmltree",
 ] }
@@ -31,8 +31,8 @@ oxvg_ast = { git = "https://github.com/noahbald/oxvg.git", version = "0.0.3", fe
 ahash = "=0.8.11"
 which-shell = { version = "0.1", git = "https://github.com/ahaoboy/which-shell.git" }
 git-version = "0.3"
-const-str = "0.7"
-opener = "0.7"
+const-str = "1"
+opener = "0.8"
 
 [profile.release]
 debug = false

@@ -213,9 +213,9 @@ fn bfs(from: &Node, to: &Node) -> Vec<Step> {
 
         for i in ctrl
             .into_iter()
-            .chain(sgr1.into_iter())
-            .chain(sgr2.into_iter())
-            .chain(sgr3.into_iter())
+            .chain(sgr1)
+            .chain(sgr2)
+            .chain(sgr3)
         {
             if top.steps.contains(&i) {
                 continue;

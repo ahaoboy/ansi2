@@ -6,6 +6,8 @@ pub mod html;
 pub mod image;
 pub mod lex;
 pub mod node;
+#[cfg(feature = "sequin")]
+pub mod sequin;
 pub mod svg;
 pub mod text;
 pub mod theme;

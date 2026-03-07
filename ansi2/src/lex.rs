@@ -146,7 +146,7 @@ fn parse_decset(input: &str) -> IResult<&str, Token> {
     ))
 }
 fn parse_decrst(input: &str) -> IResult<&str, Token> {
-    let (rem, _) = tag("\x1b[?20041").parse(input)?;
+    let (rem, _) = tag("\x1b[?2004l").parse(input)?;
     Ok((
         rem,
         Token {
@@ -220,8 +220,14 @@ fn parse_cursor_horizontal(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_cursor_position(input: &str) -> IResult<&str, Token> {
-    let (rem, (_, x, _, y, _)) =
-        (tag("\x1b["), digit0, tag(":"), digit0, tag_no_case("h")).parse(input)?;
+    let (rem, (_, x, _, y, _)) = (
+        tag("\x1b["),
+        digit0,
+        alt((tag(";"), tag(":"))),
+        digit0,
+        tag_no_case("h"),
+    )
+        .parse(input)?;
     Ok((
         rem,
         Token {
@@ -275,8 +281,14 @@ fn parse_scroll_down(input: &str) -> IResult<&str, Token> {
 }
 
 fn parse_horizontal_vertical_position(input: &str) -> IResult<&str, Token> {
-    let (rem, (_, x, _, y, _)) =
-        (tag("\x1b["), digit0, tag(":"), digit0, tag_no_case("f")).parse(input)?;
+    let (rem, (_, x, _, y, _)) = (
+        tag("\x1b["),
+        digit0,
+        alt((tag(";"), tag(":"))),
+        digit0,
+        tag_no_case("f"),
+    )
+        .parse(input)?;
     Ok((
         rem,
         Token {
@@ -322,16 +334,6 @@ fn parse_device_status_report(input: &str) -> IResult<&str, Token> {
 
 fn parse_cursor_hide(input: &str) -> IResult<&str, Token> {
     let (rem, _) = (tag("\x1b["), opt(tag("?")), digit0, tag_no_case("l")).parse(input)?;
-    Ok((
-        rem,
-        Token {
-            range: (input.chars().count(), rem.chars().count()),
-            sgr: Sgr::CursorHide,
-        },
-    ))
-}
-fn parse_cursor_hide_windows(input: &str) -> IResult<&str, Token> {
-    let (rem, _) = tag("\x1b[?2004h").parse(input)?;
     Ok((
         rem,
         Token {
@@ -558,7 +560,7 @@ fn parse_tab(input: &str) -> IResult<&str, Token> {
         rem,
         Token {
             range: (input.chars().count(), rem.chars().count()),
-            sgr: Sgr::Bell,
+            sgr: Sgr::Tab,
         },
     ))
 }
@@ -751,7 +753,10 @@ fn parse_sgr5(input: &str) -> IResult<&str, Token> {
             },
         ));
     }
-    todo!()
+    Err(nom::Err::Error(nom::error::Error::new(
+        input,
+        nom::error::ErrorKind::Tag,
+    )))
 }
 
 fn parse_sgr6(input: &str) -> IResult<&str, Token> {
@@ -815,7 +820,10 @@ fn parse_sgr6(input: &str) -> IResult<&str, Token> {
             },
         ));
     }
-    todo!()
+    Err(nom::Err::Error(nom::error::Error::new(
+        input,
+        nom::error::ErrorKind::Tag,
+    )))
 }
 
 fn parse_sgr7(input: &str) -> IResult<&str, Token> {
@@ -1090,7 +1098,6 @@ pub(crate) fn parse_ansi(input: &str) -> IResult<&str, Vec<Token>> {
         alt((
             parse_bold,
             parse_cursor_hide,
-            parse_cursor_hide_windows,
             parse_cursor_show,
             parse_color_foreground,
             parse_color_background,

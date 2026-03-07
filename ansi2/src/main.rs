@@ -1,5 +1,7 @@
 use ansi2::ans::to_ans;
 use ansi2::image::image_to_ans;
+#[cfg(feature = "sequin")]
+use ansi2::sequin::to_sequin;
 use ansi2::{css::Mode, theme::Theme};
 use ansi2::{html::to_html, svg::to_svg, text::to_text};
 use base64::Engine;
@@ -17,6 +19,8 @@ enum Format {
     Html,
     Text,
     Ans,
+    #[cfg(feature = "sequin")]
+    Sequin,
 }
 
 #[derive(Parser, Debug, Clone)]
@@ -241,6 +245,8 @@ fn handle_cmd_subcommand(commands: Vec<String>, prompt: bool, shell: Shell, comm
         ),
         Format::Text => to_text(&ansi_output, common.width),
         Format::Ans => to_ans(&ansi_output, common.width),
+        #[cfg(feature = "sequin")]
+        Format::Sequin => to_sequin(&ansi_output, common.width),
     };
 
     write_output(&output, common.output, common.open);
@@ -330,6 +336,8 @@ fn main() {
         ),
         Format::Text => to_text(&s, common.width),
         Format::Ans => to_ans(&s, common.width),
+        #[cfg(feature = "sequin")]
+        Format::Sequin => to_sequin(&s, common.width),
     };
 
     write_output(&output, common.output, common.open);
