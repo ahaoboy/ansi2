@@ -17,7 +17,6 @@ infer = { workspace = true }
 image = { workspace = true }
 oxvg_optimiser = { workspace = true, optional = true }
 oxvg_ast = { workspace = true, optional = true }
-ahash = { workspace = true, optional = true }
 which-shell = { workspace = true }
 git-version = { workspace = true }
 const-str = { workspace = true }
