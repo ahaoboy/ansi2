@@ -1,0 +1,206 @@
+---
+source: ansi2/src/lib.rs
+expression: parse(input)
+---
+[
+    Token {
+        event: Char(
+            'a',
+        ),
+        span: 0..1,
+    },
+    Token {
+        event: Char(
+            'a',
+        ),
+        span: 1..2,
+    },
+    Token {
+        event: Char(
+            'a',
+        ),
+        span: 2..3,
+    },
+    Token {
+        event: Bold,
+        span: 3..7,
+    },
+    Token {
+        event: Char(
+            'b',
+        ),
+        span: 7..8,
+    },
+    Token {
+        event: Char(
+            'o',
+        ),
+        span: 8..9,
+    },
+    Token {
+        event: Char(
+            'l',
+        ),
+        span: 9..10,
+    },
+    Token {
+        event: Char(
+            'd',
+        ),
+        span: 10..11,
+    },
+    Token {
+        event: Reset,
+        span: 11..15,
+    },
+    Token {
+        event: Char(
+            ' ',
+        ),
+        span: 15..16,
+    },
+    Token {
+        event: Dim,
+        span: 16..20,
+    },
+    Token {
+        event: Char(
+            'd',
+        ),
+        span: 20..21,
+    },
+    Token {
+        event: Char(
+            'i',
+        ),
+        span: 21..22,
+    },
+    Token {
+        event: Char(
+            'm',
+        ),
+        span: 22..23,
+    },
+    Token {
+        event: Reset,
+        span: 23..27,
+    },
+    Token {
+        event: Char(
+            ' ',
+        ),
+        span: 27..28,
+    },
+    Token {
+        event: Italic,
+        span: 28..32,
+    },
+    Token {
+        event: Char(
+            'i',
+        ),
+        span: 32..33,
+    },
+    Token {
+        event: Char(
+            't',
+        ),
+        span: 33..34,
+    },
+    Token {
+        event: Char(
+            'a',
+        ),
+        span: 34..35,
+    },
+    Token {
+        event: Char(
+            'l',
+        ),
+        span: 35..36,
+    },
+    Token {
+        event: Char(
+            'i',
+        ),
+        span: 36..37,
+    },
+    Token {
+        event: Char(
+            'c',
+        ),
+        span: 37..38,
+    },
+    Token {
+        event: Italic,
+        span: 38..42,
+    },
+    Token {
+        event: Char(
+            ' ',
+        ),
+        span: 42..43,
+    },
+    Token {
+        event: Underline,
+        span: 43..47,
+    },
+    Token {
+        event: Char(
+            'u',
+        ),
+        span: 47..48,
+    },
+    Token {
+        event: Char(
+            'n',
+        ),
+        span: 48..49,
+    },
+    Token {
+        event: Char(
+            'd',
+        ),
+        span: 49..50,
+    },
+    Token {
+        event: Char(
+            'e',
+        ),
+        span: 50..51,
+    },
+    Token {
+        event: Char(
+            'r',
+        ),
+        span: 51..52,
+    },
+    Token {
+        event: Char(
+            'l',
+        ),
+        span: 52..53,
+    },
+    Token {
+        event: Char(
+            'i',
+        ),
+        span: 53..54,
+    },
+    Token {
+        event: Char(
+            'n',
+        ),
+        span: 54..55,
+    },
+    Token {
+        event: Char(
+            'e',
+        ),
+        span: 55..56,
+    },
+    Token {
+        event: Underline,
+        span: 56..60,
+    },
+]

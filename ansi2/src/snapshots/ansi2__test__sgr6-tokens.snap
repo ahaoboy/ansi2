@@ -1,0 +1,17 @@
+---
+source: ansi2/src/lib.rs
+expression: parse(input)
+---
+[
+    Token {
+        event: FgBg(
+            Color256(
+                16,
+            ),
+            Color256(
+                186,
+            ),
+        ),
+        span: 0..19,
+    },
+]

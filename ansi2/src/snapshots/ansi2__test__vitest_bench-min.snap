@@ -1,0 +1,92 @@
+---
+source: ansi2/src/lib.rs
+expression: canvas.minify()
+---
+[
+    [
+        Cell {
+            style: Style {
+                fg: Color8(
+                    White,
+                ),
+                bg: Color8(
+                    Cyan,
+                ),
+                bold: true,
+                dim: false,
+                italic: false,
+                underline: false,
+                blink: false,
+                hide: false,
+                strike: false,
+            },
+            text: " BENCH ",
+            src: SourceMap {
+                text: 13..20,
+                fg: 5..9,
+                bg: 5..9,
+                bold: 9..13,
+                dim: 0..0,
+                italic: 0..0,
+                underline: 0..0,
+                blink: 0..0,
+                hide: 0..0,
+                strike: 0..0,
+            },
+        },
+        Cell {
+            style: Style {
+                fg: Default,
+                bg: Default,
+                bold: false,
+                dim: false,
+                italic: false,
+                underline: false,
+                blink: false,
+                hide: false,
+                strike: false,
+            },
+            text: " ",
+            src: SourceMap {
+                text: 35..36,
+                fg: 30..35,
+                bg: 25..30,
+                bold: 20..25,
+                dim: 20..25,
+                italic: 0..0,
+                underline: 0..0,
+                blink: 0..0,
+                hide: 0..0,
+                strike: 0..0,
+            },
+        },
+        Cell {
+            style: Style {
+                fg: Color8(
+                    Cyan,
+                ),
+                bg: Default,
+                bold: false,
+                dim: false,
+                italic: false,
+                underline: false,
+                blink: false,
+                hide: false,
+                strike: false,
+            },
+            text: "Summary",
+            src: SourceMap {
+                text: 41..48,
+                fg: 36..41,
+                bg: 25..30,
+                bold: 20..25,
+                dim: 20..25,
+                italic: 0..0,
+                underline: 0..0,
+                blink: 0..0,
+                hide: 0..0,
+                strike: 0..0,
+            },
+        },
+    ],
+]

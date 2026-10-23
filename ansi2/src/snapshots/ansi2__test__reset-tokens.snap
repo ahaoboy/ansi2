@@ -1,0 +1,16 @@
+---
+source: ansi2/src/lib.rs
+expression: parse(input)
+---
+[
+    Token {
+        event: Reset,
+        span: 0..3,
+    },
+    Token {
+        event: Unknown(
+            27,
+        ),
+        span: 3..4,
+    },
+]

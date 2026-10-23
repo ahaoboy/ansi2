@@ -1,0 +1,14 @@
+---
+source: ansi2/src/lib.rs
+expression: parse(input)
+---
+[
+    Token {
+        event: Link {
+            url: "id=1;http://example.com/id",
+            title: "twice",
+            title_span: 32..37,
+        },
+        span: 0..44,
+    },
+]

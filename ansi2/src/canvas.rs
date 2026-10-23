@@ -1,489 +1,447 @@
-use std::collections::VecDeque;
-
 use crate::{
-    ans::min_distance,
+    cell::{Cell, SourceMap, Style},
     color::{AnsiColor, Color8},
-    lex::{Sgr, Token, parse_ansi},
-    node::Node,
+    lexer::{self, Event, Token},
+    span::Span,
 };
 
+/// A grid of styled character cells.
 #[derive(Debug, Clone, Default, PartialEq, Eq)]
 pub struct Canvas {
-    pub pixels: Vec<Vec<Node>>,
+    pub pixels: Vec<Vec<Cell>>,
     pub w: usize,
     pub h: usize,
 }
 
-fn set_node(v: &mut Vec<Vec<Node>>, node: Node, x: usize, y: usize) {
-    ensure_shape(v, x, y);
-    v[y][x] = node;
-}
-
-fn ensure_shape(v: &mut Vec<Vec<Node>>, w: usize, h: usize) {
-    while v.len() <= h {
-        v.push(Vec::new());
-    }
-
-    for row in v {
-        while row.len() <= w {
-            let empty = Node {
-                bg_color: AnsiColor::Default,
-                color: AnsiColor::Default,
-                bold: false,
-                text: ' '.into(),
-                blink: false,
-                dim: false,
-                italic: false,
-                underline: false,
-                hide: false,
-                strike: false,
-
-                bg_color_r: (0, 0),
-                color_r: (0, 0),
-                bold_r: (0, 0),
-                blink_r: (0, 0),
-                text_r: (0, 0),
-                dim_r: (0, 0),
-                italic_r: (0, 0),
-                underline_r: (0, 0),
-                hide_r: (0, 0),
-                strike_r: (0, 0),
-            };
-            row.push(empty);
-        }
-    }
-}
-
-fn merge_range(a: (usize, usize), b: (usize, usize)) -> (usize, usize) {
-    let (a1, a2) = a;
-    let (b1, b2) = b;
-
-    (a1.min(b1), a2.max(b2))
-}
-
-fn offset_range(range: (usize, usize), offset: (usize, usize)) -> (usize, usize) {
-    let (a1, _) = range;
-    let (b1, b2) = offset;
-
-    (a1 + b1, a1 + b2)
-}
-
-fn erase(pixels: &mut [Vec<Node>], start_x: usize, start_y: usize, end_x: usize, end_y: usize) {
-    for row in pixels.iter_mut().skip(start_y).take(end_y - start_y) {
-        for cell in row.iter_mut().skip(start_x).take(end_x - start_x) {
-            *cell = Default::default();
-        }
-    }
-}
-
 impl Canvas {
-    pub fn new<S: AsRef<str>>(str: S, max_width: Option<usize>) -> Self {
-        let s = str.as_ref();
-        let (_, lex) = parse_ansi(s).unwrap();
-        let mut cur_x = 0;
-        let mut cur_y = 0;
-        let mut cur_c = AnsiColor::Default;
-        let mut cur_bg_c = AnsiColor::Default;
-        let mut bold = false;
-        let mut dim = false;
-        let mut italic = false;
-        let mut reverse = false;
-        let mut underline = false;
-        let mut blink = false;
-        let mut strike = false;
-
-        let mut bg_color_r = (0, 0);
-        let mut color_r = (0, 0);
-        let mut bold_r = (0, 0);
-        let mut blink_r = (0, 0);
-        // let mut text_r = (0, 0);
-        let mut dim_r = (0, 0);
-        let mut italic_r = (0, 0);
-        let mut underline_r = (0, 0);
-        let mut hide_r = (0, 0);
-        let mut strike_r = (0, 0);
-
-        let mut w = 0;
-        let mut h = 0;
-        let mut pixels = Vec::new();
-        let mut hide = false;
-        let max_width = max_width.unwrap_or(usize::MAX);
-
-        let mut q = VecDeque::from(lex);
-
-        while let Some(token) = q.pop_front() {
-            let Token { sgr: i, range } = token;
-            // eprintln!("{:?} {:?}", i, range);
-
-            macro_rules! set_bg_color {
-                ($color:expr) => {
-                    if reverse && $color == AnsiColor::Default {
-                        cur_bg_c = AnsiColor::Color8(Color8::Black);
-                    } else {
-                        cur_bg_c = $color;
-                    }
-
-                    bg_color_r = range;
-                };
-            }
-
-            macro_rules! set_color {
-                ($color:expr) => {
-                    if reverse && $color == AnsiColor::Default {
-                        cur_c = AnsiColor::Color8(Color8::White);
-                    } else {
-                        cur_c = $color;
-                    }
-                    color_r = range;
-                };
-            }
-
-            match i {
-                Sgr::LineFeed => {
-                    cur_y += 1;
-                    cur_x = 0;
-                    ensure_shape(&mut pixels, w, cur_y);
-                }
-
-                Sgr::Char(c) => {
-                    // text_r = range;
-                    let node = Node {
-                        text: c.into(),
-                        bg_color: cur_bg_c,
-                        color: cur_c,
-                        bold,
-                        blink,
-                        dim,
-                        italic,
-                        underline,
-                        hide,
-                        strike,
-
-                        bg_color_r,
-                        color_r,
-                        bold_r,
-                        blink_r,
-                        text_r: range,
-                        dim_r,
-                        italic_r,
-                        underline_r,
-                        hide_r,
-                        strike_r,
-                    };
-                    if cur_x >= max_width {
-                        cur_x = 0;
-                        cur_y += 1;
-                    }
-                    set_node(&mut pixels, node, cur_x, cur_y);
-                    cur_x += 1;
-                }
-                Sgr::ColorBackground(c) => {
-                    if reverse {
-                        set_color!(c);
-                    } else {
-                        set_bg_color!(c);
-                    }
-                }
-                Sgr::ColorForeground(c) => {
-                    if reverse {
-                        set_bg_color!(c);
-                    } else {
-                        set_color!(c);
-                    }
-                }
-                Sgr::ColorFgBg(fg, bg) => {
-                    if reverse {
-                        set_color!(bg);
-                        set_bg_color!(fg);
-                    } else {
-                        set_color!(fg);
-                        set_bg_color!(bg);
-                    }
-                }
-                Sgr::Bold => {
-                    bold = true;
-                    bold_r = range;
-                }
-                Sgr::Italic => {
-                    italic = true;
-                    italic_r = range;
-                }
-                Sgr::UnItalic => {
-                    italic = false;
-                    italic_r = range;
-                }
-                Sgr::Underline => {
-                    underline = true;
-                    underline_r = range;
-                }
-                Sgr::UnUnderlined => {
-                    underline = false;
-                    underline_r = range;
-                }
-                Sgr::Dim => {
-                    dim = true;
-                    dim_r = range;
-                }
-                Sgr::ColorReset => {
-                    bold = false;
-                    dim = false;
-                    italic = false;
-                    underline = false;
-                    reverse = false;
-                    cur_bg_c = AnsiColor::Default;
-                    cur_c = AnsiColor::Default;
-                    blink = false;
-                    hide = false;
-                    strike = false;
-
-                    bold_r = range;
-                    dim_r = range;
-                    italic_r = range;
-                    underline_r = range;
-                    bg_color_r = range;
-                    color_r = range;
-                    blink_r = range;
-                    hide_r = range;
-                    strike_r = range;
-                }
-                Sgr::CursorUp(c) => cur_y = cur_y.saturating_sub(c as usize),
-                Sgr::CursorDown(c) => {
-                    cur_y += c as usize;
-                    ensure_shape(&mut pixels, w, cur_y);
-                }
-                Sgr::CursorBack(c) => cur_x = cur_x.saturating_sub(c as usize),
-                Sgr::CursorForward(c) => {
-                    cur_x += c as usize;
-                    if cur_x >= max_width {
-                        cur_x %= max_width;
-                        cur_y += 1;
-                    }
-                    ensure_shape(&mut pixels, cur_x, cur_y);
-                }
-                Sgr::Backspace => cur_x = cur_x.saturating_sub(1),
-                Sgr::Tab => {
-                    let tail = cur_x & 7;
-                    if tail == 0 {
-                        cur_x += 8
-                    } else {
-                        cur_x += 8 - tail;
-                    }
-
-                    if cur_x >= max_width {
-                        cur_x %= max_width;
-                        cur_y += 1;
-                    }
-                    ensure_shape(&mut pixels, w, cur_y);
-                }
-
-                Sgr::CarriageReturn => cur_x = 0,
-
-                Sgr::CursorNextLine(n) => {
-                    cur_y += n as usize;
-                    cur_x = 0;
-                    ensure_shape(&mut pixels, w, cur_y);
-                }
-                Sgr::CursorPreviousLine(n) => {
-                    cur_y = cur_y.saturating_sub(n as usize);
-                    cur_x = 0;
-                    ensure_shape(&mut pixels, w, cur_y);
-                }
-                Sgr::CursorHorizontalAbsolute(n) => cur_x = (n - 1).max(0) as usize,
-                Sgr::CursorPosition(x, y) => {
-                    cur_x = x as usize;
-                    cur_y = y as usize;
-                    ensure_shape(&mut pixels, w, cur_y);
-                }
-                Sgr::SlowBlink | Sgr::RapidBlink => blink = true,
-                Sgr::UnBlink => blink = false,
-                Sgr::Reverse => {
-                    reverse = true;
-                    let tmp_c = cur_c;
-                    let tmp_bg_c = cur_bg_c;
-                    set_color!(tmp_bg_c);
-                    set_bg_color!(tmp_c);
-                }
-                Sgr::NormalIntensity => {
-                    dim = false;
-                    bold = false;
-
-                    dim_r = range;
-                    bold_r = range;
-                }
-                Sgr::UnReversed => {
-                    reverse = false;
-                    set_bg_color!(AnsiColor::Default);
-                    set_color!(AnsiColor::Default);
-                }
-                Sgr::Strike => {
-                    strike = true;
-                    strike_r = range;
-                }
-                Sgr::UnStrike => {
-                    strike = false;
-                    strike_r = range;
-                }
-                Sgr::ColorDefaultForeground => {
-                    if reverse {
-                        set_bg_color!(AnsiColor::Default);
-                    } else {
-                        set_color!(AnsiColor::Default);
-                    }
-                }
-                Sgr::ColorDefaultBackground => {
-                    if reverse {
-                        set_color!(AnsiColor::Default);
-                    } else {
-                        set_bg_color!(AnsiColor::Default);
-                    }
-                }
-
-                Sgr::Link(_, title) => {
-                    if title.contains("\x1b") {
-                        if let Ok((_, tokens)) = parse_ansi(&title) {
-                            // FIXME: Avoid the influence of styles in link on subsequent characters
-                            q.push_front(Token {
-                                range,
-                                sgr: Sgr::ColorReset,
-                            });
-                            for mut i in tokens.into_iter().rev() {
-                                i.range = offset_range(i.range, range);
-                                q.push_front(i);
-                            }
-                            q.push_front(Token {
-                                range,
-                                sgr: Sgr::Underline,
-                            });
-                        }
-                    } else {
-                        for (k, i) in title.chars().enumerate() {
-                            if i == '\n' {
-                                cur_x = 0;
-                                cur_y += 1;
-                                ensure_shape(&mut pixels, w, cur_y);
-                                continue;
-                            }
-
-                            let node = Node {
-                                text: i.into(),
-                                bg_color: cur_bg_c,
-                                color: cur_c,
-                                bold,
-                                blink,
-                                dim,
-                                italic,
-                                underline: true,
-                                hide,
-                                strike,
-
-                                bg_color_r,
-                                color_r,
-                                bold_r,
-                                blink_r,
-                                text_r: (range.0 + k, range.1 + k),
-                                dim_r,
-                                italic_r,
-                                underline_r,
-                                hide_r,
-                                strike_r,
-                            };
-
-                            if cur_x >= max_width {
-                                cur_x = 0;
-                                cur_y += 1;
-                            }
-                            set_node(&mut pixels, node, cur_x, cur_y);
-                            cur_x += 1;
-                        }
-                    }
-                }
-                Sgr::CursorHide => {
-                    hide = true;
-                    hide_r = range;
-                }
-                Sgr::UnHide => {
-                    hide = false;
-                    hide_r = range;
-                }
-                Sgr::DoublyUnderlined => {
-                    bold = false;
-                    underline = true;
-
-                    bold_r = range;
-                    underline_r = range;
-                }
-                Sgr::List(v) => {
-                    for i in v.into_iter().rev() {
-                        q.push_front(Token {
-                            range: (0, 0),
-                            sgr: i,
-                        });
-                    }
-                }
-                Sgr::EraseInDisplay(n) => match n {
-                    0 => {
-                        erase(&mut pixels, cur_x, cur_y, w, h);
-                    }
-                    _ => {
-                        erase(&mut pixels, 0, 0, w, h);
-                    }
-                },
-                Sgr::EraseInLine(_) => {
-                    erase(&mut pixels, cur_x, cur_y, w, cur_y);
-                }
-                _ => {}
-            }
-
-            w = w.max(cur_x + 1);
-            h = h.max(cur_y + 1);
-            ensure_shape(&mut pixels, w, h);
+    pub fn new(input: &str, max_width: Option<usize>) -> Self {
+        let mut terminal = Terminal::new(max_width.filter(|width| *width > 0));
+        for token in lexer::tokens(input) {
+            terminal.apply(token);
         }
-
-        Canvas { pixels, w, h }
+        terminal.finish()
     }
 
-    pub fn minify(&self) -> Vec<Vec<Node>> {
-        let mut v = vec![];
-        for row in &self.pixels {
-            let row_len = row.len();
+    /// Merge adjacent cells that share the same visual style.
+    pub fn minify(&self) -> Vec<Vec<Cell>> {
+        let mut rows = Vec::with_capacity(self.pixels.len());
 
-            if row_len == 0 {
-                v.push(vec![]);
+        for row in &self.pixels {
+            let mut merged: Vec<Cell> = Vec::new();
+            for cell in row {
+                match merged.last_mut() {
+                    Some(last) if last.same_style(cell) => {
+                        last.text.push_str(&cell.text);
+                        last.src.text = last.src.text.merge(cell.src.text);
+                    }
+                    _ => merged.push(cell.clone()),
+                }
+            }
+            rows.push(merged);
+        }
+
+        rows
+    }
+}
+
+struct Terminal {
+    pixels: Vec<Vec<Cell>>,
+    w: usize,
+    h: usize,
+    x: usize,
+    y: usize,
+    style: Style,
+    src: SourceMap,
+    reverse: bool,
+    max_width: Option<usize>,
+}
+
+impl Terminal {
+    fn new(max_width: Option<usize>) -> Self {
+        Self {
+            pixels: Vec::new(),
+            w: 0,
+            h: 0,
+            x: 0,
+            y: 0,
+            style: Style::default(),
+            src: SourceMap::default(),
+            reverse: false,
+            max_width,
+        }
+    }
+
+    fn apply(&mut self, token: Token) {
+        let Token { event, span } = token;
+
+        match event {
+            Event::Char(c) => {
+                let src = SourceMap {
+                    text: span,
+                    ..self.src
+                };
+                self.put(c, self.style, src);
+            }
+            Event::List(events) => {
+                for event in events {
+                    self.apply(Token { event, span });
+                }
+            }
+            Event::Link {
+                title, title_span, ..
+            } => {
+                self.link(&title, title_span, span);
+            }
+
+            Event::LineFeed => {
+                self.y += 1;
+                self.x = 0;
+                self.touch_height();
+            }
+            Event::Backspace => {
+                self.x = self.x.saturating_sub(1);
+                self.touch_height();
+            }
+            Event::Tab => {
+                let remainder = self.x & 7;
+                self.x += if remainder == 0 { 8 } else { 8 - remainder };
+                self.wrap();
+                self.touch_width();
+                self.touch_height();
+            }
+            Event::CarriageReturn => {
+                self.x = 0;
+                self.touch_height();
+            }
+
+            Event::CursorUp(n) => {
+                self.y = self.y.saturating_sub(n as usize);
+                self.touch_height();
+            }
+            Event::CursorDown(n) => {
+                self.y += n as usize;
+                self.touch_height();
+            }
+            Event::CursorForward(n) => {
+                self.x += n as usize;
+                self.wrap();
+                self.touch_width();
+                self.touch_height();
+            }
+            Event::CursorBack(n) => {
+                self.x = self.x.saturating_sub(n as usize);
+                self.touch_height();
+            }
+            Event::CursorNextLine(n) => {
+                self.y += n as usize;
+                self.x = 0;
+                self.touch_height();
+            }
+            Event::CursorPreviousLine(n) => {
+                self.y = self.y.saturating_sub(n as usize);
+                self.x = 0;
+                self.touch_height();
+            }
+            Event::CursorHorizontalAbsolute(n) => {
+                self.x = (n - 1).max(0) as usize;
+                self.touch_width();
+                self.touch_height();
+            }
+            Event::CursorPosition(row, col) => {
+                self.y = (row - 1).max(0) as usize;
+                self.x = (col - 1).max(0) as usize;
+                self.touch_width();
+                self.touch_height();
+            }
+            Event::HorizontalVerticalPosition(row, col) => {
+                self.y = (row - 1).max(0) as usize;
+                self.x = (col - 1).max(0) as usize;
+                self.touch_width();
+                self.touch_height();
+            }
+
+            Event::EraseInDisplay(mode) => self.erase_display(mode),
+            Event::EraseInLine(mode) => self.erase_line(mode),
+
+            Event::Foreground(color) => {
+                if self.reverse {
+                    self.set_bg(color, span);
+                } else {
+                    self.set_fg(color, span);
+                }
+            }
+            Event::Background(color) => {
+                if self.reverse {
+                    self.set_fg(color, span);
+                } else {
+                    self.set_bg(color, span);
+                }
+            }
+            Event::FgBg(fg, bg) => {
+                if self.reverse {
+                    self.set_fg(bg, span);
+                    self.set_bg(fg, span);
+                } else {
+                    self.set_fg(fg, span);
+                    self.set_bg(bg, span);
+                }
+            }
+            Event::Reset => {
+                self.style = Style::default();
+                self.reverse = false;
+                self.src.set_all(span);
+            }
+            Event::Reverse => {
+                self.reverse = true;
+                let fg = self.style.bg;
+                let bg = self.style.fg;
+                self.set_fg(fg, span);
+                self.set_bg(bg, span);
+            }
+            Event::Unreverse => {
+                self.reverse = false;
+                self.set_fg(AnsiColor::Default, span);
+                self.set_bg(AnsiColor::Default, span);
+            }
+            Event::DefaultForeground => {
+                if self.reverse {
+                    self.set_bg(AnsiColor::Default, span);
+                } else {
+                    self.set_fg(AnsiColor::Default, span);
+                }
+            }
+            Event::DefaultBackground => {
+                if self.reverse {
+                    self.set_fg(AnsiColor::Default, span);
+                } else {
+                    self.set_bg(AnsiColor::Default, span);
+                }
+            }
+            Event::DefaultUnderline => {}
+
+            Event::Bold => {
+                self.style.bold = true;
+                self.src.bold = span;
+            }
+            Event::Dim => {
+                self.style.dim = true;
+                self.src.dim = span;
+            }
+            Event::Italic => {
+                self.style.italic = true;
+                self.src.italic = span;
+            }
+            Event::Underline => {
+                self.style.underline = true;
+                self.src.underline = span;
+            }
+            Event::SlowBlink | Event::RapidBlink => {
+                self.style.blink = true;
+                self.src.blink = span;
+            }
+            Event::Strike => {
+                self.style.strike = true;
+                self.src.strike = span;
+            }
+            Event::Conceal => {
+                self.style.hide = true;
+                self.src.hide = span;
+            }
+            Event::Unitalic => {
+                self.style.italic = false;
+                self.src.italic = span;
+            }
+            Event::Ununderline => {
+                self.style.underline = false;
+                self.src.underline = span;
+            }
+            Event::Unblink => {
+                self.style.blink = false;
+                self.src.blink = span;
+            }
+            Event::Unstrike => {
+                self.style.strike = false;
+                self.src.strike = span;
+            }
+            Event::Unconceal => {
+                self.style.hide = false;
+                self.src.hide = span;
+            }
+            Event::NormalIntensity => {
+                self.style.bold = false;
+                self.style.dim = false;
+                self.src.bold = span;
+                self.src.dim = span;
+            }
+            Event::DoublyUnderlined => {
+                self.style.bold = false;
+                self.style.underline = true;
+                self.src.bold = span;
+                self.src.underline = span;
+            }
+
+            Event::Bell
+            | Event::FormFeed
+            | Event::Title(_)
+            | Event::Cwd(_)
+            | Event::Prompt
+            | Event::ScrollUp(_)
+            | Event::ScrollDown(_)
+            | Event::AuxPortOn
+            | Event::AuxPortOff
+            | Event::DeviceStatusReport
+            | Event::CursorShow
+            | Event::CursorHide
+            | Event::UnderlineColor(_)
+            | Event::PrimaryFont
+            | Event::AlternativeFont(_)
+            | Event::Fraktur
+            | Event::Decset
+            | Event::Decrst
+            | Event::Keypad
+            | Event::Ext
+            | Event::Unknown(_) => {}
+        }
+    }
+
+    fn set_fg(&mut self, color: AnsiColor, span: Span) {
+        self.style.fg = if self.reverse && color.is_default() {
+            AnsiColor::Color8(Color8::White)
+        } else {
+            color
+        };
+        self.src.fg = span;
+    }
+
+    fn set_bg(&mut self, color: AnsiColor, span: Span) {
+        self.style.bg = if self.reverse && color.is_default() {
+            AnsiColor::Color8(Color8::Black)
+        } else {
+            color
+        };
+        self.src.bg = span;
+    }
+
+    fn link(&mut self, title: &str, title_span: Span, link_span: Span) {
+        if title.contains('\x1b') {
+            self.apply(Token {
+                event: Event::Underline,
+                span: link_span,
+            });
+            for token in lexer::tokens(title) {
+                self.apply(Token {
+                    event: token.event,
+                    span: token.span.shift(title_span.start),
+                });
+            }
+            self.apply(Token {
+                event: Event::Reset,
+                span: link_span,
+            });
+            return;
+        }
+
+        let style = Style {
+            underline: true,
+            ..self.style
+        };
+        for (index, c) in title.chars().enumerate() {
+            if c == '\n' {
+                self.y += 1;
+                self.x = 0;
+                self.touch_height();
                 continue;
             }
+            let pos = title_span.start + index;
+            let src = SourceMap {
+                text: Span::new(pos, pos + 1),
+                underline: link_span,
+                ..self.src
+            };
+            self.put(c, style, src);
+        }
+    }
 
-            let mut block = row[0].clone();
+    fn put(&mut self, c: char, style: Style, src: SourceMap) {
+        if let Some(max_width) = self.max_width
+            && self.x >= max_width
+        {
+            self.x = 0;
+            self.y += 1;
+        }
 
-            let mut list = vec![];
-            for c in row.iter().take(row_len).skip(1) {
-                if c.same_style(&block) {
-                    block.text.push_str(&c.text);
-                    block.text_r = merge_range(block.text_r, c.text_r);
-                } else {
-                    list.push(block.clone());
-                    block = c.clone();
-                }
+        self.ensure_row(self.y);
+        let row = &mut self.pixels[self.y];
+        while row.len() <= self.x {
+            row.push(Cell::blank());
+        }
+        row[self.x] = Cell::new(style, c, src);
+
+        self.x += 1;
+        self.w = self.w.max(self.x);
+        self.h = self.h.max(self.y + 1);
+    }
+
+    fn wrap(&mut self) {
+        if let Some(max_width) = self.max_width
+            && self.x >= max_width
+        {
+            self.x %= max_width;
+            self.y += 1;
+        }
+    }
+
+    fn touch_width(&mut self) {
+        self.w = self.w.max(self.x + 1);
+    }
+
+    fn touch_height(&mut self) {
+        self.h = self.h.max(self.y + 1);
+    }
+
+    fn ensure_row(&mut self, y: usize) {
+        while self.pixels.len() <= y {
+            self.pixels.push(Vec::new());
+        }
+    }
+
+    fn erase_display(&mut self, mode: i32) {
+        let (start_x, start_y, end_x, end_y) = match mode {
+            0 => (self.x, self.y, self.w, self.h),
+            1 => (0, 0, self.x + 1, self.y + 1),
+            _ => (0, 0, self.w, self.h),
+        };
+        self.erase(start_x, start_y, end_x, end_y);
+    }
+
+    fn erase_line(&mut self, mode: i32) {
+        let (start_x, end_x) = match mode {
+            0 => (self.x, self.w),
+            1 => (0, self.x + 1),
+            _ => (0, self.w),
+        };
+        self.erase(start_x, self.y, end_x, self.y + 1);
+    }
+
+    fn erase(&mut self, start_x: usize, start_y: usize, end_x: usize, end_y: usize) {
+        for row in self.pixels.iter_mut().take(end_y).skip(start_y) {
+            let end = end_x.min(row.len());
+            let start = start_x.min(end);
+            for cell in &mut row[start..end] {
+                *cell = Cell::blank();
             }
+        }
+    }
 
-            list.push(block);
-            v.push(list);
+    fn finish(mut self) -> Canvas {
+        while self.pixels.len() < self.h {
+            self.pixels.push(Vec::new());
         }
 
-        v
-    }
-}
-
-pub fn pixels_to_ans(pixels: Vec<Vec<Node>>) -> String {
-    let mut text: Vec<String> = Vec::new();
-    let mut last_node = Node::default();
-    for row in pixels.iter() {
-        let mut row_str = Vec::new();
-        for c in row.iter() {
-            row_str.push(min_distance(&last_node, c));
-            row_str.push(c.text.clone());
-            last_node = c.clone();
+        Canvas {
+            pixels: self.pixels,
+            w: self.w,
+            h: self.h,
         }
-        text.push(row_str.into_iter().collect());
     }
-    text.join("\n")
 }

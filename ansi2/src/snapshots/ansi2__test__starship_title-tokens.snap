@@ -1,0 +1,44 @@
+---
+source: ansi2/src/lib.rs
+expression: parse(input)
+---
+[
+    Token {
+        event: Decset,
+        span: 0..8,
+    },
+    Token {
+        event: Title(
+            "/c/wt",
+        ),
+        span: 8..18,
+    },
+    Token {
+        event: Foreground(
+            Color8(
+                Black,
+            ),
+        ),
+        span: 18..23,
+    },
+    Token {
+        event: Bold,
+        span: 23..26,
+    },
+    Token {
+        event: Reset,
+        span: 26..29,
+    },
+    Token {
+        event: EraseInDisplay(
+            0,
+        ),
+        span: 29..32,
+    },
+    Token {
+        event: EraseInLine(
+            0,
+        ),
+        span: 32..35,
+    },
+]

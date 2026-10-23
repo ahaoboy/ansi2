@@ -1,0 +1,86 @@
+---
+source: ansi2/src/lib.rs
+expression: canvas.minify()
+---
+[
+    [
+        Cell {
+            style: Style {
+                fg: Default,
+                bg: Default,
+                bold: false,
+                dim: false,
+                italic: false,
+                underline: true,
+                blink: false,
+                hide: false,
+                strike: false,
+            },
+            text: "foo]8;;http://example.com/foo\\foo",
+            src: SourceMap {
+                text: 29..64,
+                fg: 0..0,
+                bg: 0..0,
+                bold: 0..0,
+                dim: 0..0,
+                italic: 0..0,
+                underline: 0..71,
+                blink: 0..0,
+                hide: 0..0,
+                strike: 0..0,
+            },
+        },
+        Cell {
+            style: Style {
+                fg: Default,
+                bg: Default,
+                bold: false,
+                dim: false,
+                italic: false,
+                underline: false,
+                blink: false,
+                hide: false,
+                strike: false,
+            },
+            text: " ",
+            src: SourceMap {
+                text: 71..72,
+                fg: 0..71,
+                bg: 0..71,
+                bold: 0..71,
+                dim: 0..71,
+                italic: 0..71,
+                underline: 0..71,
+                blink: 0..71,
+                hide: 0..71,
+                strike: 0..71,
+            },
+        },
+        Cell {
+            style: Style {
+                fg: Default,
+                bg: Default,
+                bold: false,
+                dim: false,
+                italic: false,
+                underline: true,
+                blink: false,
+                hide: false,
+                strike: false,
+            },
+            text: "foo]8;;http://example.com/bar\\bar",
+            src: SourceMap {
+                text: 101..136,
+                fg: 0..71,
+                bg: 0..71,
+                bold: 0..71,
+                dim: 0..71,
+                italic: 0..71,
+                underline: 72..143,
+                blink: 0..71,
+                hide: 0..71,
+                strike: 0..71,
+            },
+        },
+    ],
+]

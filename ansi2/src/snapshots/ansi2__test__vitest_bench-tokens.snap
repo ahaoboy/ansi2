@@ -1,0 +1,136 @@
+---
+source: ansi2/src/lib.rs
+expression: parse(input)
+---
+[
+    Token {
+        event: Foreground(
+            Color8(
+                Cyan,
+            ),
+        ),
+        span: 0..5,
+    },
+    Token {
+        event: Reverse,
+        span: 5..9,
+    },
+    Token {
+        event: Bold,
+        span: 9..13,
+    },
+    Token {
+        event: Char(
+            ' ',
+        ),
+        span: 13..14,
+    },
+    Token {
+        event: Char(
+            'B',
+        ),
+        span: 14..15,
+    },
+    Token {
+        event: Char(
+            'E',
+        ),
+        span: 15..16,
+    },
+    Token {
+        event: Char(
+            'N',
+        ),
+        span: 16..17,
+    },
+    Token {
+        event: Char(
+            'C',
+        ),
+        span: 17..18,
+    },
+    Token {
+        event: Char(
+            'H',
+        ),
+        span: 18..19,
+    },
+    Token {
+        event: Char(
+            ' ',
+        ),
+        span: 19..20,
+    },
+    Token {
+        event: NormalIntensity,
+        span: 20..25,
+    },
+    Token {
+        event: Unreverse,
+        span: 25..30,
+    },
+    Token {
+        event: DefaultForeground,
+        span: 30..35,
+    },
+    Token {
+        event: Char(
+            ' ',
+        ),
+        span: 35..36,
+    },
+    Token {
+        event: Foreground(
+            Color8(
+                Cyan,
+            ),
+        ),
+        span: 36..41,
+    },
+    Token {
+        event: Char(
+            'S',
+        ),
+        span: 41..42,
+    },
+    Token {
+        event: Char(
+            'u',
+        ),
+        span: 42..43,
+    },
+    Token {
+        event: Char(
+            'm',
+        ),
+        span: 43..44,
+    },
+    Token {
+        event: Char(
+            'm',
+        ),
+        span: 44..45,
+    },
+    Token {
+        event: Char(
+            'a',
+        ),
+        span: 45..46,
+    },
+    Token {
+        event: Char(
+            'r',
+        ),
+        span: 46..47,
+    },
+    Token {
+        event: Char(
+            'y',
+        ),
+        span: 47..48,
+    },
+    Token {
+        event: DefaultForeground,
+        span: 48..53,
+    },
+]

@@ -1,0 +1,48 @@
+---
+source: ansi2/src/lib.rs
+expression: parse(input)
+---
+[
+    Token {
+        event: Unknown(
+            27,
+        ),
+        span: 0..1,
+    },
+    Token {
+        event: Char(
+            ']',
+        ),
+        span: 1..2,
+    },
+    Token {
+        event: Char(
+            '8',
+        ),
+        span: 2..3,
+    },
+    Token {
+        event: Char(
+            ';',
+        ),
+        span: 3..4,
+    },
+    Token {
+        event: Char(
+            ';',
+        ),
+        span: 4..5,
+    },
+    Token {
+        event: Unknown(
+            27,
+        ),
+        span: 5..6,
+    },
+    Token {
+        event: Char(
+            '\\',
+        ),
+        span: 6..7,
+    },
+]

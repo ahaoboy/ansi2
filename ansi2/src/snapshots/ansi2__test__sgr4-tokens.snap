@@ -1,0 +1,37 @@
+---
+source: ansi2/src/lib.rs
+expression: parse(input)
+---
+[
+    Token {
+        event: List(
+            [
+                Reset,
+                Background(
+                    Color256(
+                        45,
+                    ),
+                ),
+            ],
+        ),
+        span: 0..12,
+    },
+    Token {
+        event: Char(
+            'a',
+        ),
+        span: 12..13,
+    },
+    Token {
+        event: Char(
+            'a',
+        ),
+        span: 13..14,
+    },
+    Token {
+        event: Char(
+            'a',
+        ),
+        span: 14..15,
+    },
+]

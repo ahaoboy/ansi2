@@ -1,10 +1,11 @@
-use crate::theme::{COLOR256, ColorTable};
+use crate::theme::{self, Rgb, Theme};
 
-pub fn get_hex((r, g, b): (u8, u8, u8)) -> String {
+pub fn hex((r, g, b): Rgb) -> String {
     format!("#{r:02X}{g:02X}{b:02X}")
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[repr(u8)]
 pub enum Color8 {
     Black,
     Red,
@@ -24,113 +25,70 @@ pub enum Color8 {
     BrightWhite,
 }
 
+const COLOR8: [Color8; 16] = [
+    Color8::Black,
+    Color8::Red,
+    Color8::Green,
+    Color8::Yellow,
+    Color8::Blue,
+    Color8::Magenta,
+    Color8::Cyan,
+    Color8::White,
+    Color8::BrightBlack,
+    Color8::BrightRed,
+    Color8::BrightGreen,
+    Color8::BrightYellow,
+    Color8::BrightBlue,
+    Color8::BrightMagenta,
+    Color8::BrightCyan,
+    Color8::BrightWhite,
+];
+
+const FG_CLASSES: [&str; 16] = [
+    "c0", "c1", "c2", "c3", "c4", "c5", "c6", "c7", "ca", "cb", "cc", "cd", "ce", "cf", "cg", "ch",
+];
+
+const BG_CLASSES: [&str; 16] = [
+    "b0", "b1", "b2", "b3", "b4", "b5", "b6", "b7", "ba", "bb", "bc", "bd", "be", "bf", "bg", "bh",
+];
+
+const FG_CODES: [u8; 16] = [
+    30, 31, 32, 33, 34, 35, 36, 37, 90, 91, 92, 93, 94, 95, 96, 97,
+];
+
 impl Color8 {
-    pub fn class_name(&self) -> &'static str {
-        match self {
-            Color8::Black => "c0",
-            Color8::Red => "c1",
-            Color8::Green => "c2",
-            Color8::Yellow => "c3",
-            Color8::Blue => "c4",
-            Color8::Magenta => "c5",
-            Color8::Cyan => "c6",
-            Color8::White => "c7",
-            Color8::BrightBlack => "ca",
-            Color8::BrightRed => "cb",
-            Color8::BrightGreen => "cc",
-            Color8::BrightYellow => "cd",
-            Color8::BrightBlue => "ce",
-            Color8::BrightMagenta => "cf",
-            Color8::BrightCyan => "cg",
-            Color8::BrightWhite => "ch",
-        }
-    }
-    pub fn bg_class_name(&self) -> &'static str {
-        match self {
-            Color8::Black => "b0",
-            Color8::Red => "b1",
-            Color8::Green => "b2",
-            Color8::Yellow => "b3",
-            Color8::Blue => "b4",
-            Color8::Magenta => "b5",
-            Color8::Cyan => "b6",
-            Color8::White => "b7",
-            Color8::BrightBlack => "ba",
-            Color8::BrightRed => "bb",
-            Color8::BrightGreen => "bc",
-            Color8::BrightYellow => "bd",
-            Color8::BrightBlue => "be",
-            Color8::BrightMagenta => "bf",
-            Color8::BrightCyan => "bg",
-            Color8::BrightWhite => "bh",
-        }
+    pub const fn index(self) -> usize {
+        self as usize
     }
 
-    pub fn get_hex<T: ColorTable>(&self, theme: T) -> String {
-        match self {
-            Color8::Black => get_hex(theme.black()),
-            Color8::Red => get_hex(theme.red()),
-            Color8::Green => get_hex(theme.green()),
-            Color8::Yellow => get_hex(theme.yellow()),
-            Color8::Blue => get_hex(theme.blue()),
-            Color8::Magenta => get_hex(theme.magenta()),
-            Color8::Cyan => get_hex(theme.cyan()),
-            Color8::White => get_hex(theme.white()),
-            Color8::BrightBlack => get_hex(theme.bright_black()),
-            Color8::BrightRed => get_hex(theme.bright_red()),
-            Color8::BrightGreen => get_hex(theme.bright_green()),
-            Color8::BrightYellow => get_hex(theme.bright_yellow()),
-            Color8::BrightBlue => get_hex(theme.bright_blue()),
-            Color8::BrightMagenta => get_hex(theme.bright_magenta()),
-            Color8::BrightCyan => get_hex(theme.bright_cyan()),
-            Color8::BrightWhite => get_hex(theme.bright_white()),
-        }
+    pub const fn class(self) -> &'static str {
+        FG_CLASSES[self.index()]
     }
 
-    pub fn from_u8(n: u8) -> Color8 {
-        match n {
-            30 | 40 => Color8::Black,
-            31 | 41 => Color8::Red,
-            32 | 42 => Color8::Green,
-            33 | 43 => Color8::Yellow,
-            34 | 44 => Color8::Blue,
-            35 | 45 => Color8::Magenta,
-            36 | 46 => Color8::Cyan,
-            37 | 47 => Color8::White,
-
-            90 | 100 => Color8::BrightBlack,
-            91 | 101 => Color8::BrightRed,
-            92 | 102 => Color8::BrightGreen,
-            93 | 103 => Color8::BrightYellow,
-            94 | 104 => Color8::BrightBlue,
-            95 | 105 => Color8::BrightMagenta,
-            96 | 106 => Color8::BrightCyan,
-            97 | 107 => Color8::BrightWhite,
-            _ => Color8::Black,
-        }
+    pub const fn bg_class(self) -> &'static str {
+        BG_CLASSES[self.index()]
     }
 
-    pub fn to_u8(&self) -> u8 {
-        match self {
-            Color8::Black => 30,
-            Color8::Red => 31,
-            Color8::Green => 32,
-            Color8::Yellow => 33,
-            Color8::Blue => 34,
-            Color8::Magenta => 35,
-            Color8::Cyan => 36,
-            Color8::White => 37,
-            Color8::BrightBlack => 90,
-            Color8::BrightRed => 91,
-            Color8::BrightGreen => 92,
-            Color8::BrightYellow => 93,
-            Color8::BrightBlue => 94,
-            Color8::BrightMagenta => 95,
-            Color8::BrightCyan => 96,
-            Color8::BrightWhite => 97,
-        }
+    pub const fn to_u8(self) -> u8 {
+        FG_CODES[self.index()]
+    }
+
+    pub fn hex(self, theme: Theme) -> String {
+        hex(theme.color(self.index()))
+    }
+
+    pub fn from_u8(value: u8) -> Self {
+        let index = match value {
+            30..=37 => value - 30,
+            40..=47 => value - 40,
+            90..=97 => value - 90 + 8,
+            100..=107 => value - 100 + 8,
+            _ => 0,
+        };
+        COLOR8[index as usize]
     }
 }
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
 pub enum AnsiColor {
     #[default]
@@ -141,40 +99,41 @@ pub enum AnsiColor {
 }
 
 impl AnsiColor {
-    pub fn class_name(&self) -> String {
+    pub fn class(&self) -> String {
         match self {
-            AnsiColor::Default => "D".into(),
-            AnsiColor::Color8(n) => n.class_name().to_string(),
-            AnsiColor::Rgb(r, g, b) => format!("c{r:02X}{g:02X}{b:02X}"),
-            AnsiColor::Color256(c) => format!("c{c:02X}"),
+            Self::Default => "D".into(),
+            Self::Color8(color) => color.class().into(),
+            Self::Rgb(r, g, b) => format!("c{r:02X}{g:02X}{b:02X}"),
+            Self::Color256(index) => format!("c{index:02X}"),
         }
     }
 
-    pub fn bg_class_name(&self) -> String {
+    pub fn bg_class(&self) -> String {
         match self {
-            AnsiColor::Default => "D".into(),
-            AnsiColor::Color8(n) => n.bg_class_name().to_string(),
-            AnsiColor::Rgb(r, g, b) => format!("b{r:02X}{g:02X}{b:02X}"),
-            AnsiColor::Color256(c) => format!("b{c:02X}"),
+            Self::Default => "D".into(),
+            Self::Color8(color) => color.bg_class().into(),
+            Self::Rgb(r, g, b) => format!("b{r:02X}{g:02X}{b:02X}"),
+            Self::Color256(index) => format!("b{index:02X}"),
         }
     }
 
-    pub fn get_hex<T: ColorTable>(&self, theme: T) -> String {
+    pub fn hex(&self, theme: Theme) -> String {
         match self {
-            AnsiColor::Default => "#00000000".into(),
-            AnsiColor::Color8(n) => n.get_hex(theme),
-            AnsiColor::Rgb(r, g, b) => get_hex((*r, *g, *b)),
-            AnsiColor::Color256(c) => get_hex(COLOR256[*c as usize]),
+            Self::Default => "#00000000".into(),
+            Self::Color8(color) => color.hex(theme),
+            Self::Rgb(r, g, b) => hex((*r, *g, *b)),
+            Self::Color256(index) => hex(theme::color256(*index)),
         }
     }
 
-    pub fn from_u8(n: u8) -> AnsiColor {
-        match n {
-            30..=37 | 40..=47 | 90..=97 | 100..=107 => AnsiColor::Color8(Color8::from_u8(n)),
-            _ => AnsiColor::Default,
+    pub fn from_u8(value: u8) -> Self {
+        match value {
+            30..=37 | 40..=47 | 90..=97 | 100..=107 => Self::Color8(Color8::from_u8(value)),
+            _ => Self::Default,
         }
     }
-    pub fn is_default(&self) -> bool {
-        matches!(self, AnsiColor::Default)
+
+    pub const fn is_default(&self) -> bool {
+        matches!(self, Self::Default)
     }
 }

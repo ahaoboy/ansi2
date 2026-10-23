@@ -1,0 +1,336 @@
+---
+source: ansi2/src/lib.rs
+expression: parse(input)
+---
+[
+    Token {
+        event: Foreground(
+            Color8(
+                Black,
+            ),
+        ),
+        span: 0..5,
+    },
+    Token {
+        event: Char(
+            'b',
+        ),
+        span: 5..6,
+    },
+    Token {
+        event: Char(
+            'l',
+        ),
+        span: 6..7,
+    },
+    Token {
+        event: Char(
+            'a',
+        ),
+        span: 7..8,
+    },
+    Token {
+        event: Char(
+            'c',
+        ),
+        span: 8..9,
+    },
+    Token {
+        event: Char(
+            'k',
+        ),
+        span: 9..10,
+    },
+    Token {
+        event: Reset,
+        span: 10..14,
+    },
+    Token {
+        event: Char(
+            ' ',
+        ),
+        span: 14..15,
+    },
+    Token {
+        event: Char(
+            ' ',
+        ),
+        span: 15..16,
+    },
+    Token {
+        event: Char(
+            ' ',
+        ),
+        span: 16..17,
+    },
+    Token {
+        event: Char(
+            ' ',
+        ),
+        span: 17..18,
+    },
+    Token {
+        event: Foreground(
+            Color8(
+                BrightBlack,
+            ),
+        ),
+        span: 18..23,
+    },
+    Token {
+        event: Char(
+            'b',
+        ),
+        span: 23..24,
+    },
+    Token {
+        event: Char(
+            'r',
+        ),
+        span: 24..25,
+    },
+    Token {
+        event: Char(
+            'i',
+        ),
+        span: 25..26,
+    },
+    Token {
+        event: Char(
+            'g',
+        ),
+        span: 26..27,
+    },
+    Token {
+        event: Char(
+            'h',
+        ),
+        span: 27..28,
+    },
+    Token {
+        event: Char(
+            't',
+        ),
+        span: 28..29,
+    },
+    Token {
+        event: Char(
+            ' ',
+        ),
+        span: 29..30,
+    },
+    Token {
+        event: Char(
+            'b',
+        ),
+        span: 30..31,
+    },
+    Token {
+        event: Char(
+            'l',
+        ),
+        span: 31..32,
+    },
+    Token {
+        event: Char(
+            'a',
+        ),
+        span: 32..33,
+    },
+    Token {
+        event: Char(
+            'c',
+        ),
+        span: 33..34,
+    },
+    Token {
+        event: Char(
+            'k',
+        ),
+        span: 34..35,
+    },
+    Token {
+        event: Reset,
+        span: 35..39,
+    },
+    Token {
+        event: Char(
+            ' ',
+        ),
+        span: 39..40,
+    },
+    Token {
+        event: Char(
+            ' ',
+        ),
+        span: 40..41,
+    },
+    Token {
+        event: Char(
+            ' ',
+        ),
+        span: 41..42,
+    },
+    Token {
+        event: Char(
+            ' ',
+        ),
+        span: 42..43,
+    },
+    Token {
+        event: Char(
+            ' ',
+        ),
+        span: 43..44,
+    },
+    Token {
+        event: Background(
+            Color8(
+                Black,
+            ),
+        ),
+        span: 44..49,
+    },
+    Token {
+        event: Char(
+            'b',
+        ),
+        span: 49..50,
+    },
+    Token {
+        event: Char(
+            'l',
+        ),
+        span: 50..51,
+    },
+    Token {
+        event: Char(
+            'a',
+        ),
+        span: 51..52,
+    },
+    Token {
+        event: Char(
+            'c',
+        ),
+        span: 52..53,
+    },
+    Token {
+        event: Char(
+            'k',
+        ),
+        span: 53..54,
+    },
+    Token {
+        event: Reset,
+        span: 54..58,
+    },
+    Token {
+        event: Char(
+            ' ',
+        ),
+        span: 58..59,
+    },
+    Token {
+        event: Char(
+            ' ',
+        ),
+        span: 59..60,
+    },
+    Token {
+        event: Char(
+            ' ',
+        ),
+        span: 60..61,
+    },
+    Token {
+        event: Char(
+            ' ',
+        ),
+        span: 61..62,
+    },
+    Token {
+        event: Background(
+            Color8(
+                BrightBlack,
+            ),
+        ),
+        span: 62..68,
+    },
+    Token {
+        event: Char(
+            'b',
+        ),
+        span: 68..69,
+    },
+    Token {
+        event: Char(
+            'r',
+        ),
+        span: 69..70,
+    },
+    Token {
+        event: Char(
+            'i',
+        ),
+        span: 70..71,
+    },
+    Token {
+        event: Char(
+            'g',
+        ),
+        span: 71..72,
+    },
+    Token {
+        event: Char(
+            'h',
+        ),
+        span: 72..73,
+    },
+    Token {
+        event: Char(
+            't',
+        ),
+        span: 73..74,
+    },
+    Token {
+        event: Char(
+            ' ',
+        ),
+        span: 74..75,
+    },
+    Token {
+        event: Char(
+            'b',
+        ),
+        span: 75..76,
+    },
+    Token {
+        event: Char(
+            'l',
+        ),
+        span: 76..77,
+    },
+    Token {
+        event: Char(
+            'a',
+        ),
+        span: 77..78,
+    },
+    Token {
+        event: Char(
+            'c',
+        ),
+        span: 78..79,
+    },
+    Token {
+        event: Char(
+            'k',
+        ),
+        span: 79..80,
+    },
+    Token {
+        event: Reset,
+        span: 80..84,
+    },
+]

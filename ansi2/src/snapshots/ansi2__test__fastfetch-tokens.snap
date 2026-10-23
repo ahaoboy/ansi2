@@ -1,0 +1,24 @@
+---
+source: ansi2/src/lib.rs
+expression: parse(input)
+---
+[
+    Token {
+        event: CursorHorizontalAbsolute(
+            1,
+        ),
+        span: 0..4,
+    },
+    Token {
+        event: CursorUp(
+            19,
+        ),
+        span: 4..9,
+    },
+    Token {
+        event: CursorForward(
+            47,
+        ),
+        span: 9..14,
+    },
+]

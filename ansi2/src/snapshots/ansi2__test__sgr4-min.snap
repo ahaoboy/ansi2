@@ -1,0 +1,36 @@
+---
+source: ansi2/src/lib.rs
+expression: canvas.minify()
+---
+[
+    [
+        Cell {
+            style: Style {
+                fg: Default,
+                bg: Color256(
+                    45,
+                ),
+                bold: false,
+                dim: false,
+                italic: false,
+                underline: false,
+                blink: false,
+                hide: false,
+                strike: false,
+            },
+            text: "aaa",
+            src: SourceMap {
+                text: 12..15,
+                fg: 0..12,
+                bg: 0..12,
+                bold: 0..12,
+                dim: 0..12,
+                italic: 0..12,
+                underline: 0..12,
+                blink: 0..12,
+                hide: 0..12,
+                strike: 0..12,
+            },
+        },
+    ],
+]

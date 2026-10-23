@@ -1,0 +1,67 @@
+---
+source: ansi2/src/lib.rs
+expression: parse(input)
+---
+[
+    Token {
+        event: DefaultForeground,
+        span: 0..5,
+    },
+    Token {
+        event: List(
+            [
+                Dim,
+                DefaultForeground,
+            ],
+        ),
+        span: 5..12,
+    },
+    Token {
+        event: Char(
+            'N',
+        ),
+        span: 12..13,
+    },
+    Token {
+        event: Char(
+            'U',
+        ),
+        span: 13..14,
+    },
+    Token {
+        event: Char(
+            'S',
+        ),
+        span: 14..15,
+    },
+    Token {
+        event: Char(
+            'H',
+        ),
+        span: 15..16,
+    },
+    Token {
+        event: Char(
+            'E',
+        ),
+        span: 16..17,
+    },
+    Token {
+        event: Char(
+            'L',
+        ),
+        span: 17..18,
+    },
+    Token {
+        event: Char(
+            'L',
+        ),
+        span: 18..19,
+    },
+    Token {
+        event: Unknown(
+            27,
+        ),
+        span: 19..20,
+    },
+]

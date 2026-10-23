@@ -1,20 +1,393 @@
-use crate::color::{AnsiColor, Color8};
-use crate::lex::{Sgr, parse_ansi};
+use std::fmt::Write;
 
-/// Format a sequin output line.
-/// The Go sequin format is: `<KIND (4-char right-aligned)> <sequence>: <explanation>\n`
-fn fmt_line(kind: &str, seq: &str, explanation: &str) -> String {
-    format!("{:>4} {}: {}\n", kind, seq, explanation)
+use crate::{
+    color::{AnsiColor, Color8},
+    lexer::{Event, tokens},
+    theme,
+};
+
+/// Convert ANSI input to sequin-style human-readable output.
+///
+/// Each escape sequence gets a line showing its kind, raw parameters and an
+/// explanation, matching the Go sequin project's format.
+pub fn to_sequin(input: &str, _width: Option<usize>) -> String {
+    let mut output = String::new();
+    let mut text = String::new();
+
+    for token in tokens(input) {
+        match token.event {
+            Event::Char(c) => text.push(c),
+            event => {
+                flush_text(&mut text, &mut output);
+                write_event(&mut output, &event);
+            }
+        }
+    }
+
+    flush_text(&mut text, &mut output);
+    output
 }
 
-/// Format a text line.
-fn fmt_text(text: &str) -> String {
-    format!("Text {}\n", text)
+fn flush_text(text: &mut String, output: &mut String) {
+    if !text.is_empty() {
+        let _ = writeln!(output, "Text {text}");
+        text.clear();
+    }
 }
 
-/// Get the basic color name for SGR foreground/background codes.
-fn basic_color_name(n: u8) -> &'static str {
-    match n {
+fn line(output: &mut String, kind: &str, sequence: &str, explanation: &str) {
+    let _ = writeln!(output, "{kind:>4} {sequence}: {explanation}");
+}
+
+fn ctrl(output: &mut String, byte: u8) {
+    line(
+        output,
+        "Ctrl",
+        &escape_ctrl_byte(byte),
+        ctrl_code_name(byte),
+    );
+}
+
+fn write_event(output: &mut String, event: &Event) {
+    use Event::*;
+
+    match event {
+        Char(_) => {}
+        List(items) => {
+            let descriptions: Vec<String> = items.iter().filter_map(describe).collect();
+            if !descriptions.is_empty() {
+                line(output, "CSI", "m", &descriptions.join(", "));
+            }
+        }
+
+        Bell => ctrl(output, 0x07),
+        Backspace => ctrl(output, 0x08),
+        Tab => ctrl(output, 0x09),
+        LineFeed => ctrl(output, 0x0a),
+        FormFeed => ctrl(output, 0x0c),
+        CarriageReturn => ctrl(output, 0x0d),
+        Unknown(byte) => ctrl(output, *byte),
+
+        Reset => line(output, "CSI", "m", "Reset style"),
+        Bold => line(output, "CSI", "1m", "Bold"),
+        Dim => line(output, "CSI", "2m", "Faint"),
+        Italic => line(output, "CSI", "3m", "Italic"),
+        Underline => line(output, "CSI", "4m", "Underline"),
+        SlowBlink => line(output, "CSI", "5m", "Blink"),
+        RapidBlink => line(output, "CSI", "6m", "Blink"),
+        Reverse => line(output, "CSI", "7m", "Inverse"),
+        Conceal => line(output, "CSI", "8m", "Invisible"),
+        Strike => line(output, "CSI", "9m", "Crossed-out"),
+        NormalIntensity => line(output, "CSI", "22m", "Normal intensity"),
+        Unitalic => line(output, "CSI", "23m", "No italic"),
+        Ununderline => line(output, "CSI", "24m", "No underline"),
+        Unblink => line(output, "CSI", "25m", "No blink"),
+        Unreverse => line(output, "CSI", "27m", "No reverse"),
+        Unconceal => line(output, "CSI", "28m", "No conceal"),
+        Unstrike => line(output, "CSI", "29m", "No crossed-out"),
+
+        Foreground(color) => {
+            let (sequence, description) = describe_color(color, true);
+            line(output, "CSI", &sequence, &description);
+        }
+        Background(color) => {
+            let (sequence, description) = describe_color(color, false);
+            line(output, "CSI", &sequence, &description);
+        }
+        DefaultForeground => line(output, "CSI", "39m", "Default foreground color"),
+        DefaultBackground => line(output, "CSI", "49m", "Default background color"),
+        DefaultUnderline => line(output, "CSI", "59m", "Default underline color"),
+        UnderlineColor(color) => {
+            let (sequence, description) = describe_underline_color(color);
+            line(output, "CSI", &sequence, &description);
+        }
+        FgBg(fg, bg) => {
+            let (fg_sequence, fg_description) = describe_color(fg, true);
+            let (bg_sequence, bg_description) = describe_color(bg, false);
+            let sequence = format!(
+                "{};{}m",
+                fg_sequence.trim_end_matches('m'),
+                bg_sequence.trim_end_matches('m')
+            );
+            line(
+                output,
+                "CSI",
+                &sequence,
+                &format!("{fg_description}, {bg_description}"),
+            );
+        }
+
+        CursorUp(n) => {
+            let sequence = maybe_counted(*n, "A");
+            line(output, "CSI", &sequence, &format!("Cursor up {n}"));
+        }
+        CursorDown(n) => {
+            let sequence = maybe_counted(*n, "B");
+            line(output, "CSI", &sequence, &format!("Cursor down {n}"));
+        }
+        CursorForward(n) => {
+            let sequence = maybe_counted(*n, "C");
+            line(output, "CSI", &sequence, &format!("Cursor right {n}"));
+        }
+        CursorBack(n) => {
+            let sequence = maybe_counted(*n, "D");
+            line(output, "CSI", &sequence, &format!("Cursor left {n}"));
+        }
+        CursorNextLine(n) => line(
+            output,
+            "CSI",
+            &format!("{n}E"),
+            &format!("Cursor next line {n}"),
+        ),
+        CursorPreviousLine(n) => line(
+            output,
+            "CSI",
+            &format!("{n}F"),
+            &format!("Cursor previous line {n}"),
+        ),
+        CursorHorizontalAbsolute(n) => line(
+            output,
+            "CSI",
+            &format!("{n}G"),
+            &format!("Cursor horizontal absolute {n}"),
+        ),
+        CursorPosition(row, col) => line(
+            output,
+            "CSI",
+            &format!("{row};{col}H"),
+            &format!("Set cursor position row={row} col={col}"),
+        ),
+        HorizontalVerticalPosition(row, col) => line(
+            output,
+            "CSI",
+            &format!("{row};{col}f"),
+            &format!("Horizontal vertical position row={row} col={col}"),
+        ),
+
+        EraseInDisplay(n) => {
+            let description = match n {
+                0 => "Erase screen bellow",
+                1 => "Erase screen above",
+                2 => "Erase entire screen",
+                3 => "Erase entire display",
+                _ => "Erase screen",
+            };
+            let sequence = if *n == 0 { "J".into() } else { format!("{n}J") };
+            line(output, "CSI", &sequence, description);
+        }
+        EraseInLine(n) => {
+            let description = match n {
+                0 => "Erase line right",
+                1 => "Erase line left",
+                2 => "Erase entire line",
+                _ => "Erase line",
+            };
+            let sequence = if *n == 0 { "K".into() } else { format!("{n}K") };
+            line(output, "CSI", &sequence, description);
+        }
+        ScrollUp(n) => line(
+            output,
+            "CSI",
+            &format!("{n}S"),
+            &format!("Scroll up {} lines", (*n).max(1)),
+        ),
+        ScrollDown(n) => line(
+            output,
+            "CSI",
+            &format!("{n}T"),
+            &format!("Scroll down {} lines", (*n).max(1)),
+        ),
+
+        DeviceStatusReport => line(output, "CSI", "6n", "Request cursor position"),
+        AuxPortOn => line(output, "CSI", "5i", "AUX port on"),
+        AuxPortOff => line(output, "CSI", "4i", "AUX port off"),
+
+        Title(title) => line(
+            output,
+            "OSC",
+            &format!("0;{title}"),
+            &format!("Set icon name and window title to \"{title}\""),
+        ),
+        Cwd(url) => line(
+            output,
+            "OSC",
+            &format!("7;{url}"),
+            &format!("Set working directory to {url}"),
+        ),
+        Prompt => line(output, "OSC", "133", "Shell integration"),
+        Link { url, title, .. } => line(
+            output,
+            "OSC",
+            &format!("8;;{url}"),
+            &format!("Set hyperlink, to \"{url}\" title \"{title}\""),
+        ),
+
+        Decset => line(
+            output,
+            "CSI",
+            "?2004h",
+            "Enable private mode \"bracketed paste\"",
+        ),
+        Decrst => line(
+            output,
+            "CSI",
+            "?2004l",
+            "Disable private mode \"bracketed paste\"",
+        ),
+        CursorShow => line(
+            output,
+            "CSI",
+            "?25h",
+            "Enable private mode \"cursor visibility\"",
+        ),
+        CursorHide => line(
+            output,
+            "CSI",
+            "?25l",
+            "Disable private mode \"cursor visibility\"",
+        ),
+        Keypad => line(output, "ESC", "=", "Application Keypad"),
+        Ext => line(output, "CSI", ">4;1m", "Extended mode"),
+
+        PrimaryFont => line(output, "CSI", "10m", "Primary font"),
+        AlternativeFont(n) => line(
+            output,
+            "CSI",
+            &format!("{}m", 10 + n),
+            &format!("Alternative font {n}"),
+        ),
+        Fraktur => line(output, "CSI", "20m", "Fraktur"),
+        DoublyUnderlined => line(output, "CSI", "21m", "Doubly underlined"),
+    }
+}
+
+fn maybe_counted(count: i32, suffix: &str) -> String {
+    if count == 1 {
+        suffix.into()
+    } else {
+        format!("{count}{suffix}")
+    }
+}
+
+fn describe(event: &Event) -> Option<String> {
+    use Event::*;
+
+    Some(match event {
+        Reset => "Reset style".into(),
+        Bold => "Bold".into(),
+        Dim => "Faint".into(),
+        Italic => "Italic".into(),
+        Underline => "Underline".into(),
+        SlowBlink | RapidBlink => "Blink".into(),
+        Reverse => "Inverse".into(),
+        Conceal => "Invisible".into(),
+        Strike => "Crossed-out".into(),
+        NormalIntensity => "Normal intensity".into(),
+        Unitalic => "No italic".into(),
+        Ununderline => "No underline".into(),
+        Unblink => "No blink".into(),
+        Unreverse => "No reverse".into(),
+        Unconceal => "No conceal".into(),
+        Unstrike => "No crossed-out".into(),
+        Foreground(color) => describe_color(color, true).1,
+        Background(color) => describe_color(color, false).1,
+        DefaultForeground => "Default foreground color".into(),
+        DefaultBackground => "Default background color".into(),
+        DefaultUnderline => "Default underline color".into(),
+        _ => return None,
+    })
+}
+
+fn describe_color(color: &AnsiColor, foreground: bool) -> (String, String) {
+    let (prefix, label) = if foreground {
+        ("38", "foreground")
+    } else {
+        ("48", "background")
+    };
+
+    match color {
+        AnsiColor::Color8(color) => (
+            format!("{}m", color.to_u8()),
+            format!("ANSI {label} color: {}", color8_name(*color)),
+        ),
+        AnsiColor::Color256(index) => {
+            let index = *index;
+            if index < 8 {
+                let code = if foreground { 30 + index } else { 40 + index };
+                (
+                    format!("{code}m"),
+                    format!("ANSI {label} color: {}", basic_color_name(index)),
+                )
+            } else if index < 16 {
+                let code = if foreground { 82 + index } else { 92 + index };
+                (
+                    format!("{code}m"),
+                    format!("ANSI {label} color: Bright {}", basic_color_name(index - 8)),
+                )
+            } else {
+                (
+                    format!("{prefix};5;{index}m"),
+                    format!("ANSI256 {label} color: {index} (#{})", color256_hex(index)),
+                )
+            }
+        }
+        AnsiColor::Rgb(r, g, b) => (
+            format!("{prefix};2;{r};{g};{b}m"),
+            format!("24-bit RGB {label} color: #{r:02X}{g:02X}{b:02X}"),
+        ),
+        AnsiColor::Default => {
+            let code = if foreground { 39 } else { 49 };
+            (format!("{code}m"), format!("Default {label} color"))
+        }
+    }
+}
+
+fn describe_underline_color(color: &AnsiColor) -> (String, String) {
+    match color {
+        AnsiColor::Color8(color) => (
+            format!("58;5;{}m", color.to_u8()),
+            format!("ANSI underline color: {}", color8_name(*color)),
+        ),
+        AnsiColor::Color256(index) => {
+            let index = *index;
+            if index < 8 {
+                (
+                    format!("58;5;{index}m"),
+                    format!("ANSI underline color: {}", basic_color_name(index)),
+                )
+            } else if index < 16 {
+                (
+                    format!("58;5;{index}m"),
+                    format!(
+                        "ANSI underline color: Bright {}",
+                        basic_color_name(index - 8)
+                    ),
+                )
+            } else {
+                (
+                    format!("58;5;{index}m"),
+                    format!(
+                        "ANSI256 underline color: {index} (#{})",
+                        color256_hex(index)
+                    ),
+                )
+            }
+        }
+        AnsiColor::Rgb(r, g, b) => (
+            format!("58;2;{r};{g};{b}m"),
+            format!("24-bit RGB underline color: #{r:02X}{g:02X}{b:02X}"),
+        ),
+        AnsiColor::Default => ("59m".into(), "Default underline color".into()),
+    }
+}
+
+fn color256_hex(index: u8) -> String {
+    let (r, g, b) = theme::color256(index);
+    format!("{r:02X}{g:02X}{b:02X}")
+}
+
+fn basic_color_name(index: u8) -> &'static str {
+    match index {
         0 => "Black",
         1 => "Red",
         2 => "Green",
@@ -27,69 +400,28 @@ fn basic_color_name(n: u8) -> &'static str {
     }
 }
 
-/// Describe a Color8 value as sequin would.
-fn color8_name(c: &Color8) -> String {
-    match c {
-        Color8::Black => "Black".into(),
-        Color8::Red => "Red".into(),
-        Color8::Green => "Green".into(),
-        Color8::Yellow => "Yellow".into(),
-        Color8::Blue => "Blue".into(),
-        Color8::Magenta => "Magenta".into(),
-        Color8::Cyan => "Cyan".into(),
-        Color8::White => "White".into(),
-        Color8::BrightBlack => "Bright Black".into(),
-        Color8::BrightRed => "Bright Red".into(),
-        Color8::BrightGreen => "Bright Green".into(),
-        Color8::BrightYellow => "Bright Yellow".into(),
-        Color8::BrightBlue => "Bright Blue".into(),
-        Color8::BrightMagenta => "Bright Magenta".into(),
-        Color8::BrightCyan => "Bright Cyan".into(),
-        Color8::BrightWhite => "Bright White".into(),
+fn color8_name(color: Color8) -> String {
+    match color {
+        Color8::Black => "Black",
+        Color8::Red => "Red",
+        Color8::Green => "Green",
+        Color8::Yellow => "Yellow",
+        Color8::Blue => "Blue",
+        Color8::Magenta => "Magenta",
+        Color8::Cyan => "Cyan",
+        Color8::White => "White",
+        Color8::BrightBlack => "Bright Black",
+        Color8::BrightRed => "Bright Red",
+        Color8::BrightGreen => "Bright Green",
+        Color8::BrightYellow => "Bright Yellow",
+        Color8::BrightBlue => "Bright Blue",
+        Color8::BrightMagenta => "Bright Magenta",
+        Color8::BrightCyan => "Bright Cyan",
+        Color8::BrightWhite => "Bright White",
     }
+    .into()
 }
 
-/// Get hex color string for a 256-color palette index.
-fn color256_hex(idx: usize) -> String {
-    let (r, g, b) = crate::theme::COLOR256[idx];
-    format!("{:02X}{:02X}{:02X}", r, g, b)
-}
-
-/// Describe an SGR attribute for the sequin explanation.
-fn describe_sgr(sgr: &Sgr) -> Option<String> {
-    match sgr {
-        Sgr::ColorReset => Some("Reset style".into()),
-        Sgr::Bold => Some("Bold".into()),
-        Sgr::Dim => Some("Faint".into()),
-        Sgr::Italic => Some("Italic".into()),
-        Sgr::Underline => Some("Underline".into()),
-        Sgr::SlowBlink | Sgr::RapidBlink => Some("Blink".into()),
-        Sgr::Reverse => Some("Inverse".into()),
-        Sgr::CursorHide => Some("Invisible".into()),
-        Sgr::Strike => Some("Crossed-out".into()),
-        Sgr::NormalIntensity => Some("Normal intensity".into()),
-        Sgr::UnItalic => Some("No italic".into()),
-        Sgr::UnUnderlined => Some("No underline".into()),
-        Sgr::UnBlink => Some("No blink".into()),
-        Sgr::UnReversed => Some("No reverse".into()),
-        Sgr::UnHide => Some("No conceal".into()),
-        Sgr::UnStrike => Some("No crossed-out".into()),
-        Sgr::ColorForeground(c) => {
-            let (_, desc) = describe_color_sgr(c, true);
-            Some(desc)
-        }
-        Sgr::ColorBackground(c) => {
-            let (_, desc) = describe_color_sgr(c, false);
-            Some(desc)
-        }
-        Sgr::ColorDefaultForeground => Some("Default foreground color".into()),
-        Sgr::ColorDefaultBackground => Some("Default background color".into()),
-        Sgr::ColorDefaultUnderline => Some("Default underline color".into()),
-        _ => None,
-    }
-}
-
-/// C0 control code names.
 fn ctrl_code_name(byte: u8) -> &'static str {
     match byte {
         0x00 => "Null",
@@ -102,12 +434,12 @@ fn ctrl_code_name(byte: u8) -> &'static str {
         0x07 => "Bell",
         0x08 => "Backspace",
         0x09 => "Horizontal tab",
-        0x0A => "Line feed",
-        0x0B => "Vertical tab",
-        0x0C => "Form feed",
-        0x0D => "Carriage return",
-        0x0E => "Shift out",
-        0x0F => "Shift in",
+        0x0a => "Line feed",
+        0x0b => "Vertical tab",
+        0x0c => "Form feed",
+        0x0d => "Carriage return",
+        0x0e => "Shift out",
+        0x0f => "Shift in",
         0x10 => "Data link escape",
         0x11 => "Device control 1",
         0x12 => "Device control 2",
@@ -118,573 +450,45 @@ fn ctrl_code_name(byte: u8) -> &'static str {
         0x17 => "End of transmission block",
         0x18 => "Cancel",
         0x19 => "End of medium",
-        0x1A => "Substitute",
-        0x1B => "Escape",
-        0x1C => "File separator",
-        0x1D => "Group separator",
-        0x1E => "Record separator",
-        0x1F => "Unit separator",
-        0x7F => "Delete",
+        0x1a => "Substitute",
+        0x1b => "Escape",
+        0x1c => "File separator",
+        0x1d => "Group separator",
+        0x1e => "Record separator",
+        0x1f => "Unit separator",
+        0x7f => "Delete",
         _ => "Unknown",
     }
 }
 
-/// Escape a byte to its Go-style `%q` representation for sequin display.
 fn escape_ctrl_byte(byte: u8) -> String {
     match byte {
         0x07 => "\\a".into(),
         0x08 => "\\b".into(),
         0x09 => "\\t".into(),
-        0x0A => "\\n".into(),
-        0x0B => "\\v".into(),
-        0x0C => "\\f".into(),
-        0x0D => "\\r".into(),
-        0x1B => "ESC".into(),
-        _ => format!("\\x{:02x}", byte),
+        0x0a => "\\n".into(),
+        0x0b => "\\v".into(),
+        0x0c => "\\f".into(),
+        0x0d => "\\r".into(),
+        0x1b => "ESC".into(),
+        _ => format!("\\x{byte:02x}"),
     }
 }
 
-/// Convert ANSI input to sequin-style human-readable output.
-///
-/// This produces output matching the Go sequin project's format:
-/// each ANSI sequence gets a line showing its kind, raw parameters, and explanation.
-pub fn to_sequin<S: AsRef<str>>(input: S, _width: Option<usize>) -> String {
-    let s = input.as_ref();
-    let tokens = match parse_ansi(s) {
-        Ok((_, tokens)) => tokens,
-        Err(_) => return String::new(),
-    };
+#[cfg(test)]
+mod test {
+    use super::to_sequin;
 
-    let mut output = String::new();
-    let mut text_buf = String::new();
-
-    let flush_text = |buf: &mut String, out: &mut String| {
-        if !buf.is_empty() {
-            out.push_str(&fmt_text(buf));
-            buf.clear();
-        }
-    };
-
-    for token in &tokens {
-        match &token.sgr {
-            // Text characters get accumulated
-            Sgr::Char(c) => {
-                text_buf.push(*c);
-            }
-
-            // Control codes
-            Sgr::Bell => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line(
-                    "Ctrl",
-                    &escape_ctrl_byte(0x07),
-                    ctrl_code_name(0x07),
-                ));
-            }
-            Sgr::Backspace => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line(
-                    "Ctrl",
-                    &escape_ctrl_byte(0x08),
-                    ctrl_code_name(0x08),
-                ));
-            }
-            Sgr::Tab => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line(
-                    "Ctrl",
-                    &escape_ctrl_byte(0x09),
-                    ctrl_code_name(0x09),
-                ));
-            }
-            Sgr::LineFeed => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line(
-                    "Ctrl",
-                    &escape_ctrl_byte(0x0A),
-                    ctrl_code_name(0x0A),
-                ));
-            }
-            Sgr::FormFeed => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line(
-                    "Ctrl",
-                    &escape_ctrl_byte(0x0C),
-                    ctrl_code_name(0x0C),
-                ));
-            }
-            Sgr::CarriageReturn => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line(
-                    "Ctrl",
-                    &escape_ctrl_byte(0x0D),
-                    ctrl_code_name(0x0D),
-                ));
-            }
-
-            // SGR (Select Graphic Rendition) - CSI sequences
-            Sgr::ColorReset => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line("CSI", "m", "Reset style"));
-            }
-            Sgr::Bold => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line("CSI", "1m", "Bold"));
-            }
-            Sgr::Dim => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line("CSI", "2m", "Faint"));
-            }
-            Sgr::Italic => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line("CSI", "3m", "Italic"));
-            }
-            Sgr::Underline => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line("CSI", "4m", "Underline"));
-            }
-            Sgr::SlowBlink => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line("CSI", "5m", "Blink"));
-            }
-            Sgr::RapidBlink => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line("CSI", "6m", "Blink"));
-            }
-            Sgr::Reverse => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line("CSI", "7m", "Inverse"));
-            }
-            Sgr::Strike => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line("CSI", "9m", "Crossed-out"));
-            }
-            Sgr::NormalIntensity => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line("CSI", "22m", "Normal intensity"));
-            }
-            Sgr::UnItalic => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line("CSI", "23m", "No italic"));
-            }
-            Sgr::UnUnderlined => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line("CSI", "24m", "No underline"));
-            }
-            Sgr::UnBlink => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line("CSI", "25m", "No blink"));
-            }
-            Sgr::UnReversed => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line("CSI", "27m", "No reverse"));
-            }
-            Sgr::UnHide => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line("CSI", "28m", "No conceal"));
-            }
-            Sgr::UnStrike => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line("CSI", "29m", "No crossed-out"));
-            }
-
-            // Foreground colors
-            Sgr::ColorForeground(c) => {
-                flush_text(&mut text_buf, &mut output);
-                let (seq, desc) = describe_color_sgr(c, true);
-                output.push_str(&fmt_line("CSI", &seq, &desc));
-            }
-            Sgr::ColorBackground(c) => {
-                flush_text(&mut text_buf, &mut output);
-                let (seq, desc) = describe_color_sgr(c, false);
-                output.push_str(&fmt_line("CSI", &seq, &desc));
-            }
-            Sgr::ColorDefaultForeground => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line("CSI", "39m", "Default foreground color"));
-            }
-            Sgr::ColorDefaultBackground => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line("CSI", "49m", "Default background color"));
-            }
-            Sgr::ColorDefaultUnderline => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line("CSI", "59m", "Default underline color"));
-            }
-            Sgr::ColorUnderLine(c) => {
-                flush_text(&mut text_buf, &mut output);
-                let (seq, desc) = describe_underline_color_sgr(c);
-                output.push_str(&fmt_line("CSI", &seq, &desc));
-            }
-            Sgr::ColorFgBg(fg, bg) => {
-                flush_text(&mut text_buf, &mut output);
-                // Output as a combined sequence
-                let (fg_seq, fg_desc) = describe_color_sgr(fg, true);
-                let (bg_seq, bg_desc) = describe_color_sgr(bg, false);
-                let seq = format!(
-                    "{}{}m",
-                    fg_seq.trim_end_matches('m'),
-                    if bg_seq.is_empty() {
-                        String::new()
-                    } else {
-                        format!(";{}", bg_seq.trim_end_matches('m'))
-                    }
-                );
-                let desc = format!("{}, {}", fg_desc, bg_desc);
-                output.push_str(&fmt_line("CSI", &seq, &desc));
-            }
-
-            // Cursor movement - CSI sequences
-            Sgr::CursorUp(n) => {
-                flush_text(&mut text_buf, &mut output);
-                let seq = if *n == 1 {
-                    "A".into()
-                } else {
-                    format!("{}A", n)
-                };
-                output.push_str(&fmt_line("CSI", &seq, &format!("Cursor up {}", n)));
-            }
-            Sgr::CursorDown(n) => {
-                flush_text(&mut text_buf, &mut output);
-                let seq = if *n == 1 {
-                    "B".into()
-                } else {
-                    format!("{}B", n)
-                };
-                output.push_str(&fmt_line("CSI", &seq, &format!("Cursor down {}", n)));
-            }
-            Sgr::CursorForward(n) => {
-                flush_text(&mut text_buf, &mut output);
-                let seq = if *n == 1 {
-                    "C".into()
-                } else {
-                    format!("{}C", n)
-                };
-                output.push_str(&fmt_line("CSI", &seq, &format!("Cursor right {}", n)));
-            }
-            Sgr::CursorBack(n) => {
-                flush_text(&mut text_buf, &mut output);
-                let seq = if *n == 1 {
-                    "D".into()
-                } else {
-                    format!("{}D", n)
-                };
-                output.push_str(&fmt_line("CSI", &seq, &format!("Cursor left {}", n)));
-            }
-            Sgr::CursorNextLine(n) => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line(
-                    "CSI",
-                    &format!("{}E", n),
-                    &format!("Cursor next line {}", n),
-                ));
-            }
-            Sgr::CursorPreviousLine(n) => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line(
-                    "CSI",
-                    &format!("{}F", n),
-                    &format!("Cursor previous line {}", n),
-                ));
-            }
-            Sgr::CursorHorizontalAbsolute(n) => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line(
-                    "CSI",
-                    &format!("{}G", n),
-                    &format!("Cursor horizontal absolute {}", n),
-                ));
-            }
-            Sgr::CursorPosition(row, col) => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line(
-                    "CSI",
-                    &format!("{};{}H", row, col),
-                    &format!("Set cursor position row={} col={}", row, col),
-                ));
-            }
-            Sgr::CursorSave => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line("CSI", "s", "Save cursor position"));
-            }
-            Sgr::CursorRestore => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line("CSI", "u", "Restore cursor position"));
-            }
-
-            // Erase sequences
-            Sgr::EraseInDisplay(n) => {
-                flush_text(&mut text_buf, &mut output);
-                let desc = match n {
-                    0 => "Erase screen bellow",
-                    1 => "Erase screen above",
-                    2 => "Erase entire screen",
-                    3 => "Erase entire display",
-                    _ => "Erase screen",
-                };
-                let seq = if *n == 0 {
-                    "J".into()
-                } else {
-                    format!("{}J", n)
-                };
-                output.push_str(&fmt_line("CSI", &seq, desc));
-            }
-            Sgr::EraseInLine(n) => {
-                flush_text(&mut text_buf, &mut output);
-                let desc = match n {
-                    0 => "Erase line right",
-                    1 => "Erase line left",
-                    2 => "Erase entire line",
-                    _ => "Erase line",
-                };
-                let seq = if *n == 0 {
-                    "K".into()
-                } else {
-                    format!("{}K", n)
-                };
-                output.push_str(&fmt_line("CSI", &seq, desc));
-            }
-            Sgr::ScrollUp(n) => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line(
-                    "CSI",
-                    &format!("{}S", n),
-                    &format!("Scroll up {} lines", n.max(&1)),
-                ));
-            }
-            Sgr::ScrollDown(n) => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line(
-                    "CSI",
-                    &format!("{}T", n),
-                    &format!("Scroll down {} lines", n.max(&1)),
-                ));
-            }
-
-            // Device status
-            Sgr::DeviceStatusReport => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line("CSI", "6n", "Request cursor position"));
-            }
-            Sgr::AUXPortOn => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line("CSI", "5i", "AUX port on"));
-            }
-            Sgr::AUXPortOff => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line("CSI", "4i", "AUX port off"));
-            }
-            Sgr::HorizontalVerticalPosition(x, y) => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line(
-                    "CSI",
-                    &format!("{};{}f", x, y),
-                    &format!("Horizontal vertical position row={} col={}", x, y),
-                ));
-            }
-
-            // OSC sequences
-            Sgr::Title(title) => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line(
-                    "OSC",
-                    &format!("0;{}", title),
-                    &format!("Set icon name and window title to \"{}\"", title),
-                ));
-            }
-            Sgr::Cwd(url) => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line(
-                    "OSC",
-                    &format!("7;{}", url),
-                    &format!("Set working directory to {}", url),
-                ));
-            }
-            Sgr::Prompt => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line("OSC", "133", "Shell integration"));
-            }
-            Sgr::Link(url, title) => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line(
-                    "OSC",
-                    &format!("8;;{}", url),
-                    &format!("Set hyperlink, to \"{}\" title \"{}\"", url, title),
-                ));
-            }
-
-            // Mode/DECSET/DECRST
-            Sgr::Decset => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line(
-                    "CSI",
-                    "?2004h",
-                    "Enable private mode \"bracketed paste\"",
-                ));
-            }
-            Sgr::Decrst => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line(
-                    "CSI",
-                    "?2004l",
-                    "Disable private mode \"bracketed paste\"",
-                ));
-            }
-            Sgr::CursorShow => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line(
-                    "CSI",
-                    "?25h",
-                    "Enable private mode \"cursor visibility\"",
-                ));
-            }
-            Sgr::Keypad => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line("ESC", "=", "Application Keypad"));
-            }
-            Sgr::Ext => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line("CSI", ">4;1m", "Extended mode"));
-            }
-
-            // List of SGR attributes
-            Sgr::List(items) => {
-                flush_text(&mut text_buf, &mut output);
-                let descriptions: Vec<String> =
-                    items.iter().filter_map(describe_sgr).collect();
-                if !descriptions.is_empty() {
-                    output.push_str(&fmt_line("CSI", "m", &descriptions.join(", ")));
-                }
-            }
-
-            // Unknown control codes
-            Sgr::Unknown(byte) => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line(
-                    "Ctrl",
-                    &escape_ctrl_byte(*byte),
-                    ctrl_code_name(*byte),
-                ));
-            }
-
-            // Other attributes
-            Sgr::PrimaryFont => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line("CSI", "10m", "Primary font"));
-            }
-            Sgr::AlternativeFont(n) => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line(
-                    "CSI",
-                    &format!("{}m", 10 + n),
-                    &format!("Alternative font {}", n),
-                ));
-            }
-            Sgr::Fraktur => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line("CSI", "20m", "Fraktur"));
-            }
-            Sgr::DoublyUnderlined => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line("CSI", "21m", "Doubly underlined"));
-            }
-            Sgr::CursorHide => {
-                flush_text(&mut text_buf, &mut output);
-                output.push_str(&fmt_line("CSI", "8m", "Invisible"));
-            }
-        }
+    #[test]
+    fn combined_sgr() {
+        assert_eq!(
+            to_sequin("\x1b[1;31mhi", None),
+            " CSI m: Bold, ANSI foreground color: Red\nText hi\n"
+        );
     }
 
-    // Flush remaining text
-    flush_text(&mut text_buf, &mut output);
-
-    output
-}
-
-/// Describe a color for SGR with its sequence fragment and description.
-fn describe_color_sgr(c: &AnsiColor, is_fg: bool) -> (String, String) {
-    let (prefix, label) = if is_fg {
-        ("38", "foreground")
-    } else {
-        ("48", "background")
-    };
-
-    match c {
-        AnsiColor::Color8(c8) => {
-            let n = c8.to_u8();
-            let color_name = color8_name(c8);
-            (
-                format!("{}m", n),
-                format!("ANSI {} color: {}", label, color_name),
-            )
-        }
-        AnsiColor::Color256(idx) => {
-            let i = *idx as usize;
-            if i < 8 {
-                let code = if is_fg { 30 + idx } else { 40 + idx };
-                (
-                    format!("{}m", code),
-                    format!("ANSI {} color: {}", label, basic_color_name(*idx)),
-                )
-            } else if i < 16 {
-                let code = if is_fg { 82 + idx } else { 92 + idx };
-                (
-                    format!("{}m", code),
-                    format!("ANSI {} color: Bright {}", label, basic_color_name(idx - 8)),
-                )
-            } else {
-                let hex = color256_hex(i);
-                (
-                    format!("{};5;{}m", prefix, idx),
-                    format!("ANSI256 {} color: {} (#{})", label, idx, hex),
-                )
-            }
-        }
-        AnsiColor::Rgb(r, g, b) => (
-            format!("{};2;{};{};{}m", prefix, r, g, b),
-            format!("24-bit RGB {} color: #{:02X}{:02X}{:02X}", label, r, g, b),
-        ),
-        AnsiColor::Default => {
-            let code = if is_fg { 39 } else { 49 };
-            (format!("{}m", code), format!("Default {} color", label))
-        }
-    }
-}
-
-/// Describe an underline color for SGR.
-fn describe_underline_color_sgr(c: &AnsiColor) -> (String, String) {
-    match c {
-        AnsiColor::Color8(c8) => {
-            let color_name = color8_name(c8);
-            (
-                format!("58;5;{}m", c8.to_u8()),
-                format!("ANSI underline color: {}", color_name),
-            )
-        }
-        AnsiColor::Color256(idx) => {
-            let i = *idx as usize;
-            if i < 8 {
-                (
-                    format!("58;5;{}m", idx),
-                    format!("ANSI underline color: {}", basic_color_name(*idx)),
-                )
-            } else if i < 16 {
-                (
-                    format!("58;5;{}m", idx),
-                    format!("ANSI underline color: Bright {}", basic_color_name(idx - 8)),
-                )
-            } else {
-                let hex = color256_hex(i);
-                (
-                    format!("58;5;{}m", idx),
-                    format!("ANSI256 underline color: {} (#{})", idx, hex),
-                )
-            }
-        }
-        AnsiColor::Rgb(r, g, b) => (
-            format!("58;2;{};{};{}m", r, g, b),
-            format!("24-bit RGB underline color: #{:02X}{:02X}{:02X}", r, g, b),
-        ),
-        AnsiColor::Default => ("59m".into(), "Default underline color".into()),
+    #[test]
+    fn control_codes() {
+        assert_eq!(to_sequin("\x07", None), "Ctrl \\a: Bell\n");
     }
 }

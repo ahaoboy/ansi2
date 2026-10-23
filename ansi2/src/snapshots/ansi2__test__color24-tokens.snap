@@ -1,0 +1,16 @@
+---
+source: ansi2/src/lib.rs
+expression: parse(input)
+---
+[
+    Token {
+        event: Foreground(
+            Rgb(
+                0,
+                0,
+                114,
+            ),
+        ),
+        span: 0..15,
+    },
+]

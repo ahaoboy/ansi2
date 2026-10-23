@@ -1,0 +1,207 @@
+---
+source: ansi2/src/lib.rs
+expression: parse(input)
+---
+[
+    Token {
+        event: Foreground(
+            Rgb(
+                218,
+                98,
+                125,
+            ),
+        ),
+        span: 0..18,
+    },
+    Token {
+        event: Char(
+            '?',
+        ),
+        span: 18..19,
+    },
+    Token {
+        event: FgBg(
+            Color8(
+                Black,
+            ),
+            Rgb(
+                218,
+                98,
+                125,
+            ),
+        ),
+        span: 19..40,
+    },
+    Token {
+        event: Char(
+            'w',
+        ),
+        span: 40..41,
+    },
+    Token {
+        event: Char(
+            'i',
+        ),
+        span: 41..42,
+    },
+    Token {
+        event: Char(
+            'n',
+        ),
+        span: 42..43,
+    },
+    Token {
+        event: Foreground(
+            Rgb(
+                218,
+                98,
+                125,
+            ),
+        ),
+        span: 43..61,
+    },
+    Token {
+        event: Char(
+            '?',
+        ),
+        span: 61..62,
+    },
+    Token {
+        event: Foreground(
+            Color8(
+                Black,
+            ),
+        ),
+        span: 62..67,
+    },
+    Token {
+        event: Char(
+            'C',
+        ),
+        span: 67..68,
+    },
+    Token {
+        event: Char(
+            ':',
+        ),
+        span: 68..69,
+    },
+    Token {
+        event: Char(
+            '/',
+        ),
+        span: 69..70,
+    },
+    Token {
+        event: Char(
+            'w',
+        ),
+        span: 70..71,
+    },
+    Token {
+        event: Char(
+            't',
+        ),
+        span: 71..72,
+    },
+    Token {
+        event: Char(
+            ' ',
+        ),
+        span: 72..73,
+    },
+    Token {
+        event: FgBg(
+            Rgb(
+                218,
+                98,
+                125,
+            ),
+            Rgb(
+                252,
+                161,
+                125,
+            ),
+        ),
+        span: 73..108,
+    },
+    Token {
+        event: Char(
+            '?',
+        ),
+        span: 108..109,
+    },
+    Token {
+        event: FgBg(
+            Rgb(
+                252,
+                161,
+                125,
+            ),
+            Rgb(
+                134,
+                187,
+                216,
+            ),
+        ),
+        span: 109..145,
+    },
+    Token {
+        event: Char(
+            '?',
+        ),
+        span: 145..146,
+    },
+    Token {
+        event: FgBg(
+            Rgb(
+                134,
+                187,
+                216,
+            ),
+            Rgb(
+                6,
+                150,
+                154,
+            ),
+        ),
+        span: 146..180,
+    },
+    Token {
+        event: Char(
+            '?',
+        ),
+        span: 180..181,
+    },
+    Token {
+        event: FgBg(
+            Rgb(
+                6,
+                150,
+                154,
+            ),
+            Rgb(
+                51,
+                101,
+                138,
+            ),
+        ),
+        span: 181..214,
+    },
+    Token {
+        event: Char(
+            '?',
+        ),
+        span: 214..215,
+    },
+    Token {
+        event: Reset,
+        span: 215..219,
+    },
+    Token {
+        event: EraseInLine(
+            0,
+        ),
+        span: 219..222,
+    },
+]

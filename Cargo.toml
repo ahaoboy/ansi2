@@ -14,13 +14,11 @@ authors = ["ahaoboy"]
 [workspace.dependencies]
 clap = { version = "4", features = ["derive"] }
 wasm-bindgen = { version = "0.2" }
-nom = "8"
+thiserror = "2"
 html-escape = "0.3"
 base64 = "0.23"
-wasm-bindgen-test = "0.3"
-ansi2 = { path = "./ansi2", features = ["wasm"] }
+ansi2 = { path = "./ansi2" }
 insta = { version = "1" }
-infer = "0.22"
 image = "0.25"
 oxvg_optimiser = { git = "https://github.com/noahbald/oxvg.git", version = "0.0.9" }
 oxvg_ast = { git = "https://github.com/noahbald/oxvg.git", version = "0.0.9", features = [

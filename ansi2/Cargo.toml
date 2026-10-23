@@ -10,16 +10,15 @@ authors = { workspace = true }
 [dependencies]
 clap = { workspace = true, optional = true }
 wasm-bindgen = { workspace = true, optional = true }
-nom = { workspace = true }
+thiserror = { workspace = true, optional = true }
 html-escape = { workspace = true }
-base64 = { workspace = true }
-infer = { workspace = true }
-image = { workspace = true }
+base64 = { workspace = true, optional = true }
+image = { workspace = true, optional = true }
 oxvg_optimiser = { workspace = true, optional = true }
 oxvg_ast = { workspace = true, optional = true }
-which-shell = { workspace = true }
-git-version = { workspace = true }
-const-str = { workspace = true }
+which-shell = { workspace = true, optional = true }
+git-version = { workspace = true, optional = true }
+const-str = { workspace = true, optional = true }
 opener = { workspace = true, optional = true }
 
 [dev-dependencies]
@@ -28,13 +27,21 @@ insta = { workspace = true }
 [features]
 default = ["cli"]
 sequin = []
-cli = ["clap", "minify", "opener", "sequin"]
-wasm = ["wasm-bindgen"]
-minify = [
-  "dep:oxvg_ast",
-  "dep:oxvg_optimiser",
-  "oxvg_optimiser/wasm",
+image = ["dep:image"]
+cli = [
+  "dep:clap",
+  "dep:thiserror",
+  "dep:base64",
+  "dep:which-shell",
+  "dep:git-version",
+  "dep:const-str",
+  "dep:opener",
+  "image",
+  "minify",
+  "sequin",
 ]
+wasm = ["dep:wasm-bindgen"]
+minify = ["dep:oxvg_ast", "dep:oxvg_optimiser", "oxvg_optimiser/wasm"]
 
 [[bin]]
 required-features = ["cli"]

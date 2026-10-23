@@ -1,0 +1,126 @@
+---
+source: ansi2/src/lib.rs
+expression: parse(input)
+---
+[
+    Token {
+        event: List(
+            [
+                DefaultForeground,
+                Background(
+                    Color8(
+                        Black,
+                    ),
+                ),
+            ],
+        ),
+        span: 0..8,
+    },
+    Token {
+        event: Char(
+            ' ',
+        ),
+        span: 8..9,
+    },
+    Token {
+        event: Char(
+            '3',
+        ),
+        span: 9..10,
+    },
+    Token {
+        event: Char(
+            '9',
+        ),
+        span: 10..11,
+    },
+    Token {
+        event: Char(
+            ';',
+        ),
+        span: 11..12,
+    },
+    Token {
+        event: Char(
+            '4',
+        ),
+        span: 12..13,
+    },
+    Token {
+        event: Char(
+            '0',
+        ),
+        span: 13..14,
+    },
+    Token {
+        event: Char(
+            'm',
+        ),
+        span: 14..15,
+    },
+    Token {
+        event: Char(
+            ' ',
+        ),
+        span: 15..16,
+    },
+    Token {
+        event: Reset,
+        span: 16..20,
+    },
+    Token {
+        event: List(
+            [
+                DefaultForeground,
+                Background(
+                    Color8(
+                        Red,
+                    ),
+                ),
+            ],
+        ),
+        span: 20..28,
+    },
+    Token {
+        event: Char(
+            ' ',
+        ),
+        span: 28..29,
+    },
+    Token {
+        event: Char(
+            '3',
+        ),
+        span: 29..30,
+    },
+    Token {
+        event: Char(
+            '9',
+        ),
+        span: 30..31,
+    },
+    Token {
+        event: Char(
+            ';',
+        ),
+        span: 31..32,
+    },
+    Token {
+        event: Char(
+            '4',
+        ),
+        span: 32..33,
+    },
+    Token {
+        event: Char(
+            '1',
+        ),
+        span: 33..34,
+    },
+    Token {
+        event: Char(
+            'm',
+        ),
+        span: 34..35,
+    },
+]

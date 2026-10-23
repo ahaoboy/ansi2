@@ -1,0 +1,25 @@
+---
+source: ansi2/src/lib.rs
+expression: parse(input)
+---
+[
+    Token {
+        event: List(
+            [
+                Reset,
+                SlowBlink,
+                Foreground(
+                    Color8(
+                        Magenta,
+                    ),
+                ),
+                Background(
+                    Color8(
+                        Magenta,
+                    ),
+                ),
+            ],
+        ),
+        span: 0..12,
+    },
+]

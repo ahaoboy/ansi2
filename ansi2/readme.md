@@ -76,12 +76,12 @@ ansi2 cmd -c "uname -a" -c "neofetch" --shell=fish > neofetch-cmd.svg
 ## [ansi2](./ansi2)
 
 ```rs
-use ansi2::{Canvas};
+use ansi2::Canvas;
 
-let canvas = Canvas::new(s);
+let canvas = Canvas::new(s, None);
 for row in canvas.pixels.iter() {
-  for pixel in row.iter() {
-      // draw pixel
+  for cell in row.iter() {
+      // draw cell.text with cell.style
   }
 }
 ```
@@ -103,7 +103,7 @@ neofetch | ansi2 --format=svg > neofetch.svg
 ```
 
 ### theme
-vga / vscode / ubuntu
+vga / vscode / ubuntu / xterm
 ```bash
 neofetch | ansi2 --format=svg --theme=vscode > neofetch.svg
 ```
@@ -151,12 +151,7 @@ neofetch | ansi2 --format=svg --light-bg=#FFFFFF --dark-bg=#181818 > neofetch.sv
 
 ### compress
 
-Compressing using [oxvg](https://github.com/noahbald/oxvg.git), this maybe will increase the running time by several seconds, but can save half of the storage space.
-
-```bash
-neofetch | ansi2 --format=svg --compress > neofetch.svg
-neofetch | ansi2 --format=svg -c > neofetch.svg
-```
+SVG output is optimized with [oxvg](https://github.com/noahbald/oxvg.git) when the `cli` feature is enabled. This can add a few seconds to the running time, but often halves the file size.
 
 
 ### length-adjust

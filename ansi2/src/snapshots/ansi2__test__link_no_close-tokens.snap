@@ -1,0 +1,28 @@
+---
+source: ansi2/src/lib.rs
+expression: parse(input)
+---
+[
+    Token {
+        event: Link {
+            url: "http://example.com/foo",
+            title: "foo\u{1b}]8;;http://example.com/foo\u{1b}\\foo",
+            title_span: 29..64,
+        },
+        span: 0..71,
+    },
+    Token {
+        event: Char(
+            ' ',
+        ),
+        span: 71..72,
+    },
+    Token {
+        event: Link {
+            url: "http://example.com/foo",
+            title: "foo\u{1b}]8;;http://example.com/bar\u{1b}\\bar",
+            title_span: 101..136,
+        },
+        span: 72..143,
+    },
+]

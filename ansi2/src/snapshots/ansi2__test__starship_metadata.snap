@@ -1,0 +1,54 @@
+---
+source: ansi2/src/lib.rs
+expression: parse(input)
+---
+[
+    Token {
+        event: Cwd(
+            "file://win/c/code/ansi2",
+        ),
+        span: 0..28,
+    },
+    Token {
+        event: Title(
+            "/c/c/ansi2",
+        ),
+        span: 28..43,
+    },
+    Token {
+        event: Foreground(
+            Color8(
+                Black,
+            ),
+        ),
+        span: 43..48,
+    },
+    Token {
+        event: Bold,
+        span: 48..51,
+    },
+    Token {
+        event: Reset,
+        span: 51..54,
+    },
+    Token {
+        event: EraseInLine(
+            0,
+        ),
+        span: 54..57,
+    },
+    Token {
+        event: Prompt,
+        span: 57..78,
+    },
+    Token {
+        event: Bell,
+        span: 78..79,
+    },
+    Token {
+        event: EraseInDisplay(
+            0,
+        ),
+        span: 79..82,
+    },
+]

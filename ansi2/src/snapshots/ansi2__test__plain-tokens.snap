@@ -1,0 +1,30 @@
+---
+source: ansi2/src/lib.rs
+expression: parse(input)
+---
+[
+    Token {
+        event: Char(
+            'a',
+        ),
+        span: 0..1,
+    },
+    Token {
+        event: Char(
+            'n',
+        ),
+        span: 1..2,
+    },
+    Token {
+        event: Char(
+            's',
+        ),
+        span: 2..3,
+    },
+    Token {
+        event: Char(
+            'i',
+        ),
+        span: 3..4,
+    },
+]

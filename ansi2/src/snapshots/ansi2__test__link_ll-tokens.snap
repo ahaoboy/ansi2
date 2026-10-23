@@ -1,0 +1,14 @@
+---
+source: ansi2/src/lib.rs
+expression: parse(input)
+---
+[
+    Token {
+        event: Link {
+            url: "file://win/c/code/ansi2/target",
+            title: "target",
+            title_span: 36..42,
+        },
+        span: 0..48,
+    },
+]

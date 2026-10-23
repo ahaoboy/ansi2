@@ -1,0 +1,34 @@
+---
+source: ansi2/src/lib.rs
+expression: canvas.minify()
+---
+[
+    [
+        Cell {
+            style: Style {
+                fg: Default,
+                bg: Default,
+                bold: false,
+                dim: false,
+                italic: false,
+                underline: false,
+                blink: false,
+                hide: false,
+                strike: false,
+            },
+            text: "]8;;file:///Users/xxx/src/new-nu-parser/Cargo.toml\\Cargo.toml]8;;",
+            src: SourceMap {
+                text: 1..68,
+                fg: 0..0,
+                bg: 0..0,
+                bold: 0..0,
+                dim: 0..0,
+                italic: 0..0,
+                underline: 0..0,
+                blink: 0..0,
+                hide: 0..0,
+                strike: 0..0,
+            },
+        },
+    ],
+]

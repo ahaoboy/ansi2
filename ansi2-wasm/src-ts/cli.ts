@@ -74,9 +74,9 @@ class AnsiCmd extends Command {
     const lengthAdjust = this.lengthAdjust
     const lightBg = this.lightBg
     const darkBg = this.darkBg
-    const sourcemap = this.darkBg
+    const sourcemap = this.sourcemap
 
-    const input = await readToString()
+    const input = readFileSync(0).toString()
     switch (format) {
       case "svg": {
         const s = to_svg(
@@ -104,24 +104,10 @@ class AnsiCmd extends Command {
         process.stdout.write(to_text(input, width))
       }
       case "ans": {
-        process.stdout.write(to_ans(input, width,))
+        process.stdout.write(to_ans(input, width))
       }
     }
   }
-}
-
-async function readToString() {
-  return new Promise<string>((resolve) => {
-    const { stdin } = process
-    const v: string[] = []
-    stdin.on("data", (data: Buffer) => {
-      v.push(data.toString())
-    })
-
-    stdin.on("close", () => {
-      resolve(v.join(""))
-    })
-  })
 }
 
 function getFontUrl(p: undefined | string) {
@@ -141,12 +127,12 @@ function getFontUrl(p: undefined | string) {
 
 function getTheme(s: string): Theme {
   switch (s.toLowerCase()) {
-    case "vscode":
-      return Theme.Vscode
-    case "vga":
-      return Theme.Vga
     case "ubuntu":
       return Theme.Ubuntu
+    case "vga":
+      return Theme.Vga
+    case "xterm":
+      return Theme.Xterm
     default:
       return Theme.Vscode
   }
