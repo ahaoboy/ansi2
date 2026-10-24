@@ -56,7 +56,7 @@ ansi2 cmd -c "neofetch" -c "ls -la" --prompt -o output.svg --open
 The `cmd` subcommand:
 - Executes one or more commands and captures their output
 - Use `-c` or `--command` flag (required, can be specified multiple times)
-- Optionally adds shell prompt before each command (using `--prompt`)
+- Optionally adds shell prompt before each command (disabled by default; enable with `--prompt`)
 - Supports syntax highlighting for fish shell (via `fish_indent --ansi`)
 - Auto-detects shell from `$SHELL` environment variable or use `--shell` to specify
 - For multiple commands: executes each with prompt → syntax highlighting → command output

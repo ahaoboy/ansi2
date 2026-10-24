@@ -107,7 +107,7 @@ enum SubCommand {
         #[arg(short = 'c', long = "command", required = true)]
         commands: Vec<String>,
 
-        /// Add a shell prompt before each command
+        /// Show the shell prompt before each command (disabled by default)
         #[arg(long)]
         prompt: bool,
 
@@ -244,4 +244,31 @@ fn write_output(content: &str, path: Option<&Path>, open: bool) -> Result<()> {
     }
 
     Ok(())
+}
+
+#[cfg(test)]
+mod test {
+    use clap::Parser;
+
+    use super::{Cli, SubCommand};
+
+    fn command(args: &[&str]) -> (bool, Option<which_shell::Shell>) {
+        let cli = Cli::try_parse_from(args).unwrap();
+        match cli.command.unwrap() {
+            SubCommand::Cmd { prompt, shell, .. } => (prompt, shell),
+        }
+    }
+
+    #[test]
+    fn prompt_is_opt_in() {
+        let (prompt, shell) = command(&["ansi2", "cmd", "-c", "echo hi", "--shell", "fish"]);
+        assert!(!prompt);
+        assert_eq!(shell, Some(which_shell::Shell::Fish));
+    }
+
+    #[test]
+    fn prompt_flag_enables_prompt() {
+        let (prompt, _) = command(&["ansi2", "cmd", "-c", "echo hi", "--prompt"]);
+        assert!(prompt);
+    }
 }

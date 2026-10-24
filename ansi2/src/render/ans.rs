@@ -271,6 +271,14 @@ pub fn cells_to_ans(pixels: &[Vec<Cell>]) -> String {
             output.push_str(&cell.text);
             last = cell.style;
         }
+
+        // Do not let a background/foreground bleed into the next line. The
+        // raw input may reset after the last cell (neofetch does), but a
+        // style-only reset has no cell of its own and would otherwise be lost.
+        if last != Style::default() {
+            output.push_str("\x1b[0m");
+            last = Style::default();
+        }
     }
 
     output
@@ -376,5 +384,11 @@ mod test {
             ..Style::default()
         };
         assert_debug_snapshot!(bfs(&from, &to));
+    }
+
+    #[test]
+    fn resets_style_before_newline() {
+        let output = to_ans("\x1b[107mA\x1b[0m\n\nB", None);
+        assert_eq!(output, "\x1b[107mA\x1b[0m\n\nB");
     }
 }

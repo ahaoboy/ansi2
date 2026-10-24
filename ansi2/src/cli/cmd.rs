@@ -51,7 +51,7 @@ fn trim_ansi_newline(value: &str) -> String {
 
 fn prompt(shell: &str) -> Result<Option<String>> {
     let output = match shell {
-        "fish" => exec(shell, &["-c", "fish_prompt"], None)?,
+        "fish" => fish_prompt(shell)?,
         "bash" => exec(
             shell,
             &["-c", "PS1='\\u@\\h:\\w\\$ ' bash -i -c 'echo -n \"$PS1\"'"],
@@ -61,6 +61,17 @@ fn prompt(shell: &str) -> Result<Option<String>> {
         _ => return Ok(None),
     };
     Ok(Some(trim_ansi_newline(&output)))
+}
+
+/// Fish defines `fish_prompt` from `config.fish` (starship, tide, oh-my-posh,
+/// ...), which is only sourced in interactive mode. Fall back to a normal
+/// invocation for prompts installed as autoloaded functions.
+fn fish_prompt(shell: &str) -> Result<String> {
+    let output = exec(shell, &["-i", "-c", "fish_prompt"], None)?;
+    if output.is_empty() {
+        return exec(shell, &["-c", "fish_prompt"], None);
+    }
+    Ok(output)
 }
 
 fn highlight(shell: &str, command: &str) -> Result<Option<String>> {
@@ -78,12 +89,11 @@ fn highlight(shell: &str, command: &str) -> Result<Option<String>> {
 /// Execute every command, optional prompt and syntax highlighting combined
 /// into a single ANSI stream.
 pub fn run(shell: &str, commands: &[String], with_prompt: bool) -> Result<String> {
-    let prompt = if with_prompt { prompt(shell)? } else { None };
     let mut output = String::new();
 
     for command in commands {
-        if let Some(prompt) = &prompt {
-            output.push_str(prompt);
+        if with_prompt && let Some(prompt) = prompt(shell)? {
+            output.push_str(&prompt);
         }
 
         if let Some(highlighted) = highlight(shell, command)? {
